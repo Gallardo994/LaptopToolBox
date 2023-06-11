@@ -52,11 +52,11 @@ namespace GHelper.Updates
             //
             // buttonRefresh
             //
-            buttonRefresh.Text = "Refresh";
             buttonRefresh.Location = new Point(10, 10);
             buttonRefresh.Click += new EventHandler(Refresh_Pressed);
             buttonRefresh.FlatStyle = FlatStyle.Flat;
             buttonRefresh.FlatAppearance.BorderSize = 0;
+            buttonRefresh.Text = Properties.Strings.ButtonRefresh;
             // 
             // tableBios
             // 

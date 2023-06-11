@@ -465,4 +465,7 @@
   <data name="WindowTop" xml:space="preserve">
     <value>Maintenir la fenêtre au premier plan</value>
   </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

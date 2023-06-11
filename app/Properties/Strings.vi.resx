@@ -465,4 +465,7 @@
   <data name="WindowTop" xml:space="preserve">
     <value>Giữ cửa sổ ở trên cùng</value>
   </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

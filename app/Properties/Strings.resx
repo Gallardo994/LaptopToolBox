@@ -507,4 +507,7 @@
   <data name="WindowTop" xml:space="preserve">
     <value>Keep app window always on top</value>
   </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

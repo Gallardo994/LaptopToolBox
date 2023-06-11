@@ -456,4 +456,7 @@
   <data name="WindowTop" xml:space="preserve">
     <value>Тримати вікно завжди зверху</value>
   </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

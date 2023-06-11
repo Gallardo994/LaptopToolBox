@@ -376,4 +376,7 @@
   <data name="WindowTop" xml:space="preserve">
     <value>Fenster immer über allen anderen</value>
   </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

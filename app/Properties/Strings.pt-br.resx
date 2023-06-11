@@ -347,4 +347,7 @@
     <data name="WindowTop" xml:space="preserve">
         <value>Manter o app em primeiro plano</value>
     </data>
+    <data name="ButtonRefresh" xml:space="preserve">
+        <value>Refresh</value>
+    </data>
 </root>

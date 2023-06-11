@@ -507,4 +507,7 @@
   <data name="WindowTop" xml:space="preserve">
     <value>창을 항상 맨 위로 유지</value>
   </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>
