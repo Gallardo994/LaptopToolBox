@@ -2,6 +2,8 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using GHelper.Modules;
+using Ninject;
 using Serilog;
 using static NativeMethods;
 
@@ -26,14 +28,22 @@ namespace GHelper
         private static long lastAuto;
         private static long lastTheme;
 
-        public static InputDispatcher inputDispatcher;
+        public static IInputDispatcher inputDispatcher;
 
         private static PowerLineStatus isPlugged = SystemInformation.PowerStatus.PowerLineStatus;
 
         // The main entry point for the application
         public static void Main(string[] args)
         {
-
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
+                .MinimumLevel.Debug()
+                .CreateLogger();
+            
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            
             string action = "";
             if (args.Length > 0) action = args[0];
 
@@ -79,7 +89,7 @@ namespace GHelper
 
             trayIcon.MouseClick += TrayIcon_MouseClick;
 
-            inputDispatcher = new InputDispatcher();
+            inputDispatcher = kernel.Get<IInputDispatcher>();
 
             settingsForm.InitAura();
             settingsForm.InitMatrix();

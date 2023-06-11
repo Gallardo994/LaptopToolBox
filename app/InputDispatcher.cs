@@ -3,6 +3,8 @@ using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using System.Diagnostics;
 using System.Management;
+using GHelper.Modules;
+using Ninject;
 using Serilog;
 
 namespace GHelper
@@ -51,7 +53,7 @@ namespace GHelper
     }
 
 
-    public class InputDispatcher
+    public class InputDispatcher : IInputDispatcher
     {
         System.Timers.Timer timer = new System.Timers.Timer(1000);
         public bool backlightActivity = true;
@@ -62,9 +64,9 @@ namespace GHelper
         KeyboardListener listener;
         KeyboardHook hook = new KeyboardHook();
 
+        [Inject]
         public InputDispatcher()
         {
-
             byte[] result = Program.acpi.DeviceInit();
             Debug.WriteLine($"Init: {BitConverter.ToString(result)}");
 
