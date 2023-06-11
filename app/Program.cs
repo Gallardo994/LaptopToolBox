@@ -2,8 +2,6 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using System.Security.Principal;
-using System.Windows.Forms;
 using Serilog;
 using static NativeMethods;
 
@@ -35,12 +33,7 @@ namespace GHelper
         // The main entry point for the application
         public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
-                .WriteTo.Console()
-                .MinimumLevel.Debug()
-                .CreateLogger();
-            
+
             string action = "";
             if (args.Length > 0) action = args[0];
 
@@ -49,10 +42,13 @@ namespace GHelper
             if (language != null && language.Length > 0)
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language);
             else
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
+            {
+                var culture = CultureInfo.CurrentUICulture;
+                if (culture.ToString() == "kr") culture = CultureInfo.GetCultureInfo("ko");
+                Thread.CurrentThread.CurrentUICulture = culture;
+            }
 
             Debug.WriteLine(CultureInfo.CurrentUICulture);
-            //Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("fr");
 
             ProcessHelper.CheckAlreadyRunning();
 

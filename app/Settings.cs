@@ -80,6 +80,7 @@ namespace GHelper
             buttonSilent.BorderColor = colorEco;
             buttonBalanced.BorderColor = colorStandard;
             buttonTurbo.BorderColor = colorTurbo;
+            buttonFans.BorderColor = colorCustom;
 
             buttonEco.BorderColor = colorEco;
             buttonStandard.BorderColor = colorStandard;
@@ -1266,6 +1267,7 @@ namespace GHelper
             buttonSilent.Activated = false;
             buttonBalanced.Activated = false;
             buttonTurbo.Activated = false;
+            buttonFans.Activated = false;
 
             menuSilent.Checked = false;
             menuBalanced.Checked = false;
@@ -1286,7 +1288,23 @@ namespace GHelper
                     menuBalanced.Checked = true;
                     break;
                 default:
-                    if (!Modes.Exists(mode))
+                    if (Modes.Exists(mode))
+                    {
+                        buttonFans.Activated = true;
+                        switch (Modes.GetBase(mode))
+                        {
+                            case AsusACPI.PerformanceSilent:
+                                buttonFans.BorderColor = colorEco;
+                                break;
+                            case AsusACPI.PerformanceTurbo:
+                                buttonFans.BorderColor = colorTurbo;
+                                break;
+                            default:
+                                buttonFans.BorderColor = colorStandard;
+                                break;
+                        }
+                    }
+                    else
                     {
                         buttonBalanced.Activated = true;
                         menuBalanced.Checked = true;
@@ -1363,7 +1381,7 @@ namespace GHelper
         {
             InputDispatcher.SetBacklightAuto(true);
 
-            if (Program.acpi.IsXGConnected()) 
+            if (Program.acpi.IsXGConnected())
                 AsusUSB.ApplyXGMLight(AppConfig.Is("xmg_light"));
 
             if (AppConfig.ContainsModel("X16") || AppConfig.ContainsModel("X13")) InputDispatcher.TabletMode();

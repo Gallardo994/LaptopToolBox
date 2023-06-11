@@ -48,6 +48,7 @@ namespace GHelper
             chartXGM = new Chart();
             chartMid = new Chart();
             panelTitleFans = new Panel();
+            buttonRename = new RButton();
             buttonRemove = new RButton();
             buttonAdd = new RButton();
             comboModes = new RComboBox();
@@ -245,6 +246,7 @@ namespace GHelper
             // 
             // panelTitleFans
             // 
+            panelTitleFans.Controls.Add(buttonRename);
             panelTitleFans.Controls.Add(buttonRemove);
             panelTitleFans.Controls.Add(buttonAdd);
             panelTitleFans.Controls.Add(comboModes);
@@ -256,37 +258,54 @@ namespace GHelper
             panelTitleFans.Size = new Size(805, 66);
             panelTitleFans.TabIndex = 42;
             // 
+            // buttonRename
+            // 
+            buttonRename.Activated = false;
+            buttonRename.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonRename.BackColor = SystemColors.ControlLight;
+            buttonRename.BorderColor = Color.Transparent;
+            buttonRename.BorderRadius = 2;
+            buttonRename.FlatStyle = FlatStyle.Flat;
+            buttonRename.Image = (Image)resources.GetObject("buttonRename.Image");
+            buttonRename.Location = new Point(374, 12);
+            buttonRename.Margin = new Padding(4, 2, 4, 2);
+            buttonRename.Name = "buttonRename";
+            buttonRename.Secondary = true;
+            buttonRename.Size = new Size(52, 46);
+            buttonRename.TabIndex = 45;
+            buttonRename.UseVisualStyleBackColor = false;
+            // 
             // buttonRemove
             // 
             buttonRemove.Activated = false;
-            buttonRemove.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonRemove.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonRemove.BackColor = SystemColors.ControlLight;
             buttonRemove.BorderColor = Color.Transparent;
             buttonRemove.BorderRadius = 2;
             buttonRemove.FlatStyle = FlatStyle.Flat;
             buttonRemove.Image = (Image)resources.GetObject("buttonRemove.Image");
-            buttonRemove.Location = new Point(370, 14);
+            buttonRemove.Location = new Point(319, 12);
             buttonRemove.Margin = new Padding(4, 2, 4, 2);
             buttonRemove.Name = "buttonRemove";
             buttonRemove.Secondary = true;
-            buttonRemove.Size = new Size(52, 44);
+            buttonRemove.Size = new Size(52, 46);
             buttonRemove.TabIndex = 44;
             buttonRemove.UseVisualStyleBackColor = false;
             // 
             // buttonAdd
             // 
             buttonAdd.Activated = false;
-            buttonAdd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonAdd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonAdd.BackColor = SystemColors.ControlLight;
             buttonAdd.BorderColor = Color.Transparent;
             buttonAdd.BorderRadius = 2;
             buttonAdd.FlatStyle = FlatStyle.Flat;
             buttonAdd.Image = (Image)resources.GetObject("buttonAdd.Image");
-            buttonAdd.Location = new Point(737, 14);
+            buttonAdd.Location = new Point(742, 12);
             buttonAdd.Margin = new Padding(4, 2, 4, 2);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Secondary = true;
-            buttonAdd.Size = new Size(52, 44);
+            buttonAdd.Size = new Size(52, 46);
             buttonAdd.TabIndex = 43;
             buttonAdd.UseVisualStyleBackColor = false;
             // 
@@ -295,8 +314,9 @@ namespace GHelper
             comboModes.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboModes.BorderColor = Color.White;
             comboModes.ButtonColor = Color.FromArgb(255, 255, 255);
+            comboModes.FlatStyle = FlatStyle.Flat;
             comboModes.FormattingEnabled = true;
-            comboModes.Location = new Point(429, 16);
+            comboModes.Location = new Point(434, 16);
             comboModes.Name = "comboModes";
             comboModes.Size = new Size(302, 40);
             comboModes.TabIndex = 42;
@@ -306,7 +326,7 @@ namespace GHelper
             picturePerf.BackgroundImage = Properties.Resources.icons8_fan_head_96;
             picturePerf.BackgroundImageLayout = ImageLayout.Zoom;
             picturePerf.InitialImage = null;
-            picturePerf.Location = new Point(20, 18);
+            picturePerf.Location = new Point(18, 18);
             picturePerf.Margin = new Padding(4, 2, 4, 2);
             picturePerf.Name = "picturePerf";
             picturePerf.Size = new Size(36, 38);
@@ -317,7 +337,7 @@ namespace GHelper
             // 
             labelFans.AutoSize = true;
             labelFans.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            labelFans.Location = new Point(58, 20);
+            labelFans.Location = new Point(53, 20);
             labelFans.Margin = new Padding(4, 0, 4, 0);
             labelFans.Name = "labelFans";
             labelFans.Size = new Size(90, 32);
@@ -379,7 +399,7 @@ namespace GHelper
             // 
             // labelBoost
             // 
-            labelBoost.Location = new Point(10, 12);
+            labelBoost.Location = new Point(10, 10);
             labelBoost.Name = "labelBoost";
             labelBoost.Size = new Size(201, 40);
             labelBoost.TabIndex = 43;
@@ -394,7 +414,7 @@ namespace GHelper
             comboBoost.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoost.FormattingEnabled = true;
             comboBoost.Items.AddRange(new object[] { "Disabled", "Enabled", "Aggressive", "Efficient Enabled", "Efficient Aggressive" });
-            comboBoost.Location = new Point(226, 12);
+            comboBoost.Location = new Point(226, 10);
             comboBoost.Name = "comboBoost";
             comboBoost.Size = new Size(287, 40);
             comboBoost.TabIndex = 42;
@@ -643,7 +663,7 @@ namespace GHelper
             pictureBox1.BackgroundImage = Properties.Resources.icons8_processor_96;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.InitialImage = null;
-            pictureBox1.Location = new Point(18, 18);
+            pictureBox1.Location = new Point(16, 18);
             pictureBox1.Margin = new Padding(4, 2, 4, 10);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(36, 38);
@@ -654,7 +674,7 @@ namespace GHelper
             // 
             labelPowerLimits.AutoSize = true;
             labelPowerLimits.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            labelPowerLimits.Location = new Point(57, 20);
+            labelPowerLimits.Location = new Point(53, 20);
             labelPowerLimits.Margin = new Padding(4, 0, 4, 0);
             labelPowerLimits.Name = "labelPowerLimits";
             labelPowerLimits.Size = new Size(160, 32);
@@ -887,7 +907,7 @@ namespace GHelper
             pictureGPU.BackgroundImageLayout = ImageLayout.Zoom;
             pictureGPU.ErrorImage = null;
             pictureGPU.InitialImage = null;
-            pictureGPU.Location = new Point(18, 18);
+            pictureGPU.Location = new Point(16, 18);
             pictureGPU.Margin = new Padding(4, 2, 4, 10);
             pictureGPU.Name = "pictureGPU";
             pictureGPU.Size = new Size(36, 38);
@@ -898,7 +918,7 @@ namespace GHelper
             // 
             labelGPU.AutoSize = true;
             labelGPU.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            labelGPU.Location = new Point(55, 20);
+            labelGPU.Location = new Point(52, 20);
             labelGPU.Margin = new Padding(4, 0, 4, 0);
             labelGPU.Name = "labelGPU";
             labelGPU.Size = new Size(162, 32);
@@ -1036,5 +1056,6 @@ namespace GHelper
         private RComboBox comboModes;
         private RButton buttonAdd;
         private RButton buttonRemove;
+        private RButton buttonRename;
     }
 }
