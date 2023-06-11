@@ -1,3 +1,4 @@
+using GHelper.Inputs;
 using Ninject.Modules;
 
 namespace GHelper.Modules;

@@ -1,6 +1,7 @@
 ﻿using CustomControls;
 using GHelper.Gpu;
 using System.Diagnostics;
+using GHelper.Inputs;
 using Serilog;
 
 namespace GHelper

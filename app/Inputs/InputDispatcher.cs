@@ -1,67 +1,24 @@
-﻿using HidLibrary;
-using Microsoft.Win32;
-using NAudio.CoreAudioApi;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Management;
 using GHelper.Modules;
+using HidLibrary;
+using Microsoft.Win32;
+using NAudio.CoreAudioApi;
 using Ninject;
 using Serilog;
 
-namespace GHelper
+namespace GHelper.Inputs
 {
-    public class KeyboardListener
-    {
-
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-        public KeyboardListener(Action<int> KeyHandler)
-        {
-            HidDevice? input = AsusUSB.GetDevice();
-            if (input == null) return;
-
-            Log.Debug($"Input: {input.DevicePath}");
-
-            var task = Task.Run(() =>
-            {
-                try
-                {
-                    while (!cancellationTokenSource.Token.IsCancellationRequested)
-                    {
-                        var data = input.Read().Data;
-                        if (data.Length > 1 && data[0] == AsusUSB.INPUT_HID_ID && data[1] > 0)
-                        {
-                            Log.Debug($"Key: {data[1]}");
-                            KeyHandler(data[1]);
-                        }
-                    }
-                    Log.Debug("Listener stopped");
-
-                }
-                catch (Exception ex)
-                {
-                    Log.Debug(ex.ToString());
-                }
-            });
-
-
-        }
-
-        public void Dispose()
-        {
-            cancellationTokenSource?.Cancel();
-        }
-    }
-
-
     public class InputDispatcher : IInputDispatcher
     {
+        private IKeyboardListener _keyboardListener;
+        
         System.Timers.Timer timer = new System.Timers.Timer(1000);
         public bool backlightActivity = true;
 
         public static Keys keyProfile = Keys.F5;
         public static Keys keyApp = Keys.F12;
 
-        KeyboardListener listener;
         KeyboardHook hook = new KeyboardHook();
 
         [Inject]
@@ -112,12 +69,15 @@ namespace GHelper
 
         public void Init()
         {
-            if (listener is not null) listener.Dispose();
+            if (_keyboardListener is not null)
+            {
+                _keyboardListener.Dispose();
+            }
 
             Program.acpi.DeviceInit();
 
             if (!OptimizationService.IsRunning())
-                listener = new KeyboardListener(HandleEvent);
+                _keyboardListener = new KeyboardListener(HandleEvent);
             else
                 Log.Debug("Optimization service is running");
 
