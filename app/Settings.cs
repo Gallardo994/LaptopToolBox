@@ -21,7 +21,7 @@ namespace GHelper
         public static System.Timers.Timer aTimer = default!;
         public static Point trayPoint;
 
-        public string versionUrl = "http://github.com/seerge/g-helper/releases";
+        public string versionUrl = "http://github.com/gallardo994/g-helper/releases";
 
         public string modeName = "Balanced";
 
@@ -387,7 +387,7 @@ namespace GHelper
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("User-Agent", "C# App");
-                    var json = await httpClient.GetStringAsync("https://api.github.com/repos/seerge/g-helper/releases/latest");
+                    var json = await httpClient.GetStringAsync("https://api.github.com/repos/gallardo994/g-helper/releases/latest");
                     var config = JsonSerializer.Deserialize<JsonElement>(json);
                     var tag = config.GetProperty("tag_name").ToString().Replace("v", "");
                     var assets = config.GetProperty("assets");
