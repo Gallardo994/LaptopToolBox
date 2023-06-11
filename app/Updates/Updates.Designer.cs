@@ -1,4 +1,6 @@
-﻿namespace GHelper.Updates
+﻿using CustomControls;
+
+namespace GHelper.Updates
 {
     partial class Updates
     {
@@ -29,6 +31,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Updates));
+            buttonRefresh = new RButton();
             tableBios = new TableLayoutPanel();
             labelBIOS = new Label();
             pictureBios = new PictureBox();
@@ -46,6 +49,14 @@
             panelDriversTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureDrivers).BeginInit();
             SuspendLayout();
+            //
+            // buttonRefresh
+            //
+            buttonRefresh.Text = "Refresh";
+            buttonRefresh.Location = new Point(10, 10);
+            buttonRefresh.Click += new EventHandler(Refresh_Pressed);
+            buttonRefresh.FlatStyle = FlatStyle.Flat;
+            buttonRefresh.FlatAppearance.BorderSize = 0;
             // 
             // tableBios
             // 
@@ -175,6 +186,7 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             AutoScroll = true;
             ClientSize = new Size(628, 345);
+            Controls.Add(buttonRefresh);
             Controls.Add(panelDrivers);
             Controls.Add(panelDriversTitle);
             Controls.Add(panelBios);
@@ -201,6 +213,7 @@
 
         #endregion
 
+        private RButton buttonRefresh;
         private TableLayoutPanel tableBios;
         private Label labelBIOS;
         private PictureBox pictureBios;

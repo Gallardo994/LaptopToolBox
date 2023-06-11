@@ -63,6 +63,7 @@ namespace GHelper.Updates
             }
             
             IsUpdating = true;
+            buttonRefresh.Enabled = false;
             
             SuspendLayout();
             tableBios.Visible = false;
@@ -77,6 +78,16 @@ namespace GHelper.Updates
                 var driversTask = RefreshDriversAsync(_modelInfo, tableDrivers);
                 
                 await Task.WhenAll(biosTask, driversTask);
+
+                var reEnableButtonTask = BeginInvoke(() =>
+                {
+                    buttonRefresh.Enabled = true;
+                });
+                
+                while (!reEnableButtonTask.IsCompleted)
+                {
+                    await Task.Delay(50);
+                }
 
                 IsUpdating = false;
             }).Forget();
