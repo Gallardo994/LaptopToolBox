@@ -1,5 +1,6 @@
 using AmdAdl2;
 using System.Runtime.InteropServices;
+using Serilog;
 using static AmdAdl2.Adl2.NativeMethods;
 
 namespace GHelper.Gpu;
@@ -182,7 +183,7 @@ public class AmdGpuControl : IGpuControl
             {
                 if (appInfoArray[i].iGPUAffinity == 1)
                 {
-                    Logger.WriteLine(appInfoArray[i].strFileName + ":" + appInfoArray[i].iGPUAffinity + "(" + appInfoArray[i].timeStamp + ")");
+                    Log.Debug(appInfoArray[i].strFileName + ":" + appInfoArray[i].iGPUAffinity + "(" + appInfoArray[i].timeStamp + ")");
                     appNames.Add(Path.GetFileNameWithoutExtension(appInfoArray[i].strFileName));
                 }
             }
@@ -197,7 +198,7 @@ public class AmdGpuControl : IGpuControl
         }
         catch (Exception ex)
         {
-            Logger.WriteLine(ex.Message);
+            Log.Debug(ex.Message);
         }
         finally
         {

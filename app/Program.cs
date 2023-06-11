@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Security.Principal;
 using System.Windows.Forms;
+using Serilog;
 using static NativeMethods;
 
 namespace GHelper
@@ -34,7 +35,12 @@ namespace GHelper
         // The main entry point for the application
         public static void Main(string[] args)
         {
-
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
+                .MinimumLevel.Debug()
+                .CreateLogger();
+            
             string action = "";
             if (args.Length > 0) action = args[0];
 
@@ -66,8 +72,8 @@ namespace GHelper
                 return;
             }
 
-            Logger.WriteLine("------------");
-            Logger.WriteLine("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
+            Log.Debug("------------");
+            Log.Debug("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
 
             Application.EnableVisualStyles();
 
@@ -143,7 +149,7 @@ namespace GHelper
             lastAuto = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             isPlugged = SystemInformation.PowerStatus.PowerLineStatus;
-            Logger.WriteLine("AutoSetting for " + isPlugged.ToString());
+            Log.Debug("AutoSetting for " + isPlugged.ToString());
 
             inputDispatcher.Init();
 
@@ -165,7 +171,7 @@ namespace GHelper
         private static void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
             if (SystemInformation.PowerStatus.PowerLineStatus == isPlugged) return;
-            Logger.WriteLine("Power Mode Changed");
+            Log.Debug("Power Mode Changed");
             SetAutoModes(true);
         }
 

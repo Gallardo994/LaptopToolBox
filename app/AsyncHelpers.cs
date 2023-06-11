@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Serilog;
 
 namespace GHelper;
 
@@ -19,7 +20,7 @@ public static class AsyncHelpers
             }
             catch (Exception e)
             {
-                Logger.WriteLine(e.ToString());
+                Log.Debug(e.ToString());
             }
         }
     }

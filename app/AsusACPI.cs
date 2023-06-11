@@ -1,5 +1,6 @@
 ﻿using System.Management;
 using System.Runtime.InteropServices;
+using Serilog;
 
 public enum AsusFan
 {
@@ -181,14 +182,14 @@ public class AsusACPI
         data[1] = BitConverter.GetBytes(eventHandle.ToInt32())[1];
 
         Control(0x222400, data, outBuffer);
-        Logger.WriteLine("ACPI :" + BitConverter.ToString(data) + "|" + BitConverter.ToString(outBuffer));
+        Log.Debug("ACPI :" + BitConverter.ToString(data) + "|" + BitConverter.ToString(outBuffer));
 
         while (true)
         {
             WaitForSingleObject(eventHandle, Timeout.Infinite);
             Control(0x222408, new byte[0], outBuffer);
             int code = BitConverter.ToInt32(outBuffer);
-            Logger.WriteLine("ACPI Code: " + code);
+            Log.Debug("ACPI Code: " + code);
         }
     }
 
@@ -267,7 +268,7 @@ public class AsusACPI
         byte[] status = CallMethod(DEVS, args);
         int result = BitConverter.ToInt32(status, 0);
 
-        Logger.WriteLine(logName + " = " + Status + " : " + (result == 1 ? "OK" : result));
+        Log.Debug(logName + " = " + Status + " : " + (result == 1 ? "OK" : result));
         return result;
     }
 
@@ -281,7 +282,7 @@ public class AsusACPI
         byte[] status = CallMethod(DEVS, args);
         int result = BitConverter.ToInt32(status, 0);
 
-        Logger.WriteLine(logName + " = " + BitConverter.ToString(Params) + " : " + (result == 1 ? "OK" : result));
+        Log.Debug(logName + " = " + BitConverter.ToString(Params) + " : " + (result == 1 ? "OK" : result));
         return BitConverter.ToInt32(status, 0);
     }
 
@@ -500,7 +501,7 @@ public class AsusACPI
         }
         catch
         {
-            Logger.WriteLine("Can't connect to ASUS WMI events");
+            Log.Debug("Can't connect to ASUS WMI events");
         }
     }
 

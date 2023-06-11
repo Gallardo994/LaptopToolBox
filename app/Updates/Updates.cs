@@ -4,6 +4,7 @@ using System.Net;
 using CustomControls;
 using GHelper.Updates.Models.Updates;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace GHelper.Updates
 {
@@ -98,7 +99,7 @@ namespace GHelper.Updates
             
             if (data == null)
             {
-                Logger.WriteLine("Failed to get drivers data");
+                Log.Debug("Failed to get drivers data");
                 return;
             }
             
@@ -157,7 +158,7 @@ namespace GHelper.Updates
             
             if (data == null)
             {
-                Logger.WriteLine("Failed to get BIOS data");
+                Log.Debug("Failed to get BIOS data");
                 return;
             }
             
@@ -295,7 +296,7 @@ namespace GHelper.Updates
                 catch (Exception e)
                 {
                     attempt++;
-                    Logger.WriteLine($"Failed to get data from {url} ({e.Message}), attempt {attempt}");
+                    Log.Debug($"Failed to get data from {url} ({e.Message}), attempt {attempt}");
                 }
             }
 

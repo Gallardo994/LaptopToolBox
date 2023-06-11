@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Serilog;
 using static Tools.ScreenInterrogatory;
 
 namespace Tools
@@ -353,7 +354,7 @@ public class NativeMethods
             {
                 message = "Unknown error.";
             }
-            Logger.WriteLine($"Failed to turn off screen. Error code: {error}. {message}");
+            Log.Debug($"Failed to turn off screen. Error code: {error}. {message}");
         }
     }
 
@@ -670,8 +671,8 @@ public class NativeMethods
         }
         catch (Exception ex)
         {
-            Logger.WriteLine(ex.ToString());
-            Logger.WriteLine("Can't detect internal screen");
+            Log.Debug(ex.ToString());
+            Log.Debug("Can't detect internal screen");
             laptopScreen = Screen.PrimaryScreen.DeviceName;
         }
 
@@ -721,7 +722,7 @@ public class NativeMethods
         {
             dm.dmDisplayFrequency = frequency;
             int iRet = NativeMethods.ChangeDisplaySettingsEx(laptopScreen, ref dm, IntPtr.Zero, DisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
-            Logger.WriteLine("Screen = " + frequency.ToString() + "Hz : " + (iRet == 0 ? "OK" : iRet));
+            Log.Debug("Screen = " + frequency.ToString() + "Hz : " + (iRet == 0 ? "OK" : iRet));
 
             return iRet;
         }
@@ -790,14 +791,14 @@ public class NativeMethods
 
         PowerSetActiveScheme(IntPtr.Zero, activeSchemeGuid);
 
-        Logger.WriteLine("Boost " + boost);
+        Log.Debug("Boost " + boost);
     }
 
     public static void SetPowerScheme(string scheme)
     {
         PowerSetActiveScheme(IntPtr.Zero, new Guid(scheme));
         PowerSetActiveOverlayScheme(new Guid(scheme));
-        Logger.WriteLine(scheme);
+        Log.Debug(scheme);
     }
 
     public static void SetPowerScheme(int mode)

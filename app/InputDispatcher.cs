@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using System.Diagnostics;
 using System.Management;
+using Serilog;
 
 namespace GHelper
 {
@@ -16,7 +17,7 @@ namespace GHelper
             HidDevice? input = AsusUSB.GetDevice();
             if (input == null) return;
 
-            Logger.WriteLine($"Input: {input.DevicePath}");
+            Log.Debug($"Input: {input.DevicePath}");
 
             var task = Task.Run(() =>
             {
@@ -27,16 +28,16 @@ namespace GHelper
                         var data = input.Read().Data;
                         if (data.Length > 1 && data[0] == AsusUSB.INPUT_HID_ID && data[1] > 0)
                         {
-                            Logger.WriteLine($"Key: {data[1]}");
+                            Log.Debug($"Key: {data[1]}");
                             KeyHandler(data[1]);
                         }
                     }
-                    Logger.WriteLine("Listener stopped");
+                    Log.Debug("Listener stopped");
 
                 }
                 catch (Exception ex)
                 {
-                    Logger.WriteLine(ex.ToString());
+                    Log.Debug(ex.ToString());
                 }
             });
 
@@ -116,7 +117,7 @@ namespace GHelper
             if (!OptimizationService.IsRunning())
                 listener = new KeyboardListener(HandleEvent);
             else
-                Logger.WriteLine("Optimization service is running");
+                Log.Debug("Optimization service is running");
 
             InitBacklightTimer();
         }
@@ -181,7 +182,7 @@ namespace GHelper
 
             if (e.Modifier == ModifierKeys.None)
             {
-                Logger.WriteLine(e.Key.ToString());
+                Log.Debug(e.Key.ToString());
 
                 if (AppConfig.ContainsModel("Z13"))
                 {
@@ -382,7 +383,7 @@ namespace GHelper
             bool touchpadState = GetTouchpadState();
             bool tabletState = Program.acpi.DeviceGet(AsusACPI.TabletState) > 0;
 
-            Logger.WriteLine("Tablet: " + tabletState + " Touchpad: " + touchpadState);
+            Log.Debug("Tablet: " + tabletState + " Touchpad: " + touchpadState);
 
             if ((tabletState && touchpadState) || (!tabletState && !touchpadState)) AsusUSB.TouchpadToggle();
 
@@ -516,7 +517,7 @@ namespace GHelper
             }
             catch
             {
-                Logger.WriteLine("Failed to run  " + command);
+                Log.Debug("Failed to run  " + command);
             }
 
 
@@ -528,7 +529,7 @@ namespace GHelper
         {
             if (e.NewEvent is null) return;
             int EventID = int.Parse(e.NewEvent["EventID"].ToString());
-            Logger.WriteLine("WMI event " + EventID);
+            Log.Debug("WMI event " + EventID);
             HandleEvent(EventID);
         }
     }

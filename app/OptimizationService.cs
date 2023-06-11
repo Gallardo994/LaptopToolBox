@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using Serilog;
 
 namespace GHelper
 {
@@ -79,7 +80,7 @@ namespace GHelper
             }
             catch (Exception ex)
             {
-                Logger.WriteLine(ex.Message);
+                Log.Debug(ex.Message);
             }
         }
 

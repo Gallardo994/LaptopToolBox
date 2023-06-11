@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace GHelper
 {
@@ -27,7 +28,7 @@ namespace GHelper
                         }
                         catch (Exception ex)
                         {
-                            Logger.WriteLine(ex.ToString());
+                            Log.Debug(ex.ToString());
                             MessageBox.Show(Properties.Strings.AppAlreadyRunningText, Properties.Strings.AppAlreadyRunning, MessageBoxButtons.OK);
                             Application.Exit();
                             return;
@@ -63,7 +64,7 @@ namespace GHelper
                     Application.Exit();
                 } catch (Exception ex)
                 {
-                    Logger.WriteLine(ex.Message);
+                    Log.Debug(ex.Message);
                 }
             }
         }
@@ -76,11 +77,11 @@ namespace GHelper
                 try
                 {
                     process.Kill();
-                    Logger.WriteLine($"Stopped: {process.ProcessName}");
+                    Log.Debug($"Stopped: {process.ProcessName}");
                 }
                 catch (Exception ex)
                 {
-                    Logger.WriteLine($"Failed to stop: {process.ProcessName} {ex.Message}");
+                    Log.Debug($"Failed to stop: {process.ProcessName} {ex.Message}");
                 }
             }
         }
@@ -90,11 +91,11 @@ namespace GHelper
             try
             {
                 process.Kill();
-                Logger.WriteLine($"Stopped: {process.ProcessName}");
+                Log.Debug($"Stopped: {process.ProcessName}");
             }
             catch (Exception ex)
             {
-                Logger.WriteLine($"Failed to stop: {process.ProcessName} {ex.Message}");
+                Log.Debug($"Failed to stop: {process.ProcessName} {ex.Message}");
             }
         }
 
@@ -103,12 +104,12 @@ namespace GHelper
             try
             {
                 string script = $"Set-Service -Name \"{serviceName}\" -Status stopped -StartupType disabled";
-                Logger.WriteLine(script);
+                Log.Debug(script);
                 RunCMD("powershell", script);
             }
             catch (Exception ex)
             {
-                Logger.WriteLine(ex.ToString());
+                Log.Debug(ex.ToString());
             }
         }
 
@@ -117,12 +118,12 @@ namespace GHelper
             try
             {
                 string script = $"Set-Service -Name \"{serviceName}\" -Status running -StartupType Automatic";
-                Logger.WriteLine(script);
+                Log.Debug(script);
                 RunCMD("powershell", script);
             }
             catch (Exception ex)
             {
-                Logger.WriteLine(ex.ToString());
+                Log.Debug(ex.ToString());
             }
         }
 
@@ -136,7 +137,7 @@ namespace GHelper
             cmd.StartInfo.FileName = name;
             cmd.StartInfo.Arguments = args;
             cmd.Start();
-            Logger.WriteLine(cmd.StandardOutput.ReadToEnd());
+            Log.Debug(cmd.StandardOutput.ReadToEnd());
             cmd.WaitForExit();
         }
 

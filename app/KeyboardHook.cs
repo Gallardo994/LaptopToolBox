@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Serilog;
 
 public sealed class KeyboardHook : IDisposable
 {
@@ -105,7 +106,7 @@ public sealed class KeyboardHook : IDisposable
 
         // register the hot key.
         if (!RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key))
-            Logger.WriteLine("Couldn’t register " + key);
+            Log.Debug("Couldn’t register " + key);
     }
 
     /// <summary>

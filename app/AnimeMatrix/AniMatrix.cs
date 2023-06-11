@@ -4,6 +4,7 @@ using Starlight.AnimeMatrix;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Timers;
+using Serilog;
 
 namespace GHelper.AnimeMatrix
 {
@@ -65,7 +66,7 @@ namespace GHelper.AnimeMatrix
             if (brightness == 0 || (auto && SystemInformation.PowerStatus.PowerLineStatus != PowerLineStatus.Online))
             {
                 mat.SetDisplayState(false);
-                Logger.WriteLine("Matrix Off");
+                Log.Debug("Matrix Off");
             }
             else
             {
@@ -85,7 +86,7 @@ namespace GHelper.AnimeMatrix
                         break;
                     default:
                         mat.SetBuiltInAnimation(true, animation);
-                        Logger.WriteLine("Matrix builtin " + animation.AsByte);
+                        Log.Debug("Matrix builtin " + animation.AsByte);
                         break;
 
                 }
@@ -127,7 +128,7 @@ namespace GHelper.AnimeMatrix
         {
             mat.SetBuiltInAnimation(false);
             StartMatrixTimer(1000);
-            Logger.WriteLine("Matrix Clock");
+            Log.Debug("Matrix Clock");
         }
 
         public void Dispose()
@@ -146,7 +147,7 @@ namespace GHelper.AnimeMatrix
                 }
                 catch (Exception ex)
                 {
-                    Logger.WriteLine(ex.ToString());
+                    Log.Debug(ex.ToString());
                 }
             }
         }
@@ -170,12 +171,12 @@ namespace GHelper.AnimeMatrix
                     AudioValues = new double[fmt.SampleRate / 1000];
                     AudioDevice.DataAvailable += WaveIn_DataAvailable;
                     AudioDevice.StartRecording();
-                    Logger.WriteLine("Matrix Audio");
+                    Log.Debug("Matrix Audio");
                 }
             }
             catch (Exception ex)
             {
-                Logger.WriteLine(ex.ToString());
+                Log.Debug(ex.ToString());
             }
 
         }
@@ -297,13 +298,13 @@ namespace GHelper.AnimeMatrix
                 }
 
                 StartMatrixTimer();
-                Logger.WriteLine("Matrix GIF " + fileName);
+                Log.Debug("Matrix GIF " + fileName);
             }
             else
             {
                 mat.GenerateFrame(image);
                 mat.Present();
-                Logger.WriteLine("Matrix " + fileName);
+                Log.Debug("Matrix " + fileName);
             }
         }
 

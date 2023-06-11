@@ -1,6 +1,7 @@
 ﻿using CustomControls;
 using GHelper.Gpu;
 using System.Diagnostics;
+using Serilog;
 
 namespace GHelper
 {
@@ -295,7 +296,7 @@ namespace GHelper
                     int variBrightSupported = 0, VariBrightEnabled;
                     if (amdControl.GetVariBright(out variBrightSupported, out VariBrightEnabled))
                     {
-                        Logger.WriteLine("Varibright: " + variBrightSupported + "," + VariBrightEnabled);
+                        Log.Debug("Varibright: " + variBrightSupported + "," + VariBrightEnabled);
                         checkVariBright.Checked = (VariBrightEnabled == 3);
                     }
 

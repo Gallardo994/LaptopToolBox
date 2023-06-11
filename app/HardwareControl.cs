@@ -1,6 +1,7 @@
 ﻿using GHelper;
 using GHelper.Gpu;
 using System.Diagnostics;
+using Serilog;
 
 public static class HardwareControl
 {
@@ -54,7 +55,7 @@ public static class HardwareControl
         try
         {
             int? gpuUse = GpuControl?.GetGpuUse();
-            Logger.WriteLine("GPU usage: " + GpuControl?.FullName + " " + gpuUse + "%");
+            Log.Debug("GPU usage: " + GpuControl?.FullName + " " + gpuUse + "%");
             if (gpuUse is not null) return (int)gpuUse;
         }
         catch (Exception ex)
@@ -158,7 +159,7 @@ public static class HardwareControl
             if (_gpuControl.IsValid)
             {
                 GpuControl = _gpuControl;
-                Logger.WriteLine(GpuControl.FullName);
+                Log.Debug(GpuControl.FullName);
                 return;
             }
 
@@ -168,7 +169,7 @@ public static class HardwareControl
             if (_gpuControl.IsValid)
             {
                 GpuControl = _gpuControl;
-                Logger.WriteLine(GpuControl.FullName);
+                Log.Debug(GpuControl.FullName);
                 return;
             }
             _gpuControl.Dispose();

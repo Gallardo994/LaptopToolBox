@@ -1,5 +1,6 @@
 ﻿using HidLibrary;
 using System.Text;
+using Serilog;
 
 namespace GHelper
 {
@@ -271,13 +272,13 @@ namespace GHelper
                     if (device.ReadFeatureData(out byte[] data, AURA_HID_ID))
                     {
                         device.WriteFeatureData(msg);
-                        Logger.WriteLine(log + ":" + BitConverter.ToString(msg));
+                        Log.Debug(log + ":" + BitConverter.ToString(msg));
                     }
 
                     if (AppConfig.ContainsModel("GA503") && device.ReadFeatureData(out byte[] dataBackkup, INPUT_HID_ID))
                     {
                         device.WriteFeatureData(msgBackup);
-                        Logger.WriteLine(log + ":" + BitConverter.ToString(msgBackup));
+                        Log.Debug(log + ":" + BitConverter.ToString(msgBackup));
                     }
 
                     device.CloseDevice();
@@ -318,7 +319,7 @@ namespace GHelper
             {
                 device.OpenDevice();
                 device.WriteFeatureData(msg);
-                Logger.WriteLine("USB-KB " + device.Attributes.ProductHexId + ":" + BitConverter.ToString(msg));
+                Log.Debug("USB-KB " + device.Attributes.ProductHexId + ":" + BitConverter.ToString(msg));
                 device.CloseDevice();
             }
 
@@ -356,7 +357,7 @@ namespace GHelper
 
             if (devices.Count() == 0)
             {
-                Logger.WriteLine("USB-KB : not found");
+                Log.Debug("USB-KB : not found");
                 devices = GetHidDevices(deviceIds, 1);
             }
 
@@ -367,7 +368,7 @@ namespace GHelper
                 device.WriteFeatureData(MESSAGE_SET);
                 device.WriteFeatureData(MESSAGE_APPLY);
                 device.CloseDevice();
-                Logger.WriteLine("USB-KB " + device.Capabilities.FeatureReportByteLength + "|" + device.Capabilities.InputReportByteLength + device.Description + device.DevicePath + ":" + BitConverter.ToString(msg));
+                Log.Debug("USB-KB " + device.Capabilities.FeatureReportByteLength + "|" + device.Capabilities.InputReportByteLength + device.Description + device.DevicePath + ":" + BitConverter.ToString(msg));
             }
 
             if (AppConfig.ContainsModel("TUF"))
@@ -388,7 +389,7 @@ namespace GHelper
             foreach (HidDevice device in GetHidDevices(new int[] { 0x1970 }, 0, 300))
             {
                 device.OpenDevice();
-                Logger.WriteLine("XGM " + device.Attributes.ProductHexId + "|" + device.Capabilities.FeatureReportByteLength + ":" + BitConverter.ToString(msg));
+                Log.Debug("XGM " + device.Attributes.ProductHexId + "|" + device.Capabilities.FeatureReportByteLength + ":" + BitConverter.ToString(msg));
                 device.WriteFeatureData(payload);
                 device.CloseDevice();
                 //return 1;

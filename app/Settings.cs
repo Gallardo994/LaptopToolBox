@@ -6,6 +6,7 @@ using System.Net;
 using System.Reflection;
 using System.Text.Json;
 using System.Timers;
+using Serilog;
 
 namespace GHelper
 {
@@ -213,15 +214,15 @@ namespace GHelper
                         switch (settings.Data)
                         {
                             case 0:
-                                Logger.WriteLine("Monitor Power Off");
+                                Log.Debug("Monitor Power Off");
                                 AsusUSB.ApplyBrightness(0);
                                 break;
                             case 1:
-                                Logger.WriteLine("Monitor Power On");
+                                Log.Debug("Monitor Power On");
                                 Program.SetAutoModes();
                                 break;
                             case 2:
-                                Logger.WriteLine("Monitor Dimmed");
+                                Log.Debug("Monitor Dimmed");
                                 break;
                         }
                     }
@@ -464,9 +465,9 @@ namespace GHelper
             {
                 client.DownloadFile(uri, zipLocation);
 
-                Logger.WriteLine(requestUri);
-                Logger.WriteLine(zipLocation);
-                Logger.WriteLine(exeLocation);
+                Log.Debug(requestUri);
+                Log.Debug(zipLocation);
+                Log.Debug(exeLocation);
 
                 var cmd = new Process();
                 cmd.StartInfo.UseShellExecute = false;
@@ -1112,7 +1113,7 @@ namespace GHelper
             }
             catch (Exception ex)
             {
-                Logger.WriteLine(ex.ToString());
+                Log.Debug(ex.ToString());
             }
         }
 
@@ -1171,7 +1172,7 @@ namespace GHelper
                 if (cpuResult != 1 || gpuResult != 1)
                 {
                     int mode = Modes.GetCurrentBase();
-                    Logger.WriteLine("ASUS BIOS rejected fan curve, resetting mode to " + mode);
+                    Log.Debug("ASUS BIOS rejected fan curve, resetting mode to " + mode);
                     Program.acpi.DeviceSet(AsusACPI.PerformanceMode, mode, "Reset Mode");
                     LabelFansResult("ASUS BIOS rejected fan curve");
                 }
@@ -1459,7 +1460,7 @@ namespace GHelper
             if (AppConfig.Get("gpu_reenable") != 1) return false;
             if (Screen.AllScreens.Length <= 1) return false;
 
-            Logger.WriteLine("Re-enabling gpu for 503 model");
+            Log.Debug("Re-enabling gpu for 503 model");
 
             Thread.Sleep(1000);
             SetGPUEco(1);
@@ -1516,8 +1517,8 @@ namespace GHelper
             int eco = Program.acpi.DeviceGet(AsusACPI.GPUEco);
             int mux = Program.acpi.DeviceGet(AsusACPI.GPUMux);
 
-            Logger.WriteLine("Eco flag : " + eco);
-            Logger.WriteLine("Mux flag : " + mux);
+            Log.Debug("Eco flag : " + eco);
+            Log.Debug("Mux flag : " + mux);
 
             int GpuMode;
 
@@ -1571,7 +1572,7 @@ namespace GHelper
 
             if (!ProcessHelper.IsUserAdministrator()) return;
 
-            Logger.WriteLine("Trying to restart dGPU");
+            Log.Debug("Trying to restart dGPU");
 
             Task.Run(async () =>
             {
@@ -1615,7 +1616,7 @@ namespace GHelper
 
                 if (eco == 1) HardwareControl.KillGPUApps();
 
-                Logger.WriteLine($"Running eco command {eco}");
+                Log.Debug($"Running eco command {eco}");
 
                 status = Program.acpi.SetGPUEco(eco);
 

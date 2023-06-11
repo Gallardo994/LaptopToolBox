@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Windows.Forms.DataVisualization.Charting;
+using Serilog;
 
 namespace GHelper
 {
@@ -264,7 +265,7 @@ namespace GHelper
             }
             catch (Exception ex)
             {
-                Logger.WriteLine(ex.ToString());
+                Log.Debug(ex.ToString());
                 gpuVisible = panelGPU.Visible = false;
             }
 
