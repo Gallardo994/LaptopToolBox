@@ -198,7 +198,7 @@ namespace GHelper
                 }
             }
 
-            checkTopmost.Checked = AppConfig.Is("topmost");
+            checkTopmost.Checked = !AppConfig.Is("topmost_disabled");
             checkTopmost.CheckedChanged += CheckTopmost_CheckedChanged; ;
 
             checkNoOverdrive.Checked = AppConfig.Is("no_overdrive");
@@ -376,7 +376,7 @@ namespace GHelper
 
         private void CheckTopmost_CheckedChanged(object? sender, EventArgs e)
         {
-            AppConfig.Set("topmost", (checkTopmost.Checked ? 1 : 0));
+            AppConfig.Set("topmost_disabled", (checkTopmost.Checked ? 0 : 1));
             Program.settingsForm.TopMost = checkTopmost.Checked;
         }
 

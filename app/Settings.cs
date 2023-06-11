@@ -177,7 +177,7 @@ namespace GHelper
 
             labelModel.Text = model + (ProcessHelper.IsUserAdministrator() ? "." : "");
 
-            TopMost = AppConfig.Is("topmost");
+            TopMost = !AppConfig.Is("topmost_disabled");
 
             SetContextMenu();
 
