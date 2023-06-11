@@ -13,12 +13,13 @@ public static class AppConfig
 
     static AppConfig()
     {
-
-        string appPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\GHelper";
+        var appPath = "Configs/";
         configFile = appPath + "\\config.json";
 
-        if (!System.IO.Directory.Exists(appPath))
-            System.IO.Directory.CreateDirectory(appPath);
+        if (!Directory.Exists(appPath))
+        {
+            Directory.CreateDirectory(appPath);
+        }
 
         if (File.Exists(configFile))
         {
