@@ -79,7 +79,7 @@ namespace GHelper.Updates
                 await Task.WhenAll(biosTask, driversTask);
 
                 IsUpdating = false;
-            });
+            }).Forget();
         }
 
         private void Updates_Shown(object? sender, EventArgs e)
