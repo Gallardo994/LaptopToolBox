@@ -679,11 +679,10 @@ public class NativeMethods
         return laptopScreen;
     }
 
-    public static int GetRefreshRate(bool max = false)
+    public static int GetRefreshRate(string laptopScreen, bool max = false)
     {
         DEVMODE dm = CreateDevmode();
 
-        string laptopScreen = FindLaptopScreen();
         int frequency = -1;
 
         if (laptopScreen is null)
