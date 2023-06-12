@@ -1,6 +1,6 @@
 namespace GHelper.Toasts;
 
-public enum ToastIcon
+public enum ToastIconType
 {
     BrightnessUp,
     BrightnessDown,

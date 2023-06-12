@@ -2,5 +2,5 @@ namespace GHelper.Toasts;
 
 public interface IToastIconResolver
 {
-    public Bitmap ResolveIcon(ToastIcon toastIcon);
+    public Bitmap ResolveIcon(ToastIconType toastIconType);
 }
