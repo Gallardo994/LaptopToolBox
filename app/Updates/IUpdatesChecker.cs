@@ -2,5 +2,8 @@ namespace GHelper.Updates;
 
 public interface IUpdatesChecker
 {
-    public void CheckForUpdates();
+    public bool IsCheckingForUpdates { get; }
+    public List<IUpdate> AllUpdates { get; }
+    public int PendingUpdatesCount { get; }
+    public bool CheckForUpdates();
 }
