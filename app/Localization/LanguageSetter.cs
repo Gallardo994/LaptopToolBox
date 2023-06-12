@@ -33,7 +33,16 @@ public class LanguageSetter : ILanguageSetter
             
             Thread.CurrentThread.CurrentUICulture = culture;
         }
-
-        Log.Debug(CultureInfo.CurrentUICulture.ToString());
+        
+        var newLanguage = CultureInfo.CurrentUICulture.ToString();
+        
+        if (newLanguage == language)
+        {
+            return;
+        }
+        
+        Log.Information("Language changed from {OldLanguage} to {NewLanguage}", language, newLanguage);
+        _appConfig.Model.Language = newLanguage;
+        _appConfig.Save();
     }
 }
