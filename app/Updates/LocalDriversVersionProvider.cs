@@ -6,7 +6,7 @@ public class LocalDriversVersionProvider : ILocalDriversVersionProvider
 {
     private readonly Dictionary<string, string> _data;
 
-    private LocalDriversVersionProvider()
+    public LocalDriversVersionProvider()
     {
         _data = new Dictionary<string, string>();
     }

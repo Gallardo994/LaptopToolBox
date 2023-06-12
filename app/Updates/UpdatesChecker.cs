@@ -76,10 +76,17 @@ public class UpdatesChecker : IUpdatesChecker
             return updates;
         }
 
+        var repeatingTitles = new HashSet<string>();
+
         foreach (var group in data.Result.Obj)
         {
             foreach (var file in group.Files)
             {
+                if (!repeatingTitles.Add(file.Title))
+                {
+                    continue;
+                }
+                
                 var newer = int.TryParse(file.Version, out var intVersion) && intVersion > _modelInfoProvider.GetNumericBiosVersion();
 
                 var biosUpdate = new BiosUpdate
@@ -111,23 +118,33 @@ public class UpdatesChecker : IUpdatesChecker
             return updates;
         }
         
+        var repeatingTitles = new HashSet<string>();
+        
         foreach (var group in data.Result.Obj)
         {
             foreach (var file in group.Files)
             {
+                if (!repeatingTitles.Add(file.Title))
+                {
+                    continue;
+                }
+                
                 var isNewer = false;
 
                 foreach (var hardwareInfo in file.HardwareInfoList)
                 {
-                    var localVersion = _localDriversVersionProvider.GetLocalVersion(hardwareInfo.HardwareId);
+                    var localVersionString = _localDriversVersionProvider.GetLocalVersion(hardwareInfo.HardwareId);
                     
-                    if (localVersion == null)
+                    if (localVersionString == null)
                     {
                         continue;
                     }
-                    
-                    isNewer = new Version(file.Version).CompareTo(new Version(localVersion)) > 0;
 
+                    if (TryParseVersion(file.Version, out var remoteVersion) && TryParseVersion(localVersionString, out var localVersion))
+                    {
+                        isNewer = remoteVersion.CompareTo(localVersion) > 0;
+                    }
+                    
                     if (isNewer)
                     {
                         break;
@@ -153,12 +170,6 @@ public class UpdatesChecker : IUpdatesChecker
     {
         var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-        request.Headers.AcceptEncoding.ParseAdd("gzip");
-        request.Headers.AcceptEncoding.ParseAdd("deflate");
-        request.Headers.AcceptEncoding.ParseAdd("br");
-
-        request.Headers.UserAgent.ParseAdd("C# App");
-
         var attempt = 0;
             
         while (attempt < 3)
@@ -180,5 +191,33 @@ public class UpdatesChecker : IUpdatesChecker
         }
 
         return null;
+    }
+
+    private bool TryParseVersion(string versionString, out Version version)
+    {
+        if (string.IsNullOrEmpty(versionString))
+        {
+            version = null;
+            return false;
+        }
+        
+        if (versionString.StartsWith("V"))
+        {
+            versionString = versionString.Substring(1);
+        }
+
+        if (versionString.Contains("."))
+        {
+            return Version.TryParse(versionString, out version);
+        }
+
+        if (int.TryParse(versionString, out var intVersion))
+        {
+            version = new Version(intVersion, 0);
+            return true;
+        }
+
+        version = null;
+        return false;
     }
 }
