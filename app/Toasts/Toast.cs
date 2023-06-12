@@ -5,16 +5,15 @@ namespace GHelper.Toasts;
 public class Toast : IToast
 {
     private readonly IToastIconResolver _iconResolver;
-    private readonly NativeWindow _toastWindow;
+    private readonly IToastNativeWindow _toastWindow;
 
     [Inject]
-    public Toast(IToastIconResolver iconResolver)
+    public Toast(IToastIconResolver iconResolver, IToastNativeWindow toastWindow)
     {
         _iconResolver = iconResolver;
         
-        _toastWindow = new NativeWindow();
-        
         // TODO
+        _toastWindow = toastWindow;
         _toastWindow.CreateHandle(new CreateParams());
     }
 
