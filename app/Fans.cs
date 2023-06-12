@@ -188,7 +188,7 @@ namespace GHelper
             Modes.Remove(mode);
             FillModes();
 
-            Program.settingsForm.SetPerformanceMode(AsusACPI.PerformanceBalanced);
+            Program._settingsForm.SetPerformanceMode(AsusACPI.PerformanceBalanced);
 
         }
 
@@ -204,7 +204,7 @@ namespace GHelper
         {
             int mode = Modes.Add();
             FillModes();
-            Program.settingsForm.SetPerformanceMode(mode);
+            Program._settingsForm.SetPerformanceMode(mode);
         }
 
         public void InitMode()
@@ -223,13 +223,13 @@ namespace GHelper
 
             Debug.WriteLine(selectedMode);
 
-            Program.settingsForm.SetPerformanceMode((int)selectedMode);
+            Program._settingsForm.SetPerformanceMode((int)selectedMode);
         }
 
         private void TrackGPU_MouseUp(object? sender, MouseEventArgs e)
         {
-            Program.settingsForm.SetGPUPower();
-            Program.settingsForm.SetGPUClocks(true);
+            Program._settingsForm.SetGPUPower();
+            Program._settingsForm.SetGPUClocks(true);
         }
 
         public void InitGPU(bool readClocks = false)
@@ -397,18 +397,18 @@ namespace GHelper
         {
             panelSliders.Visible = gpuVisible || powerVisible;
 
-            if (Height > Program.settingsForm.Height)
+            if (Height > Program._settingsForm.Height)
             {
-                Top = Program.settingsForm.Top + Program.settingsForm.Height - Height;
+                Top = Program._settingsForm.Top + Program._settingsForm.Height - Height;
             }
             else
             {
-                Size = MinimumSize = new Size(0, Program.settingsForm.Height);
-                Height = Program.settingsForm.Height;
-                Top = Program.settingsForm.Top;
+                Size = MinimumSize = new Size(0, Program._settingsForm.Height);
+                Height = Program._settingsForm.Height;
+                Top = Program._settingsForm.Top;
             }
 
-            Left = Program.settingsForm.Left - Width - 5;
+            Left = Program._settingsForm.Left - Width - 5;
         }
 
         private void Fans_Shown(object? sender, EventArgs e)
@@ -419,7 +419,7 @@ namespace GHelper
 
         private void TrackPower_MouseUp(object? sender, MouseEventArgs e)
         {
-            Program.settingsForm.AutoPower();
+            Program._settingsForm.AutoPower();
         }
 
 
@@ -445,7 +445,7 @@ namespace GHelper
             CheckBox chk = (CheckBox)sender;
 
             AppConfig.SetMode("auto_apply_power", chk.Checked ? 1 : 0);
-            Program.settingsForm.SetPerformanceMode();
+            Program._settingsForm.SetPerformanceMode();
 
         }
 
@@ -455,7 +455,7 @@ namespace GHelper
             CheckBox chk = (CheckBox)sender;
 
             AppConfig.SetMode("auto_apply", chk.Checked ? 1 : 0);
-            Program.settingsForm.SetPerformanceMode();
+            Program._settingsForm.SetPerformanceMode();
 
         }
 
@@ -703,8 +703,8 @@ namespace GHelper
                 AppConfig.SetMode("gpu_memory", trackGPUMemory.Value);
 
                 VisualiseGPUSettings();
-                Program.settingsForm.SetGPUClocks(true);
-                Program.settingsForm.SetGPUPower();
+                Program._settingsForm.SetGPUClocks(true);
+                Program._settingsForm.SetGPUPower();
             }
 
         }
@@ -725,7 +725,7 @@ namespace GHelper
             if (AppConfig.Is("xgm_fan"))
                 SaveProfile(seriesXGM, AsusFan.XGM);
 
-            Program.settingsForm.AutoFans();
+            Program._settingsForm.AutoFans();
 
 
         }

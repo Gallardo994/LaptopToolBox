@@ -37,7 +37,7 @@ public class TrayProvider : ITrayProvider
     
     private void MouseMoveHandler(object? sender, MouseEventArgs e)
     {
-        Program.settingsForm.RefreshSensors();
+        Program._settingsForm.RefreshSensors();
     }
     
     public void SetVisible(bool visible)

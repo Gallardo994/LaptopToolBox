@@ -488,7 +488,7 @@ public partial class SettingsForm : RForm
 
     private static void OnTimedEvent(Object? source, ElapsedEventArgs? e)
     {
-        Program.settingsForm.RefreshSensors();
+        Program._settingsForm.RefreshSensors();
     }
 
     private void Button120Hz_MouseHover(object? sender, EventArgs e)
@@ -991,7 +991,7 @@ public partial class SettingsForm : RForm
         }
 
 
-        Program.settingsForm.BeginInvoke(delegate
+        Program._settingsForm.BeginInvoke(delegate
         {
             labelCPUFan.Text = "CPU" + cpuTemp + " " + HardwareControl.cpuFan;
             labelGPUFan.Text = "GPU" + gpuTemp + " " + HardwareControl.gpuFan;
@@ -1071,7 +1071,7 @@ public partial class SettingsForm : RForm
         }
 
 
-        Program.settingsForm.BeginInvoke(SetPerformanceLabel);
+        Program._settingsForm.BeginInvoke(SetPerformanceLabel);
 
     }
 
@@ -1187,7 +1187,7 @@ public partial class SettingsForm : RForm
 
         }
 
-        Program.settingsForm.BeginInvoke(SetPerformanceLabel);
+        Program._settingsForm.BeginInvoke(SetPerformanceLabel);
 
     }
 
@@ -1585,7 +1585,7 @@ public partial class SettingsForm : RForm
 
         Task.Run(async () =>
         {
-            Program.settingsForm.BeginInvoke(delegate
+            Program._settingsForm.BeginInvoke(delegate
             {
                 labelTipGPU.Text = "Restarting GPU ...";
                 ButtonEnabled(buttonOptimized, false);
@@ -1597,7 +1597,7 @@ public partial class SettingsForm : RForm
             var nvControl = (NvidiaGpuControl)HardwareControl.GpuControl;
             bool status = nvControl.RestartGPU();
 
-            Program.settingsForm.BeginInvoke(delegate
+            Program._settingsForm.BeginInvoke(delegate
             {
                 labelTipGPU.Text = status ? "GPU Restarted, you can try Eco mode again" : "Failed to restart GPU";
                 InitGPUMode();
@@ -1632,7 +1632,7 @@ public partial class SettingsForm : RForm
             if (status == 0 && eco == 1 && hardWay) RestartGPU();
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
-            Program.settingsForm.BeginInvoke(delegate
+            Program._settingsForm.BeginInvoke(delegate
             {
                 InitGPUMode();
                 AutoScreen();

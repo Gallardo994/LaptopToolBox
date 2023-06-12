@@ -95,9 +95,9 @@ namespace GHelper.Updates
 
         private void Updates_Shown(object? sender, EventArgs e)
         {
-            Height = Program.settingsForm.Height;
-            Top = Program.settingsForm.Top;
-            Left = Program.settingsForm.Left - Width - 5;
+            Height = Program._settingsForm.Height;
+            Top = Program._settingsForm.Top;
+            Left = Program._settingsForm.Left - Width - 5;
         }
 
         private async Task RefreshDriversAsync(ModelInfo modelInfo, TableLayoutPanel table)

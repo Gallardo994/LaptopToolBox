@@ -204,12 +204,12 @@ namespace GHelper.Inputs
                         break;
                     case Keys.F7:
                         if (AppConfig.ContainsModel("TUF"))
-                            Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, ScreenBrightness.Adjust(-10) + "%", ToastIcon.BrightnessDown);
+                            Program._settingsForm.BeginInvoke(Program._settingsForm.RunToast, ScreenBrightness.Adjust(-10) + "%", ToastIcon.BrightnessDown);
                         HandleEvent(16);
                         break;
                     case Keys.F8:
                         if (AppConfig.ContainsModel("TUF")) 
-                            Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, ScreenBrightness.Adjust(+10) + "%", ToastIcon.BrightnessUp);
+                            Program._settingsForm.BeginInvoke(Program._settingsForm.RunToast, ScreenBrightness.Adjust(+10) + "%", ToastIcon.BrightnessUp);
                         HandleEvent(32);
                         break;
                     case Keys.F9:
@@ -237,7 +237,7 @@ namespace GHelper.Inputs
 
             if (e.Modifier == (ModifierKeys.Control | ModifierKeys.Shift))
             {
-                if (e.Key == keyProfile) Program.settingsForm.CyclePerformanceMode();
+                if (e.Key == keyProfile) Program._settingsForm.CyclePerformanceMode();
                 if (e.Key == keyApp) Program.SettingsToggle();
             }
 
@@ -276,19 +276,19 @@ namespace GHelper.Inputs
                     break;
                 case "screen":
                     Log.Debug("Screen off toggle");
-                    NativeMethods.TurnOffScreen(Program.settingsForm.Handle);
+                    NativeMethods.TurnOffScreen(Program._settingsForm.Handle);
                     break;
                 case "miniled":
-                    Program.settingsForm.BeginInvoke(Program.settingsForm.ToogleMiniled);
+                    Program._settingsForm.BeginInvoke(Program._settingsForm.ToogleMiniled);
                     break;
                 case "aura":
-                    Program.settingsForm.BeginInvoke(Program.settingsForm.CycleAuraMode);
+                    Program._settingsForm.BeginInvoke(Program._settingsForm.CycleAuraMode);
                     break;
                 case "performance":
-                    Program.settingsForm.BeginInvoke(Program.settingsForm.CyclePerformanceMode);
+                    Program._settingsForm.BeginInvoke(Program._settingsForm.CyclePerformanceMode);
                     break;
                 case "ghelper":
-                    Program.settingsForm.BeginInvoke(delegate
+                    Program._settingsForm.BeginInvoke(delegate
                     {
                         Program.SettingsToggle();
                     });
@@ -302,7 +302,7 @@ namespace GHelper.Inputs
                         var commDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
                         bool muteStatus = !commDevice.AudioEndpointVolume.Mute;
                         commDevice.AudioEndpointVolume.Mute = muteStatus;
-                        Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, muteStatus ? "Muted" : "Unmuted", muteStatus ? ToastIcon.MicrophoneMute : ToastIcon.Microphone);
+                        Program._settingsForm.BeginInvoke(Program._settingsForm.RunToast, muteStatus ? "Muted" : "Unmuted", muteStatus ? ToastIcon.MicrophoneMute : ToastIcon.Microphone);
                     }
                     break;
                 case "brightness_up":
@@ -336,9 +336,9 @@ namespace GHelper.Inputs
             if (AppConfig.ContainsModel("VivoBook"))
                 Program.acpi.DeviceSet(AsusACPI.FnLock, (fnLock == 1) ? 0 : 1, "FnLock");
             else
-                Program.settingsForm.BeginInvoke(Program._inputDispatcher.RegisterKeys);
+                Program._settingsForm.BeginInvoke(Program._inputDispatcher.RegisterKeys);
 
-            Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, "Fn-Lock "+(fnLock==1?"On":"Off"), ToastIcon.FnLock);
+            Program._settingsForm.BeginInvoke(Program._settingsForm.RunToast, "Fn-Lock "+(fnLock==1?"On":"Off"), ToastIcon.FnLock);
         }
 
         public static void TabletMode()
@@ -363,7 +363,7 @@ namespace GHelper.Inputs
                     KeyProcess("m4");
                     return;
                 case 174:   // FN+F5
-                    Program.settingsForm.BeginInvoke(Program.settingsForm.CyclePerformanceMode);
+                    Program._settingsForm.BeginInvoke(Program._settingsForm.CyclePerformanceMode);
                     return;
                 case 179:   // FN+F4
                 case 178:   // FN+F4
@@ -388,7 +388,7 @@ namespace GHelper.Inputs
                     SetBacklight(4);
                     return;
                 case 53:    // FN+F6 on GA-502DU model
-                    NativeMethods.TurnOffScreen(Program.settingsForm.Handle);
+                    NativeMethods.TurnOffScreen(Program._settingsForm.Handle);
                     return;
             }
 
@@ -407,7 +407,7 @@ namespace GHelper.Inputs
                 case 107: // FN+F10
                     bool touchpadState = GetTouchpadState();
                     AsusUSB.TouchpadToggle();
-                    Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, touchpadState ? "Off" : "On", ToastIcon.Touchpad);
+                    Program._settingsForm.BeginInvoke(Program._settingsForm.RunToast, touchpadState ? "Off" : "On", ToastIcon.Touchpad);
                     break;
                 case 108: // FN+F11
                     Program.acpi.DeviceSet(AsusACPI.UniversalControl, AsusACPI.KB_Sleep, "Sleep");
@@ -467,7 +467,7 @@ namespace GHelper.Inputs
             {
                 AsusUSB.ApplyBrightness(backlight, "HotKey");
                 string[] backlightNames = new string[] { "Off", "Low", "Mid", "Max" };
-                Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, backlightNames[backlight], delta > 0 ? ToastIcon.BacklightUp : ToastIcon.BacklightDown);
+                Program._settingsForm.BeginInvoke(Program._settingsForm.RunToast, backlightNames[backlight], delta > 0 ? ToastIcon.BacklightUp : ToastIcon.BacklightDown);
             }
 
         }

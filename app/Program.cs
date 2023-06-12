@@ -16,7 +16,7 @@ namespace GHelper
     {
         public static AsusACPI? acpi;
 
-        public static SettingsForm settingsForm;
+        public static SettingsForm _settingsForm; // TODO: Inject only
 
         public static IntPtr unRegPowerNotify;
 
@@ -27,7 +27,7 @@ namespace GHelper
 
         private static PowerLineStatus isPlugged = SystemInformation.PowerStatus.PowerLineStatus;
         
-        public static ITrayProvider _trayProvider;
+        public static ITrayProvider _trayProvider; // TODO: Inject only
 
         // The main entry point for the application
         public static void Main(string[] args)
@@ -49,7 +49,7 @@ namespace GHelper
                 
                 
                 _trayProvider = kernel.Get<ITrayProvider>();
-                settingsForm = kernel.Get<SettingsForm>();
+                _settingsForm = kernel.Get<SettingsForm>();
                 
                 string action = "";
                 if (args.Length > 0) action = args[0];
@@ -92,13 +92,13 @@ namespace GHelper
 
                 HardwareControl.RecreateGpuControl();
 
-                var ds = settingsForm.Handle;
+                var ds = _settingsForm.Handle;
                 
                 _inputDispatcher = kernel.Get<IInputDispatcher>();
 
-                settingsForm.InitAura();
-                settingsForm.InitMatrix();
-                settingsForm.SetStartupCheck(Startup.IsScheduled());
+                _settingsForm.InitAura();
+                _settingsForm.InitMatrix();
+                _settingsForm.SetStartupCheck(Startup.IsScheduled());
 
 
                 SetAutoModes();
@@ -135,21 +135,21 @@ namespace GHelper
             switch (e.Category)
             {
                 case UserPreferenceCategory.General:
-                    bool changed = settingsForm.InitTheme();
+                    bool changed = _settingsForm.InitTheme();
                     if (changed)
                     {
                         Debug.WriteLine("Theme Changed");
                         lastTheme = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     }
 
-                    if (settingsForm.fans is not null && settingsForm.fans.Text != "")
-                        settingsForm.fans.InitTheme();
+                    if (_settingsForm.fans is not null && _settingsForm.fans.Text != "")
+                        _settingsForm.fans.InitTheme();
 
-                    if (settingsForm.keyb is not null && settingsForm.keyb.Text != "")
-                        settingsForm.keyb.InitTheme();
+                    if (_settingsForm.keyb is not null && _settingsForm.keyb.Text != "")
+                        _settingsForm.keyb.InitTheme();
 
-                    if (settingsForm.updates is not null && settingsForm.updates.Text != "")
-                        settingsForm.updates.InitTheme();
+                    if (_settingsForm.updates is not null && _settingsForm.updates.Text != "")
+                        _settingsForm.updates.InitTheme();
 
                     break;
             }
@@ -168,19 +168,19 @@ namespace GHelper
 
             _inputDispatcher.Init();
 
-            settingsForm.SetBatteryChargeLimit(AppConfig.Get("charge_limit"));
-            settingsForm.AutoPerformance(powerChanged);
+            _settingsForm.SetBatteryChargeLimit(AppConfig.Get("charge_limit"));
+            _settingsForm.AutoPerformance(powerChanged);
 
-            bool switched = settingsForm.AutoGPUMode();
+            bool switched = _settingsForm.AutoGPUMode();
 
             if (!switched)
             {
-                settingsForm.InitGPUMode();
-                settingsForm.AutoScreen();
+                _settingsForm.InitGPUMode();
+                _settingsForm.AutoScreen();
             }
 
-            settingsForm.AutoKeyboard();
-            settingsForm.matrix.SetMatrix();
+            _settingsForm.AutoKeyboard();
+            _settingsForm.matrix.SetMatrix();
         }
 
         private static void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -194,26 +194,26 @@ namespace GHelper
 
         public static void SettingsToggle(string action = "")
         {
-            if (settingsForm.Visible) settingsForm.HideAll();
+            if (_settingsForm.Visible) _settingsForm.HideAll();
             else
             {
-                settingsForm.Show();
-                settingsForm.Activate();
-                settingsForm.VisualiseGPUMode();
+                _settingsForm.Show();
+                _settingsForm.Activate();
+                _settingsForm.VisualiseGPUMode();
 
                 switch (action)
                 {
                     case "gpu":
                         Startup.ReScheduleAdmin();
-                        settingsForm.FansToggle();
+                        _settingsForm.FansToggle();
                         break;
                     case "gpurestart":
-                        settingsForm.RestartGPU(false);
+                        _settingsForm.RestartGPU(false);
                         break;
                     case "services":
-                        settingsForm.keyb = new Extra();
-                        settingsForm.keyb.Show();
-                        settingsForm.keyb.ServiesToggle();
+                        _settingsForm.keyb = new Extra();
+                        _settingsForm.keyb.Show();
+                        _settingsForm.keyb.ServiesToggle();
                         break;
                 }
             }

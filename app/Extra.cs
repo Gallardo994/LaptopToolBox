@@ -371,14 +371,14 @@ namespace GHelper
         private void CheckNoOverdrive_CheckedChanged(object? sender, EventArgs e)
         {
             AppConfig.Set("no_overdrive", (checkNoOverdrive.Checked ? 1 : 0));
-            Program.settingsForm.AutoScreen(true);
+            Program._settingsForm.AutoScreen(true);
         }
 
 
         private void CheckTopmost_CheckedChanged(object? sender, EventArgs e)
         {
             AppConfig.Set("topmost_disabled", (checkTopmost.Checked ? 0 : 1));
-            Program.settingsForm.TopMost = checkTopmost.Checked;
+            Program._settingsForm.TopMost = checkTopmost.Checked;
         }
 
         private void CheckPower_CheckedChanged(object? sender, EventArgs e)
@@ -432,22 +432,22 @@ namespace GHelper
         private void ComboKeyboardSpeed_SelectedValueChanged(object? sender, EventArgs e)
         {
             AppConfig.Set("aura_speed", (int)comboKeyboardSpeed.SelectedValue);
-            Program.settingsForm.SetAura();
+            Program._settingsForm.SetAura();
         }
 
 
         private void Keyboard_Shown(object? sender, EventArgs e)
         {
-            if (Height > Program.settingsForm.Height)
+            if (Height > Program._settingsForm.Height)
             {
-                Top = Program.settingsForm.Top + Program.settingsForm.Height - Height;
+                Top = Program._settingsForm.Top + Program._settingsForm.Height - Height;
             }
             else
             {
-                Top = Program.settingsForm.Top;
+                Top = Program._settingsForm.Top;
             }
 
-            Left = Program.settingsForm.Left - Width - 5;
+            Left = Program._settingsForm.Left - Width - 5;
         }
 
         private void checkAutoApplyWindowsPowerMode_CheckedChanged(object? sender, EventArgs e)
