@@ -6,6 +6,9 @@ Same G-Helper but:
 - Always-on-top by default
 - Refresh support in Drivers & BIOS update
 - Animated toasts
+- Windows 10+ support only
+- Notifications support (currently unused)
+- Fixed UI lag on startup mode change
 - More localizations
 - Improved codebase
 
