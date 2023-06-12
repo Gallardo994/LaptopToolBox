@@ -7,7 +7,7 @@ public class Toast : IToast
         
     }
     
-    public void Show()
+    public void Show(string text, ToastIconType iconType)
     {
         
     }
