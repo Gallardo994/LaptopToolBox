@@ -7,7 +7,7 @@ public class NotificationEmitter : INotificationEmitter
 {
     public void EmitSimple(string message)
     {
-        Log.Debug("Emitting notification: {Message}", message);
+        Log.Debug("Emitting simple notification: {Message}", message);
         
         var toastBuilder = new ToastContentBuilder()
             .AddText(message);
