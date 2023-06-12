@@ -10,6 +10,7 @@ public class UpdatesChecker : IUpdatesChecker
     private readonly IUpdatesUrlProvider _updatesUrlProvider;
     private readonly IModelInfoProvider _modelInfoProvider;
     private readonly ILocalDriversVersionProvider _localDriversVersionProvider;
+    private readonly IIgnoredUpdatesProvider _ignoredUpdatesProvider;
     private readonly HttpClient _httpClient;
 
     public bool IsCheckingForUpdates { get; private set; }
@@ -21,11 +22,13 @@ public class UpdatesChecker : IUpdatesChecker
     public UpdatesChecker(IUpdatesUrlProvider updatesUrlProvider,
         IModelInfoProvider modelInfoProvider,
         ILocalDriversVersionProvider localDriversVersionProvider,
+        IIgnoredUpdatesProvider ignoredUpdatesProvider,
         HttpClient httpClient)
     {
         _updatesUrlProvider = updatesUrlProvider;
         _modelInfoProvider = modelInfoProvider;
         _localDriversVersionProvider = localDriversVersionProvider;
+        _ignoredUpdatesProvider = ignoredUpdatesProvider;
         _httpClient = httpClient;
 
         AllUpdates = new List<IUpdate>();
@@ -59,6 +62,11 @@ public class UpdatesChecker : IUpdatesChecker
             IsCheckingForUpdates = false;
             
             Log.Debug("Checked for updates, total: {Total}, pending: {Pending}", AllUpdates.Count, PendingUpdatesCount);
+            
+            foreach (var update in AllUpdates)
+            {
+                Log.Debug("Update: {Name} ({Version}), IsNewer={IsNewerThanCurrent}", update.Name, update.Version, update.IsNewerThanCurrent);
+            }
         }).Forget();
 
         return true;
@@ -86,8 +94,10 @@ public class UpdatesChecker : IUpdatesChecker
                 {
                     continue;
                 }
-                
+
                 var newer = int.TryParse(file.Version, out var intVersion) && intVersion > _modelInfoProvider.GetNumericBiosVersion();
+                
+                file.Version = ReplaceMsStoreStringIfRequired(file.Version);
 
                 var biosUpdate = new BiosUpdate
                 {
@@ -96,6 +106,11 @@ public class UpdatesChecker : IUpdatesChecker
                     DownloadUrl = file.DownloadUrl.Global,
                     IsNewerThanCurrent = newer,
                 };
+                
+                if (_ignoredUpdatesProvider.IsIgnored(biosUpdate))
+                {
+                    continue;
+                }
 
                 updates.Add(biosUpdate);
             }
@@ -150,6 +165,8 @@ public class UpdatesChecker : IUpdatesChecker
                         break;
                     }
                 }
+
+                file.Version = ReplaceMsStoreStringIfRequired(file.Version);
                 
                 var driverUpdate = new DriverUpdate
                 {
@@ -158,12 +175,22 @@ public class UpdatesChecker : IUpdatesChecker
                     DownloadUrl = file.DownloadUrl.Global,
                     IsNewerThanCurrent = isNewer,
                 };
+                
+                if (_ignoredUpdatesProvider.IsIgnored(driverUpdate))
+                {
+                    continue;
+                }
 
                 updates.Add(driverUpdate);
             }
         }
 
         return updates;
+    }
+
+    private string ReplaceMsStoreStringIfRequired(string inString)
+    {
+        return inString.Contains("MS store") ? "Microsoft Store" : inString;
     }
 
     private async Task<T?> PerformRequest<T>(string url) where T : class
