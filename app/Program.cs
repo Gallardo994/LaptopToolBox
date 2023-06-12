@@ -58,17 +58,10 @@ namespace GHelper
                 _powerlineStatusProvider = kernel.Get<IPowerlineStatusProvider>();
 
                 var core = kernel.Get<ICoreRunner>();
-                core.Run(args);
-
-                var acpiChecker = kernel.Get<IAsusAcpiErrorProvider>();
-
-                if (!acpiChecker.InvokeCheckAndNotify())
+                if (!core.Run(args))
                 {
                     return;
                 }
-                
-                var acpiProvider = kernel.Get<IAsusAcpiProvider>();
-                acpiProvider.TryGet(out acpi);
 
                 Log.Debug("------------");
                 Log.Debug("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
