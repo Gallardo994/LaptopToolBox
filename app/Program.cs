@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using GHelper.Modules;
+using GHelper.Powerline;
 using GHelper.Settings;
 using GHelper.Tray;
 using Ninject;
@@ -25,7 +26,7 @@ namespace GHelper
 
         public static IInputDispatcher _inputDispatcher;
 
-        private static PowerLineStatus isPlugged = SystemInformation.PowerStatus.PowerLineStatus;
+        private static IPowerlineStatusProvider _powerlineStatusProvider; // TODO: Inject only
         
         public static ITrayProvider _trayProvider; // TODO: Inject only
 
@@ -50,7 +51,8 @@ namespace GHelper
                 
                 _trayProvider = kernel.Get<ITrayProvider>();
                 _settingsForm = kernel.Get<SettingsForm>();
-                
+                _powerlineStatusProvider = kernel.Get<IPowerlineStatusProvider>();
+
                 string action = "";
                 if (args.Length > 0) action = args[0];
 
@@ -104,7 +106,7 @@ namespace GHelper
                 SetAutoModes();
 
                 // Subscribing for system power change events
-                SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+                _powerlineStatusProvider.PowerlineStatusChanged += SystemEvents_PowerModeChanged;
                 SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
                 // Subscribing for monitor power on events
@@ -163,8 +165,7 @@ namespace GHelper
             if (Math.Abs(DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastAuto) < 3000) return;
             lastAuto = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-            isPlugged = SystemInformation.PowerStatus.PowerLineStatus;
-            Log.Debug("AutoSetting for " + isPlugged.ToString());
+            Log.Debug("AutoSetting for " + _powerlineStatusProvider.IsPlugged);
 
             _inputDispatcher.Init();
 
@@ -183,14 +184,11 @@ namespace GHelper
             _settingsForm.matrix.SetMatrix();
         }
 
-        private static void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        private static void SystemEvents_PowerModeChanged(PowerLineStatus status)
         {
-            if (SystemInformation.PowerStatus.PowerLineStatus == isPlugged) return;
             Log.Debug("Power Mode Changed");
             SetAutoModes(true);
         }
-
-
 
         public static void SettingsToggle(string action = "")
         {
