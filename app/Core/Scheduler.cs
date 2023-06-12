@@ -1,5 +1,6 @@
 using GHelper.Commands;
 using GHelper.Core.Commands;
+using GHelper.ProcessHelpers;
 using Microsoft.Win32.TaskScheduler;
 using Ninject;
 
@@ -10,11 +11,13 @@ public class Scheduler : IScheduler
     private const string TaskName = "GHelper";
     
     private readonly ICommandLoop _commandLoop;
+    private readonly IAdministratorHelper _administratorHelper;
     
     [Inject]
-    public Scheduler(ICommandLoop commandLoop)
+    public Scheduler(ICommandLoop commandLoop, IAdministratorHelper administratorHelper)
     {
         _commandLoop = commandLoop;
+        _administratorHelper = administratorHelper;
     }
 
     public bool IsScheduled()
@@ -45,11 +48,11 @@ public class Scheduler : IScheduler
     
     public void Schedule()
     {
-        _commandLoop.Add(new ScheduleCommand(TaskName));
+        _commandLoop.Add(new ScheduleCommand(TaskName, _administratorHelper));
     }
 
     public void UnSchedule()
     {
-        _commandLoop.Add(new UnScheduleCommand(TaskName));
+        _commandLoop.Add(new UnScheduleCommand(TaskName, _administratorHelper));
     }
 }

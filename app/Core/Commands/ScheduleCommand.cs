@@ -1,5 +1,6 @@
 using System.Security.Principal;
 using GHelper.Commands;
+using GHelper.ProcessHelpers;
 using Microsoft.Win32.TaskScheduler;
 
 namespace GHelper.Core.Commands;
@@ -7,12 +8,14 @@ namespace GHelper.Core.Commands;
 public class ScheduleCommand : ICommand
 {
     private readonly string _taskName;
+    private readonly IAdministratorHelper _administratorHelper;
     
-    public ScheduleCommand(string taskName)
+    public ScheduleCommand(string taskName, IAdministratorHelper administratorHelper)
     {
         _taskName = taskName;
+        _administratorHelper = administratorHelper;
     }
-    
+
     public void Execute()
     {
         var strExeFilePath = Application.ExecutablePath;
@@ -39,7 +42,7 @@ public class ScheduleCommand : ICommand
         }
         catch (Exception e)
         {
-            if (ProcessHelper.IsUserAdministrator())
+            if (_administratorHelper.IsUserAdministrator())
             {
                 MessageBox.Show("Can't create a start up task. Try running Task Scheduler by hand and manually deleting GHelper task if it exists there.", "Scheduler Error", MessageBoxButtons.OK);
             }
