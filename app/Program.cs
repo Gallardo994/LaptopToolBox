@@ -2,6 +2,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using GHelper.Core;
 using GHelper.Modules;
 using GHelper.Powerline;
 using GHelper.Settings;
@@ -52,9 +53,17 @@ namespace GHelper
                 _trayProvider = kernel.Get<ITrayProvider>();
                 _settingsForm = kernel.Get<SettingsForm>();
                 _powerlineStatusProvider = kernel.Get<IPowerlineStatusProvider>();
-
+                
                 string action = "";
-                if (args.Length > 0) action = args[0];
+                if (args.Length > 0)
+                {
+                    action = args[0];
+                }
+                
+                var core = kernel.Get<ICoreRunner>();
+                core.Run(args);
+
+                /*
 
                 string language = AppConfig.GetString("language"); // TODO: Move to IAppConfig
 
@@ -68,8 +77,9 @@ namespace GHelper
                 }
 
                 Debug.WriteLine(CultureInfo.CurrentUICulture);
+                */
 
-                ProcessHelper.CheckAlreadyRunning();
+                // ProcessHelper.CheckAlreadyRunning();
 
                 try
                 {
