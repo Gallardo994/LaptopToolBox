@@ -10,7 +10,7 @@ namespace GHelper.Commands
         
         private readonly object _syncRoot;
         
-        private Thread _thread;
+        private readonly Thread _thread;
 
         public CommandLoop()
         {
