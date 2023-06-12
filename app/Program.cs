@@ -2,6 +2,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using GHelper.AsusAcpi;
 using GHelper.Core;
 using GHelper.Modules;
 using GHelper.Powerline;
@@ -53,13 +54,7 @@ namespace GHelper
                 _trayProvider = kernel.Get<ITrayProvider>();
                 _settingsForm = kernel.Get<SettingsForm>();
                 _powerlineStatusProvider = kernel.Get<IPowerlineStatusProvider>();
-                
-                string action = "";
-                if (args.Length > 0)
-                {
-                    action = args[0];
-                }
-                
+
                 var core = kernel.Get<ICoreRunner>();
                 core.Run(args);
 
@@ -81,21 +76,15 @@ namespace GHelper
 
                 // ProcessHelper.CheckAlreadyRunning();
 
-                try
-                {
-                    acpi = new AsusACPI();
-                }
-                catch
-                {
-                    DialogResult dialogResult = MessageBox.Show(Properties.Strings.ACPIError, Properties.Strings.StartupError, MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        Process.Start(new ProcessStartInfo("https://www.asus.com/support/FAQ/1047338/") { UseShellExecute = true });
-                    }
+                var acpiChecker = kernel.Get<IAsusAcpiErrorProvider>();
 
-                    Application.Exit();
+                if (!acpiChecker.InvokeCheckAndNotify())
+                {
                     return;
                 }
+                
+                var acpiProvider = kernel.Get<IAsusAcpiProvider>();
+                acpiProvider.TryGet(out acpi);
 
                 Log.Debug("------------");
                 Log.Debug("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
@@ -124,6 +113,12 @@ namespace GHelper
                 unRegPowerNotify = NativeMethods.RegisterPowerSettingNotification(ds, settingGuid.ConsoleDisplayState, NativeMethods.DEVICE_NOTIFY_WINDOW_HANDLE);
 
 
+                string action = "";
+                if (args.Length > 0)
+                {
+                    action = args[0];
+                }
+                
                 if (Environment.CurrentDirectory.Trim('\\') == Application.StartupPath.Trim('\\') || action.Length > 0)
                 {
                     SettingsToggle(action);
