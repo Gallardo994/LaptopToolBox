@@ -55,6 +55,8 @@ public class UpdatesChecker : IUpdatesChecker
             PendingUpdatesCount = AllUpdates.Count(update => update.IsNewerThanCurrent);
 
             IsCheckingForUpdates = false;
+            
+            Log.Debug("Checked for updates, total: {Total}, pending: {Pending}", AllUpdates.Count, PendingUpdatesCount);
         });
 
         return true;
