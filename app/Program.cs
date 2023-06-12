@@ -65,8 +65,6 @@ namespace GHelper
                 }
 
                 HardwareControl.RecreateGpuControl();
-
-                var ds = _settingsForm.Handle;
                 
                 _inputDispatcher = kernel.Get<IInputDispatcher>();
 
