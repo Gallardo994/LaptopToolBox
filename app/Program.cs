@@ -47,7 +47,7 @@ namespace GHelper
             string action = "";
             if (args.Length > 0) action = args[0];
 
-            string language = AppConfig.GetString("language");
+            string language = AppConfig.GetString("language"); // TODO: Move to IAppConfig
 
             if (language != null && language.Length > 0)
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language);

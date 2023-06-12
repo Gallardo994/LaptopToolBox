@@ -100,8 +100,8 @@ namespace GHelper.Inputs
             if (AppConfig.Get("keybind_profile") != -1) keyProfile = (Keys)AppConfig.Get("keybind_profile");
             if (AppConfig.Get("keybind_app") != -1) keyApp = (Keys)AppConfig.Get("keybind_app");
 
-            string actionM1 = AppConfig.GetString("m1");
-            string actionM2 = AppConfig.GetString("m2");
+            string actionM1 = AppConfig.GetString("m1"); // TODO: Move to IAppConfig
+            string actionM2 = AppConfig.GetString("m2"); // TODO: Move to IAppConfig
 
             if (keyProfile != Keys.None) hook.RegisterHotKey(ModifierKeys.Shift | ModifierKeys.Control, keyProfile);
             if (keyApp != Keys.None) hook.RegisterHotKey(ModifierKeys.Shift | ModifierKeys.Control, keyApp);

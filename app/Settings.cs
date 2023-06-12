@@ -619,8 +619,8 @@ namespace GHelper
 
             if (fileName is not null)
             {
-                AppConfig.Set("matrix_picture", fileName);
-                AppConfig.Set("matrix_running", 2);
+                AppConfig.Set("matrix_picture", fileName); // TODO: Move to IAppConfig
+                AppConfig.Set("matrix_running", 2); // TODO: Move to IAppConfig
 
                 matrix?.SetMatrixPicture(fileName);
                 BeginInvoke(delegate
@@ -634,14 +634,14 @@ namespace GHelper
 
         private void ComboMatrixRunning_SelectedValueChanged(object? sender, EventArgs e)
         {
-            AppConfig.Set("matrix_running", comboMatrixRunning.SelectedIndex);
+            AppConfig.Set("matrix_running", comboMatrixRunning.SelectedIndex); // TODO: Move to IAppConfig
             matrix?.SetMatrix();
         }
 
 
         private void ComboMatrix_SelectedValueChanged(object? sender, EventArgs e)
         {
-            AppConfig.Set("matrix_brightness", comboMatrix.SelectedIndex);
+            AppConfig.Set("matrix_brightness", comboMatrix.SelectedIndex); // TODO: Move to IAppConfig
             matrix?.SetMatrix();
         }
 
@@ -763,8 +763,8 @@ namespace GHelper
                 return;
             }
 
-            int brightness = AppConfig.Get("matrix_brightness");
-            int running = AppConfig.Get("matrix_running");
+            int brightness = AppConfig.Get("matrix_brightness"); // TODO: Move to IAppConfig
+            int running = AppConfig.Get("matrix_running"); // TODO: Move to IAppConfig
 
             comboMatrix.SelectedIndex = (brightness != -1) ? Math.Min(brightness, comboMatrix.Items.Count - 1) : 0;
             comboMatrixRunning.SelectedIndex = (running != -1) ? Math.Min(running, comboMatrixRunning.Items.Count - 1) : 0;

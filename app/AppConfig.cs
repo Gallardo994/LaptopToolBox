@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Management;
 using System.Text.Json;
 
+[Obsolete("Use IAppConfig instead")]
 public static class AppConfig
 {
 

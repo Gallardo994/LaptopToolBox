@@ -43,8 +43,8 @@ namespace GHelper.AnimeMatrix
 
             if (!IsValid) return;
 
-            int brightness = AppConfig.Get("matrix_brightness");
-            int running = AppConfig.Get("matrix_running");
+            int brightness = AppConfig.Get("matrix_brightness"); // TODO: Move to IAppConfig
+            int running = AppConfig.Get("matrix_running"); // TODO: Move to IAppConfig
 
             bool auto = AppConfig.Is("matrix_auto");
 
@@ -76,7 +76,7 @@ namespace GHelper.AnimeMatrix
                 switch (running)
                 {
                     case 2:
-                        SetMatrixPicture(AppConfig.GetString("matrix_picture"));
+                        SetMatrixPicture(AppConfig.GetString("matrix_picture")); // TODO: Move to IAppConfig
                         break;
                     case 3:
                         SetMatrixClock();
@@ -111,7 +111,7 @@ namespace GHelper.AnimeMatrix
         {
             //if (!IsValid) return;
 
-            switch (AppConfig.Get("matrix_running"))
+            switch (AppConfig.Get("matrix_running")) // TODO: Move to IAppConfig
             {
                 case 2:
                     mat.PresentNextFrame();

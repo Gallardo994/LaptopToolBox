@@ -4,6 +4,6 @@ public class AppConfigPathProvider : IAppConfigPathProvider
 {
     public string GetPath()
     {
-        return "Configs\\config.json";
+        return "Configs\\app_config.json";
     }
 }
