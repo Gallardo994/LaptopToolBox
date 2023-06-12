@@ -8,7 +8,6 @@ using GHelper.Modules;
 using GHelper.Powerline;
 using GHelper.PowerNotification;
 using GHelper.Settings;
-using GHelper.Settings.Requests;
 using GHelper.Tray;
 using Ninject;
 using Serilog;
@@ -21,7 +20,7 @@ namespace GHelper
     {
         public static AsusACPI? acpi;
 
-        public static ISettingsOpenFormRequest _settingsOpenFormRequest; // TODO: Inject only
+        public static ISettingsFormController _settingsFormController; // TODO: Inject only
         public static SettingsForm _settingsForm; // TODO: Inject only
 
         public static IPowerNotifier _powerNotifier; // TODO: Inject only
@@ -56,7 +55,7 @@ namespace GHelper
                 
                 _trayProvider = kernel.Get<ITrayProvider>();
                 _settingsForm = kernel.Get<SettingsForm>();
-                _settingsOpenFormRequest = kernel.Get<ISettingsOpenFormRequest>();
+                _settingsFormController = kernel.Get<ISettingsFormController>();
                 _powerlineStatusProvider = kernel.Get<IPowerlineStatusProvider>();
 
                 var core = kernel.Get<ICoreRunner>();
@@ -89,7 +88,7 @@ namespace GHelper
                 
                 if (Environment.CurrentDirectory.Trim('\\') == Application.StartupPath.Trim('\\') || action.Length > 0)
                 {
-                    _settingsOpenFormRequest.Invoke(action);
+                    _settingsFormController.Toggle(action);
                 }
 
                 Application.Run();
