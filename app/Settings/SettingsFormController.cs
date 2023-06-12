@@ -1,15 +1,20 @@
+using GHelper.Settings.Requests;
 using Ninject;
 
 namespace GHelper.Settings;
 
 public class SettingsFormController : ISettingsFormController
 {
-    private SettingsForm _settingsForm;
+    private readonly ISettingsOpenFormRequest _settingsOpenFormRequest;
+    private readonly SettingsForm _settingsForm;
     
     [Inject]
-    public SettingsFormController(SettingsForm settingsForm)
+    public SettingsFormController(ISettingsOpenFormRequest settingsOpenFormRequest, SettingsForm settingsForm)
     {
+        _settingsOpenFormRequest = settingsOpenFormRequest;
         _settingsForm = settingsForm;
+
+        _settingsOpenFormRequest.AddListener(Toggle);
     }
     
     public void Toggle(string action = "")
@@ -40,5 +45,10 @@ public class SettingsFormController : ISettingsFormController
                     break;
             }
         }
+    }
+    
+    public void Dispose()
+    {
+        _settingsOpenFormRequest.RemoveListener(Toggle);
     }
 }

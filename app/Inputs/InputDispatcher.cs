@@ -238,7 +238,7 @@ namespace GHelper.Inputs
             if (e.Modifier == (ModifierKeys.Control | ModifierKeys.Shift))
             {
                 if (e.Key == keyProfile) Program._settingsForm.CyclePerformanceMode();
-                if (e.Key == keyApp) Program._settingsFormController.Toggle();
+                if (e.Key == keyApp) Program._settingsOpenFormRequest.Invoke();
             }
 
 
@@ -290,7 +290,7 @@ namespace GHelper.Inputs
                 case "ghelper":
                     Program._settingsForm.BeginInvoke(delegate
                     {
-                        Program._settingsFormController.Toggle();
+                        Program._settingsOpenFormRequest.Invoke();
                     });
                     break;
                 case "fnlock":
