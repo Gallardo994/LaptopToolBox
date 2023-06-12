@@ -46,18 +46,20 @@ public class UpdatesChecker : IUpdatesChecker
         {
             _localDriversVersionProvider.Refresh();
             
-            var biosUpdates = await GetBiosUpdates();
-            var driverUpdates = await GetDriverUpdates();
+            var biosUpdates = GetBiosUpdates();
+            var driverUpdates = GetDriverUpdates();
+            
+            await Task.WhenAll(biosUpdates, driverUpdates);
 
-            AllUpdates.AddRange(biosUpdates);
-            AllUpdates.AddRange(driverUpdates);
+            AllUpdates.AddRange(biosUpdates.Result);
+            AllUpdates.AddRange(driverUpdates.Result);
 
             PendingUpdatesCount = AllUpdates.Count(update => update.IsNewerThanCurrent);
 
             IsCheckingForUpdates = false;
             
             Log.Debug("Checked for updates, total: {Total}, pending: {Pending}", AllUpdates.Count, PendingUpdatesCount);
-        });
+        }).Forget();
 
         return true;
     }
