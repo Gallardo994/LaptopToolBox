@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace GHelper.Execute;
 
-public class ShellExecuter : IShellExecuter
+public class ShellRunner : IShellRunner
 {
     public void Execute(string command)
     {

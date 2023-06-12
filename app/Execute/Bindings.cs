@@ -6,6 +6,6 @@ public class Bindings : NinjectModule
 {
     public override void Load()
     {
-        Bind<IShellExecuter>().To<ShellExecuter>().InSingletonScope();
+        Bind<IShellRunner>().To<ShellRunner>().InSingletonScope();
     }
 }

@@ -6,12 +6,12 @@ namespace GHelper.AsusAcpi;
 public class AsusAcpiErrorProvider : IAsusAcpiErrorProvider
 {
     private readonly IAsusAcpiProvider _provider;
-    private readonly IShellExecuter _shellExecuter;
+    private readonly IShellRunner _shellRunner;
     
-    public AsusAcpiErrorProvider(IAsusAcpiProvider provider, IShellExecuter shellExecuter)
+    public AsusAcpiErrorProvider(IAsusAcpiProvider provider, IShellRunner shellRunner)
     {
         _provider = provider;
-        _shellExecuter = shellExecuter;
+        _shellRunner = shellRunner;
     }
 
     public bool InvokeCheckAndNotify()
@@ -24,7 +24,7 @@ public class AsusAcpiErrorProvider : IAsusAcpiErrorProvider
         DialogResult dialogResult = MessageBox.Show(Properties.Strings.ACPIError, Properties.Strings.StartupError, MessageBoxButtons.YesNo);
         if (dialogResult == DialogResult.Yes)
         {
-            _shellExecuter.Execute("https://www.asus.com/support/FAQ/1047338/");
+            _shellRunner.Execute("https://www.asus.com/support/FAQ/1047338/");
         }
 
         Application.Exit();
