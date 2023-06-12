@@ -121,7 +121,8 @@ namespace GHelper
                 
                 if (Environment.CurrentDirectory.Trim('\\') == Application.StartupPath.Trim('\\') || action.Length > 0)
                 {
-                    SettingsToggle(action);
+                    var settingsFormController = kernel.Get<ISettingsFormController>();
+                    settingsFormController.Toggle(action);
                 }
 
                 Application.Run();
