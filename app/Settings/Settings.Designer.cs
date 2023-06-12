@@ -1,6 +1,6 @@
 ﻿using CustomControls;
 
-namespace GHelper
+namespace GHelper.Settings
 {
     partial class SettingsForm
     {

@@ -1,16 +1,19 @@
+using GHelper.Settings;
 using Ninject;
-using Serilog;
 
 namespace GHelper.Tray;
 
 public class TrayProvider : ITrayProvider
 {
+    private readonly ISettingsFormController _settingsFormController;
+    
     private readonly NotifyIcon _trayIcon;
     
     [Inject]
-    public TrayProvider()
+    public TrayProvider(ISettingsFormController settingsFormController)
     {
-        Log.Debug("Initializing TrayProvider");
+        _settingsFormController = settingsFormController;
+        
         _trayIcon = new NotifyIcon
         {
             Text = "G-Helper",
@@ -29,8 +32,7 @@ public class TrayProvider : ITrayProvider
             return;
         }
         
-        // TODO: Implement SettingsToggle
-        //SettingsToggle();
+        _settingsFormController.Toggle();
     }
     
     private void MouseMoveHandler(object? sender, MouseEventArgs e)

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using GHelper.Modules;
+using GHelper.Settings;
 using GHelper.Tray;
 using Ninject;
 using Serilog;
@@ -48,7 +49,7 @@ namespace GHelper
                 
                 
                 _trayProvider = kernel.Get<ITrayProvider>();
-                settingsForm = new SettingsForm();
+                settingsForm = kernel.Get<SettingsForm>();
                 
                 string action = "";
                 if (args.Length > 0) action = args[0];
