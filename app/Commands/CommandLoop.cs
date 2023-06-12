@@ -62,7 +62,14 @@ namespace GHelper.Commands
         {
             while (_commands.TryDequeue(out var command))
             {
-                command.Execute();
+                try
+                {
+                    command.Execute();
+                } 
+                catch (Exception e)
+                {
+                    Log.Error(e, "Error executing command");
+                }
             }
         }
 
