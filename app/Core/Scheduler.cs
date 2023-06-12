@@ -20,7 +20,16 @@ public class Scheduler : IScheduler
     public bool IsScheduled()
     {
         var taskService = new TaskService();
-        return taskService.RootFolder.AllTasks.Any(t => t.Name == TaskName);
+        
+        foreach (var task in taskService.RootFolder.Tasks)
+        {
+            if (task.Name == TaskName)
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public void ReScheduleAdmin()
