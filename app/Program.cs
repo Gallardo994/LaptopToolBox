@@ -27,7 +27,7 @@ namespace GHelper
         private static long lastAuto;
         private static long lastTheme;
 
-        public static IInputDispatcher _inputDispatcher;
+        public static IInputDispatcher _inputDispatcher; // TODO: Inject only
 
         private static IPowerlineStatusProvider _powerlineStatusProvider; // TODO: Inject only
         
