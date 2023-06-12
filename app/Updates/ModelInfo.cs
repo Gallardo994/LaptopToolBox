@@ -2,6 +2,7 @@
 
 namespace GHelper.Updates;
 
+[Obsolete]
 public class ModelInfo
 {
     public readonly string? Model;

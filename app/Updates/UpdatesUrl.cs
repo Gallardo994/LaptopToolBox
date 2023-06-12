@@ -1,5 +1,6 @@
 ﻿namespace GHelper.Updates;
 
+[Obsolete]
 public static class UpdatesUrl
 {
     public static string GetDriversUrl(ModelInfo modelInfo)

@@ -2,6 +2,7 @@
 
 namespace GHelper.Updates;
 
+[Obsolete]
 public class DeviceVersions
 {
     private readonly Dictionary<string, string> _data;
