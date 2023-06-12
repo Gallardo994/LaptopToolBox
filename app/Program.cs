@@ -63,8 +63,6 @@ namespace GHelper
                 {
                     return;
                 }
-
-                HardwareControl.RecreateGpuControl();
                 
                 _inputDispatcher = kernel.Get<IInputDispatcher>();
 
