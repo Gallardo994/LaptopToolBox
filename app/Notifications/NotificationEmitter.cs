@@ -5,7 +5,7 @@ namespace GHelper.Notifications;
 
 public class NotificationEmitter : INotificationEmitter
 {
-    public void Emit(string message)
+    public void EmitSimple(string message)
     {
         Log.Debug("Emitting notification: {Message}", message);
         
