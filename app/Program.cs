@@ -68,7 +68,9 @@ namespace GHelper
 
                 _settingsForm.InitAura();
                 _settingsForm.InitMatrix();
-                _settingsForm.SetStartupCheck(Startup.IsScheduled());
+
+                var scheduler = kernel.Get<IScheduler>();
+                _settingsForm.SetStartupCheck(scheduler.IsScheduled());
 
 
                 SetAutoModes();

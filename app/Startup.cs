@@ -7,22 +7,7 @@ public class Startup
 {
 
     static string taskName = "GHelper";
-
-    public static bool IsScheduled()
-    {
-        TaskService taskService = new TaskService();
-        return (taskService.RootFolder.AllTasks.Any(t => t.Name == taskName));
-    }
-
-    public static void ReScheduleAdmin()
-    {
-        if (ProcessHelper.IsUserAdministrator() && IsScheduled())
-        {
-            UnSchedule();
-            Schedule();
-        }
-    }
-
+    
     public static void Schedule()
     {
 
