@@ -20,6 +20,9 @@ public class Toast : IToast
     public void Show(string text, ToastIconType iconType)
     {
         var iconBitmap = _iconResolver.ResolveIcon(iconType);
+        
+        _toastWindow.SetText(text);
+        _toastWindow.SetIcon(iconBitmap);
     }
 
     public void Hide()
