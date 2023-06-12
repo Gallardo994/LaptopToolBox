@@ -5,15 +5,18 @@ using System.Text.Json;
 using System.Timers;
 using CustomControls;
 using GHelper.AnimeMatrix;
+using GHelper.Core;
 using GHelper.Gpu;
 using GHelper.Inputs;
+using Ninject;
 using Serilog;
 
 namespace GHelper.Settings;
 
 public partial class SettingsForm : RForm
 {
-
+    private readonly IScheduler _scheduler;
+    
     private ContextMenuStrip contextMenuStrip = new CustomContextMenu();
     private ToolStripMenuItem menuSilent, menuBalanced, menuTurbo, menuEco, menuStandard, menuUltimate, menuOptimized;
 
@@ -38,9 +41,11 @@ public partial class SettingsForm : RForm
 
     bool isGpuSection = true;
 
-    public SettingsForm()
+    [Inject]
+    public SettingsForm(IScheduler scheduler)
     {
-
+        _scheduler = scheduler;
+        
         InitializeComponent();
         InitTheme(true);
 
@@ -571,11 +576,11 @@ public partial class SettingsForm : RForm
 
         if (chk.Checked)
         {
-            Startup.Schedule();
+            _scheduler.Schedule();
         }
         else
         {
-            Startup.UnSchedule();
+            _scheduler.UnSchedule();
         }
     }
 
