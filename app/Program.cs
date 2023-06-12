@@ -19,6 +19,7 @@ namespace GHelper
     {
         public static AsusACPI? acpi;
 
+        public static ISettingsFormController _settingsFormController; // TODO: Inject only
         public static SettingsForm _settingsForm; // TODO: Inject only
 
         public static IntPtr unRegPowerNotify;
@@ -53,6 +54,7 @@ namespace GHelper
                 
                 _trayProvider = kernel.Get<ITrayProvider>();
                 _settingsForm = kernel.Get<SettingsForm>();
+                _settingsFormController = kernel.Get<ISettingsFormController>();
                 _powerlineStatusProvider = kernel.Get<IPowerlineStatusProvider>();
 
                 var core = kernel.Get<ICoreRunner>();
@@ -121,8 +123,7 @@ namespace GHelper
                 
                 if (Environment.CurrentDirectory.Trim('\\') == Application.StartupPath.Trim('\\') || action.Length > 0)
                 {
-                    var settingsFormController = kernel.Get<ISettingsFormController>();
-                    settingsFormController.Toggle(action);
+                    _settingsFormController.Toggle(action);
                 }
 
                 Application.Run();
@@ -195,44 +196,6 @@ namespace GHelper
             Log.Debug("Power Mode Changed");
             SetAutoModes(true);
         }
-
-        public static void SettingsToggle(string action = "")
-        {
-            if (_settingsForm.Visible) _settingsForm.HideAll();
-            else
-            {
-                _settingsForm.Show();
-                _settingsForm.Activate();
-                _settingsForm.VisualiseGPUMode();
-
-                switch (action)
-                {
-                    case "gpu":
-                        Startup.ReScheduleAdmin();
-                        _settingsForm.FansToggle();
-                        break;
-                    case "gpurestart":
-                        _settingsForm.RestartGPU(false);
-                        break;
-                    case "services":
-                        _settingsForm.keyb = new Extra();
-                        _settingsForm.keyb.Show();
-                        _settingsForm.keyb.ServiesToggle();
-                        break;
-                }
-            }
-        }
-
-        static void TrayIcon_MouseClick(object? sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                SettingsToggle();
-            }
-
-        }
-
-
 
         static void OnExit(object sender, EventArgs e)
         {
