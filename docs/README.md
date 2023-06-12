@@ -22,9 +22,12 @@ Planned:
 - "Max charge" button (MacOS-style) to ignore battery charge limit only once
 - Fix display detection if Mux is switched to dGPU-only
 - Optimize overall code and reduce CPU usage, fix tons of allocations
+- Add tests
 
 Regressions:
 - TODO: Right-clicking tray icon currently has no effect
+
+The code is currently in "transition" state, meaning that most parts still require rework.
 
 ## Why?
 
