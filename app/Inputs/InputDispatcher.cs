@@ -336,7 +336,7 @@ namespace GHelper.Inputs
             if (AppConfig.ContainsModel("VivoBook"))
                 Program.acpi.DeviceSet(AsusACPI.FnLock, (fnLock == 1) ? 0 : 1, "FnLock");
             else
-                Program.settingsForm.BeginInvoke(Program.inputDispatcher.RegisterKeys);
+                Program.settingsForm.BeginInvoke(Program._inputDispatcher.RegisterKeys);
 
             Program.settingsForm.BeginInvoke(Program.settingsForm.RunToast, "Fn-Lock "+(fnLock==1?"On":"Off"), ToastIcon.FnLock);
         }

@@ -165,7 +165,6 @@ namespace GHelper
             buttonUpdates.Click += ButtonUpdates_Click;
 
             sliderBattery.ValueChanged += SliderBattery_ValueChanged;
-            Program.trayIcon.MouseMove += TrayIcon_MouseMove;
 
             aTimer = new System.Timers.Timer(1000);
             aTimer.Elapsed += OnTimedEvent;
@@ -325,9 +324,7 @@ namespace GHelper
                 contextMenuStrip.ForeColor = this.ForeColor;
             }
 
-            Program.trayIcon.ContextMenuStrip = contextMenuStrip;
-
-
+            Program._trayProvider.SetContextMenuStrip(contextMenuStrip);
         }
 
         private void ButtonXGM_Click(object? sender, EventArgs e)
@@ -487,11 +484,6 @@ namespace GHelper
         private void LabelVersion_Click(object? sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo(versionUrl) { UseShellExecute = true });
-        }
-
-        private static void TrayIcon_MouseMove(object? sender, MouseEventArgs e)
-        {
-            Program.settingsForm.RefreshSensors();
         }
 
 
@@ -937,7 +929,7 @@ namespace GHelper
         {
             matrix.Dispose();
             Close();
-            Program.trayIcon.Visible = false;
+            Program._trayProvider.SetVisible(false);
             Application.Exit();
         }
 
@@ -1014,8 +1006,7 @@ namespace GHelper
             if (gpuTemp.Length > 0) trayTip += "\nGPU" + gpuTemp + " " + HardwareControl.gpuFan;
             if (battery.Length > 0) trayTip += "\n" + battery;
 
-            Program.trayIcon.Text = trayTip;
-
+            Program._trayProvider.SetToolTip(trayTip);
         }
 
 
@@ -1743,20 +1734,20 @@ namespace GHelper
                     buttonEco.Activated = !GPUAuto;
                     buttonOptimized.Activated = GPUAuto;
                     labelGPU.Text = Properties.Strings.GPUMode + ": " + Properties.Strings.GPUModeEco;
-                    Program.trayIcon.Icon = Properties.Resources.eco;
+                    Program._trayProvider.SetIcon(Properties.Resources.eco);
                     ButtonEnabled(buttonXGM, false);
                     break;
                 case AsusACPI.GPUModeUltimate:
                     buttonUltimate.Activated = true;
                     labelGPU.Text = Properties.Strings.GPUMode + ": " + Properties.Strings.GPUModeUltimate;
-                    Program.trayIcon.Icon = Properties.Resources.ultimate;
+                    Program._trayProvider.SetIcon(Properties.Resources.ultimate);
                     break;
                 default:
                     buttonOptimized.BorderColor = colorStandard;
                     buttonStandard.Activated = !GPUAuto;
                     buttonOptimized.Activated = GPUAuto;
                     labelGPU.Text = Properties.Strings.GPUMode + ": " + Properties.Strings.GPUModeStandard;
-                    Program.trayIcon.Icon = Properties.Resources.standard;
+                    Program._trayProvider.SetIcon(Properties.Resources.standard);
                     ButtonEnabled(buttonXGM, true);
                     break;
             }

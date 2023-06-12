@@ -68,7 +68,7 @@ namespace GHelper
                     AppConfig.Set(name, combo.SelectedValue.ToString());
 
                 if (name == "m1" || name == "m2")
-                    Program.inputDispatcher.RegisterKeys();
+                    Program._inputDispatcher.RegisterKeys();
 
             };
 
@@ -263,7 +263,7 @@ namespace GHelper
                     {
                         InitServices();
                     });
-                    Program.inputDispatcher.Init();
+                    Program._inputDispatcher.Init();
                 });
             }
             else
@@ -330,7 +330,7 @@ namespace GHelper
             AppConfig.Set("fn_lock", fnLock);
             Program.acpi.DeviceSet(AsusACPI.FnLock, (fnLock == 1) ? 0 : 1, "FnLock");
 
-            Program.inputDispatcher.RegisterKeys();
+            Program._inputDispatcher.RegisterKeys();
         }
 
         private void CheckGpuApps_CheckedChanged(object? sender, EventArgs e)
@@ -342,7 +342,7 @@ namespace GHelper
         {
             AppConfig.Set("keyboard_timeout", (int)numericBacklightTime.Value);
             AppConfig.Set("keyboard_ac_timeout", (int)numericBacklightPluggedTime.Value);
-            Program.inputDispatcher.InitBacklightTimer();
+            Program._inputDispatcher.InitBacklightTimer();
         }
 
         private void CheckXMG_CheckedChanged(object? sender, EventArgs e)
