@@ -27,7 +27,7 @@ public class ScheduleCommand : ICommand
         td.Triggers.Add(new LogonTrigger { UserId = userId });
         td.Actions.Add(strExeFilePath);
 
-        if (ProcessHelper.IsUserAdministrator())
+        if (_administratorHelper.IsUserAdministrator())
         {
             td.Principal.RunLevel = TaskRunLevel.Highest;
         }
