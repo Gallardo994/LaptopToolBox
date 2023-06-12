@@ -95,7 +95,7 @@ public class UpdatesChecker : IUpdatesChecker
                     continue;
                 }
 
-                var newer = int.TryParse(file.Version, out var intVersion) && intVersion > _modelInfoProvider.GetNumericBiosVersion();
+                var newer = int.TryParse(file.Version, out var intVersion) && intVersion > _modelInfoProvider.Bios;
                 
                 file.Version = ReplaceMsStoreStringIfRequired(file.Version);
 

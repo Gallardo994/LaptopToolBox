@@ -5,13 +5,8 @@ namespace GHelper.Updates;
 public class ModelInfoProvider : IModelInfoProvider
 {
     public string Model { get; }
-    public string Bios { get; }
-    
-    public int GetNumericBiosVersion()
-    {
-        return int.TryParse(Bios, out var result) ? result : 0;
-    }
-    
+    public int Bios { get; }
+
     public ModelInfoProvider()
     {
         using var objSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_BIOS");
@@ -29,16 +24,18 @@ public class ModelInfoProvider : IModelInfoProvider
             if (results.Length > 1)
             {
                 Model = results[0];
-                Bios = results[1];
-
+                if (int.TryParse(results[1], out var bios))
+                {
+                    Bios = bios;
+                }
                 return;
             }
 
             Model = results[0];
-            Bios = null;
+            Bios = 0;
         }
         
-        Model = null;
-        Bios = null;
+        Model = string.Empty;
+        Bios = 0;
     }
 }
