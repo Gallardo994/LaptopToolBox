@@ -1,15 +1,18 @@
+using GHelper.Core;
 using Ninject;
 
 namespace GHelper.Settings;
 
 public class SettingsFormController : ISettingsFormController
 {
-    private SettingsForm _settingsForm;
+    private readonly SettingsForm _settingsForm;
+    private readonly IScheduler _scheduler;
     
     [Inject]
-    public SettingsFormController(SettingsForm settingsForm)
+    public SettingsFormController(SettingsForm settingsForm, IScheduler scheduler)
     {
         _settingsForm = settingsForm;
+        _scheduler = scheduler;
     }
     
     public void Toggle(string action = "")
@@ -27,7 +30,7 @@ public class SettingsFormController : ISettingsFormController
             switch (action)
             {
                 case "gpu":
-                    Startup.ReScheduleAdmin();
+                    _scheduler.ReScheduleAdmin();
                     _settingsForm.FansToggle();
                     break;
                 case "gpurestart":
