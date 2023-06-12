@@ -7,11 +7,13 @@ public class LocalAppConfig : IAppConfig
 {
     public AppConfigModel Model { get; private set; }
     
-    private IAppConfigPathProvider pathProvider;
+    private readonly IAppConfigPathProvider _pathProvider;
     
     [Inject]
     public LocalAppConfig(IAppConfigPathProvider pathProvider)
     {
+        _pathProvider = pathProvider;
+        
         var path = pathProvider.GetPath();
         var folder = Path.GetDirectoryName(pathProvider.GetPath());
         
@@ -58,7 +60,7 @@ public class LocalAppConfig : IAppConfig
     
     public void Save()
     {
-        var path = pathProvider.GetPath();
+        var path = _pathProvider.GetPath();
         var folder = Path.GetDirectoryName(path);
         
         if (!Directory.Exists(folder))
