@@ -1,6 +1,9 @@
+using System.Globalization;
+using System.Reflection;
 using GHelper.AsusAcpi;
 using GHelper.Localization;
 using Ninject;
+using Serilog;
 
 namespace GHelper.Core;
 
@@ -30,6 +33,11 @@ public class MainCoreRunner : ICoreRunner
         }
                 
         _asusAcpiProvider.TryGet(out Program.acpi);
+        
+        Log.Debug("------------");
+        Log.Debug("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
+
+        Application.EnableVisualStyles();
 
         return true;
     }

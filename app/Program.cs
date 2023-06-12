@@ -63,11 +63,6 @@ namespace GHelper
                     return;
                 }
 
-                Log.Debug("------------");
-                Log.Debug("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
-
-                Application.EnableVisualStyles();
-
                 HardwareControl.RecreateGpuControl();
 
                 var ds = _settingsForm.Handle;
