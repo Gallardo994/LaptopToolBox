@@ -5,11 +5,17 @@ namespace GHelper.Toasts;
 public class Toast : IToast
 {
     private readonly IToastIconResolver _iconResolver;
-    
+    private NativeWindow _toastWindow;
+
     [Inject]
     public Toast(IToastIconResolver iconResolver)
     {
         _iconResolver = iconResolver;
+        
+        _toastWindow = new NativeWindow();
+        
+        // TODO
+        _toastWindow.CreateHandle(new CreateParams());
     }
 
     public void Show(string text, ToastIconType iconType)
@@ -24,6 +30,6 @@ public class Toast : IToast
 
     public void Dispose()
     {
-        
+        _toastWindow.DestroyHandle();
     }
 }
