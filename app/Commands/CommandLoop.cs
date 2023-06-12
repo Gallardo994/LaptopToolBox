@@ -68,6 +68,11 @@ namespace GHelper.Commands
 
         public void Dispose()
         {
+            lock (_syncRoot)
+            {
+                Monitor.Pulse(_syncRoot);
+            }
+            
             _cancellationTokenSource.Cancel();
             _thread.Join();
 
