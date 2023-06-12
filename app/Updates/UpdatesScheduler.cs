@@ -35,6 +35,12 @@ public class UpdatesScheduler : IUpdatesScheduler
         };
         _timer.Start();
     }
+    
+    public void CheckNow()
+    {
+        Log.Debug("Forcing updates check");
+        _updatesChecker.CheckForUpdates();
+    }
 
     public void Dispose()
     {

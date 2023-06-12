@@ -32,7 +32,7 @@ public partial class SettingsForm : RForm
     public AniMatrix matrix;
     public Fans fans;
     public Extra keyb;
-    public Updates.Updates updates;
+    public Updates.UpdatesWindow UpdatesWindow;
 
     static long lastRefresh;
 
@@ -196,14 +196,15 @@ public partial class SettingsForm : RForm
 
     private void ButtonUpdates_Click(object? sender, EventArgs e)
     {
-        if (updates == null || updates.Text == "")
+        if (UpdatesWindow == null || UpdatesWindow.Text == "")
         {
-            updates = new Updates.Updates();
-            updates.Show();
+            // TODO: Fix
+            //updates = new Updates.Updates();
+            //updates.Show();
         }
         else
         {
-            updates.Close();
+            UpdatesWindow.Close();
         }
     }
 

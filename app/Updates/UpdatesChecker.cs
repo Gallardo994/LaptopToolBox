@@ -16,6 +16,8 @@ public class UpdatesChecker : IUpdatesChecker
     public bool IsCheckingForUpdates { get; private set; }
     public int PendingUpdatesCount { get; private set; }
     public List<IUpdate> AllUpdates { get; private set; }
+    
+    private readonly object _dataLock = new object();
 
 
     [Inject]
@@ -43,8 +45,6 @@ public class UpdatesChecker : IUpdatesChecker
 
         IsCheckingForUpdates = true;
 
-        AllUpdates.Clear();
-
         Task.Run(async () =>
         {
             _localDriversVersionProvider.Refresh();
@@ -54,9 +54,13 @@ public class UpdatesChecker : IUpdatesChecker
             
             await Task.WhenAll(biosUpdates, driverUpdates);
 
-            AllUpdates.AddRange(biosUpdates.Result);
-            AllUpdates.AddRange(driverUpdates.Result);
-
+            lock (_dataLock)
+            {
+                AllUpdates.Clear();
+                AllUpdates.AddRange(biosUpdates.Result);
+                AllUpdates.AddRange(driverUpdates.Result);
+            }
+            
             PendingUpdatesCount = AllUpdates.Count(update => update.IsNewerThanCurrent);
 
             IsCheckingForUpdates = false;
