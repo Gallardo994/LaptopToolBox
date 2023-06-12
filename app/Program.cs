@@ -6,6 +6,7 @@ using GHelper.AsusAcpi;
 using GHelper.Core;
 using GHelper.Modules;
 using GHelper.Powerline;
+using GHelper.PowerNotification;
 using GHelper.Settings;
 using GHelper.Tray;
 using Ninject;
@@ -22,7 +23,7 @@ namespace GHelper
         public static ISettingsFormController _settingsFormController; // TODO: Inject only
         public static SettingsForm _settingsForm; // TODO: Inject only
 
-        public static IntPtr unRegPowerNotify;
+        public static IPowerNotifier _powerNotifier; // TODO: Inject only
 
         private static long lastAuto;
         private static long lastTheme;
@@ -81,9 +82,7 @@ namespace GHelper
                 SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
                 // Subscribing for monitor power on events
-                PowerSettingGuid settingGuid = new NativeMethods.PowerSettingGuid();
-                unRegPowerNotify = NativeMethods.RegisterPowerSettingNotification(ds, settingGuid.ConsoleDisplayState, NativeMethods.DEVICE_NOTIFY_WINDOW_HANDLE);
-
+                _powerNotifier = kernel.Get<IPowerNotifier>();
 
                 string action = "";
                 if (args.Length > 0)
@@ -170,7 +169,7 @@ namespace GHelper
         static void OnExit(object sender, EventArgs e)
         {
             _trayProvider.SetVisible(false);
-            NativeMethods.UnregisterPowerSettingNotification(unRegPowerNotify);
+            _powerNotifier.Dispose();
             Application.Exit();
         }
     }
