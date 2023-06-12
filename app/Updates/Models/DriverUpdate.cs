@@ -1,4 +1,4 @@
-namespace GHelper.Updates;
+namespace GHelper.Updates.Models;
 
 public class DriverUpdate : IUpdate
 {

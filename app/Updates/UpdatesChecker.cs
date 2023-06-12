@@ -1,4 +1,4 @@
-using GHelper.Updates.Models.Updates;
+using GHelper.Updates.Models;
 using Newtonsoft.Json;
 using Ninject;
 using Serilog;

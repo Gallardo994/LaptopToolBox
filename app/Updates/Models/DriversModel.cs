@@ -1,7 +1,7 @@
 ﻿using GHelper.JsonHelpers;
 using Newtonsoft.Json;
 
-namespace GHelper.Updates.Models.Updates;
+namespace GHelper.Updates.Models;
 
 [JsonObject]
 public class DriversModel

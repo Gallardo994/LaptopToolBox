@@ -2,7 +2,7 @@
 using System.Management;
 using System.Net;
 using CustomControls;
-using GHelper.Updates.Models.Updates;
+using GHelper.Updates.Models;
 using Newtonsoft.Json;
 using Serilog;
 
