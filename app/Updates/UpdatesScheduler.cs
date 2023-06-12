@@ -1,4 +1,5 @@
 using Ninject;
+using Serilog;
 using Timer = System.Timers.Timer;
 
 namespace GHelper.Updates;
@@ -16,11 +17,22 @@ public class UpdatesScheduler : IUpdatesScheduler
     
     public void ReSchedule(TimeSpan timeSpan)
     {
+        Log.Debug("Rescheduling updates check for {TimeSpan}", timeSpan);
+        
         _timer?.Stop();
         _timer?.Dispose();
         
+        if (timeSpan == TimeSpan.Zero)
+        {
+            return;
+        }
+        
         _timer = new Timer(timeSpan.TotalMilliseconds);
-        _timer.Elapsed += (sender, args) => _updatesChecker.CheckForUpdates();
+        _timer.Elapsed += (sender, args) =>
+        {
+            Log.Debug("Performing automatic updates check");
+            _updatesChecker.CheckForUpdates();
+        };
         _timer.Start();
     }
 

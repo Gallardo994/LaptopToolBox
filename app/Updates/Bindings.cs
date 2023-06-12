@@ -11,5 +11,6 @@ public class Bindings : NinjectModule
         Bind<IIgnoredUpdatesProvider>().To<IgnoredUpdatesProvider>().InSingletonScope();
         Bind<ILocalDriversVersionProvider>().To<LocalDriversVersionProvider>().InSingletonScope();
         Bind<IUpdatesChecker>().To<UpdatesChecker>().InSingletonScope();
+        Bind<IUpdatesScheduler>().To<UpdatesScheduler>().InSingletonScope();
     }
 }
