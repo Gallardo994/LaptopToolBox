@@ -37,7 +37,7 @@ public class Scheduler : IScheduler
 
     public void ReScheduleAdmin()
     {
-        if (!ProcessHelper.IsUserAdministrator() || !IsScheduled())
+        if (!_administratorHelper.IsUserAdministrator() || !IsScheduled())
         {
             return;
         }
