@@ -5,7 +5,7 @@ namespace GHelper.Toasts;
 public class Toast : IToast
 {
     private readonly IToastIconResolver _iconResolver;
-    private NativeWindow _toastWindow;
+    private readonly NativeWindow _toastWindow;
 
     [Inject]
     public Toast(IToastIconResolver iconResolver)
