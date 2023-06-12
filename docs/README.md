@@ -12,6 +12,20 @@ Same G-Helper but:
 - More localizations
 - Improved codebase
 
+Planned:
+- Overall overhaul of the code
+- Fix all UI stutters due to executing long-running tasks on the main thread
+- Implement undervolt for AMD CPUs
+- Improve overall UI
+- Driver & Bios update notifications
+- New version notifications
+- "Max charge" button (MacOS-style) to ignore battery charge limit only once
+- Fix display detection if Mux is switched to dGPU-only
+- Optimize overall code and reduce CPU usage, fix tons of allocations
+
+Regressions:
+- TODO: Right-clicking tray icon currently has no effect
+
 ## Why?
 
 The original upstream refuses to accept any PRs without giving any explanations.
