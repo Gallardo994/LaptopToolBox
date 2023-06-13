@@ -1,3 +1,5 @@
+using System;
+using System.Windows;
 using Microsoft.Win32;
 
 namespace GHelper.Powerline;
@@ -5,7 +7,7 @@ namespace GHelper.Powerline;
 public class PowerlineStatusProvider : IPowerlineStatusProvider
 {
     public event Action<PowerLineStatus> PowerlineStatusChanged;
-    public PowerLineStatus IsPlugged => SystemInformation.PowerStatus.PowerLineStatus;
+    public PowerLineStatus IsPlugged => SystemParameters.PowerLineStatus;
     
     
     public PowerlineStatusProvider()

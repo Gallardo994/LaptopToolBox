@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualBasic.Devices;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+using Microsoft.VisualBasic.Devices;
 
 namespace GHelper
 {

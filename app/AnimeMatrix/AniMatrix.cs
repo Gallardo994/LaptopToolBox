@@ -1,9 +1,16 @@
-﻿using NAudio.CoreAudioApi;
+﻿using System;
+using System.Collections.Generic;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using Starlight.AnimeMatrix;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 using Serilog;
 
 namespace GHelper.AnimeMatrix

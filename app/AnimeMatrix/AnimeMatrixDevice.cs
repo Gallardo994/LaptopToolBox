@@ -1,9 +1,13 @@
 ﻿// Source thanks to https://github.com/vddCore/Starlight with some adjustments from me
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using Starlight.Communication;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Globalization;
+using System.Linq;
 using System.Management;
 using System.Text;
 

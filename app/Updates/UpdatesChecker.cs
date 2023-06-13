@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using GHelper.Updates.Models;
 using Newtonsoft.Json;
 using Ninject;

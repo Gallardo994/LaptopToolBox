@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace GHelper.Toasts;
 
 public interface IToastIconResolver

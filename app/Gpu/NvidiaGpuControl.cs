@@ -1,9 +1,11 @@
-﻿using NvAPIWrapper.GPU;
+﻿using System;
+using NvAPIWrapper.GPU;
 using NvAPIWrapper.Native;
 using NvAPIWrapper.Native.GPU;
 using NvAPIWrapper.Native.GPU.Structures;
 using NvAPIWrapper.Native.Interfaces.GPU;
 using System.Diagnostics;
+using System.Linq;
 using Serilog;
 using static NvAPIWrapper.Native.GPU.Structures.PerformanceStates20InfoV1;
 

@@ -1,4 +1,6 @@
-﻿namespace GHelper.Updates;
+﻿using System;
+
+namespace GHelper.Updates;
 
 [Obsolete]
 public static class UpdatesUrl

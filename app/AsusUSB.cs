@@ -1,5 +1,10 @@
-﻿using HidLibrary;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using HidLibrary;
 using System.Text;
+using System.Threading.Tasks;
 using Serilog;
 
 namespace GHelper
@@ -255,7 +260,7 @@ namespace GHelper
         {
 
             if (AppConfig.ContainsModel("TUF"))
-                Program.acpi.TUFKeyboardBrightness(brightness);
+                ProgramM.acpi.TUFKeyboardBrightness(brightness);
 
 
             Task.Run(async () =>
@@ -324,7 +329,7 @@ namespace GHelper
             }
 
             if (AppConfig.ContainsModel("TUF"))
-                Program.acpi.TUFKeyboardPower(
+                ProgramM.acpi.TUFKeyboardPower(
                     flags.Contains(AuraDev19b6.AwakeKeyb),
                     flags.Contains(AuraDev19b6.BootKeyb),
                     flags.Contains(AuraDev19b6.SleepKeyb),
@@ -372,7 +377,7 @@ namespace GHelper
             }
 
             if (AppConfig.ContainsModel("TUF"))
-                Program.acpi.TUFKeyboardRGB(Mode, Color1, _speed);
+                ProgramM.acpi.TUFKeyboardRGB(Mode, Color1, _speed);
 
         }
 

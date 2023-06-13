@@ -1,3 +1,5 @@
+using System.Drawing;
+using System.Windows.Forms;
 using GHelper.Settings;
 using Ninject;
 
@@ -37,7 +39,7 @@ public class TrayProvider : ITrayProvider
     
     private void MouseMoveHandler(object? sender, MouseEventArgs e)
     {
-        Program._settingsForm.RefreshSensors();
+        ProgramM._settingsForm.RefreshSensors();
     }
     
     public void SetVisible(bool visible)

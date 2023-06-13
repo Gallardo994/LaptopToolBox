@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using Ninject;
 
 namespace GHelper.Toasts;

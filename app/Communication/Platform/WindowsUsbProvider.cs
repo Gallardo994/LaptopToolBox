@@ -1,4 +1,7 @@
+using System;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using HidSharp;
 
 namespace Starlight.Communication.Platform

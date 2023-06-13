@@ -1,5 +1,8 @@
-﻿using CustomControls;
+﻿using System;
+using System.Drawing;
+using CustomControls;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using WinFormsSliderBar;
 

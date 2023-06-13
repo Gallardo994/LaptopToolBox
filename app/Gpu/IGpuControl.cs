@@ -1,4 +1,6 @@
-﻿namespace GHelper.Gpu;
+﻿using System;
+
+namespace GHelper.Gpu;
 
 public  interface IGpuControl : IDisposable {
     bool IsNvidia { get; }

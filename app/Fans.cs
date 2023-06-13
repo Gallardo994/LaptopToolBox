@@ -2,7 +2,10 @@
 using GHelper.Gpu;
 using System;
 using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
 using System.Net.Sockets;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Serilog;
 
@@ -188,7 +191,7 @@ namespace GHelper
             Modes.Remove(mode);
             FillModes();
 
-            Program._settingsForm.SetPerformanceMode(AsusACPI.PerformanceBalanced);
+            ProgramM._settingsForm.SetPerformanceMode(AsusACPI.PerformanceBalanced);
 
         }
 
@@ -204,7 +207,7 @@ namespace GHelper
         {
             int mode = Modes.Add();
             FillModes();
-            Program._settingsForm.SetPerformanceMode(mode);
+            ProgramM._settingsForm.SetPerformanceMode(mode);
         }
 
         public void InitMode()
@@ -223,19 +226,19 @@ namespace GHelper
 
             Debug.WriteLine(selectedMode);
 
-            Program._settingsForm.SetPerformanceMode((int)selectedMode);
+            ProgramM._settingsForm.SetPerformanceMode((int)selectedMode);
         }
 
         private void TrackGPU_MouseUp(object? sender, MouseEventArgs e)
         {
-            Program._settingsForm.SetGPUPower();
-            Program._settingsForm.SetGPUClocks(true);
+            ProgramM._settingsForm.SetGPUPower();
+            ProgramM._settingsForm.SetGPUClocks(true);
         }
 
         public void InitGPU(bool readClocks = false)
         {
 
-            if (Program.acpi.DeviceGet(AsusACPI.GPUEco) == 1)
+            if (ProgramM.acpi.DeviceGet(AsusACPI.GPUEco) == 1)
             {
                 gpuVisible = panelGPU.Visible = false;
                 return;
@@ -294,8 +297,8 @@ namespace GHelper
                 trackGPUBoost.Value = Math.Max(Math.Min(gpu_boost, AsusACPI.MaxGPUBoost), AsusACPI.MinGPUBoost);
                 trackGPUTemp.Value = Math.Max(Math.Min(gpu_temp, AsusACPI.MaxGPUTemp), AsusACPI.MinGPUTemp);
 
-                panelGPUBoost.Visible = (Program.acpi.DeviceGet(AsusACPI.PPT_GPUC0) >= 0);
-                panelGPUTemp.Visible = (Program.acpi.DeviceGet(AsusACPI.PPT_GPUC2) >= 0);
+                panelGPUBoost.Visible = (ProgramM.acpi.DeviceGet(AsusACPI.PPT_GPUC0) >= 0);
+                panelGPUTemp.Visible = (ProgramM.acpi.DeviceGet(AsusACPI.PPT_GPUC2) >= 0);
 
                 VisualiseGPUSettings();
 
@@ -397,18 +400,18 @@ namespace GHelper
         {
             panelSliders.Visible = gpuVisible || powerVisible;
 
-            if (Height > Program._settingsForm.Height)
+            if (Height > ProgramM._settingsForm.Height)
             {
-                Top = Program._settingsForm.Top + Program._settingsForm.Height - Height;
+                Top = ProgramM._settingsForm.Top + ProgramM._settingsForm.Height - Height;
             }
             else
             {
-                Size = MinimumSize = new Size(0, Program._settingsForm.Height);
-                Height = Program._settingsForm.Height;
-                Top = Program._settingsForm.Top;
+                Size = MinimumSize = new Size(0, ProgramM._settingsForm.Height);
+                Height = ProgramM._settingsForm.Height;
+                Top = ProgramM._settingsForm.Top;
             }
 
-            Left = Program._settingsForm.Left - Width - 5;
+            Left = ProgramM._settingsForm.Left - Width - 5;
         }
 
         private void Fans_Shown(object? sender, EventArgs e)
@@ -419,7 +422,7 @@ namespace GHelper
 
         private void TrackPower_MouseUp(object? sender, MouseEventArgs e)
         {
-            Program._settingsForm.AutoPower();
+            ProgramM._settingsForm.AutoPower();
         }
 
 
@@ -445,7 +448,7 @@ namespace GHelper
             CheckBox chk = (CheckBox)sender;
 
             AppConfig.SetMode("auto_apply_power", chk.Checked ? 1 : 0);
-            Program._settingsForm.SetPerformanceMode();
+            ProgramM._settingsForm.SetPerformanceMode();
 
         }
 
@@ -455,7 +458,7 @@ namespace GHelper
             CheckBox chk = (CheckBox)sender;
 
             AppConfig.SetMode("auto_apply", chk.Checked ? 1 : 0);
-            Program._settingsForm.SetPerformanceMode();
+            ProgramM._settingsForm.SetPerformanceMode();
 
         }
 
@@ -481,9 +484,9 @@ namespace GHelper
         public void InitPower(bool changed = false)
         {
 
-            bool modeA0 = Program.acpi.DeviceGet(AsusACPI.PPT_TotalA0) >= 0;
-            bool modeB0 = Program.acpi.IsAllAmdPPT();
-            bool modeC1 = Program.acpi.DeviceGet(AsusACPI.PPT_APUC1) >= 0;
+            bool modeA0 = ProgramM.acpi.DeviceGet(AsusACPI.PPT_TotalA0) >= 0;
+            bool modeB0 = ProgramM.acpi.IsAllAmdPPT();
+            bool modeC1 = ProgramM.acpi.DeviceGet(AsusACPI.PPT_APUC1) >= 0;
 
             powerVisible = panelPower.Visible = modeA0;
             panelB0.Visible = modeB0;
@@ -565,7 +568,7 @@ namespace GHelper
             int chartCount = 2;
 
             // Middle / system fan check
-            if (!AsusACPI.IsEmptyCurve(Program.acpi.GetFanCurve(AsusFan.Mid)))
+            if (!AsusACPI.IsEmptyCurve(ProgramM.acpi.GetFanCurve(AsusFan.Mid)))
             {
                 AppConfig.Set("mid_fan", 1);
                 chartCount++;
@@ -579,7 +582,7 @@ namespace GHelper
             }
 
             // XG Mobile Fan check
-            if (Program.acpi.IsXGConnected())
+            if (ProgramM.acpi.IsXGConnected())
             {
                 AppConfig.Set("xgm_fan", 1);
                 chartCount++;
@@ -627,7 +630,7 @@ namespace GHelper
 
             if (reset || AsusACPI.IsInvalidCurve(curve))
             {
-                curve = Program.acpi.GetFanCurve(device, Modes.GetCurrentBase());
+                curve = ProgramM.acpi.GetFanCurve(device, Modes.GetCurrentBase());
 
                 if (AsusACPI.IsInvalidCurve(curve))
                     curve = AppConfig.GetDefaultCurve(device);
@@ -685,9 +688,9 @@ namespace GHelper
             AppConfig.SetMode("auto_apply", 0);
             AppConfig.SetMode("auto_apply_power", 0);
 
-            Program.acpi.DeviceSet(AsusACPI.PerformanceMode, Modes.GetCurrentBase(), "Mode");
+            ProgramM.acpi.DeviceSet(AsusACPI.PerformanceMode, Modes.GetCurrentBase(), "Mode");
 
-            if (Program.acpi.IsXGConnected())
+            if (ProgramM.acpi.IsXGConnected())
                 AsusUSB.ResetXGM();
 
             if (gpuVisible)
@@ -703,8 +706,8 @@ namespace GHelper
                 AppConfig.SetMode("gpu_memory", trackGPUMemory.Value);
 
                 VisualiseGPUSettings();
-                Program._settingsForm.SetGPUClocks(true);
-                Program._settingsForm.SetGPUPower();
+                ProgramM._settingsForm.SetGPUClocks(true);
+                ProgramM._settingsForm.SetGPUPower();
             }
 
         }
@@ -725,7 +728,7 @@ namespace GHelper
             if (AppConfig.Is("xgm_fan"))
                 SaveProfile(seriesXGM, AsusFan.XGM);
 
-            Program._settingsForm.AutoFans();
+            ProgramM._settingsForm.AutoFans();
 
 
         }

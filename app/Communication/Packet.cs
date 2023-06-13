@@ -1,5 +1,7 @@
 ﻿// Source thanks to https://github.com/vddCore/Starlight :)
 
+using System;
+
 namespace Starlight.Communication
 {
     public abstract class Packet

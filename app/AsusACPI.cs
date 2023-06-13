@@ -1,5 +1,10 @@
-﻿using System.Management;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Serilog;
 
 public enum AsusFan

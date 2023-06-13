@@ -1,3 +1,5 @@
+using System;
+using System.Windows.Forms;
 using GHelper.Commands;
 using GHelper.ProcessHelpers;
 using Microsoft.Win32.TaskScheduler;

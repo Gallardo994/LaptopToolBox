@@ -1,13 +1,21 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 using CustomControls;
 using GHelper.AnimeMatrix;
 using GHelper.Core;
 using GHelper.Gpu;
 using GHelper.Inputs;
+using GHelper.Updates.UI;
 using Ninject;
 using Serilog;
 
@@ -32,7 +40,7 @@ public partial class SettingsForm : RForm
     public AniMatrix matrix;
     public Fans fans;
     public Extra keyb;
-    public Updates.UpdatesWindow UpdatesWindow;
+    public UpdatesWindow UpdatesWindow;
 
     static long lastRefresh;
 
@@ -196,7 +204,7 @@ public partial class SettingsForm : RForm
 
     private void ButtonUpdates_Click(object? sender, EventArgs e)
     {
-        if (UpdatesWindow == null || UpdatesWindow.Text == "")
+        if (UpdatesWindow == null)
         {
             // TODO: Fix
             //updates = new Updates.Updates();
@@ -204,7 +212,7 @@ public partial class SettingsForm : RForm
         }
         else
         {
-            UpdatesWindow.Close();
+            //UpdatesWindow.Close();
         }
     }
 
@@ -225,7 +233,7 @@ public partial class SettingsForm : RForm
                             break;
                         case 1:
                             Log.Debug("Monitor Power On");
-                            Program.SetAutoModes();
+                            ProgramM.SetAutoModes();
                             break;
                         case 2:
                             Log.Debug("Monitor Dimmed");
@@ -346,19 +354,19 @@ public partial class SettingsForm : RForm
                 ButtonEnabled(buttonXGM, false);
             });
 
-            if (Program.acpi.DeviceGet(AsusACPI.GPUXG) == 1)
+            if (ProgramM.acpi.DeviceGet(AsusACPI.GPUXG) == 1)
             {
                 HardwareControl.KillGPUApps();
                 DialogResult dialogResult = MessageBox.Show("Did you close all applications running on XG Mobile?", "Disabling XG Mobile", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    Program.acpi.DeviceSet(AsusACPI.GPUXG, 0, "GPU XGM");
+                    ProgramM.acpi.DeviceSet(AsusACPI.GPUXG, 0, "GPU XGM");
                     await Task.Delay(TimeSpan.FromSeconds(15));
                 }
             }
             else
             {
-                Program.acpi.DeviceSet(AsusACPI.GPUXG, 1, "GPU XGM");
+                ProgramM.acpi.DeviceSet(AsusACPI.GPUXG, 1, "GPU XGM");
                 AsusUSB.ApplyXGMLight(AppConfig.Is("xmg_light"));
 
                 await Task.Delay(TimeSpan.FromSeconds(15));
@@ -494,7 +502,7 @@ public partial class SettingsForm : RForm
 
     private static void OnTimedEvent(Object? source, ElapsedEventArgs? e)
     {
-        Program._settingsForm.RefreshSensors();
+        ProgramM._settingsForm.RefreshSensors();
     }
 
     private void Button120Hz_MouseHover(object? sender, EventArgs e)
@@ -849,13 +857,13 @@ public partial class SettingsForm : RForm
         if (overdrive >= 0)
         {
             if (AppConfig.Get("no_overdrive") == 1) overdrive = 0;
-            Program.acpi.DeviceSet(AsusACPI.ScreenOverdrive, overdrive, "ScreenOverdrive");
+            ProgramM.acpi.DeviceSet(AsusACPI.ScreenOverdrive, overdrive, "ScreenOverdrive");
 
         }
 
         if (miniled >= 0)
         {
-            Program.acpi.DeviceSet(AsusACPI.ScreenMiniled, miniled, "Miniled");
+            ProgramM.acpi.DeviceSet(AsusACPI.ScreenMiniled, miniled, "Miniled");
             Debug.WriteLine("Miniled " + miniled);
         }
 
@@ -872,8 +880,8 @@ public partial class SettingsForm : RForm
         bool screenAuto = (AppConfig.Get("screen_auto") == 1);
         bool overdriveSetting = (AppConfig.Get("no_overdrive") != 1);
 
-        int overdrive = Program.acpi.DeviceGet(AsusACPI.ScreenOverdrive);
-        int miniled = Program.acpi.DeviceGet(AsusACPI.ScreenMiniled);
+        int overdrive = ProgramM.acpi.DeviceGet(AsusACPI.ScreenOverdrive);
+        int miniled = ProgramM.acpi.DeviceGet(AsusACPI.ScreenMiniled);
 
         bool screenEnabled = (frequency >= 0);
 
@@ -934,7 +942,7 @@ public partial class SettingsForm : RForm
     {
         matrix.Dispose();
         Close();
-        Program._trayProvider.SetVisible(false);
+        ProgramM._trayProvider.SetVisible(false);
         Application.Exit();
     }
 
@@ -997,7 +1005,7 @@ public partial class SettingsForm : RForm
         }
 
 
-        Program._settingsForm.BeginInvoke(delegate
+        ProgramM._settingsForm.BeginInvoke(delegate
         {
             labelCPUFan.Text = "CPU" + cpuTemp + " " + HardwareControl.cpuFan;
             labelGPUFan.Text = "GPU" + gpuTemp + " " + HardwareControl.gpuFan;
@@ -1011,7 +1019,7 @@ public partial class SettingsForm : RForm
         if (gpuTemp.Length > 0) trayTip += "\nGPU" + gpuTemp + " " + HardwareControl.gpuFan;
         if (battery.Length > 0) trayTip += "\n" + battery;
 
-        Program._trayProvider.SetToolTip(trayTip);
+        ProgramM._trayProvider.SetToolTip(trayTip);
     }
 
 
@@ -1058,26 +1066,26 @@ public partial class SettingsForm : RForm
         if (limit_fast < AsusACPI.MinTotal) return;
 
         // SPL + SPPT togeher in one slider
-        if (Program.acpi.DeviceGet(AsusACPI.PPT_TotalA0) >= 0)
+        if (ProgramM.acpi.DeviceGet(AsusACPI.PPT_TotalA0) >= 0)
         {
-            Program.acpi.DeviceSet(AsusACPI.PPT_TotalA0, limit_total, "PowerLimit A0");
-            Program.acpi.DeviceSet(AsusACPI.PPT_APUA3, limit_total, "PowerLimit A3");
+            ProgramM.acpi.DeviceSet(AsusACPI.PPT_TotalA0, limit_total, "PowerLimit A0");
+            ProgramM.acpi.DeviceSet(AsusACPI.PPT_APUA3, limit_total, "PowerLimit A3");
             customPower = limit_total;
         }
 
-        if (Program.acpi.IsAllAmdPPT()) // CPU limit all amd models
+        if (ProgramM.acpi.IsAllAmdPPT()) // CPU limit all amd models
         {
-            Program.acpi.DeviceSet(AsusACPI.PPT_CPUB0, limit_cpu, "PowerLimit B0");
+            ProgramM.acpi.DeviceSet(AsusACPI.PPT_CPUB0, limit_cpu, "PowerLimit B0");
             customPower = limit_cpu;
         }
-        else if (Program.acpi.DeviceGet(AsusACPI.PPT_APUC1) >= 0) // FPPT boost for non all-amd models
+        else if (ProgramM.acpi.DeviceGet(AsusACPI.PPT_APUC1) >= 0) // FPPT boost for non all-amd models
         {
-            Program.acpi.DeviceSet(AsusACPI.PPT_APUC1, limit_fast, "PowerLimit C1");
+            ProgramM.acpi.DeviceSet(AsusACPI.PPT_APUC1, limit_fast, "PowerLimit C1");
             customPower = limit_fast;
         }
 
 
-        Program._settingsForm.BeginInvoke(SetPerformanceLabel);
+        ProgramM._settingsForm.BeginInvoke(SetPerformanceLabel);
 
     }
 
@@ -1092,7 +1100,7 @@ public partial class SettingsForm : RForm
 
         //if ((gpu_core > -5 && gpu_core < 5) && (gpu_memory > -5 && gpu_memory < 5)) launchAsAdmin = false;
 
-        if (Program.acpi.DeviceGet(AsusACPI.GPUEco) == 1) return;
+        if (ProgramM.acpi.DeviceGet(AsusACPI.GPUEco) == 1) return;
         if (HardwareControl.GpuControl is null) return;
         if (!HardwareControl.GpuControl!.IsNvidia) return;
 
@@ -1125,14 +1133,14 @@ public partial class SettingsForm : RForm
         if (gpu_boost < AsusACPI.MinGPUBoost || gpu_boost > AsusACPI.MaxGPUBoost) return;
         if (gpu_temp < AsusACPI.MinGPUTemp || gpu_temp > AsusACPI.MaxGPUTemp) return;
 
-        if (Program.acpi.DeviceGet(AsusACPI.PPT_GPUC0) >= 0)
+        if (ProgramM.acpi.DeviceGet(AsusACPI.PPT_GPUC0) >= 0)
         {
-            Program.acpi.DeviceSet(AsusACPI.PPT_GPUC0, gpu_boost, "PowerLimit C0");
+            ProgramM.acpi.DeviceSet(AsusACPI.PPT_GPUC0, gpu_boost, "PowerLimit C0");
         }
 
-        if (Program.acpi.DeviceGet(AsusACPI.PPT_GPUC2) >= 0)
+        if (ProgramM.acpi.DeviceGet(AsusACPI.PPT_GPUC2) >= 0)
         {
-            Program.acpi.DeviceSet(AsusACPI.PPT_GPUC2, gpu_temp, "PowerLimit C2");
+            ProgramM.acpi.DeviceSet(AsusACPI.PPT_GPUC2, gpu_temp, "PowerLimit C2");
         }
 
     }
@@ -1152,18 +1160,18 @@ public partial class SettingsForm : RForm
         {
 
             bool xgmFan = false;
-            if (AppConfig.Is("xgm_fan") && Program.acpi.IsXGConnected())
+            if (AppConfig.Is("xgm_fan") && ProgramM.acpi.IsXGConnected())
             {
                 AsusUSB.SetXGMFan(AppConfig.GetFanConfig(AsusFan.XGM));
                 xgmFan = true;
             }
 
-            int cpuResult = Program.acpi.SetFanCurve(AsusFan.CPU, AppConfig.GetFanConfig(AsusFan.CPU));
-            int gpuResult = Program.acpi.SetFanCurve(AsusFan.GPU, AppConfig.GetFanConfig(AsusFan.GPU));
+            int cpuResult = ProgramM.acpi.SetFanCurve(AsusFan.CPU, AppConfig.GetFanConfig(AsusFan.CPU));
+            int gpuResult = ProgramM.acpi.SetFanCurve(AsusFan.GPU, AppConfig.GetFanConfig(AsusFan.GPU));
 
 
             if (AppConfig.Is("mid_fan"))
-                Program.acpi.SetFanCurve(AsusFan.Mid, AppConfig.GetFanConfig(AsusFan.Mid));
+                ProgramM.acpi.SetFanCurve(AsusFan.Mid, AppConfig.GetFanConfig(AsusFan.Mid));
 
 
             // something went wrong, resetting to default profile
@@ -1171,7 +1179,7 @@ public partial class SettingsForm : RForm
             {
                 int mode = Modes.GetCurrentBase();
                 Log.Debug("ASUS BIOS rejected fan curve, resetting mode to " + mode);
-                Program.acpi.DeviceSet(AsusACPI.PerformanceMode, mode, "Reset Mode");
+                ProgramM.acpi.DeviceSet(AsusACPI.PerformanceMode, mode, "Reset Mode");
                 LabelFansResult("ASUS BIOS rejected fan curve");
             }
             else
@@ -1186,14 +1194,14 @@ public partial class SettingsForm : RForm
                 Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
-                    Program.acpi.DeviceSet(AsusACPI.PPT_TotalA0, 80, "PowerLimit Fix A0");
-                    Program.acpi.DeviceSet(AsusACPI.PPT_APUA3, 80, "PowerLimit Fix A3");
+                    ProgramM.acpi.DeviceSet(AsusACPI.PPT_TotalA0, 80, "PowerLimit Fix A0");
+                    ProgramM.acpi.DeviceSet(AsusACPI.PPT_APUA3, 80, "PowerLimit Fix A3");
                 });
             }
 
         }
 
-        Program._settingsForm.BeginInvoke(SetPerformanceLabel);
+        ProgramM._settingsForm.BeginInvoke(SetPerformanceLabel);
 
     }
 
@@ -1316,11 +1324,11 @@ public partial class SettingsForm : RForm
         SetPerformanceLabel();
 
         if (isManualModeRequired())
-            Program.acpi.DeviceSet(AsusACPI.PerformanceMode, AsusACPI.PerformanceManual, "Manual Mode");
+            ProgramM.acpi.DeviceSet(AsusACPI.PerformanceMode, AsusACPI.PerformanceManual, "Manual Mode");
         else
-            Program.acpi.DeviceSet(AsusACPI.PerformanceMode, Modes.GetBase(mode), "Mode");
+            ProgramM.acpi.DeviceSet(AsusACPI.PerformanceMode, Modes.GetBase(mode), "Mode");
 
-        if (AppConfig.Is("xgm_fan") && Program.acpi.IsXGConnected()) AsusUSB.ResetXGM();
+        if (AppConfig.Is("xgm_fan") && ProgramM.acpi.IsXGConnected()) AsusUSB.ResetXGM();
 
         if (notify)
         {
@@ -1378,7 +1386,7 @@ public partial class SettingsForm : RForm
     {
         InputDispatcher.SetBacklightAuto(true);
 
-        if (Program.acpi.IsXGConnected())
+        if (ProgramM.acpi.IsXGConnected())
             AsusUSB.ApplyXGMLight(AppConfig.Is("xmg_light"));
 
         if (AppConfig.ContainsModel("X16") || AppConfig.ContainsModel("X13")) InputDispatcher.TabletMode();
@@ -1420,7 +1428,7 @@ public partial class SettingsForm : RForm
         bool optimizedUSBC = AppConfig.Get("optimized_usbc") != 1;
 
         return SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online &&
-               (optimizedUSBC || Program.acpi.DeviceGet(AsusACPI.ChargerMode) < AsusACPI.ChargerUSB);
+               (optimizedUSBC || ProgramM.acpi.DeviceGet(AsusACPI.ChargerMode) < AsusACPI.ChargerUSB);
 
     }
 
@@ -1434,8 +1442,8 @@ public partial class SettingsForm : RForm
 
         if (!GpuAuto && !ForceGPU) return false;
 
-        int eco = Program.acpi.DeviceGet(AsusACPI.GPUEco);
-        int mux = Program.acpi.DeviceGet(AsusACPI.GPUMux);
+        int eco = ProgramM.acpi.DeviceGet(AsusACPI.GPUEco);
+        int mux = ProgramM.acpi.DeviceGet(AsusACPI.GPUMux);
 
         if (mux == 0) // GPU in Ultimate, ignore
             return false;
@@ -1501,9 +1509,9 @@ public partial class SettingsForm : RForm
     public void InitXGM()
     {
 
-        buttonXGM.Enabled = buttonXGM.Visible = Program.acpi.IsXGConnected();
+        buttonXGM.Enabled = buttonXGM.Visible = ProgramM.acpi.IsXGConnected();
 
-        int activated = Program.acpi.DeviceGet(AsusACPI.GPUXG);
+        int activated = ProgramM.acpi.DeviceGet(AsusACPI.GPUXG);
         if (activated < 0) return;
 
         buttonXGM.Activated = (activated == 1);
@@ -1529,8 +1537,8 @@ public partial class SettingsForm : RForm
     public int InitGPUMode()
     {
 
-        int eco = Program.acpi.DeviceGet(AsusACPI.GPUEco);
-        int mux = Program.acpi.DeviceGet(AsusACPI.GPUMux);
+        int eco = ProgramM.acpi.DeviceGet(AsusACPI.GPUEco);
+        int mux = ProgramM.acpi.DeviceGet(AsusACPI.GPUMux);
 
         Log.Debug("Eco flag : " + eco);
         Log.Debug("Mux flag : " + mux);
@@ -1552,7 +1560,7 @@ public partial class SettingsForm : RForm
             {
                 isGpuSection = tableGPU.Visible = false;
                 SetContextMenu();
-                if (HardwareControl.FormatFan(Program.acpi.DeviceGet(AsusACPI.GPU_Fan)) is null) panelGPU.Visible = false;
+                if (HardwareControl.FormatFan(ProgramM.acpi.DeviceGet(AsusACPI.GPU_Fan)) is null) panelGPU.Visible = false;
             }
 
         }
@@ -1591,7 +1599,7 @@ public partial class SettingsForm : RForm
 
         Task.Run(async () =>
         {
-            Program._settingsForm.BeginInvoke(delegate
+            ProgramM._settingsForm.BeginInvoke(delegate
             {
                 labelTipGPU.Text = "Restarting GPU ...";
                 ButtonEnabled(buttonOptimized, false);
@@ -1603,7 +1611,7 @@ public partial class SettingsForm : RForm
             var nvControl = (NvidiaGpuControl)HardwareControl.GpuControl;
             bool status = nvControl.RestartGPU();
 
-            Program._settingsForm.BeginInvoke(delegate
+            ProgramM._settingsForm.BeginInvoke(delegate
             {
                 labelTipGPU.Text = status ? "GPU Restarted, you can try Eco mode again" : "Failed to restart GPU";
                 InitGPUMode();
@@ -1633,12 +1641,12 @@ public partial class SettingsForm : RForm
 
             Log.Debug($"Running eco command {eco}");
 
-            status = Program.acpi.SetGPUEco(eco);
+            status = ProgramM.acpi.SetGPUEco(eco);
 
             if (status == 0 && eco == 1 && hardWay) RestartGPU();
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
-            Program._settingsForm.BeginInvoke(delegate
+            ProgramM._settingsForm.BeginInvoke(delegate
             {
                 InitGPUMode();
                 AutoScreen();
@@ -1676,7 +1684,7 @@ public partial class SettingsForm : RForm
             DialogResult dialogResult = MessageBox.Show(Properties.Strings.AlertUltimateOff, Properties.Strings.AlertUltimateTitle, MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                Program.acpi.DeviceSet(AsusACPI.GPUMux, 1, "GPUMux");
+                ProgramM.acpi.DeviceSet(AsusACPI.GPUMux, 1, "GPUMux");
                 restart = true;
                 changed = true;
             }
@@ -1686,7 +1694,7 @@ public partial class SettingsForm : RForm
             DialogResult dialogResult = MessageBox.Show(Properties.Strings.AlertUltimateOn, Properties.Strings.AlertUltimateTitle, MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                Program.acpi.DeviceSet(AsusACPI.GPUMux, 0, "GPUMux");
+                ProgramM.acpi.DeviceSet(AsusACPI.GPUMux, 0, "GPUMux");
                 restart = true;
                 changed = true;
             }
@@ -1739,20 +1747,20 @@ public partial class SettingsForm : RForm
                 buttonEco.Activated = !GPUAuto;
                 buttonOptimized.Activated = GPUAuto;
                 labelGPU.Text = Properties.Strings.GPUMode + ": " + Properties.Strings.GPUModeEco;
-                Program._trayProvider.SetIcon(Properties.Resources.eco);
+                ProgramM._trayProvider.SetIcon(Properties.Resources.eco);
                 ButtonEnabled(buttonXGM, false);
                 break;
             case AsusACPI.GPUModeUltimate:
                 buttonUltimate.Activated = true;
                 labelGPU.Text = Properties.Strings.GPUMode + ": " + Properties.Strings.GPUModeUltimate;
-                Program._trayProvider.SetIcon(Properties.Resources.ultimate);
+                ProgramM._trayProvider.SetIcon(Properties.Resources.ultimate);
                 break;
             default:
                 buttonOptimized.BorderColor = colorStandard;
                 buttonStandard.Activated = !GPUAuto;
                 buttonOptimized.Activated = GPUAuto;
                 labelGPU.Text = Properties.Strings.GPUMode + ": " + Properties.Strings.GPUModeStandard;
-                Program._trayProvider.SetIcon(Properties.Resources.standard);
+                ProgramM._trayProvider.SetIcon(Properties.Resources.standard);
                 ButtonEnabled(buttonXGM, true);
                 break;
         }
@@ -1811,7 +1819,7 @@ public partial class SettingsForm : RForm
         labelBatteryTitle.Text = Properties.Strings.BatteryChargeLimit + ": " + limit.ToString() + "%";
         sliderBattery.Value = limit;
 
-        Program.acpi.DeviceSet(AsusACPI.BatteryLimit, limit, "BatteryLimit");
+        ProgramM.acpi.DeviceSet(AsusACPI.BatteryLimit, limit, "BatteryLimit");
         try
         {
             OptimizationService.SetChargeLimit(limit);

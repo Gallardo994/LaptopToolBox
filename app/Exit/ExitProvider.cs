@@ -1,3 +1,5 @@
+using System;
+
 namespace GHelper.Exit;
 
 public class ExitProvider : IExitProvider

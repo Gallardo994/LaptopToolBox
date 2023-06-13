@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Reflection;
+using System.Windows.Forms;
 using GHelper.AsusAcpi;
 using GHelper.Localization;
 using GHelper.ProcessHelpers;
@@ -38,7 +39,7 @@ public class MainCoreRunner : ICoreRunner
             return false;
         }
                 
-        _asusAcpiProvider.TryGet(out Program.acpi);
+        _asusAcpiProvider.TryGet(out ProgramM.acpi);
         
         Log.Debug("------------");
         Log.Debug("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (_administratorHelper.IsUserAdministrator() ? "." : ""));

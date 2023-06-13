@@ -1,3 +1,6 @@
+using System;
+using System.Windows;
+
 namespace GHelper.Powerline;
 
 public interface IPowerlineStatusProvider : IDisposable

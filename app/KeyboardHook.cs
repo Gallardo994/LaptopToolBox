@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Serilog;
 
 public sealed class KeyboardHook : IDisposable

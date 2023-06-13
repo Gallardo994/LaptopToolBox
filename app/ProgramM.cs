@@ -1,7 +1,9 @@
+using System;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using System.Windows.Forms;
 using GHelper.AsusAcpi;
 using GHelper.Core;
 using GHelper.Modules;
@@ -9,6 +11,8 @@ using GHelper.Powerline;
 using GHelper.PowerNotification;
 using GHelper.Settings;
 using GHelper.Tray;
+using GHelper.Updates;
+using GHelper.Updates.UI;
 using Ninject;
 using Serilog;
 using static NativeMethods;
@@ -16,7 +20,7 @@ using static NativeMethods;
 namespace GHelper
 {
 
-    static class Program
+    static class ProgramM
     {
         public static AsusACPI? acpi;
 
@@ -35,24 +39,11 @@ namespace GHelper
         public static ITrayProvider _trayProvider; // TODO: Inject only
 
         // The main entry point for the application
-        public static void Main(string[] args)
+        [STAThread]
+        public static void MainA(StandardKernel kernel, string[] args)
         {
             try
             {
-                Log.Logger = new LoggerConfiguration()
-                    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
-                    .WriteTo.Console()
-                    .MinimumLevel.Debug()
-                    .CreateLogger();
-                
-                Log.Debug("Trying to start");
-            
-                var kernel = new StandardKernel();
-                kernel.Load(Assembly.GetExecutingAssembly());
-                
-                Log.Debug("Kernel loaded");
-                
-                
                 _trayProvider = kernel.Get<ITrayProvider>();
                 _settingsForm = kernel.Get<SettingsForm>();
                 _settingsFormController = kernel.Get<ISettingsFormController>();
@@ -63,6 +54,13 @@ namespace GHelper
                 {
                     return;
                 }
+                
+                var versionChecker = kernel.Get<IUpdatesScheduler>();
+                versionChecker.CheckNow();
+                versionChecker.ReSchedule(new TimeSpan(0, 0, 0, 30, 0));
+
+                var updatesWindowController = kernel.Get<IUpdatesWindow>();
+                updatesWindowController.SetState(true);
                 
                 _inputDispatcher = kernel.Get<IInputDispatcher>();
 
@@ -124,8 +122,10 @@ namespace GHelper
                     if (_settingsForm.keyb is not null && _settingsForm.keyb.Text != "")
                         _settingsForm.keyb.InitTheme();
 
-                    if (_settingsForm.updates is not null && _settingsForm.updates.Text != "")
-                        _settingsForm.updates.InitTheme();
+                    /*
+                    if (_settingsForm.UpdatesWindow is not null && _settingsForm.UpdatesWindow.Text != "")
+                        _settingsForm.UpdatesWindow.InitTheme();
+                        */
 
                     break;
             }
@@ -158,7 +158,7 @@ namespace GHelper
             _settingsForm.matrix.SetMatrix();
         }
 
-        private static void SystemEvents_PowerModeChanged(PowerLineStatus status)
+        private static void SystemEvents_PowerModeChanged(System.Windows.PowerLineStatus status)
         {
             Log.Debug("Power Mode Changed");
             SetAutoModes(true);

@@ -9,9 +9,9 @@ public class NotificationEmitter : INotificationEmitter
     {
         Log.Debug("Emitting simple notification: {Message}", message);
         
-        var toastBuilder = new ToastContentBuilder()
-            .AddText(message);
+        //var toastBuilder = new ToastContentBuilder()
+            //.AddText(message);
         
-        toastBuilder.Show();
+        //toastBuilder.Show();
     }
 }

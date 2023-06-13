@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Ninject.Modules;
 
 namespace GHelper.Network;

@@ -1,50 +1,39 @@
-﻿using CustomControls;
-using GHelper.Updates.UI;
+using System.Windows;
+using System.Windows.Controls;
 using Ninject;
+using Wpf.Ui.Controls;
 
-namespace GHelper.Updates
+namespace GHelper.Updates.UI;
+
+public class UpdatesWindow : IUpdatesWindow
 {
-    public partial class UpdatesWindow : RForm, IUpdatesWindow
+    //private readonly UpdatesWindowDesign _window;
+    
+    private readonly IUpdatesChecker _updatesChecker;
+    private readonly IUpdatesScheduler _updatesScheduler;
+    private readonly IModelInfoProvider _modelInfoProvider;
+        
+    [Inject]
+    public UpdatesWindow(IUpdatesChecker updatesChecker,
+        IUpdatesScheduler updatesScheduler,
+        IModelInfoProvider modelInfoProvider)
     {
-        private readonly IUpdatesChecker _updatesChecker;
-        private readonly IUpdatesScheduler _updatesScheduler;
-        private readonly IModelInfoProvider _modelInfoProvider;
+        //_window = new UpdatesWindowDesign();
         
-        [Inject]
-        public UpdatesWindow(IUpdatesChecker updatesChecker,
-            IUpdatesScheduler updatesScheduler,
-            IModelInfoProvider modelInfoProvider)
+        _updatesChecker = updatesChecker;
+        _updatesScheduler = updatesScheduler;
+        _modelInfoProvider = modelInfoProvider;
+    }
+    
+    public void SetState(bool state)
+    {
+        if (state)
         {
-            _updatesChecker = updatesChecker;
-            _updatesScheduler = updatesScheduler;
-            _modelInfoProvider = modelInfoProvider;
-            
-            InitializeComponent();
-            InitTheme();
-            
-            Text = $@"{Properties.Strings.BiosAndDriverUpdates}: {_modelInfoProvider.Model} {_modelInfoProvider.Bios}";
-
-            tableUpdates.DataSource = _updatesChecker.AllUpdates;
-
-            //Hide();
+            //_window.Show();
         }
-
-        public void SetState(bool state)
+        else
         {
-            if (state)
-            {
-                Show();
-            }
-            else
-            {
-                Hide();
-            }
-        }
-        
-        private void Refresh_Pressed(object? sender, EventArgs e)
-        {
-            tableUpdates.DataSource = null;
-            tableUpdates.DataSource = _updatesChecker.AllUpdates;
+            //_window.Hide();
         }
     }
 }

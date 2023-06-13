@@ -1,3 +1,5 @@
+using System;
+
 namespace GHelper.AsusAcpi;
 
 public class AsusAcpiProvider : IAsusAcpiProvider

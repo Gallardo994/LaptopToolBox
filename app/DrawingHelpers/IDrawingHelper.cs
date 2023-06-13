@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace GHelper.DrawingHelpers;
 
 public interface IDrawingHelper

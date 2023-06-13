@@ -1,3 +1,5 @@
+using System;
+
 namespace Starlight.Communication.Platform
 {
     internal abstract class UsbProvider : IDisposable

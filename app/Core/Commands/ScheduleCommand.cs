@@ -1,4 +1,6 @@
+using System;
 using System.Security.Principal;
+using System.Windows.Forms;
 using GHelper.Commands;
 using GHelper.ProcessHelpers;
 using Microsoft.Win32.TaskScheduler;

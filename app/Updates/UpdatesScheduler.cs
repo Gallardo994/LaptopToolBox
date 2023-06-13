@@ -1,3 +1,4 @@
+using System;
 using Ninject;
 using Serilog;
 using Timer = System.Timers.Timer;

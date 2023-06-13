@@ -1,6 +1,10 @@
-﻿using CustomControls;
+﻿using System;
+using System.Collections.Generic;
+using CustomControls;
 using GHelper.Gpu;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using GHelper.Inputs;
 using Serilog;
 
@@ -68,7 +72,7 @@ namespace GHelper
                     AppConfig.Set(name, combo.SelectedValue.ToString());
 
                 if (name == "m1" || name == "m2")
-                    Program._inputDispatcher.RegisterKeys();
+                    ProgramM._inputDispatcher.RegisterKeys();
 
             };
 
@@ -214,7 +218,7 @@ namespace GHelper
             trackBrightness.Value = InputDispatcher.GetBacklight();
             trackBrightness.Scroll += TrackBrightness_Scroll;
 
-            panelXMG.Visible = (Program.acpi.DeviceGet(AsusACPI.GPUXGConnected) == 1);
+            panelXMG.Visible = (ProgramM.acpi.DeviceGet(AsusACPI.GPUXGConnected) == 1);
             checkXMG.Checked = !(AppConfig.Get("xmg_light") == 0);
             checkXMG.CheckedChanged += CheckXMG_CheckedChanged;
 
@@ -263,7 +267,7 @@ namespace GHelper
                     {
                         InitServices();
                     });
-                    Program._inputDispatcher.Init();
+                    ProgramM._inputDispatcher.Init();
                 });
             }
             else
@@ -328,9 +332,9 @@ namespace GHelper
         {
             int fnLock = checkFnLock.Checked ? 1 : 0;
             AppConfig.Set("fn_lock", fnLock);
-            Program.acpi.DeviceSet(AsusACPI.FnLock, (fnLock == 1) ? 0 : 1, "FnLock");
+            ProgramM.acpi.DeviceSet(AsusACPI.FnLock, (fnLock == 1) ? 0 : 1, "FnLock");
 
-            Program._inputDispatcher.RegisterKeys();
+            ProgramM._inputDispatcher.RegisterKeys();
         }
 
         private void CheckGpuApps_CheckedChanged(object? sender, EventArgs e)
@@ -342,7 +346,7 @@ namespace GHelper
         {
             AppConfig.Set("keyboard_timeout", (int)numericBacklightTime.Value);
             AppConfig.Set("keyboard_ac_timeout", (int)numericBacklightPluggedTime.Value);
-            Program._inputDispatcher.InitBacklightTimer();
+            ProgramM._inputDispatcher.InitBacklightTimer();
         }
 
         private void CheckXMG_CheckedChanged(object? sender, EventArgs e)
@@ -371,14 +375,14 @@ namespace GHelper
         private void CheckNoOverdrive_CheckedChanged(object? sender, EventArgs e)
         {
             AppConfig.Set("no_overdrive", (checkNoOverdrive.Checked ? 1 : 0));
-            Program._settingsForm.AutoScreen(true);
+            ProgramM._settingsForm.AutoScreen(true);
         }
 
 
         private void CheckTopmost_CheckedChanged(object? sender, EventArgs e)
         {
             AppConfig.Set("topmost_disabled", (checkTopmost.Checked ? 0 : 1));
-            Program._settingsForm.TopMost = checkTopmost.Checked;
+            ProgramM._settingsForm.TopMost = checkTopmost.Checked;
         }
 
         private void CheckPower_CheckedChanged(object? sender, EventArgs e)
@@ -432,22 +436,22 @@ namespace GHelper
         private void ComboKeyboardSpeed_SelectedValueChanged(object? sender, EventArgs e)
         {
             AppConfig.Set("aura_speed", (int)comboKeyboardSpeed.SelectedValue);
-            Program._settingsForm.SetAura();
+            ProgramM._settingsForm.SetAura();
         }
 
 
         private void Keyboard_Shown(object? sender, EventArgs e)
         {
-            if (Height > Program._settingsForm.Height)
+            if (Height > ProgramM._settingsForm.Height)
             {
-                Top = Program._settingsForm.Top + Program._settingsForm.Height - Height;
+                Top = ProgramM._settingsForm.Top + ProgramM._settingsForm.Height - Height;
             }
             else
             {
-                Top = Program._settingsForm.Top;
+                Top = ProgramM._settingsForm.Top;
             }
 
-            Left = Program._settingsForm.Left - Width - 5;
+            Left = ProgramM._settingsForm.Left - Width - 5;
         }
 
         private void checkAutoApplyWindowsPowerMode_CheckedChanged(object? sender, EventArgs e)

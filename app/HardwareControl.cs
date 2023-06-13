@@ -1,6 +1,10 @@
-﻿using GHelper;
+﻿using System;
+using System.Collections.Generic;
+using GHelper;
 using GHelper.Gpu;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Serilog;
 
 public static class HardwareControl
@@ -73,11 +77,11 @@ public static class HardwareControl
         gpuTemp = -1;
         gpuUse = -1;
 
-        cpuFan = FormatFan(Program.acpi.DeviceGet(AsusACPI.CPU_Fan));
-        gpuFan = FormatFan(Program.acpi.DeviceGet(AsusACPI.GPU_Fan));
-        midFan = FormatFan(Program.acpi.DeviceGet(AsusACPI.Mid_Fan));
+        cpuFan = FormatFan(ProgramM.acpi.DeviceGet(AsusACPI.CPU_Fan));
+        gpuFan = FormatFan(ProgramM.acpi.DeviceGet(AsusACPI.GPU_Fan));
+        midFan = FormatFan(ProgramM.acpi.DeviceGet(AsusACPI.Mid_Fan));
 
-        cpuTemp = Program.acpi.DeviceGet(AsusACPI.Temp_CPU);
+        cpuTemp = ProgramM.acpi.DeviceGet(AsusACPI.Temp_CPU);
 
         if (cpuTemp < 0) try
             {
@@ -103,7 +107,7 @@ public static class HardwareControl
         }
 
         if (gpuTemp is null || gpuTemp < 0)
-            gpuTemp = Program.acpi.DeviceGet(AsusACPI.Temp_GPU);
+            gpuTemp = ProgramM.acpi.DeviceGet(AsusACPI.Temp_GPU);
 
         try
         {

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GHelper.Updates;
 
 public interface IUpdatesChecker

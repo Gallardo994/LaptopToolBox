@@ -1,3 +1,7 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace GHelper.Tray;
 
 public interface ITrayProvider : IDisposable
