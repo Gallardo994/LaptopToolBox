@@ -12,13 +12,7 @@ public class UpdatesChecker : IUpdatesChecker
     private readonly ILocalDriversVersionProvider _localDriversVersionProvider;
     private readonly IIgnoredUpdatesProvider _ignoredUpdatesProvider;
     private readonly HttpClient _httpClient;
-
-    public bool IsCheckingForUpdates { get; private set; }
-    public int PendingUpdatesCount { get; private set; }
-    public List<IUpdate> AllUpdates { get; private set; }
     
-    private readonly object _dataLock = new object();
-
 
     [Inject]
     public UpdatesChecker(IUpdatesUrlProvider updatesUrlProvider,
@@ -32,48 +26,22 @@ public class UpdatesChecker : IUpdatesChecker
         _localDriversVersionProvider = localDriversVersionProvider;
         _ignoredUpdatesProvider = ignoredUpdatesProvider;
         _httpClient = httpClient;
-
-        AllUpdates = new List<IUpdate>();
     }
 
-    public bool CheckForUpdates()
+    public async Task<List<IUpdate>> CheckForUpdates()
     {
-        if (IsCheckingForUpdates)
-        {
-            return false;
-        }
-
-        IsCheckingForUpdates = true;
-
-        Task.Run(async () =>
-        {
-            _localDriversVersionProvider.Refresh();
+        _localDriversVersionProvider.Refresh();
             
-            var biosUpdates = GetBiosUpdates();
-            var driverUpdates = GetDriverUpdates();
-            
-            await Task.WhenAll(biosUpdates, driverUpdates);
+        var biosUpdates = GetBiosUpdates();
+        var driverUpdates = GetDriverUpdates();
 
-            lock (_dataLock)
-            {
-                AllUpdates.Clear();
-                AllUpdates.AddRange(biosUpdates.Result);
-                AllUpdates.AddRange(driverUpdates.Result);
-            }
-            
-            PendingUpdatesCount = AllUpdates.Count(update => update.IsNewerThanCurrent);
+        await Task.WhenAll(biosUpdates, driverUpdates);
 
-            IsCheckingForUpdates = false;
-            
-            Log.Debug("Checked for updates, total: {Total}, pending: {Pending}", AllUpdates.Count, PendingUpdatesCount);
-            
-            foreach (var update in AllUpdates)
-            {
-                Log.Debug("Update: {Name} ({Version}), IsNewer={IsNewerThanCurrent}", update.Name, update.Version, update.IsNewerThanCurrent);
-            }
-        }).Forget();
-
-        return true;
+        var updates = new List<IUpdate>();
+        updates.AddRange(await biosUpdates);
+        updates.AddRange(await driverUpdates);
+        
+        return updates;
     }
 
     private async Task<List<IUpdate>> GetBiosUpdates()

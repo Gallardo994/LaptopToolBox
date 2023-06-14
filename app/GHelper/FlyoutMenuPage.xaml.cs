@@ -1,8 +1,8 @@
 ﻿namespace GHelper;
 
-public partial class AppShell : IStartUpPage
+public partial class FlyoutMenuPage
 {
-    public AppShell()
+    public FlyoutMenuPage()
     {
         InitializeComponent();
     }

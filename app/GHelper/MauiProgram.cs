@@ -1,10 +1,12 @@
 ﻿using System.Reflection;
+using CommunityToolkit.Maui;
 using GHelper.Platforms.Windows;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Ninject;
 using Ninject.Syntax;
 using Serilog;
+using Xe.AcrylicView;
 
 namespace GHelper;
 
@@ -21,6 +23,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseAcrylicView()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

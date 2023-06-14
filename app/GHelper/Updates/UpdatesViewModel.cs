@@ -7,17 +7,6 @@ namespace GHelper.Updates;
 
 public class UpdatesViewModel : INotifyPropertyChanged
 {
-    private int _checkId;
-    public int CheckId
-    {
-        get => _checkId;
-        set
-        {
-            _checkId = value;
-            OnPropertyChanged();
-        }
-    }
-
     private int _pendingUpdates;
     public int PendingUpdates
     {
@@ -39,12 +28,37 @@ public class UpdatesViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    
+
+    private bool _isUpdating;
+    public bool IsUpdating
+    {
+        get => _isUpdating;
+        set
+        {
+            _isUpdating = value;
+            OnPropertyChanged();
+        }
+    }
+
     public UpdatesViewModel()
     {
-        CheckId = 0;
         PendingUpdates = 0;
         Updates = new ObservableCollection<IUpdate>();
+    }
+    
+    public void SetUpdates(List<IUpdate> updates)
+    {
+        Updates.Clear();
+        
+        foreach (var update in updates)
+        {
+            if (update.IsNewerThanCurrent)
+            {
+                PendingUpdates++;
+            }
+            
+            Updates.Add(update);
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
