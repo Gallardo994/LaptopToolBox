@@ -8,9 +8,6 @@
     </FlyoutPage.Flyout>
     <FlyoutPage.Detail>
         <NavigationPage>
-            <x:Arguments>
-                <local:MainPage />
-            </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>
 </FlyoutPage>

@@ -2,6 +2,29 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GHelper.MainPage"
+             Title="Home"
              BackgroundColor="Transparent">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Frame Grid.Row="0" Grid.Column="0" Background="{x:Static Brush.DarkBlue}"
+               BorderColor="Transparent"
+               HasShadow="True"
+               CornerRadius="12"
+               HeightRequest="120"
+               WidthRequest="120">
+            
+            <Label Text="Pending Updates: 0"></Label>
+        </Frame>
+    </Grid>
 
 </ContentPage>
