@@ -27,7 +27,7 @@ public partial class UpdatesPage
         RefreshUpdates();
     }
     
-    private void DownloadButton_OnClicked(object? sender, EventArgs e)
+    private async void DownloadButton_OnClicked(object? sender, EventArgs e)
     {
         var button = sender as Button;
         var update = button?.BindingContext as IUpdate;
@@ -36,8 +36,14 @@ public partial class UpdatesPage
         {
             return;
         }
+        
+        var result = await DisplayAlert("Download", $"Go to {update.DownloadUrl}", "Yes", "No");
+        if (!result)
+        {
+            return;
+        }
 
-        Launcher.OpenAsync(update.DownloadUrl);
+        await Launcher.OpenAsync(update.DownloadUrl);
     }
 
     private void RefreshUpdates()
