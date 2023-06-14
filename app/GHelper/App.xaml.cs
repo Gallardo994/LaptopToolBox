@@ -3,7 +3,7 @@ using Ninject.Syntax;
 
 namespace GHelper;
 
-public partial class App : Application
+public partial class App
 {
     public App(IResolutionRoot kernel)
     {
