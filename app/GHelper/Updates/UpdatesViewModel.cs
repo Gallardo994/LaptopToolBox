@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using GHelper.Updates.Models;
+using GHelper.Updates;
 
-namespace GHelper.Updates;
+namespace GHelper;
 
-public class UpdatesViewModel : INotifyPropertyChanged
+public class UpdatesViewModel : IUpdatesViewModel, INotifyPropertyChanged
 {
     private int _pendingUpdates;
     public int PendingUpdates

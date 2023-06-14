@@ -49,16 +49,52 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="UI\" />
       <Folder Include="Updates\UI\" />
     </ItemGroup>
 
     <ItemGroup>
+      <MauiXaml Update="App.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="AppFlyout.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="FlyoutMenuPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="MainPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="SettingsPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
       <MauiXaml Update="UpdatesPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="App.xaml.cs">
+        <DependentUpon>App.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="AppFlyout.xaml.cs">
+        <DependentUpon>AppFlyout.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="FlyoutMenuPage.xaml.cs">
+        <DependentUpon>FlyoutMenuPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="MainPage.xaml.cs">
+        <DependentUpon>MainPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="SettingsPage.xaml.cs">
+        <DependentUpon>SettingsPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
       <Compile Update="UpdatesPage.xaml.cs">
         <DependentUpon>UpdatesPage.xaml</DependentUpon>
         <SubType>Code</SubType>

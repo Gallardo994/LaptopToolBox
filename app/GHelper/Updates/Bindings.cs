@@ -6,6 +6,8 @@ public class Bindings : NinjectModule
 {
     public override void Load()
     {
+        Bind<IUpdatesViewModel>().To<UpdatesViewModel>().InSingletonScope();
+        
         Bind<IModelInfoProvider>().To<ModelInfoProvider>().InSingletonScope();
         Bind<IUpdatesUrlProvider>().To<UpdatesUrlProvider>().InSingletonScope();
         Bind<IIgnoredUpdatesProvider>().To<IgnoredUpdatesProvider>().InSingletonScope();

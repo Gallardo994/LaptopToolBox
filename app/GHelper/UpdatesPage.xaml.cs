@@ -6,16 +6,16 @@ namespace GHelper;
 public partial class UpdatesPage
 {
     private readonly IUpdatesChecker _updatesChecker;
-    public UpdatesViewModel ViewModel { get; init; }
-    
+    public IUpdatesViewModel ViewModel { get; }
+
     [Inject]
-    public UpdatesPage(IUpdatesChecker updatesChecker)
+    public UpdatesPage(IUpdatesViewModel viewModel,
+        IUpdatesChecker updatesChecker)
     {
+        ViewModel = viewModel;
         _updatesChecker = updatesChecker;
         
         InitializeComponent();
-
-        ViewModel = new UpdatesViewModel();
         
         BindingContext = ViewModel;
         
