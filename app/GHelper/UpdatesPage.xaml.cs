@@ -1,4 +1,7 @@
 ﻿using GHelper.Updates;
+using GHelper.Updates.Core;
+using GHelper.Updates.Models;
+using GHelper.Updates.ViewModels;
 using Ninject;
 
 namespace GHelper;

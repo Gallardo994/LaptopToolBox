@@ -1,4 +1,6 @@
-﻿namespace GHelper.Updates;
+﻿using GHelper.Updates.Models;
+
+namespace GHelper.Updates.IgnoredUpdates;
 
 public interface IIgnoredUpdatesProvider
 {

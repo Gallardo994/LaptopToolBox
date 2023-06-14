@@ -1,6 +1,7 @@
-﻿using Ninject;
+﻿using GHelper.ModelInfo;
+using Ninject;
 
-namespace GHelper.Updates;
+namespace GHelper.Updates.Core;
 
 public class UpdatesUrlProvider : IUpdatesUrlProvider
 {

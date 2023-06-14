@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using GHelper.Updates;
+using GHelper.Updates.Models;
 
-namespace GHelper;
+namespace GHelper.Updates.ViewModels;
 
 public class UpdatesViewModel : IUpdatesViewModel, INotifyPropertyChanged
 {

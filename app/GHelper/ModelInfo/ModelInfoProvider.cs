@@ -1,6 +1,6 @@
 ﻿using System.Management;
 
-namespace GHelper.Updates;
+namespace GHelper.ModelInfo;
 
 public class ModelInfoProvider : IModelInfoProvider
 {

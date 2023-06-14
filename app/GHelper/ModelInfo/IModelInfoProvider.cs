@@ -1,4 +1,4 @@
-﻿namespace GHelper.Updates;
+﻿namespace GHelper.ModelInfo;
 
 public interface IModelInfoProvider
 {

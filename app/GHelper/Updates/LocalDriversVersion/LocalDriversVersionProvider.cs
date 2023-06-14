@@ -1,6 +1,6 @@
 ﻿using System.Management;
 
-namespace GHelper.Updates;
+namespace GHelper.Updates.LocalDriversVersion;
 
 public class LocalDriversVersionProvider : ILocalDriversVersionProvider
 {

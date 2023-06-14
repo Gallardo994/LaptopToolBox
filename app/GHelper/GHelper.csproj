@@ -49,11 +49,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="UI\" />
-      <Folder Include="Updates\UI\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <MauiXaml Update="App.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>

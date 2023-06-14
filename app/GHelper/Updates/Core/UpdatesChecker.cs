@@ -1,9 +1,12 @@
-﻿using GHelper.Updates.Models;
+﻿using GHelper.ModelInfo;
+using GHelper.Updates.IgnoredUpdates;
+using GHelper.Updates.LocalDriversVersion;
+using GHelper.Updates.Models;
 using Newtonsoft.Json;
 using Ninject;
 using Serilog;
 
-namespace GHelper.Updates;
+namespace GHelper.Updates.Core;
 
 public class UpdatesChecker : IUpdatesChecker
 {
