@@ -10,5 +10,6 @@ public class Bindings : NinjectModule
         Bind<MainPage>().ToSelf().InSingletonScope();
         Bind<UpdatesPage>().ToSelf().InSingletonScope();
         Bind<SettingsPage>().ToSelf().InSingletonScope();
+        Bind<IPageProvider>().To<PageProvider>().InSingletonScope();
     }
 }

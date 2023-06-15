@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using GHelper.Updates.Models;
 
-namespace GHelper.Updates.ViewModels;
+namespace GHelper.ViewModels;
 
 public interface IUpdatesViewModel
 {

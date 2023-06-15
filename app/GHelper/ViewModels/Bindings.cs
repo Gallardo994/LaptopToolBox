@@ -1,6 +1,6 @@
 ﻿using Ninject.Modules;
 
-namespace GHelper.Updates.ViewModels;
+namespace GHelper.ViewModels;
 
 public class Bindings : NinjectModule
 {

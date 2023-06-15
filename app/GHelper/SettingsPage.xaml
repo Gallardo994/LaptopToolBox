@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GHelper.SettingsPage"
              Title="Settings"
-             BackgroundColor="Transparent">
+             BackgroundColor="{StaticResource BackgroundDark}"
+             NavigationPage.HasNavigationBar="false">
     <ContentPage.Content>
         
     </ContentPage.Content>

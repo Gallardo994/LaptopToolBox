@@ -6,7 +6,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="GHelper.UpdatesPage"
              Title="Updates"
-             BackgroundColor="Transparent">
+             BackgroundColor="{StaticResource BackgroundDark}"
+             NavigationPage.HasNavigationBar="false">
     
     <ContentPage.Resources>
         <ResourceDictionary>

@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using CommunityToolkit.Maui;
+using GHelper.Injection;
 using Microsoft.Extensions.Logging;
 using Ninject;
-using Ninject.Syntax;
 using Serilog;
 
 namespace GHelper;
@@ -17,20 +17,22 @@ public static class MauiProgram
             .MinimumLevel.Debug()
             .CreateLogger();
         
+        var kernel = new StandardKernel();
+        kernel.Load(Assembly.GetExecutingAssembly());
+        
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
+            .UseNinject(kernel)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
             .Logging.AddSerilog();
-        
-        var kernel = new StandardKernel();
-        kernel.Load(Assembly.GetExecutingAssembly());
-        builder.Services.AddSingleton<IResolutionRoot>(kernel);
+
+        Services.ResolutionRoot = kernel;
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using GHelper.Updates.Models;
 
-namespace GHelper.Updates.ViewModels;
+namespace GHelper.ViewModels;
 
 public class UpdatesViewModel : IUpdatesViewModel, INotifyPropertyChanged
 {
