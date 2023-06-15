@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using CommunityToolkit.Maui;
 using GHelper.Injection;
+using GHelper.Platforms.Windows;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 using Ninject;
 using Serilog;
 
@@ -11,15 +13,23 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        var appDataDirectory = new DirectoryInfo(appDataPath);
+        var logDirectory = appDataDirectory.CreateSubdirectory("GHelper");
+        
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File(Path.Combine(logDirectory.FullName, "log.txt"), rollingInterval: RollingInterval.Day, buffered: false)
             .WriteTo.Console()
             .MinimumLevel.Debug()
             .CreateLogger();
         
-        var kernel = new StandardKernel();
-        kernel.Load(Assembly.GetExecutingAssembly());
+        AppDomain.CurrentDomain.FirstChanceException += (sender, args) =>
+        {
+            Log.Error(args.Exception, "Unhandled exception");
+        };
         
+        var kernel = new StandardKernel();
+
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
@@ -35,7 +45,26 @@ public static class MauiProgram
             })
             .Logging.AddSerilog();
 
+        builder.Services.AddLogging(logging => logging.AddSerilog(dispose: true));
+
         Services.ResolutionRoot = kernel;
+        
+        builder.ConfigureLifecycleEvents(events =>
+        {
+#if WINDOWS10_0_17763_0_OR_GREATER
+ 
+            events.AddWindows(wndLifeCycleBuilder =>
+            {
+                wndLifeCycleBuilder.OnWindowCreated(window =>
+                {
+                    // *** For Mica or Acrylic support ** //
+                    window.TryMicaOrAcrylic();
+                });
+            });
+        });
+#endif
+        
+        kernel.Load(Assembly.GetExecutingAssembly());
 
 #if DEBUG
         builder.Logging.AddDebug();

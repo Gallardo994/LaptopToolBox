@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GHelper.Pages.FlyoutMenuPage"
              Title="FlyoutMenuPage"
-             Background="{StaticResource FlyoutBackgroundDark}">
+             BackgroundColor="Transparent">
     <CollectionView x:Name="FlyoutItems"
                     x:FieldModifier="public"
                     SelectionMode="Single"
                     ItemsSource="{Binding Path=Pages}"
-                    Margin="0">
+                    Margin="0"
+                    BackgroundColor="Transparent">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Grid Padding="5,0">
