@@ -1,10 +1,9 @@
-﻿using GHelper.Updates;
-using GHelper.Updates.Core;
+﻿using GHelper.Updates.Core;
 using GHelper.Updates.Models;
 using GHelper.ViewModels;
 using Ninject;
 
-namespace GHelper;
+namespace GHelper.Pages;
 
 public partial class UpdatesPage
 {

@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using GHelper.Pages;
+using GHelper.Resources.Strings;
 
 namespace GHelper;
 
@@ -23,19 +25,22 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
         {
             new FlyoutPageItem
             {
-                Title = "Home",
+                Title = AppResources.page_home,
                 TargetType = typeof(MainPage),
                 IsHomePage = true,
+                Icon = "home.png",
             },
             new FlyoutPageItem
             {
-                Title = "Updates",
-                TargetType = typeof(UpdatesPage)
+                Title = AppResources.page_updates,
+                TargetType = typeof(UpdatesPage),
+                Icon = "download.png",
             },
             new FlyoutPageItem
             {
-                Title = "Settings",
-                TargetType = typeof(SettingsPage)
+                Title = AppResources.page_settings,
+                TargetType = typeof(SettingsPage),
+                Icon = "settings.png",
             },
         };
     }

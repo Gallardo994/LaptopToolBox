@@ -1,5 +1,7 @@
 ﻿<Frame xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:resx="clr-namespace:GHelper.Resources.Strings"
+       xmlns:helpers="using:GHelper.Helpers"
        x:Class="GHelper.Views.PendingUpdatesWidget"
        Background="{x:Static Brush.DarkBlue}"
        BorderColor="Transparent"
@@ -7,13 +9,17 @@
        CornerRadius="12"
        HeightRequest="120"
        WidthRequest="240">
-
+    
+    <Frame.Resources>
+        <helpers:Loc x:Key="Loc" />
+    </Frame.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Text="{Binding Path=PendingUpdates, StringFormat='Pending updates: {0:D}'}"></Label>
-        <Button Grid.Row="1" Text="Go to Updates" Clicked="Button_OnClicked"></Button>
+        <Label Grid.Row="0" Text="{Binding Path=PendingUpdates, Converter={StaticResource Loc}, ConverterParameter='pending_updates_count'}"></Label>
+        <Button Grid.Row="1" Text="{Static resx:AppResources.go_to_updates}" Clicked="Button_OnClicked"></Button>
     </Grid>
 </Frame>

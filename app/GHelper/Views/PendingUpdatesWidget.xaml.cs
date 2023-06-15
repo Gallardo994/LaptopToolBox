@@ -1,4 +1,5 @@
 ﻿using GHelper.Injection;
+using GHelper.Pages;
 using GHelper.ViewModels;
 using Ninject;
 

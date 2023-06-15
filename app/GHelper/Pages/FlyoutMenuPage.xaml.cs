@@ -1,4 +1,4 @@
-﻿namespace GHelper;
+﻿namespace GHelper.Pages;
 
 public partial class FlyoutMenuPage
 {

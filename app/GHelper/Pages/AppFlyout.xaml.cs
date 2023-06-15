@@ -1,7 +1,7 @@
 ﻿using Ninject;
 using Ninject.Syntax;
 
-namespace GHelper;
+namespace GHelper.Pages;
 
 public partial class AppFlyout : IStartUpPage
 {

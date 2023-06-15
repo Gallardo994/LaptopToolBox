@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GHelper.FlyoutMenuPage"
+             x:Class="GHelper.Pages.FlyoutMenuPage"
              Title="FlyoutMenuPage"
              Background="{StaticResource FlyoutBackgroundDark}">
     <CollectionView x:Name="FlyoutItems"
                     x:FieldModifier="public"
                     SelectionMode="Single"
-                    ItemsSource="{Binding Path=Pages}">
+                    ItemsSource="{Binding Path=Pages}"
+                    Margin="0">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Grid Padding="5,0">
@@ -16,11 +17,18 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     
+                    <Image Grid.Column="0"
+                           Margin="10,0"
+                           Source="{Binding Icon}"
+                           HeightRequest="16"
+                           WidthRequest="16"
+                           VerticalOptions="Center" />
+                    
                     <Label Grid.Column="1"
-                           Margin="20,0"
+                           Margin="2,0"
                            Text="{Binding Title}"
-                           FontSize="20"
-                           FontAttributes="Bold"
+                           FontFamily="SagoeUI"
+                           FontSize="18"
                            VerticalOptions="Center" />
                 </Grid>
             </DataTemplate>

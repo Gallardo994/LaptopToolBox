@@ -1,7 +1,7 @@
 ﻿using GHelper.Home.ViewModels;
 using Ninject;
 
-namespace GHelper;
+namespace GHelper.Pages;
 
 public partial class MainPage
 {
