@@ -4,35 +4,31 @@
              x:Class="GHelper.Pages.FlyoutMenuPage"
              Title="FlyoutMenuPage"
              BackgroundColor="Transparent">
-    <CollectionView x:Name="FlyoutItems"
+    
+    <ListView x:Name="FlyoutItems"
                     x:FieldModifier="public"
                     SelectionMode="Single"
                     ItemsSource="{Binding Path=Pages}"
                     Margin="0"
                     BackgroundColor="Transparent">
-        <CollectionView.ItemTemplate>
+        <ListView.ItemTemplate>
             <DataTemplate>
-                <Grid Padding="5,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <ViewCell>
+                    <HorizontalStackLayout HeightRequest="53" BackgroundColor="Transparent">
+                            <Image Margin="14,0, 0, 0"
+                                   Source="{Binding Icon}"
+                                   HeightRequest="24"
+                                   WidthRequest="24"
+                                   VerticalOptions="Center"/>
                     
-                    <Image Grid.Column="0"
-                           Margin="10,0"
-                           Source="{Binding Icon}"
-                           HeightRequest="16"
-                           WidthRequest="16"
-                           VerticalOptions="Center" />
-                    
-                    <Label Grid.Column="1"
-                           Margin="2,0"
-                           Text="{Binding Title}"
-                           FontFamily="SagoeUI"
-                           FontSize="18"
-                           VerticalOptions="Center" />
-                </Grid>
+                            <Label Margin="14, 0, 0, 0"
+                                   Text="{Binding Title}"
+                                   FontFamily="SagoeUIVF"
+                                   FontSize="16"
+                                   VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </ViewCell>
             </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>

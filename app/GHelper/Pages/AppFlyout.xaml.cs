@@ -17,7 +17,7 @@ public partial class AppFlyout : IStartUpPage
         InitializeComponent();
         
         flyoutPage.BindingContext = _pageProvider;
-        flyoutPage.FlyoutItems.SelectionChanged += OnSelectionChanged;
+        flyoutPage.FlyoutItems.ItemSelected += OnSelectionChanged;
         
         Loaded += OnLoaded;
     }
@@ -28,9 +28,9 @@ public partial class AppFlyout : IStartUpPage
         flyoutPage.FlyoutItems.SelectedItem = pageItem;
     }
 
-    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void OnSelectionChanged(object sender, SelectedItemChangedEventArgs e)
     {
-        var item = e.CurrentSelection.FirstOrDefault() as FlyoutPageItem;
+        var item = _pageProvider.GetPageItem(e.SelectedItemIndex);
         
         if (item == null)
         {

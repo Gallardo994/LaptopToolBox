@@ -55,6 +55,11 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
         return Pages.FirstOrDefault(page => page?.TargetType == type);
     }
     
+    public FlyoutPageItem? GetPageItem(int index)
+    {
+        return Pages.ElementAtOrDefault(index);
+    }
+    
     public FlyoutPageItem GetHomePageItem()
     {
         return Pages.First(page => page?.IsHomePage == true)!;

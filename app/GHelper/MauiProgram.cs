@@ -39,8 +39,9 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("Sagoe-Fluent-Icons.ttf", "SagoeFluentIcons");
-                fonts.AddFont("Sagoe-UI.ttf", "SagoeUI");
+                fonts.AddFont("SagoeFluentIcons.ttf", "SagoeFluentIcons");
+                fonts.AddFont("SagoeUI.ttf", "SagoeUI");
+                fonts.AddFont("SagoeUI-VF.tff", "SagoeUIVF");
                 
             })
             .Logging.AddSerilog();
