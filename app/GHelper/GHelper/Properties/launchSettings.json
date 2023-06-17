@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GHelper (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "GHelper (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
