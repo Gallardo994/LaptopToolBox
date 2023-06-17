@@ -18,6 +18,20 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
         
+        <Style x:Key="Loading" TargetType="ProgressRing">
+            <Setter Property="Height" Value="60"></Setter>
+            <Setter Property="Width" Value="60"></Setter>
+            <Setter Property="Margin" Value="10,10,0,0"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        
+        <Style x:Key="ItemsList" TargetType="ListView">
+            <Setter Property="Margin" Value="-6 16 0 0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="CornerRadius" Value="4"></Setter>
+        </Style>
+        
         <Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
             <Setter Property="Margin" Value="0 1 0 1" />
             <Setter Property="Height" Value="64"></Setter>
@@ -53,18 +67,12 @@
         <ProgressRing
             Grid.Row="1"
             Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}"
-            Height="60"
-            Width="60"
-            Margin="10,10,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center" />
+            Style="{StaticResource Loading}"/>
 
         <ListView Grid.Row="1" BorderThickness="0"
                   Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                   ItemsSource="{Binding Path=Updates}"
-                  Margin="-6 16 0 0"
-                  Padding="0"
-                  CornerRadius="4"
+                  Style="{StaticResource ItemsList}"
                   ItemContainerStyle="{StaticResource HorizontalSwipe}">
             <ListView.ItemTemplate>
                 <DataTemplate>
