@@ -1,24 +1,32 @@
 using System;
-using GHelper.Backdrops;
+using Windows.UI;
+using GHelper.Helpers;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Ninject;
 
 namespace GHelper
 {
     public sealed partial class MainWindow
     {
+        public string AppTitleText => "GHelper";
+        
         [Inject]
-        public MainWindow(IBackdropProvider backdropProvider, IPageProvider pageProvider)
+        public MainWindow(IPageProvider pageProvider)
         {
             InitializeComponent();
 
-            if (backdropProvider.TryGetCompatibleBackdrop(out var backdrop))
-            {
-                SystemBackdrop = backdrop;
-            }
-
             NavigationView.DataContext = pageProvider;
             NavigationView.SelectedItem = pageProvider.GetPageItem<Pages.HomePage>();
+            
+            AppTitleBar.Loaded += (sender, args) =>
+            {
+                ExtendsContentIntoTitleBar = true;
+                SetTitleBar(AppTitleBar);
+                NavigationView.IsTitleBarAutoPaddingEnabled = false;
+            };
         }
 
         private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -36,6 +44,25 @@ namespace GHelper
             }
 
             ContentFrame.Navigate(pageItem.TargetType);
+        }
+        
+        private void NavigationView_OnPaneDisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+        {
+            if (sender.PaneDisplayMode == NavigationViewPaneDisplayMode.Top)
+            {
+                VisualStateManager.GoToState(sender, "Top", true);
+            }
+            else
+            {
+                if (args.DisplayMode == NavigationViewDisplayMode.Minimal)
+                {
+                    VisualStateManager.GoToState(sender, "Compact", true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(sender, "Default", true);
+                }
+            }
         }
     }
 }

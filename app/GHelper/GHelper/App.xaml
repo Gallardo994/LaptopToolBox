@@ -9,6 +9,20 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <SolidColorBrush x:Key="WindowCaptionBackground">#202020</SolidColorBrush>
+            <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled">#202020</SolidColorBrush>
+            <SolidColorBrush x:Key="MainBackgroundColor">#202020</SolidColorBrush>
+            
+            <Style
+                x:Name="NarrowHeaderTextBlockStyle"
+                BasedOn="{StaticResource HeaderTextBlockStyle}"
+                TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource SystemControlForegroundChromeWhiteBrush}" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Margin" Value="36,12,0,0" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -6,8 +6,13 @@
     xmlns:local="using:GHelper.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:converters="using:GHelper.Converters"
+    mc:Ignorable="d">
+    
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid>
             <Grid.ColumnDefinitions>
@@ -19,13 +24,36 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <Button Grid.Row="0" Content="Refresh" Click="Button_OnClicked"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="Updates" FontSize="24" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
+                
+                <Button Grid.Column="1" Click="Button_OnClicked" ToolTipService.ToolTip="Refresh">
+                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                </Button>
+            </Grid>
+                
+        <ProgressRing Grid.Row="1"
+                      Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}" 
+                      AutomationProperties.Name="Progress image" 
+                      Height="60" 
+                      Width="60" 
+                      VerticalAlignment="Top" 
+                      Margin="10,10,0,0"/>
             
-            <ListView Grid.Row="1"
-                      ItemsSource="{Binding Path=Updates}">
+        <ListView Grid.Row="1"
+                  Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                  ItemsSource="{Binding Path=Updates}"
+                  Background="{StaticResource MainBackgroundColor}"
+                  Margin="0 16 0 0"
+                  CornerRadius="4">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                            <Grid Padding="10" ColumnSpacing="10">
+                            <Grid Padding="0" ColumnSpacing="0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -33,20 +61,30 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="200" />
-                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 
-                                <TextBlock Grid.Column="0"
-                                       Text="{Binding Name}"
-                                       HorizontalTextAlignment="Start"/>
+                                <StackPanel
+                                    Grid.Column="0"
+                                    Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE7BA;" />
+                                    <TextBlock Text="{Binding Name}"
+                                               Margin="8 0 0 0"
+                                               HorizontalTextAlignment="Start"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
                                 
                                 <TextBlock Grid.Row="0" Grid.Column="1"
                                            Text="{Binding Version}"
-                                           HorizontalTextAlignment="Start"/>
+                                           HorizontalTextAlignment="Start"
+                                           VerticalAlignment="Center"/>
                                 
                                 <Button Grid.Row="0" Grid.Column="2" 
-                                        Content="Download"
-                                        Click="DownloadButton_OnClicked"/>
+                                        Click="DownloadButton_OnClicked"
+                                        HorizontalContentAlignment="Right"
+                                        VerticalAlignment="Center">
+                                    <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
+                                </Button>
                             </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

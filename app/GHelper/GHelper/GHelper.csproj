@@ -13,6 +13,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\HomePage.xaml" />
+    <None Remove="Pages\TitleBar.xaml" />
+    <None Remove="Pages\TitleBarPage.xaml" />
     <None Remove="Pages\UpdatesPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
   </ItemGroup>

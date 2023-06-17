@@ -5,27 +5,85 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="using:GHelper.Pages"
     mc:Ignorable="d">
-
-    <NavigationView
-        x:Name="NavigationView"
-        IsBackButtonVisible="Collapsed"
-        IsBackEnabled="False"
-        IsSettingsVisible="False"
-        PaneDisplayMode="Auto"
-        SelectionChanged="NavigationView_OnSelectionChanged"
-        MenuItemsSource="{Binding Path=Pages}">
-        <NavigationView.MenuItemTemplate>
-            <DataTemplate>
-                <NavigationViewItem
-                    Content="{Binding Path=Title}"
-                    Icon="{Binding Path=Icon}"
-                    Tag="{Binding Path=Tag}"
-                    IsSelected="{Binding Path=IsSelected, Mode=TwoWay}"
-                    />
-            </DataTemplate>
-        </NavigationView.MenuItemTemplate>
+    
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base"/>
+    </Window.SystemBackdrop>
+    
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="TitleBarStates">
+            <VisualState x:Name="Default" />
+            <VisualState x:Name="Compact">
+                <VisualState.Setters>
+                    <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="Top">
+                <VisualState.Setters>
+                    <Setter Target="AppTitleBar.Margin" Value="16,0,0,0" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+        <VisualStateGroup x:Name="WindowActivationStates">
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         
-        <Frame x:Name="ContentFrame"/>
-    </NavigationView>
+        <!--Height="{Binding ElementName=NavigationView, Path=CompactPaneLength}"-->
+        <Border
+            x:Name="AppTitleBar"
+            Grid.Column="1"
+            Height="44"
+            Margin="48,0,0,0"
+            VerticalAlignment="Stretch"
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True"
+            Background="{StaticResource MainBackgroundColor}">
+        </Border>
+        
+        <NavigationView
+            x:Name="NavigationView"
+            IsBackButtonVisible="Collapsed"
+            IsBackEnabled="False"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Auto"
+            IsTabStop="False"
+            Background="{StaticResource MainBackgroundColor}"
+            DisplayModeChanged="NavigationView_OnPaneDisplayModeChanged"
+            SelectionChanged="NavigationView_OnSelectionChanged"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Canvas.ZIndex="0"
+            MenuItemsSource="{Binding Path=Pages}">
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate>
+                    <NavigationViewItem
+                        Content="{Binding Path=Title}"
+                        Icon="{Binding Path=Icon}"
+                        Tag="{Binding Path=Tag}"
+                        IsSelected="{Binding Path=IsSelected, Mode=TwoWay}"
+                    />
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
+        
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Frame Grid.Row="1" x:Name="ContentFrame" Background="Transparent" Padding="32"/>
+            </Grid>
+        </NavigationView>
+    </Grid>
 </Window>
