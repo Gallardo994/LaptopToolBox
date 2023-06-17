@@ -54,9 +54,16 @@
                   ItemsSource="{Binding Path=Updates}"
                   Margin="0 16 0 0"
                   CornerRadius="4">
-                <ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0 1 0 1"/>
+                    <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"></Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
                     <DataTemplate>
-                            <Grid Padding="0" ColumnSpacing="0">
+                        <Grid Padding="0" ColumnSpacing="0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
