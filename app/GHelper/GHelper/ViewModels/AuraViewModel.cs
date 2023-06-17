@@ -1,23 +1,17 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
+using GHelper.DeviceControls.Aura;
 using Ninject;
 
-namespace GHelper.DeviceControls.Aura;
+namespace GHelper.ViewModels;
 
-public class AuraController : IAuraController
+public sealed class AuraViewModel : IAuraViewModel, INotifyPropertyChanged
 {
     private readonly IAuraControl _auraControl;
-
-    internal bool IsScopeActive { get; set; }
-
-    bool IAuraController.IsScopeActive
-    {
-        get => IsScopeActive;
-        set => IsScopeActive = value;
-    }
-
+    
     [Inject]
-    public AuraController(IAuraControl auraControl)
+    public AuraViewModel(IAuraControl auraControl)
     {
         _auraControl = auraControl;
     }
@@ -30,6 +24,7 @@ public class AuraController : IAuraController
         {
             _mode = value;
             Refresh();
+            OnPropertyChanged();
         }
     }
     
@@ -41,6 +36,7 @@ public class AuraController : IAuraController
         {
             _color = value;
             Refresh();
+            OnPropertyChanged();
         }
     }
     
@@ -52,6 +48,7 @@ public class AuraController : IAuraController
         {
             _color2 = value;
             Refresh();
+            OnPropertyChanged();
         }
     }
     
@@ -63,22 +60,19 @@ public class AuraController : IAuraController
         {
             _speed = value;
             Refresh();
+            OnPropertyChanged();
         }
-    }
-    
-    public AuraControllerScope Scope()
-    {
-        return new AuraControllerScope(this);
     }
 
-    public bool Refresh()
+    private void Refresh()
     {
-        if (IsScopeActive)
-        {
-            return false;
-        }
-        
         _auraControl.Apply(Mode, Color, Color2, Speed);
-        return true;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

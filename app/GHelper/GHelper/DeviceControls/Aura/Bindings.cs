@@ -8,6 +8,5 @@ public class Bindings : NinjectModule
     {
         Bind<IAuraControl>().To<AuraControl>().InSingletonScope();
         Bind<IAuraModesProvider>().To<AuraModesProvider>().InSingletonScope();
-        Bind<IAuraController>().To<AuraController>().InSingletonScope();
     }
 }
