@@ -64,6 +64,22 @@ namespace GHelper.Pages
             Task.Run(async () =>
             {
                 var result = await _updatesChecker.CheckForUpdates();
+
+                result.Sort((update1, update2) =>
+                {
+                    if (update1.IsNewerThanCurrent && !update2.IsNewerThanCurrent)
+                    {
+                        return -1;
+                    }
+
+                    if (!update1.IsNewerThanCurrent && update2.IsNewerThanCurrent)
+                    {
+                        return 1;
+                    }
+
+                    return string.Compare(update1.Name, update2.Name, StringComparison.Ordinal);
+                });
+                
                 DispatcherQueue.TryEnqueue(() =>
                 {
                     ViewModel.SetUpdates(result);

@@ -67,7 +67,14 @@
                                 <StackPanel
                                     Grid.Column="0"
                                     Orientation="Horizontal">
-                                    <FontIcon Glyph="&#xE7BA;" />
+                                    <FontIcon 
+                                        Glyph="&#xE73E;" 
+                                        Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                        Foreground="{ThemeResource SystemFillColorSuccessBrush}"/>
+                                    <FontIcon 
+                                        Glyph="&#xE7BA;" 
+                                        Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"/>
                                     <TextBlock Text="{Binding Name}"
                                                Margin="8 0 0 0"
                                                HorizontalTextAlignment="Start"
