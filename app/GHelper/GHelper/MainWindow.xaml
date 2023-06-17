@@ -65,7 +65,8 @@
             Grid.RowSpan="2"
             Grid.Column="1"
             Canvas.ZIndex="0"
-            MenuItemsSource="{Binding Path=Pages}">
+            MenuItemsSource="{Binding Path=NormalPages}"
+            FooterMenuItemsSource="{Binding Path=FooterPages}">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate>
                     <NavigationViewItem

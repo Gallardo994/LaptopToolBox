@@ -11,4 +11,8 @@ public interface IPageProvider
     public FlyoutPageItem? GetPageItem(Type type);
     public FlyoutPageItem? GetPageItem(int index);
     public FlyoutPageItem GetHomePageItem();
+    
+    
+    public ObservableCollection<FlyoutPageItem?> NormalPages { get; set; }
+    public ObservableCollection<FlyoutPageItem?> FooterPages { get; set; }
 }

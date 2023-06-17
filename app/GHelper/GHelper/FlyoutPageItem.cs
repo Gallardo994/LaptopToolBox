@@ -10,4 +10,5 @@ public class FlyoutPageItem
     public BitmapIcon Icon { get; set; }
     public bool IsHomePage { get; set; }
     public string Tag { get; set; }
+    public bool IsFooter { get; set; }
 }

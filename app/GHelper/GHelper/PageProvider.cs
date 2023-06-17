@@ -22,6 +22,28 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
         }
     }
     
+    private ObservableCollection<FlyoutPageItem?> _normalPages = null!;
+    public ObservableCollection<FlyoutPageItem?> NormalPages
+    {
+        get => _normalPages;
+        set
+        {
+            _normalPages = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private ObservableCollection<FlyoutPageItem?> _footerPages = null!;
+    public ObservableCollection<FlyoutPageItem?> FooterPages
+    {
+        get => _footerPages;
+        set
+        {
+            _footerPages = value;
+            OnPropertyChanged();
+        }
+    }
+    
     public PageProvider()
     {
         Pages = new ObservableCollection<FlyoutPageItem?>
@@ -55,9 +77,13 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
                 {
                     UriSource = new Uri("ms-appx:///Assets/settings.png"),
                 },
-                Tag = "Settings"
+                Tag = "Settings",
+                IsFooter = true,
             },
         };
+        
+        NormalPages = new ObservableCollection<FlyoutPageItem?>(Pages.Where(page => !page!.IsFooter));
+        FooterPages = new ObservableCollection<FlyoutPageItem?>(Pages.Where(page => page!.IsFooter));
     }
     
     public FlyoutPageItem? GetPageItem<T>() where T : Page
