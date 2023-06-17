@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using GHelper.Pages;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace GHelper;
 
@@ -30,20 +31,31 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
                 Title = "Home",
                 TargetType = typeof(HomePage),
                 IsHomePage = true,
-                Icon = "Home",
+                Icon = new BitmapIcon
+                {
+                    UriSource = new Uri("ms-appx:///Assets/home.png"),
+                },
                 Tag = "Home",
             },
             new FlyoutPageItem
             {
                 Title = "Updates",
                 TargetType = typeof(UpdatesPage),
-                Icon = "Assets/download.svg",
+                Icon = new BitmapIcon
+                {
+                    UriSource = new Uri("ms-appx:///Assets/updates.png"),
+                },
+                Tag = "Updates"
             },
             new FlyoutPageItem
             {
                 Title = "Settings",
                 TargetType = typeof(SettingsPage),
-                Icon = "ms-appx://Assets/settings.png",
+                Icon = new BitmapIcon
+                {
+                    UriSource = new Uri("ms-appx:///Assets/settings.png"),
+                },
+                Tag = "Settings"
             },
         };
     }
