@@ -49,14 +49,15 @@
             <TextBlock Text="Drivers and BIOS updates can be checked on this page" VerticalAlignment="Center"
                        Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>
-
-
-        <ProgressRing Grid.Row="1"
-                      Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}"
-                      Height="60"
-                      Width="60"
-                      VerticalAlignment="Top"
-                      Margin="10,10,0,0" />
+        
+        <ProgressRing
+            Grid.Row="1"
+            Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}"
+            Height="60"
+            Width="60"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
 
         <ListView Grid.Row="1" BorderThickness="0"
                   Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
