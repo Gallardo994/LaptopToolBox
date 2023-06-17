@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Grid
     x:Class="GHelper.Views.AuraView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,42 +10,79 @@
     xmlns:viewModels="using:GHelper.ViewModels"
     xmlns:converters="using:GHelper.Converters"
     mc:Ignorable="d">
-    
+
     <Grid.DataContext>
         <viewModels:AuraViewModel />
     </Grid.DataContext>
-    
+
     <Grid.Resources>
         <converters:UiToDrawingColorConverter x:Key="UiToDrawingColorConverter" />
     </Grid.Resources>
-    
+
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    
-    <ComboBox Grid.Row="0" 
-              ItemsSource="{Binding Modes}"
-              SelectedItem="{Binding Mode, Mode=TwoWay}"
-              DisplayMemberPath="Title" SelectedValuePath="Title"
-              Header="Mode" Width="200"/>
-    
-    <ComboBox Grid.Row="1"
-                ItemsSource="{Binding Speeds}"
-                SelectedItem="{Binding Speed, Mode=TwoWay}"
-                DisplayMemberPath="Title" SelectedValuePath="Title"
-                Header="Speed" Width="200"/>
 
-    <ColorPicker Grid.Row="2"
-                 x:Name="PrimaryColorPicker"
-                 Color="{Binding Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
-                 ColorSpectrumShape="Box"
-                 IsMoreButtonVisible="False"
-                 IsColorSliderVisible="True"
-                 IsColorChannelTextInputVisible="True"
-                 IsHexInputVisible="True"
-                 IsAlphaEnabled="False"
-                 IsAlphaSliderVisible="False"
-                 IsAlphaTextInputVisible="False" />
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+
+    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+        <ComboBox
+            ItemsSource="{Binding Modes}"
+            SelectedItem="{Binding Mode, Mode=TwoWay}"
+            DisplayMemberPath="Title" SelectedValuePath="Title"
+            Header="Mode" Width="200" />
+
+        <AppBarSeparator VerticalAlignment="Center" />
+
+        <ComboBox
+            ItemsSource="{Binding Speeds}"
+            SelectedItem="{Binding Speed, Mode=TwoWay}"
+            DisplayMemberPath="Title" SelectedValuePath="Title"
+            Header="Speed" Width="200" />
+    </StackPanel>
+
+    <Expander Grid.Row="1" Grid.Column="0"
+              IsExpanded="False"
+              ExpandDirection="Down"
+              VerticalAlignment="Top"
+              Header="Primary Color"
+              HorizontalAlignment="Stretch">
+        <Expander.Content>
+            <ColorPicker x:Name="PrimaryColorPicker"
+                         Color="{Binding Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
+                         ColorSpectrumShape="Box"
+                         IsMoreButtonVisible="False"
+                         IsColorSliderVisible="True"
+                         IsColorChannelTextInputVisible="True"
+                         IsHexInputVisible="True"
+                         IsAlphaEnabled="False"
+                         IsAlphaSliderVisible="False"
+                         IsAlphaTextInputVisible="False" />
+        </Expander.Content>
+    </Expander>
+
+    <Expander Grid.Row="2" Grid.Column="0"
+              IsExpanded="False"
+              ExpandDirection="Down"
+              VerticalAlignment="Top"
+              Header="Secondary Color"
+              HorizontalAlignment="Stretch">
+        <Expander.Content>
+            <ColorPicker x:Name="SecondaryColorPicker"
+                         Color="{Binding Color2, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
+                         ColorSpectrumShape="Box"
+                         IsMoreButtonVisible="False"
+                         IsColorSliderVisible="True"
+                         IsColorChannelTextInputVisible="True"
+                         IsHexInputVisible="True"
+                         IsAlphaEnabled="False"
+                         IsAlphaSliderVisible="False"
+                         IsAlphaTextInputVisible="False" />
+        </Expander.Content>
+    </Expander>
 </Grid>
