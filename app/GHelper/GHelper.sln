@@ -3,36 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHelper", "GHelper\GHelper.csproj", "{97CD4727-34C0-4368-BF0A-9EDF09C1028C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GHelper", "GHelper\GHelper.csproj", "{97CD4727-34C0-4368-BF0A-9EDF09C1028C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|ARM64.Build.0 = Debug|ARM64
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|ARM64.Deploy.0 = Debug|ARM64
 		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|x64.ActiveCfg = Debug|x64
 		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|x64.Build.0 = Debug|x64
 		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|x64.Deploy.0 = Debug|x64
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|x86.ActiveCfg = Debug|x86
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|x86.Build.0 = Debug|x86
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Debug|x86.Deploy.0 = Debug|x86
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|ARM64.ActiveCfg = Release|ARM64
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|ARM64.Build.0 = Release|ARM64
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|ARM64.Deploy.0 = Release|ARM64
 		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|x64.ActiveCfg = Release|x64
 		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|x64.Build.0 = Release|x64
 		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|x64.Deploy.0 = Release|x64
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|x86.ActiveCfg = Release|x86
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|x86.Build.0 = Release|x86
-		{97CD4727-34C0-4368-BF0A-9EDF09C1028C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
