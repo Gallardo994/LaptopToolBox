@@ -1,4 +1,5 @@
-﻿using GHelper.Commands;
+﻿using System.Threading.Tasks;
+using GHelper.Commands;
 
 namespace GHelper.DeviceControls.Aura;
 
@@ -19,7 +20,7 @@ public class AuraApplyCommand : ICommand
     {
         var devices = _hid.GetHidDevicesBlocking(_usb.DeviceIds);
             
-        foreach (var device in devices)
+        Parallel.ForEach(devices, device =>
         {
             device.OpenDevice();
             
@@ -28,6 +29,6 @@ public class AuraApplyCommand : ICommand
             device.WriteFeatureData(_usb.MessageApply);
             
             device.CloseDevice();
-        }
+        });
     }
 }

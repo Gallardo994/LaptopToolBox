@@ -2,19 +2,14 @@
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using GHelper.DeviceControls.Aura;
+using GHelper.Injection;
 using Ninject;
 
 namespace GHelper.ViewModels;
 
 public sealed class AuraViewModel : IAuraViewModel, INotifyPropertyChanged
 {
-    private readonly IAuraControl _auraControl;
-    
-    [Inject]
-    public AuraViewModel(IAuraControl auraControl)
-    {
-        _auraControl = auraControl;
-    }
+    private readonly IAuraControl _auraControl = Services.ResolutionRoot.Get<IAuraControl>();
 
     private AuraMode _mode;
     public AuraMode Mode

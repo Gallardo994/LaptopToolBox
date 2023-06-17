@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using GHelper.Commands;
 using Ninject;
 
 namespace GHelper.DeviceControls.Aura;
@@ -8,10 +7,10 @@ public class AuraControl : IAuraControl
 {
     private readonly IUsb _usb;
     private readonly IHid _hid;
-    private readonly ICommandLoop _commandLoop;
+    private readonly IAuraCommandLoop _commandLoop;
     
     [Inject]
-    public AuraControl(IUsb usb, IHid hid, ICommandLoop commandLoop)
+    public AuraControl(IUsb usb, IHid hid, IAuraCommandLoop commandLoop)
     {
         _usb = usb;
         _hid = hid;

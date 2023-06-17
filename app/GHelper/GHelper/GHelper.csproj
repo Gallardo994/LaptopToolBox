@@ -17,6 +17,7 @@
     <None Remove="Pages\TitleBarPage.xaml" />
     <None Remove="Pages\UpdatesPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Views\AuraControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,7 +67,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
+    <Page Update="Views\AuraView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- 
