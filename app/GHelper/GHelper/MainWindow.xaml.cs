@@ -5,6 +5,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Ninject;
 
 namespace GHelper
@@ -43,7 +44,7 @@ namespace GHelper
                 return;
             }
 
-            ContentFrame.Navigate(pageItem.TargetType);
+            ContentFrame.Navigate(pageItem.TargetType, null, new DrillInNavigationTransitionInfo());
         }
         
         private void NavigationView_OnPaneDisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

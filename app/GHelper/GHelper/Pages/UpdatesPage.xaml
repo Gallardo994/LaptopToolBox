@@ -57,6 +57,7 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0 1 0 1"/>
+                    <Setter Property="Height" Value="64"></Setter>
                     <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"></Setter>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                 </Style>
@@ -70,7 +71,6 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 
@@ -85,23 +85,27 @@
                                         Glyph="&#xE7BA;" 
                                         Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Foreground="{ThemeResource SystemFillColorCriticalBrush}"/>
-                                    <TextBlock Text="{Binding Name}"
-                                               Margin="8 0 0 0"
-                                               HorizontalTextAlignment="Start"
-                                               VerticalAlignment="Center"/>
+                                    <StackPanel Margin="8 0 0 0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                                        <TextBlock Text="{Binding Version}"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                                 
-                                <TextBlock Grid.Row="0" Grid.Column="1"
-                                           Text="{Binding Version}"
-                                           HorizontalTextAlignment="Start"
-                                           VerticalAlignment="Center"/>
-                                
-                                <Button Grid.Row="0" Grid.Column="2" 
-                                        Click="DownloadButton_OnClicked"
-                                        HorizontalContentAlignment="Right"
-                                        VerticalAlignment="Center">
+                            <AppBarButton Grid.Row="0" Grid.Column="1" 
+                                          Click="DownloadButton_OnClicked"
+                                          ToolTipService.ToolTip="Download"
+                                          Label="Download"
+                                          HorizontalContentAlignment="Right"
+                                          VerticalAlignment="Center">
+                                <AppBarButton.Icon>
                                     <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
-                                </Button>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
                             </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
