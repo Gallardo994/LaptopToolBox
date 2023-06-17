@@ -6,7 +6,7 @@ using GHelper.Updates.Models;
 
 namespace GHelper.ViewModels;
 
-public class UpdatesViewModel : IUpdatesViewModel, INotifyPropertyChanged
+public class UpdatesViewModel : INotifyPropertyChanged
 {
     private int _pendingUpdates;
     public int PendingUpdates

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using GHelper.DeviceControls.Aura;
 using GHelper.Injection;
@@ -9,14 +10,32 @@ using Ninject;
 
 namespace GHelper.ViewModels;
 
-public sealed class AuraViewModel : IAuraViewModel, INotifyPropertyChanged
+public sealed class AuraViewModel : INotifyPropertyChanged
 {
-    private readonly IAuraControl _auraControl = Services.ResolutionRoot.Get<IAuraControl>();
-    private readonly IAuraModesProvider _auraModesProvider = Services.ResolutionRoot.Get<IAuraModesProvider>();
+    private readonly IAuraControl _auraControl;
+    private readonly IAuraModesProvider _auraModesProvider;
+    private readonly IAuraSpeedsProvider _auraSpeedsProvider;
+    
     public ObservableCollection<AuraModeModel> Modes => _auraModesProvider.SupportedModes;
+    
+    public ObservableCollection<AuraSpeedModel> Speeds => _auraSpeedsProvider.SupportedSpeeds;
+    public int SpeedsMinimum => 0;
+    public int SpeedsMaximum => Speeds.Count - 1;
+    
+    public AuraViewModel()
+    {
+        _auraControl = Services.ResolutionRoot.Get<IAuraControl>();
+        _auraModesProvider = Services.ResolutionRoot.Get<IAuraModesProvider>();
+        _auraSpeedsProvider = Services.ResolutionRoot.Get<IAuraSpeedsProvider>();
+        
+        _mode = Modes.First();
+        _color = Color.White;
+        _color2 = Color.White;
+        SpeedIndex = 0;
+    }
 
-    private AuraMode _mode;
-    public AuraMode Mode
+    private AuraModeModel _mode;
+    public AuraModeModel Mode
     {
         get => _mode;
         set 
@@ -51,13 +70,13 @@ public sealed class AuraViewModel : IAuraViewModel, INotifyPropertyChanged
         }
     }
     
-    private AuraSpeed _speed;
-    public AuraSpeed Speed
+    private int _speedIndex;
+    public int SpeedIndex
     {
-        get => _speed;
+        get => _speedIndex;
         set 
         {
-            _speed = value;
+            _speedIndex = value;
             Refresh();
             OnPropertyChanged();
         }
@@ -65,7 +84,7 @@ public sealed class AuraViewModel : IAuraViewModel, INotifyPropertyChanged
 
     private void Refresh()
     {
-        _auraControl.Apply(Mode, Color, Color2, Speed);
+        _auraControl.Apply(Mode.Mode, Color, Color2, Speeds[SpeedIndex].Speed);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

@@ -24,10 +24,21 @@
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     
-    <ComboBox ItemsSource="{Binding Modes}" DisplayMemberPath="Title" SelectedValuePath="Title"
-              Header="Mode" Width="200" SelectionChanged="Selector_OnSelectionChanged"/>
+    <ComboBox Grid.Row="0" 
+              ItemsSource="{Binding Modes}"
+              SelectedItem="{Binding Mode, Mode=TwoWay}"
+              DisplayMemberPath="Title" SelectedValuePath="Title"
+              Header="Mode" Width="200"/>
+    
+    <Slider Grid.Row="1"
+        TickFrequency="1"
+        Minimum="{Binding SpeedsMinimum}"
+        Maximum="{Binding SpeedsMaximum}"
+        Value="{Binding SpeedIndex, Mode=TwoWay}"
+        TickPlacement="Outside"
+        SnapsTo="Ticks" />
 
-    <ColorPicker
+    <ColorPicker Grid.Row="2"
         x:Name="PrimaryColorPicker"
         Color="{Binding Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
         ColorSpectrumShape="Box"

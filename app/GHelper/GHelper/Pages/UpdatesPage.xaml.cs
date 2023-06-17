@@ -15,7 +15,7 @@ namespace GHelper.Pages
     public sealed partial class UpdatesPage
     {
         private readonly IUpdatesChecker _updatesChecker = Services.ResolutionRoot.Get<IUpdatesChecker>();
-        public IUpdatesViewModel ViewModel { get; } = Services.ResolutionRoot.Get<IUpdatesViewModel>();
+        public UpdatesViewModel ViewModel { get; } = Services.ResolutionRoot.Get<UpdatesViewModel>();
 
         public UpdatesPage()
         {
