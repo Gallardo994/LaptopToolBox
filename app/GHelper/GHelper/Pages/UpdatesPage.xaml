@@ -111,7 +111,6 @@
                                                   x:Name="HoverButton"
                                                   Visibility="Collapsed"
                                                   Click="DownloadButton_OnClicked"
-                                                  ToolTipService.ToolTip="Download"
                                                   Label="Download"
                                                   HorizontalContentAlignment="Right"
                                                   VerticalAlignment="Center">
