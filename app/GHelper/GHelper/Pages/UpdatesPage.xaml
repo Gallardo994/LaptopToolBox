@@ -83,7 +83,7 @@
                                     <VisualState x:Name="HoverButtonsHidden"></VisualState>
                                     <VisualState x:Name="HoverButtonsShown">
                                         <VisualState.Setters>
-                                            <Setter Target="HoverButton.Visibility" Value="Visible" />
+                                            <Setter Target="HoverContainer.Visibility" Value="Visible" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -115,17 +115,20 @@
                                         </StackPanel>
                                     </StackPanel>
                                     
-                                    <AppBarButton Grid.Column="1" 
-                                                  x:Name="HoverButton"
-                                                  Visibility="Collapsed"
-                                                  Click="DownloadButton_OnClicked"
-                                                  Label="Download"
-                                                  HorizontalContentAlignment="Right"
-                                                  VerticalAlignment="Center">
-                                        <AppBarButton.Icon>
-                                            <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
-                                        </AppBarButton.Icon>
-                                    </AppBarButton>
+                                    <StackPanel Grid.Column="1" 
+                                                Orientation="Horizontal" 
+                                                x:Name="HoverContainer"
+                                                Visibility="Collapsed">
+                                        <AppBarButton 
+                                            Click="DownloadButton_OnClicked"
+                                            Label="Download"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalAlignment="Center">
+                                            <AppBarButton.Icon>
+                                                <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                    </StackPanel>
                                 </Grid>
                             </SwipeControl>
                         </Grid>
