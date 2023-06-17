@@ -23,17 +23,13 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
+        
         <StackPanel>
-            <Grid>
+            <Grid Margin="0" Padding="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -59,17 +55,17 @@
                       VerticalAlignment="Top"
                       Margin="10,10,0,0" />
 
-        <ListView Grid.Row="1"
+        <ListView Grid.Row="1" BorderThickness="0"
                   Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                   ItemsSource="{Binding Path=Updates}"
-                  Margin="0 16 0 0"
+                  Margin="-6 16 0 0"
+                  Padding="0"
                   CornerRadius="4"
-                  ItemContainerStyle="{StaticResource HorizontalSwipe}"
-                  IsItemClickEnabled="False">
+                  ItemContainerStyle="{StaticResource HorizontalSwipe}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
-                        <Grid Padding="0" ColumnSpacing="0">
+                        <Grid Margin="0" Padding="0">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="HoveringStates">
                                     <VisualState x:Name="HoverButtonsHidden"></VisualState>
