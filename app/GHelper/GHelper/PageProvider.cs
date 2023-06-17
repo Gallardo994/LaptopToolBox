@@ -53,19 +53,29 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
                 Title = "Home",
                 TargetType = typeof(HomePage),
                 IsHomePage = true,
-                Icon = new BitmapIcon
+                Icon = new FontIcon
                 {
-                    UriSource = new Uri("ms-appx:///Assets/home.png"),
+                    Glyph = "\uE80F",
                 },
                 Tag = "Home",
             },
             new FlyoutPageItem
             {
+                Title = "Peripherals",
+                TargetType = typeof(PeripheralsPage),
+                Icon = new FontIcon
+                {
+                    Glyph = "\uF73D",
+                },
+                Tag = "Peripherals",
+            },
+            new FlyoutPageItem
+            {
                 Title = "Updates",
                 TargetType = typeof(UpdatesPage),
-                Icon = new BitmapIcon
+                Icon = new FontIcon
                 {
-                    UriSource = new Uri("ms-appx:///Assets/updates.png"),
+                    Glyph = "\uE72C",
                 },
                 Tag = "Updates"
             },
@@ -73,9 +83,9 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
             {
                 Title = "Settings",
                 TargetType = typeof(SettingsPage),
-                Icon = new BitmapIcon
+                Icon = new FontIcon
                 {
-                    UriSource = new Uri("ms-appx:///Assets/settings.png"),
+                    Glyph = "\uE713",
                 },
                 Tag = "Settings",
                 IsFooter = true,
