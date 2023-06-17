@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using System.Reflection;
-using GHelper.Helpers;
 using GHelper.Injection;
 using Ninject;
 
@@ -21,8 +20,6 @@ namespace GHelper
             Services.ResolutionRoot = kernel;
             
             _window = kernel.Get<MainWindow>();
-            WindowHelpers.TrackWindow(_window);
-            
             _window.Activate();
         }
 
