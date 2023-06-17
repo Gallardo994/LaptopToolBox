@@ -17,6 +17,15 @@
     <Grid.Resources>
         <converters:UiToDrawingColorConverter x:Key="UiToDrawingColorConverter" />
     </Grid.Resources>
+    
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    
+    <ComboBox ItemsSource="{Binding Modes}" DisplayMemberPath="Title" SelectedValuePath="Title"
+              Header="Mode" Width="200" SelectionChanged="Selector_OnSelectionChanged"/>
 
     <ColorPicker
         x:Name="PrimaryColorPicker"

@@ -1,13 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GHelper.DeviceControls.Aura;
 
 public class AuraModesProvider : IAuraModesProvider
 {
-    public AuraMode[] SupportedModes { get; init; }
+    public ObservableCollection<AuraModeModel> SupportedModes { get; init; }
 
     public AuraModesProvider()
     {
-        SupportedModes = Enum.GetValues<AuraMode>();
+        var modeModelsTemp = new List<AuraModeModel>();
+        
+        foreach (var mode in Enum.GetValues<AuraMode>())
+        {
+            var modeModel = new AuraModeModel(mode.ToString(), mode);
+            modeModelsTemp.Add(modeModel);
+        }
+        
+        SupportedModes = new ObservableCollection<AuraModeModel>(modeModelsTemp);
     }
 }

@@ -1,6 +1,9 @@
-﻿namespace GHelper.DeviceControls.Aura;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+namespace GHelper.DeviceControls.Aura;
 
 public interface IAuraModesProvider
 {
-    public AuraMode[] SupportedModes { get; }
+    public ObservableCollection<AuraModeModel> SupportedModes { get; }
 }

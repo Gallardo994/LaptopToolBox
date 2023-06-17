@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using GHelper.DeviceControls.Aura;
@@ -10,6 +12,8 @@ namespace GHelper.ViewModels;
 public sealed class AuraViewModel : IAuraViewModel, INotifyPropertyChanged
 {
     private readonly IAuraControl _auraControl = Services.ResolutionRoot.Get<IAuraControl>();
+    private readonly IAuraModesProvider _auraModesProvider = Services.ResolutionRoot.Get<IAuraModesProvider>();
+    public ObservableCollection<AuraModeModel> Modes => _auraModesProvider.SupportedModes;
 
     private AuraMode _mode;
     public AuraMode Mode
