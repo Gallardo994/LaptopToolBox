@@ -2,12 +2,12 @@
 
 public class AuraSpeedModel
 {
-    public int Index { get; set; }
+    public string Title { get; set; }
     public AuraSpeed Speed { get; set; }
     
-    public AuraSpeedModel(int index, AuraSpeed speed)
+    public AuraSpeedModel(string title, AuraSpeed speed)
     {
-        Index = index;
         Speed = speed;
+        Title = title;
     }
 }

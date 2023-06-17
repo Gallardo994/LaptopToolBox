@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace GHelper.DeviceControls.Aura;
 
@@ -13,10 +14,13 @@ public class AuraSpeedsProvider : IAuraSpeedsProvider
         var modelsTemp = new List<AuraSpeedModel>();
         
         var speeds = Enum.GetValues<AuraSpeed>();
-        for (var i = 0; i < speeds.Length; i++)
+        foreach (var speed in speeds)
         {
-            var speed = speeds[i];
-            var model = new AuraSpeedModel(i, speed);
+            var title = typeof(AuraSpeed).GetCustomAttribute(typeof(SpeedTitleAttribute)) is SpeedTitleAttribute attribute
+                ? attribute.Title
+                : speed.ToString();
+            
+            var model = new AuraSpeedModel(title, speed);
             modelsTemp.Add(model);
         }
         

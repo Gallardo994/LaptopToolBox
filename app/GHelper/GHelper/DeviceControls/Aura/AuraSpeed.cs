@@ -2,7 +2,7 @@
 
 public enum AuraSpeed : byte
 {
-    Slow = 0x01,
-    Medium = 0xeb,
-    Fast = 0xf5,
+    [SpeedTitle("Slow")] Slow = 0x01,
+    [SpeedTitle("Normal")] Medium = 0xeb,
+    [SpeedTitle("Fast")] Fast = 0xf5,
 }

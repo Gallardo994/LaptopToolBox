@@ -31,7 +31,7 @@ public sealed class AuraViewModel : INotifyPropertyChanged
         _mode = Modes.First();
         _color = Color.White;
         _color2 = Color.White;
-        SpeedIndex = 0;
+        _speed = Speeds.First();
     }
 
     private AuraModeModel _mode;
@@ -70,13 +70,13 @@ public sealed class AuraViewModel : INotifyPropertyChanged
         }
     }
     
-    private int _speedIndex;
-    public int SpeedIndex
+    private AuraSpeedModel _speed;
+    public AuraSpeedModel Speed
     {
-        get => _speedIndex;
+        get => _speed;
         set 
         {
-            _speedIndex = value;
+            _speed = value;
             Refresh();
             OnPropertyChanged();
         }
@@ -84,7 +84,7 @@ public sealed class AuraViewModel : INotifyPropertyChanged
 
     private void Refresh()
     {
-        _auraControl.Apply(Mode.Mode, Color, Color2, Speeds[SpeedIndex].Speed);
+        _auraControl.Apply(Mode.Mode, Color, Color2, Speed.Speed);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

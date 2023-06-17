@@ -30,23 +30,21 @@
               DisplayMemberPath="Title" SelectedValuePath="Title"
               Header="Mode" Width="200"/>
     
-    <Slider Grid.Row="1"
-        TickFrequency="1"
-        Minimum="{Binding SpeedsMinimum}"
-        Maximum="{Binding SpeedsMaximum}"
-        Value="{Binding SpeedIndex, Mode=TwoWay}"
-        TickPlacement="Outside"
-        SnapsTo="Ticks" />
+    <ComboBox Grid.Row="1"
+                ItemsSource="{Binding Speeds}"
+                SelectedItem="{Binding Speed, Mode=TwoWay}"
+                DisplayMemberPath="Title" SelectedValuePath="Title"
+                Header="Speed" Width="200"/>
 
     <ColorPicker Grid.Row="2"
-        x:Name="PrimaryColorPicker"
-        Color="{Binding Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
-        ColorSpectrumShape="Box"
-        IsMoreButtonVisible="False"
-        IsColorSliderVisible="True"
-        IsColorChannelTextInputVisible="True"
-        IsHexInputVisible="True"
-        IsAlphaEnabled="False"
-        IsAlphaSliderVisible="False"
-        IsAlphaTextInputVisible="False" />
+                 x:Name="PrimaryColorPicker"
+                 Color="{Binding Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
+                 ColorSpectrumShape="Box"
+                 IsMoreButtonVisible="False"
+                 IsColorSliderVisible="True"
+                 IsColorChannelTextInputVisible="True"
+                 IsHexInputVisible="True"
+                 IsAlphaEnabled="False"
+                 IsAlphaSliderVisible="False"
+                 IsAlphaTextInputVisible="False" />
 </Grid>
