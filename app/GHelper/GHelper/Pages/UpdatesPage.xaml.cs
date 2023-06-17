@@ -7,6 +7,7 @@ using GHelper.Updates.Models;
 using GHelper.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Ninject;
 
 namespace GHelper.Pages
@@ -86,6 +87,19 @@ namespace GHelper.Pages
                     ViewModel.IsUpdating = false;
                 });
             }).Forget();
+        }
+        
+        private void ListViewSwipeContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen)
+            {
+                VisualStateManager.GoToState(sender as Control, "HoverButtonsShown", true);
+            }
+        }
+
+        private void ListViewSwipeContainer_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
         }
     }
 }

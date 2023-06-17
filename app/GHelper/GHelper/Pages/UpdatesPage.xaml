@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Page
     x:Class="GHelper.Pages.UpdatesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -8,107 +9,125 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:GHelper.Converters"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+        
+        <Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter Property="Margin" Value="0 1 0 1" />
+            <Setter Property="Height" Value="64"></Setter>
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        </Style>
     </Page.Resources>
 
     <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                
-                    <TextBlock Grid.Column="0" Text="Updates" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
-                
-                    <Button Grid.Column="1" Click="Button_OnClicked" ToolTipService.ToolTip="Refresh">
-                        <FontIcon FontSize="16" Glyph="&#xE72C;" />
-                    </Button>
-                </Grid>
-                <TextBlock Text="Drivers and BIOS updates can be checked on this page" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
-            </StackPanel>
-            
-                
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Updates" VerticalAlignment="Center"
+                           Style="{StaticResource TitleTextBlockStyle}" />
+
+                <Button Grid.Column="1" Click="Button_OnClicked" ToolTipService.ToolTip="Refresh">
+                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                </Button>
+            </Grid>
+            <TextBlock Text="Drivers and BIOS updates can be checked on this page" VerticalAlignment="Center"
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+        </StackPanel>
+
+
         <ProgressRing Grid.Row="1"
-                      Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}" 
-                      AutomationProperties.Name="Progress image" 
-                      Height="60" 
-                      Width="60" 
-                      VerticalAlignment="Top" 
-                      Margin="10,10,0,0"/>
-            
+                      Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}"
+                      AutomationProperties.Name="Progress image"
+                      Height="60"
+                      Width="60"
+                      VerticalAlignment="Top"
+                      Margin="10,10,0,0" />
+
         <ListView Grid.Row="1"
                   Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                   ItemsSource="{Binding Path=Updates}"
                   Margin="0 16 0 0"
-                  CornerRadius="4">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="0 1 0 1"/>
-                    <Setter Property="Height" Value="64"></Setter>
-                    <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"></Setter>
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
+                  CornerRadius="4"
+                  ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                  IsItemClickEnabled="False">
             <ListView.ItemTemplate>
-                    <DataTemplate>
+                <DataTemplate>
+                    <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                         <Grid Padding="0" ColumnSpacing="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                
-                                <StackPanel
-                                    Grid.Column="0"
-                                    Orientation="Horizontal">
-                                    <FontIcon 
-                                        Glyph="&#xE73E;" 
-                                        Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                        Foreground="{ThemeResource SystemFillColorSuccessBrush}"/>
-                                    <FontIcon 
-                                        Glyph="&#xE7BA;" 
-                                        Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"/>
-                                    <StackPanel Margin="8 0 0 0"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Name}"
-                                                   Style="{StaticResource BodyStrongTextBlockStyle}"/>
-                                        <TextBlock Text="{Binding Version}"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"/>
-                                    </StackPanel>
-                                    
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="HoveringStates">
+                                    <VisualState x:Name="HoverButtonsHidden"></VisualState>
+                                    <VisualState x:Name="HoverButtonsShown">
+                                        <VisualState.Setters>
+                                            <Setter Target="HoverButton.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel
+                                Grid.Column="0"
+                                Orientation="Horizontal">
+                                <FontIcon
+                                    Glyph="&#xE73E;"
+                                    Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                    Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
+                                <FontIcon
+                                    Glyph="&#xE7BA;"
+                                    Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
+                                <StackPanel Margin="8 0 0 0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}"
+                                               Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                    <TextBlock Text="{Binding Version}"
+                                               Style="{StaticResource CaptionTextBlockStyle}" />
                                 </StackPanel>
-                                
-                            <AppBarButton Grid.Row="0" Grid.Column="1" 
-                                          Click="DownloadButton_OnClicked"
-                                          ToolTipService.ToolTip="Download"
-                                          Label="Download"
-                                          HorizontalContentAlignment="Right"
-                                          VerticalAlignment="Center">
-                                <AppBarButton.Icon>
-                                    <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                            </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+
+                            </StackPanel>
+
+                            <SwipeControl Grid.Row="0" Grid.Column="1">
+                                <AppBarButton x:Name="HoverButton"
+                                              Visibility="Collapsed"
+                                              Click="DownloadButton_OnClicked"
+                                              ToolTipService.ToolTip="Download"
+                                              Label="Download"
+                                              HorizontalContentAlignment="Right"
+                                              VerticalAlignment="Center">
+                                    <AppBarButton.Icon>
+                                        <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
+                                    </AppBarButton.Icon>
+                                </AppBarButton>
+                            </SwipeControl>
+                        </Grid>
+                    </UserControl>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </Page>
