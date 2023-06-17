@@ -80,49 +80,46 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
 
-                            <StackPanel
-                                Grid.Column="0"
-                                Orientation="Horizontal">
-                                <FontIcon
-                                    Glyph="&#xE73E;"
-                                    Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                    Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
-                                <FontIcon
-                                    Glyph="&#xE7BA;"
-                                    Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
-                                <StackPanel Margin="8 0 0 0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name}"
-                                               Style="{StaticResource BodyStrongTextBlockStyle}" />
-                                    <TextBlock Text="{Binding Version}"
-                                               Style="{StaticResource CaptionTextBlockStyle}" />
-                                </StackPanel>
-
-                            </StackPanel>
-
-                            <SwipeControl Grid.Row="0" Grid.Column="1">
-                                <AppBarButton x:Name="HoverButton"
-                                              Visibility="Collapsed"
-                                              Click="DownloadButton_OnClicked"
-                                              ToolTipService.ToolTip="Download"
-                                              Label="Download"
-                                              HorizontalContentAlignment="Right"
-                                              VerticalAlignment="Center">
-                                    <AppBarButton.Icon>
-                                        <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
+                            <SwipeControl>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel
+                                        Orientation="Horizontal">
+                                        <FontIcon
+                                            Glyph="&#xE73E;"
+                                            Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                            Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
+                                        <FontIcon
+                                            Glyph="&#xE7BA;"
+                                            Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
+                                            Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
+                                        <StackPanel Margin="8 0 0 0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}"
+                                                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                            <TextBlock Text="{Binding Version}"
+                                                       Style="{StaticResource CaptionTextBlockStyle}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    
+                                    <AppBarButton Grid.Column="1" 
+                                                  x:Name="HoverButton"
+                                                  Visibility="Collapsed"
+                                                  Click="DownloadButton_OnClicked"
+                                                  ToolTipService.ToolTip="Download"
+                                                  Label="Download"
+                                                  HorizontalContentAlignment="Right"
+                                                  VerticalAlignment="Center">
+                                        <AppBarButton.Icon>
+                                            <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                </Grid>
                             </SwipeControl>
                         </Grid>
                     </UserControl>
