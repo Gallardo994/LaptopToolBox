@@ -24,18 +24,22 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
                 
-                <TextBlock Grid.Column="0" Text="Updates" FontSize="24" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBlock Grid.Column="0" Text="Updates" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
                 
-                <Button Grid.Column="1" Click="Button_OnClicked" ToolTipService.ToolTip="Refresh">
-                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
-                </Button>
-            </Grid>
+                    <Button Grid.Column="1" Click="Button_OnClicked" ToolTipService.ToolTip="Refresh">
+                        <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                    </Button>
+                </Grid>
+                <TextBlock Text="Drivers and BIOS updates can be checked on this page" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+            </StackPanel>
+            
                 
         <ProgressRing Grid.Row="1"
                       Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}" 
@@ -48,7 +52,6 @@
         <ListView Grid.Row="1"
                   Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                   ItemsSource="{Binding Path=Updates}"
-                  Background="{StaticResource MainBackgroundColor}"
                   Margin="0 16 0 0"
                   CornerRadius="4">
                 <ListView.ItemTemplate>
