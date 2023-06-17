@@ -20,7 +20,7 @@ public class AuraSpeedsProvider : IAuraSpeedsProvider
         {
             var title = string.Empty;
             
-            var attribute = speed.GetAttributeOfType<SpeedTitleAttribute>();
+            var attribute = EnumHelper.GetAttribute<AuraSpeed, SpeedTitleAttribute>(speed);
             
             if (attribute != null)
             {
