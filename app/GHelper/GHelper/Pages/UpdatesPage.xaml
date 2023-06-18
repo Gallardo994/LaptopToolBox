@@ -57,7 +57,7 @@
                            Style="{StaticResource TitleTextBlockStyle}" />
 
                 <Button Grid.Column="1" Click="Button_OnClicked" ToolTipService.ToolTip="Refresh">
-                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                    <FontIcon Glyph="&#xE72C;" FontSize="16" />
                 </Button>
             </Grid>
             <TextBlock Text="Drivers and BIOS updates can be checked on this page" VerticalAlignment="Center"
@@ -95,6 +95,11 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
+                                    
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="64" />
+                                    </Grid.RowDefinitions>
+                                    
                                     <StackPanel
                                         Orientation="Horizontal">
                                         <FontIcon
@@ -125,7 +130,7 @@
                                             HorizontalContentAlignment="Right"
                                             VerticalAlignment="Center">
                                             <AppBarButton.Icon>
-                                                <FontIcon FontSize="16" Glyph="&#xE896;"></FontIcon>
+                                                <FontIcon Glyph="&#xE896;" FontSize="16"></FontIcon>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
                                     </StackPanel>

@@ -36,5 +36,10 @@ namespace GHelper.Pages
         {
             VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
         }
+
+        private void ButtonAddPerformanceMode_OnClicked(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

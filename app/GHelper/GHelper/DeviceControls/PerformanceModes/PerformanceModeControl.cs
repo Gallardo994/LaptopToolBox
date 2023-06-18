@@ -24,11 +24,11 @@ public class PerformanceModeControl : IPerformanceModeControl
         
         if (result < 0)
         {
-            _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Failed to set performance mode to " + performanceMode.Title);
+            _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Failed to switch to " + performanceMode.Title);
         }
         else
         {
-            _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Performance mode set to " + performanceMode.Title);
+            _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Switched to " + performanceMode.Title);
         }
     }
 }

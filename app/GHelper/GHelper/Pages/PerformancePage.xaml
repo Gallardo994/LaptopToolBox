@@ -17,6 +17,19 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        
+        <Style x:Key="ItemsList" TargetType="ListView">
+            <Setter Property="Margin" Value="-6 16 0 0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="CornerRadius" Value="4"></Setter>
+        </Style>
+        
+        <Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter Property="Margin" Value="0 1 0 1" />
+            <Setter Property="Height" Value="64"></Setter>
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -25,23 +38,93 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <InfoBar Grid.Row="0"
+        <StackPanel>
+            <Grid Margin="0" Padding="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Performance Profile" VerticalAlignment="Center"
+                           Style="{StaticResource TitleTextBlockStyle}" />
+
+                <Button Grid.Column="1" Click="ButtonAddPerformanceMode_OnClicked" ToolTipService.ToolTip="Create new">
+                    <FontIcon Glyph="&#xE710;" FontSize="16" />
+                </Button>
+            </Grid>
+            <TextBlock Text="Choose an appropriate performance mode or create custom mode" VerticalAlignment="Center"
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+        </StackPanel>
+        
+        <InfoBar Grid.Row="1"
                  IsOpen="{Binding IsAvailable, Converter={StaticResource InverseBoolConverter}}"
                  Severity="Error"
                  IsClosable="False"
                  Title="Control Unavailable"
                  Message="Cannot talk to Asus System Control Interface. Is it installed?" />
         
-        <ListView Grid.Row="0"
+        <ListView Grid.Row="1"
                   Visibility="{Binding IsAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
-                  ItemsSource="{Binding Path=Modes}" >
+                  ItemsSource="{Binding Path=Modes}" 
+                  Style="{StaticResource ItemsList}"
+                  ItemContainerStyle="{StaticResource HorizontalSwipe}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Path=Title}" />
-                        <TextBlock Text="{Binding Path=Description}" />
-                        <Button Content="Apply" Click="SetPerformanceMode_OnClicked"></Button>
-                    </StackPanel>
+                    <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
+                        <Grid Margin="0" Padding="0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="HoveringStates">
+                                    <VisualState x:Name="HoverButtonsHidden"></VisualState>
+                                    <VisualState x:Name="HoverButtonsShown">
+                                        <VisualState.Setters>
+                                            <Setter Target="HoverContainer.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                            <SwipeControl>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="64" />
+                                    </Grid.RowDefinitions>
+                                    
+                                    <StackPanel Grid.Column="0"
+                                                Orientation="Horizontal">
+                                        <UserControl Content="{Binding Path=Icon}" />
+                                        
+                                        <StackPanel Margin="8 0 0 0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Path=Title}" 
+                                                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                            <TextBlock Text="{Binding Path=Description}" 
+                                                       Style="{StaticResource CaptionTextBlockStyle}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal" 
+                                                x:Name="HoverContainer"
+                                                Visibility="Collapsed">
+                                        <AppBarButton Label="Apply" 
+                                                      Click="SetPerformanceMode_OnClicked"
+                                                      HorizontalContentAlignment="Right"
+                                                      VerticalAlignment="Center">
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xE73E;" FontSize="16" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                    </StackPanel>
+                                </Grid>
+                            </SwipeControl>
+                        </Grid>
+                    </UserControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
