@@ -8,8 +8,6 @@ public class AsusUsb : IUsb
     public int[] DeviceIds { get; init; }
     public byte LightingHidId { get; init; }
     public byte InputHidId { get; init; }
-    public byte[] MessageSet { get; init; }
-    public byte[] MessageApply { get; init; }
 
     [Inject]
     public AsusUsb()
@@ -19,8 +17,5 @@ public class AsusUsb : IUsb
         
         LightingHidId = 0x5d;
         InputHidId = 0x5a;
-        
-        MessageSet = new byte[]{ LightingHidId, 0xb5, 0, 0, 0 };
-        MessageApply = new byte[]{ LightingHidId, 0xb4 };
     }
 }
