@@ -1,44 +1,25 @@
 ﻿using System;
 using GHelper.Serialization;
+using Ninject;
 using Serilog;
 
 namespace GHelper.DeviceControls;
 
 public class AsusAcpi : IAcpi
 {
-    private IntPtr _handle;
+    private readonly IAcpiHandleProvider _acpiHandleProvider;
     
     const uint ControlCode = 0x0022240C;
     const uint Devs = 0x53564544;
-    
-    const string FileName = @"\\.\\ATKACPI";
-    private const uint GenericRead = 0x80000000;
-    private const uint GenericWrite = 0x40000000;
-    private const uint OpenExisting = 3;
-    private const uint FileAttributeNormal = 0x80;
-    private const uint FileShareRead = 1;
-    private const uint FileShareWrite = 2;
-    
-    public bool IsAvailable => EnsureHandle();
 
-    private bool EnsureHandle()
+    public bool IsAvailable => _acpiHandleProvider.TryGet(out _);
+    
+    [Inject]
+    public AsusAcpi(IAcpiHandleProvider acpiHandleProvider)
     {
-        if (_handle == new IntPtr(-1) || _handle == IntPtr.Zero)
-        {
-            _handle = Native.CreateFile(
-                FileName,
-                GenericRead | GenericWrite,
-                FileShareRead | FileShareWrite,
-                IntPtr.Zero,
-                OpenExisting,
-                FileAttributeNormal,
-                IntPtr.Zero
-            );
-        }
-
-        return _handle != new IntPtr(-1) && _handle != IntPtr.Zero;
+        _acpiHandleProvider = acpiHandleProvider;
     }
-    
+
     public int DeviceSet(uint deviceId, int status, string logName)
     {
         var serializer = new BinarySerializer();
@@ -63,7 +44,7 @@ public class AsusAcpi : IAcpi
 
     private void CallDeviceIoControl(uint dwIoControlCode, byte[] lpInBuffer, byte[] lpOutBuffer)
     {
-        if (!EnsureHandle())
+        if (!_acpiHandleProvider.TryGet(out var handle))
         {
             Log.Error("Failed to get handle to ACPI device");
             return;
@@ -71,7 +52,7 @@ public class AsusAcpi : IAcpi
         
         uint lpBytesReturned = 0;
         Native.DeviceIoControl(
-            _handle,
+            handle,
             dwIoControlCode,
             lpInBuffer,
             (uint)lpInBuffer.Length,
