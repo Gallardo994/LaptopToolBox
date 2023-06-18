@@ -1,4 +1,5 @@
 ﻿using System;
+using GHelper.Serialization;
 using Serilog;
 
 namespace GHelper.DeviceControls;
@@ -40,30 +41,24 @@ public class AsusAcpi : IAcpi
     
     public int DeviceSet(uint deviceId, int status, string logName)
     {
-        var args = new byte[8];
-        BitConverter.GetBytes((uint)deviceId).CopyTo(args, 0);
-        BitConverter.GetBytes((uint)status).CopyTo(args, 4);
+        var serializer = new BinarySerializer();
+        serializer.WriteUint(Devs);
+        serializer.WriteUint(sizeof(uint) * 2);
+        serializer.WriteUint(deviceId);
+        serializer.WriteUint((uint) status);
 
-        var callStatus = CallMethod(Devs, args);
-        var result = BitConverter.ToInt32(callStatus, 0);
+        var callStatus = CallMethod(serializer);
 
-        Log.Debug(logName + " = " + status + " : " + (result == 1 ? "OK" : result));
-        return result;
+        Log.Debug(logName + " = " + status + " : " + (callStatus == 1 ? "OK" : callStatus));
+        return callStatus;
     }
     
     
-    private byte[] CallMethod(uint methodId, byte[] args)
+    private int CallMethod(BinarySerializer serializer)
     {
-        var acpiBuf = new byte[8 + args.Length];
         var outBuffer = new byte[20];
-
-        BitConverter.GetBytes((uint)methodId).CopyTo(acpiBuf, 0);
-        BitConverter.GetBytes((uint)args.Length).CopyTo(acpiBuf, 4);
-        Array.Copy(args, 0, acpiBuf, 8, args.Length);
-        
-        CallDeviceIoControl(ControlCode, acpiBuf, outBuffer);
-
-        return outBuffer;
+        CallDeviceIoControl(ControlCode, serializer.ToArray(), outBuffer);
+        return BitConverter.ToInt32(outBuffer, 0);
     }
 
     private void CallDeviceIoControl(uint dwIoControlCode, byte[] lpInBuffer, byte[] lpOutBuffer)
