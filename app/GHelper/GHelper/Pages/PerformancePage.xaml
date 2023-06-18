@@ -7,14 +7,34 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:GHelper.ViewModels"
+    xmlns:converters="using:GHelper.Converters"
     mc:Ignorable="d">
     
     <Page.DataContext>
         <viewModels:PerformanceViewModel />
     </Page.DataContext>
+    
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </Page.Resources>
 
     <Grid>
-        <ListView ItemsSource="{Binding Path=Modes}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <InfoBar Grid.Row="0"
+                 IsOpen="{Binding IsAvailable, Converter={StaticResource InverseBoolConverter}}"
+                 Severity="Error"
+                 IsClosable="False"
+                 Title="Control Unavailable"
+                 Message="Cannot talk to Asus System Control Interface. Is it installed?" />
+        
+        <ListView Grid.Row="0"
+                  Visibility="{Binding IsAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                  ItemsSource="{Binding Path=Modes}" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
