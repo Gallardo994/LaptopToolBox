@@ -1,5 +1,7 @@
 # G-Helper Fork
 
+![main](https://github.com/gallardo994/g-helper/blob/main/docs/screenshot.png?raw=true)
+
 ## What is this?
 
 A complete rewrite of original G-Helper with main goals:
@@ -10,7 +12,7 @@ A complete rewrite of original G-Helper with main goals:
 - Resizable window
 - Readable code, with proper MVVM and following SRP
 
-TODO:
+## TODO
 - Implement performance modes
 - Implement custom profiles
 - Implement power control
