@@ -17,6 +17,8 @@ public class AsusAcpi : IAcpi
     private const uint FileAttributeNormal = 0x80;
     private const uint FileShareRead = 1;
     private const uint FileShareWrite = 2;
+    
+    public bool IsAvailable => EnsureHandle();
 
     private bool EnsureHandle()
     {

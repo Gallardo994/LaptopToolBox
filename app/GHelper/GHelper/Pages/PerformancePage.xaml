@@ -20,6 +20,7 @@
                     <StackPanel>
                         <TextBlock Text="{Binding Path=Title}" />
                         <TextBlock Text="{Binding Path=Description}" />
+                        <Button Content="Apply" Click="SetPerformanceMode_OnClicked"></Button>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
