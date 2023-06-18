@@ -2,6 +2,7 @@
 using System.Reflection;
 using GHelper.Injection;
 using Ninject;
+using Serilog;
 
 namespace GHelper
 {
@@ -9,6 +10,13 @@ namespace GHelper
     {
         public App()
         {
+            var appDataLogPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "GHelper", "log.txt");
+            
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File(appDataLogPath)
+                .WriteTo.Console()
+                .CreateLogger();
+            
             InitializeComponent();
         }
         
