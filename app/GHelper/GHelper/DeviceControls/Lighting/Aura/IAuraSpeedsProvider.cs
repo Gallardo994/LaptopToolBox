@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace GHelper.DeviceControls.Aura;
+namespace GHelper.DeviceControls.Lighting.Aura;
 
 public interface IAuraSpeedsProvider
 {

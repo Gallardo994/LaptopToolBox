@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using Ninject;
 
-namespace GHelper.DeviceControls.Aura;
+namespace GHelper.DeviceControls.Lighting.Aura;
 
 public class AuraControl : IAuraControl
 {

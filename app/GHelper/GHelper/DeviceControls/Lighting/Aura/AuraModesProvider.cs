@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace GHelper.DeviceControls.Aura;
+namespace GHelper.DeviceControls.Lighting.Aura;
 
 public class AuraModesProvider : IAuraModesProvider
 {

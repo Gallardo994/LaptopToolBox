@@ -1,4 +1,4 @@
-﻿namespace GHelper.DeviceControls.Aura;
+﻿namespace GHelper.DeviceControls.Lighting.Aura;
 
 public class AuraSpeedModel
 {

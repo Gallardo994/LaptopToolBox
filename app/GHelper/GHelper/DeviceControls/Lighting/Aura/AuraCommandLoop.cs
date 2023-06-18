@@ -1,6 +1,6 @@
 ﻿using GHelper.Commands;
 
-namespace GHelper.DeviceControls.Aura;
+namespace GHelper.DeviceControls.Lighting.Aura;
 
 public class AuraCommandLoop : LastOnlyCommandLoop<AuraApplyCommand>, IAuraCommandLoop
 {

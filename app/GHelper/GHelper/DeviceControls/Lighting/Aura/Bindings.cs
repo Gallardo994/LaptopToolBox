@@ -1,6 +1,6 @@
 ﻿using Ninject.Modules;
 
-namespace GHelper.DeviceControls.Aura;
+namespace GHelper.DeviceControls.Lighting.Aura;
 
 public class Bindings : NinjectModule
 {
