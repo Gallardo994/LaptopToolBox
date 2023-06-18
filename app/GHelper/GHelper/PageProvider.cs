@@ -61,6 +61,16 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
             },
             new FlyoutPageItem
             {
+                Title = "Performance",
+                TargetType = typeof(PerformancePage),
+                Icon = new FontIcon
+                {
+                    Glyph = "\uE7B8",
+                },
+                Tag = "Performance",
+            },
+            new FlyoutPageItem
+            {
                 Title = "Peripherals",
                 TargetType = typeof(PeripheralsPage),
                 Icon = new FontIcon

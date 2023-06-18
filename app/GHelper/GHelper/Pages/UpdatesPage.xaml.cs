@@ -16,7 +16,7 @@ namespace GHelper.Pages
     {
         private readonly IUpdatesChecker _updatesChecker = Services.ResolutionRoot.Get<IUpdatesChecker>();
         public UpdatesViewModel ViewModel { get; } = Services.ResolutionRoot.Get<UpdatesViewModel>();
-
+        
         public UpdatesPage()
         {
             InitializeComponent();
