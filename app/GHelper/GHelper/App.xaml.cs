@@ -15,7 +15,13 @@ namespace GHelper
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.File(appDataLogPath, rollingInterval: RollingInterval.Day)
                 .WriteTo.Console()
+                .MinimumLevel.Debug()
                 .CreateLogger();
+            
+            UnhandledException += (sender, args) =>
+            {
+                Log.Error(args.Exception, "Unhandled exception");
+            };
             
             InitializeComponent();
         }
