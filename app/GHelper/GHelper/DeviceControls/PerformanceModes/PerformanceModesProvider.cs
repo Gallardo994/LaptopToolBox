@@ -33,4 +33,11 @@ public class PerformanceModesProvider : IPerformanceModesProvider
             }
         };
     }
+    
+    public PerformanceMode GetNextModeAfter(PerformanceMode currentMode)
+    {
+        var currentModeIndex = AvailableModes.IndexOf(currentMode);
+        var nextModeIndex = (currentModeIndex + 1) % AvailableModes.Count;
+        return AvailableModes[nextModeIndex];
+    }
 }
