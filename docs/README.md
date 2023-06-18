@@ -2,32 +2,31 @@
 
 ## What is this?
 
-Same G-Helper but:
-- Always-on-top by default
-- Refresh support in Drivers & BIOS update
-- Animated toasts
-- Windows 10+ support only
-- Notifications support (currently unused)
-- Fixed UI lag on startup mode change
-- More localizations
-- Improved codebase
+A complete rewrite of original G-Helper with main goals:
+- WinUI3, following Microsoft's styleguides
+- Smooth and responsive animated interface
+- Zero interface hickups, proper thread scheduling
+- Windows notifications support
+- Resizable window
+- Readable code, with proper MVVM and following SRP
 
-Planned:
-- Overall overhaul of the code
-- Fix all UI stutters due to executing long-running tasks on the main thread
-- Implement undervolt for AMD CPUs
-- Improve overall UI
-- Driver & Bios update notifications
-- New version notifications
-- "Max charge" button (MacOS-style) to ignore battery charge limit only once
-- Fix display detection if Mux is switched to dGPU-only
-- Optimize overall code and reduce CPU usage, fix tons of allocations
-- Add tests
+TODO:
+- Implement performance modes
+- Implement custom profiles
+- Implement power control
+- Implement fans control
+- Implement hotkeys
+- Implement hints for UI elements
+- Implement tutorials for UI elements
+- Implement application settings
+- Implement AMD undervolt
+- Implement autostart
+- Implement NVIDIA GPU control
+- Implement sensors information
+- Modify UI for styleguide compliance
+- Maybe more?
 
-Regressions:
-- TODO: Right-clicking tray icon currently has no effect
-
-The code is currently in "transition" state, meaning that most parts still require rework.
+The code is currently "in progress", meaning that most parts still require rework and lots of features are non-functional.
 
 ## Why?
 
