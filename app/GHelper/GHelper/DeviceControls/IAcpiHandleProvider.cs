@@ -2,7 +2,7 @@
 
 namespace GHelper.DeviceControls;
 
-public interface IAcpiHandleProvider
+public interface IAcpiHandleProvider : IDisposable
 {
     public bool TryGet(out IntPtr handle);
 }

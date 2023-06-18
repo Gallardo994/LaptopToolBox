@@ -41,4 +41,15 @@ public class AsusAcpiHandleProvider : IAcpiHandleProvider
         handle = _handle;
         return _handle != IntPtr.Zero;
     }
+    
+    public void Dispose()
+    {
+        if (_handle == IntPtr.Zero)
+        {
+            return;
+        }
+        
+        Native.CloseHandle(_handle);
+        _handle = IntPtr.Zero;
+    }
 }
