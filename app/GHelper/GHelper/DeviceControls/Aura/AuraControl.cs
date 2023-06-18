@@ -20,7 +20,7 @@ public class AuraControl : IAuraControl
     private byte[] CreateMessage(AuraMode mode, Color color, Color color2, AuraSpeed speed)
     {
         var msg = new byte[17];
-        msg[0] = _usb.AuraHidId;
+        msg[0] = _usb.LightingHidId;
         msg[1] = 0xb3;
         msg[2] = 0x00; // Zone 
         msg[3] = (byte) mode; // Aura Mode

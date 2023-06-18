@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using HidLibrary;
 using Ninject;
 
@@ -15,15 +14,31 @@ public class Hid : IHid
         _usb = usb;
     }
 
-    public HidDevice[] GetHidDevicesBlocking(int[] deviceIds, int minInput = 18, int minFeatures = 1)
+    public HidDevice[] GetHidDevicesBlocking(int vendorId, int[] deviceIds, int minInput = 18, int minFeatures = 1)
     {
         return HidDevices
-            .Enumerate(_usb.AsusId, deviceIds)
+            .Enumerate(vendorId, deviceIds)
             .Select(device => device)
             .Where(device => device != null
                              && device.IsConnected
                              && device.Capabilities.FeatureReportByteLength >= minFeatures
                              && device.Capabilities.InputReportByteLength >= minInput)
             .ToArray();
+    }
+    
+    public HidDevice? GetDevice(int vendorId, int[] deviceIds, byte reportId)
+    {
+        var hidDeviceList = HidDevices.Enumerate(vendorId, deviceIds).ToArray();
+        var input = default(HidDevice);
+
+        foreach (var device in hidDeviceList)
+        {
+            if (device.ReadFeatureData(out var data, reportId))
+            {
+                input = device;
+            }
+        }
+
+        return input;
     }
 }

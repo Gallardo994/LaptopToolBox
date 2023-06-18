@@ -18,7 +18,7 @@ public class AuraApplyCommand : ICommand
 
     public void Execute()
     {
-        var devices = _hid.GetHidDevicesBlocking(_usb.DeviceIds);
+        var devices = _hid.GetHidDevicesBlocking(_usb.VendorId, _usb.DeviceIds);
             
         Parallel.ForEach(devices, device =>
         {

@@ -6,7 +6,7 @@ using System.Management;
 public class WmiBrightnessControl : IBrightnessControl
 {
     public int BrightnessStep { get; set; } = 10;
-    
+
     public int Get()
     {
         using var mClass = new ManagementClass("WmiMonitorBrightness")
