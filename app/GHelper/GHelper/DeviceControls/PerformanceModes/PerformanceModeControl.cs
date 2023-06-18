@@ -18,9 +18,9 @@ public class PerformanceModeControl : IPerformanceModeControl
         _notificationService = notificationService;
     }
 
-    public void SetMode(PerformanceMode performanceMode)
+    public void SetMode(IPerformanceMode performanceMode)
     {
-        var result = _acpi.DeviceSet(DeviceId, (int) performanceMode.Type, "performance_mode_" + performanceMode.Type.ToString());
+        var result = _acpi.DeviceSet(DeviceId, (int) performanceMode.Type);
         
         if (result < 0)
         {

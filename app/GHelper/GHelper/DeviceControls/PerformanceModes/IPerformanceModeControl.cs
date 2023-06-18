@@ -2,5 +2,5 @@
 
 public interface IPerformanceModeControl
 {
-    public void SetMode(PerformanceMode performanceMode);
+    public void SetMode(IPerformanceMode performanceMode);
 }

@@ -5,49 +5,46 @@ namespace GHelper.DeviceControls.PerformanceModes;
 
 public class PerformanceModesProvider : IPerformanceModesProvider
 {
-    public ObservableCollection<PerformanceMode> AvailableModes { get; init; }
+    public ObservableCollection<IPerformanceMode> AvailableModes { get; init; }
 
     public PerformanceModesProvider()
     {
-        AvailableModes = new ObservableCollection<PerformanceMode>
+        AvailableModes = new ObservableCollection<IPerformanceMode>
         {
-            new PerformanceMode
+            new IntegratedPerformanceMode
             {
                 Title = "Silent",
                 Description = "Save battery life, reduce heat and fan noise by reducing performance",
-                IsCurrent = false,
-                Type = PerformanceModeType.Silent,
                 Icon = new FontIcon
                 {
                     Glyph = "\uEC48",
-                }
+                },
+                Type = PerformanceModeType.Silent,
             },
-            new PerformanceMode
+            new IntegratedPerformanceMode
             {
                 Title = "Balanced",
                 Description = "Balance performance and battery life. This is the default mode",
-                IsCurrent = false,
-                Type = PerformanceModeType.Balanced,
                 Icon = new FontIcon
                 {
                     Glyph = "\uEC49",
-                }
+                },
+                Type = PerformanceModeType.Balanced,
             },
-            new PerformanceMode
+            new IntegratedPerformanceMode
             {
                 Title = "Turbo",
                 Description = "Maximize performance at the cost of battery life, temperatures and fan noise",
-                IsCurrent = false,
-                Type = PerformanceModeType.Turbo,
                 Icon = new FontIcon
                 {
                     Glyph = "\uEC4A",
-                }
+                },
+                Type = PerformanceModeType.Turbo,
             }
         };
     }
     
-    public PerformanceMode GetNextModeAfter(PerformanceMode currentMode)
+    public IPerformanceMode GetNextModeAfter(IPerformanceMode currentMode)
     {
         var currentModeIndex = AvailableModes.IndexOf(currentMode);
         var nextModeIndex = (currentModeIndex + 1) % AvailableModes.Count;

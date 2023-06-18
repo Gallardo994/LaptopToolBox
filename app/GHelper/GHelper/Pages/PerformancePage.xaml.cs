@@ -21,7 +21,7 @@ namespace GHelper.Pages
 
         private void SetPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
         {
-            PerformanceViewModel.SelectedMode = (PerformanceMode) (sender as Button)?.DataContext;
+            PerformanceViewModel.SelectedMode = (IPerformanceMode) (sender as Button)?.DataContext;
         }
         
         private void ListViewSwipeContainer_PointerEntered(object sender, PointerRoutedEventArgs e)

@@ -20,7 +20,7 @@ public class AsusAcpi : IAcpi
         _acpiHandleProvider = acpiHandleProvider;
     }
 
-    public int DeviceSet(uint deviceId, int status, string logName)
+    public int DeviceSet(uint deviceId, int status)
     {
         var serializer = new BinarySerializer();
         serializer.WriteUint(Devs);
@@ -28,10 +28,7 @@ public class AsusAcpi : IAcpi
         serializer.WriteUint(deviceId);
         serializer.WriteUint((uint) status);
 
-        var callStatus = CallMethod(serializer);
-
-        Log.Debug(logName + " = " + status + " : " + (callStatus == 1 ? "OK" : callStatus));
-        return callStatus;
+        return CallMethod(serializer);
     }
     
     

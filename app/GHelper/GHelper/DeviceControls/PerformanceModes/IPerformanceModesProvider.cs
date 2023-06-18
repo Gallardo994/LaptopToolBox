@@ -4,7 +4,7 @@ namespace GHelper.DeviceControls.PerformanceModes;
 
 public interface IPerformanceModesProvider
 {
-    public ObservableCollection<PerformanceMode> AvailableModes { get; }
-    public PerformanceMode GetNextModeAfter(PerformanceMode currentMode);
+    public ObservableCollection<IPerformanceMode> AvailableModes { get; }
+    public IPerformanceMode GetNextModeAfter(IPerformanceMode currentMode);
 
 }

@@ -15,11 +15,11 @@ public class PerformanceViewModel : INotifyPropertyChanged
     private readonly IPerformanceModesProvider _performanceModesProvider;
     private readonly IAcpi _acpi;
     
-    public ObservableCollection<PerformanceMode> Modes => _performanceModesProvider.AvailableModes;
+    public ObservableCollection<IPerformanceMode> Modes => _performanceModesProvider.AvailableModes;
     public bool IsAvailable => _acpi.IsAvailable;
 
-    private PerformanceMode _selectedMode;
-    public PerformanceMode SelectedMode
+    private IPerformanceMode _selectedMode;
+    public IPerformanceMode SelectedMode
     {
         get => _selectedMode;
         set
@@ -37,7 +37,7 @@ public class PerformanceViewModel : INotifyPropertyChanged
         _acpi = Services.ResolutionRoot.Get<IAcpi>();
     }
     
-    public void SetPerformanceMode(PerformanceMode performanceMode)
+    public void SetPerformanceMode(IPerformanceMode performanceMode)
     {
         _performanceModeControl.SetMode(performanceMode);
     }
