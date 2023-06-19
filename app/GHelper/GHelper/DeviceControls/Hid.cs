@@ -26,7 +26,7 @@ public class Hid : IHid
 
         foreach (var device in hidDeviceList)
         {
-            if (device.ReadFeatureData(out var data, reportId))
+            if (device.ReadFeatureData(out _, reportId))
             {
                 input = device;
             }
