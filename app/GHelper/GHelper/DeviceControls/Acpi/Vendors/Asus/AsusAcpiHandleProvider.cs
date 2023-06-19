@@ -2,7 +2,7 @@
 
 namespace GHelper.DeviceControls.Acpi.Vendors.Asus;
 
-public class AsusAcpiHandleProvider : IAcpiHandleProvider
+public class AsusAcpiHandleProvider
 {
     private IntPtr _handle;
 

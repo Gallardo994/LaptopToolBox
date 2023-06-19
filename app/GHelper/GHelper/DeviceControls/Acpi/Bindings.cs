@@ -7,7 +7,6 @@ public class Bindings : NinjectModule
 {
     public override void Load()
     {
-        Bind<IAcpiHandleProvider>().To<AsusAcpiHandleProvider>().InSingletonScope();
         Bind<IAcpi>().To<AsusAcpi>().InSingletonScope();
     }
 }

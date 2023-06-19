@@ -7,16 +7,15 @@ namespace GHelper.DeviceControls.Acpi.Vendors.Asus;
 
 public class AsusAcpi : IAcpi
 {
-    private readonly IAcpiHandleProvider _acpiHandleProvider;
+    private readonly AsusAcpiHandleProvider _acpiHandleProvider;
     
     const uint Devs = 0x53564544;
 
     public bool IsAvailable => _acpiHandleProvider.TryGet(out _);
     
-    [Inject]
-    public AsusAcpi(IAcpiHandleProvider acpiHandleProvider)
+    public AsusAcpi()
     {
-        _acpiHandleProvider = acpiHandleProvider;
+        _acpiHandleProvider = new AsusAcpiHandleProvider();
     }
 
     public int DeviceSet(uint deviceId, int status)
