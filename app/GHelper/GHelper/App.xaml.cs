@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using System.Reflection;
-using GHelper.DeviceControls.Keyboard;
 using GHelper.DeviceControls.Keyboard.Vendors;
 using GHelper.Injection;
 using Ninject;
@@ -10,6 +9,8 @@ namespace GHelper
 {
     public partial class App
     {
+        private Window _window;
+        
         public App()
         {
             var appDataLogPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "GHelper", "log.txt");
@@ -40,9 +41,15 @@ namespace GHelper
             kernel.Get<IVendorKeyRegister>();
             
             _window = kernel.Get<MainWindow>();
+            
+            // TODO: Minimize to tray support
+            /*
+            _window.Closed += (sender, windowArgs) =>
+            {
+                windowArgs.Handled = true;
+            };
+            */
             _window.Activate();
         }
-
-        private Window _window;
     }
 }
