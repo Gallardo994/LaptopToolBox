@@ -9,7 +9,6 @@ public class AsusAcpi : IAcpi
 {
     private readonly IAcpiHandleProvider _acpiHandleProvider;
     
-    const uint ControlCode = 0x0022240C;
     const uint Devs = 0x53564544;
 
     public bool IsAvailable => _acpiHandleProvider.TryGet(out _);
@@ -35,7 +34,7 @@ public class AsusAcpi : IAcpi
     private int CallMethod(BinarySerializer serializer)
     {
         var outBuffer = new byte[20];
-        CallDeviceIoControl(ControlCode, serializer.ToArray(), outBuffer);
+        CallDeviceIoControl(0x0022240C, serializer.ToArray(), outBuffer);
         return BitConverter.ToInt32(outBuffer, 0);
     }
 
