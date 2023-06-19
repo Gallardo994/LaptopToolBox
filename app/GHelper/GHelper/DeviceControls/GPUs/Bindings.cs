@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using GHelper.DeviceControls.GPUs.Vendors.Nvidia;
+using Ninject.Modules;
 
 namespace GHelper.DeviceControls.GPUs;
 

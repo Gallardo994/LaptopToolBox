@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using GHelper.DeviceControls.Lighting.Aura;
+using GHelper.DeviceControls.Lighting.Vendors.Asus.Aura;
 using GHelper.Injection;
 using Ninject;
 

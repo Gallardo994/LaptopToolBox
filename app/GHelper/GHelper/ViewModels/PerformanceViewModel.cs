@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using GHelper.DeviceControls;
+using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
 using Ninject;

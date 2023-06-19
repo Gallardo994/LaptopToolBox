@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using GHelper.DeviceControls.Usb;
 using Ninject;
 using Serilog;
 

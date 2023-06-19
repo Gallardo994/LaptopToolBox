@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GHelper.DeviceControls.Usb;
 using HidLibrary;
 using Ninject;
 

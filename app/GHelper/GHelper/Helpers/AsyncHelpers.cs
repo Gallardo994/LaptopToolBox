@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Serilog;
 
-namespace GHelper;
+namespace GHelper.Helpers;
 
 public static class AsyncHelpers
 {

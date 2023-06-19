@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 using Ninject;
 

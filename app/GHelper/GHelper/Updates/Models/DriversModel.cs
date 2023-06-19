@@ -1,4 +1,4 @@
-﻿using GHelper.JsonHelpers;
+﻿using GHelper.Helpers;
 using Newtonsoft.Json;
 
 namespace GHelper.Updates.Models;

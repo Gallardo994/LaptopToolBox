@@ -85,7 +85,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DeviceControls\Lighting\" />
+    <Folder Include="DeviceControls\Lighting\Vendors\Asus\" />
   </ItemGroup>
 
   <!-- 

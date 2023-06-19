@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.System;
+using GHelper.Helpers;
 using GHelper.Injection;
 using GHelper.Updates.Core;
 using GHelper.Updates.Models;

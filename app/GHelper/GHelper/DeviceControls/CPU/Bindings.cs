@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using GHelper.DeviceControls.CPU.Vendors.Asus;
+using Ninject.Modules;
 
 namespace GHelper.DeviceControls.CPU;
 
