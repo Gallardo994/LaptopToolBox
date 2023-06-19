@@ -7,14 +7,6 @@ namespace GHelper.DeviceControls;
 
 public class Hid : IHid
 {
-    private readonly IUsb _usb;
-
-    [Inject]
-    public Hid(IUsb usb)
-    {
-        _usb = usb;
-    }
-
     public HidDevice[] GetHidDevicesBlocking(int vendorId, int[] deviceIds, int minInput = 18, int minFeatures = 1)
     {
         return HidDevices
