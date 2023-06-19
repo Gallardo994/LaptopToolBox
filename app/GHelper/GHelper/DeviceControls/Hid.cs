@@ -19,7 +19,7 @@ public class Hid : IHid
             .ToArray();
     }
     
-    public HidDevice? GetDevice(int vendorId, int[] deviceIds, byte reportId)
+    public HidDevice GetDevice(int vendorId, int[] deviceIds, byte reportId)
     {
         var hidDeviceList = HidDevices.Enumerate(vendorId, deviceIds).ToArray();
         var input = default(HidDevice);
