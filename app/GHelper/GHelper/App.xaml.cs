@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using System.Reflection;
+using GHelper.DeviceControls.Keyboard;
+using GHelper.DeviceControls.Keyboard.Vendors;
 using GHelper.Injection;
 using Ninject;
 using Serilog;
@@ -34,6 +36,8 @@ namespace GHelper
             kernel.Load(Assembly.GetExecutingAssembly());
             
             Services.ResolutionRoot = kernel;
+
+            kernel.Get<IVendorKeyRegister>();
             
             _window = kernel.Get<MainWindow>();
             _window.Activate();

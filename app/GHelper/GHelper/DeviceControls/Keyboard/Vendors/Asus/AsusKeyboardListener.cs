@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading;
-using HidLibrary;
 using Ninject;
 using Serilog;
 
-namespace GHelper.DeviceControls.Keyboard;
+namespace GHelper.DeviceControls.Keyboard.Vendors.Asus;
 
 public class AsusKeyboardListener : IVendorKeyboardListener
 {
@@ -53,7 +52,7 @@ public class AsusKeyboardListener : IVendorKeyboardListener
                 Log.Debug(ex.ToString());
             }
 
-            Thread.Sleep(100);
+            // Thread.Sleep(100); // TODO: Implement a better way of sleeping so that the delay is not noticeable
         }
     }
 
