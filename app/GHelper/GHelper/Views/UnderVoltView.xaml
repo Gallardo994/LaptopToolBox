@@ -47,6 +47,6 @@
                  Title="Voltage Control Unavailable"
                  Message="CPU undervolt support is not detected. Only AMD Ryzen CPUs are supported as of now." />
         
-        <Slider x:Name="UnderVoltSlider" Grid.Row="1" TickPlacement="Outside" Minimum="-200" Maximum="200" StepFrequency="1" SmallChange="1" Value="0" />
+        <Slider x:Name="UnderVoltSlider" Grid.Row="1" TickPlacement="Outside" TickFrequency="10" Minimum="-200" Maximum="200" StepFrequency="1" SmallChange="1" Value="0" />
         <Button Grid.Row="2" Content="Apply" Click="UnderVoltApply_OnClick"></Button>
 </Grid>
