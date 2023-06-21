@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GHelper.DeviceControls.PerformanceModes.Vendors.Asus;
 
@@ -43,5 +44,10 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
         var currentModeIndex = AvailableModes.IndexOf(currentMode);
         var nextModeIndex = (currentModeIndex + 1) % AvailableModes.Count;
         return AvailableModes[nextModeIndex];
+    }
+    
+    public IPerformanceMode FindById(Guid id)
+    {
+        return AvailableModes.FirstOrDefault(mode => mode.Id == id);
     }
 }
