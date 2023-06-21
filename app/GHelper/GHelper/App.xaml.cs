@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Security.Principal;
+using GHelper.Configs;
 using GHelper.DeviceControls.Battery;
 using GHelper.DeviceControls.CPU;
 using GHelper.DeviceControls.Keyboard.Vendors;
@@ -19,7 +20,7 @@ namespace GHelper
         
         public App()
         {
-            var appDataLogPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "GHelper", "log.txt");
+            var appDataLogPath = System.IO.Path.Combine(ApplicationHelper.AppDataFolder, "log.txt");
             
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.File(appDataLogPath, rollingInterval: RollingInterval.Day)
@@ -99,6 +100,8 @@ namespace GHelper
             kernel.Load(Assembly.GetExecutingAssembly());
             
             Services.ResolutionRoot = kernel;
+
+            kernel.Get<IConfig>().ReadFromLocalStorage();
 
             // TODO: Move to prewarm phase
             kernel.Get<IVendorKeyRegister>();
