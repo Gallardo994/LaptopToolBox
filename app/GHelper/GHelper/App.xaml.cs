@@ -100,7 +100,6 @@ namespace GHelper
             Services.ResolutionRoot = kernel;
 
             kernel.Get<IVendorKeyRegister>();
-            kernel.Get<ICpuControl>();
             
             _window = kernel.Get<MainWindow>();
             
