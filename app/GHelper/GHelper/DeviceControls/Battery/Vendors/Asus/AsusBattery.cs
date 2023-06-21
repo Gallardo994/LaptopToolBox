@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Linq;
+using System.Management;
 using GHelper.DeviceControls.Acpi;
 using Ninject;
 
-namespace GHelper.DeviceControls.BatteryLimiter.Vendors.Asus;
+namespace GHelper.DeviceControls.Battery.Vendors.Asus;
 
-public class AsusBatteryLimiter : IBatteryLimiter
+public class AsusBattery : IBattery
 {
     private readonly IAcpi _acpi;
     
     private int _batteryLimit = 100;
     private bool _isTemporarilyUnlimited;
-    
+
+    public bool IsBatteryLimitSupported => true;
     public int MinRange => 40;
     public int MaxRange => 100;
     
     [Inject]
-    public AsusBatteryLimiter(IAcpi acpi)
+    public AsusBattery(IAcpi acpi)
     {
         _acpi = acpi;
     }
@@ -46,6 +49,12 @@ public class AsusBatteryLimiter : IBatteryLimiter
     {
         _isTemporarilyUnlimited = isTemporarilyUnlimited;
         CallAcpiSetMethod(isTemporarilyUnlimited ? 100 : _batteryLimit);
+    }
+
+    public int GetCurrentCharge()
+    {
+        var battery = new ManagementObjectSearcher("SELECT * FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
+        return battery == null ? 0 : Convert.ToInt32(battery["EstimatedChargeRemaining"]);
     }
     
     private void CallAcpiSetMethod(int value)

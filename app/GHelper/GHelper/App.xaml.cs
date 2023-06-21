@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Security.Principal;
-using GHelper.DeviceControls.BatteryLimiter;
+using GHelper.DeviceControls.Battery;
 using GHelper.DeviceControls.CPU;
 using GHelper.DeviceControls.Keyboard.Vendors;
 using GHelper.Helpers;
@@ -104,7 +104,7 @@ namespace GHelper
             kernel.Get<IVendorKeyRegister>();
             kernel.Get<ICpuControl>();
             
-            kernel.Get<IBatteryLimiter>().SetBatteryLimit(70);
+            kernel.Get<IBattery>().SetBatteryLimit(70);
             
             _window = kernel.Get<MainWindow>();
             
