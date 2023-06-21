@@ -2,6 +2,7 @@
 
 public interface IConfig
 {
+    public string Path { get; }
     public bool ReadFromLocalStorage();
     public void SaveToLocalStorage();
 }

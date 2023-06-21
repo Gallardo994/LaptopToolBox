@@ -8,13 +8,15 @@ namespace GHelper.Configs;
 [JsonObject(MemberSerialization.OptIn)]
 public partial class Config : ObservableObject, IConfig
 {
-    private static string Path => System.IO.Path.Combine(ApplicationHelper.AppDataFolder, "configuration.json");
+    private readonly IConfigSaveCommandLoop _saveCommandLoop;
+    public string Path { get; init; } = System.IO.Path.Combine(ApplicationHelper.AppDataFolder, "configuration.json");
     
-    //[ObservableProperty] [JsonProperty("autostart")] private bool _autoStart = false;
-    //[ObservableProperty] [JsonProperty("battery_limit")] private int _batteryLimit = 100;
+    [ObservableProperty] [JsonProperty("autostart")] private bool _autoStart = false;
+    [ObservableProperty] [JsonProperty("battery_limit")] private int _batteryLimit = 100;
 
-    public Config()
+    public Config(IConfigSaveCommandLoop saveCommandLoop)
     {
+        _saveCommandLoop = saveCommandLoop;
         PropertyChanged += (sender, args) => SaveToLocalStorage();
     }
 
@@ -34,11 +36,6 @@ public partial class Config : ObservableObject, IConfig
     
     public void SaveToLocalStorage()
     {
-        var folder = System.IO.Path.GetDirectoryName(Path);
-        if (!Directory.Exists(folder))
-        {
-            Directory.CreateDirectory(folder);
-        }
-        File.WriteAllText(Path, JsonConvert.SerializeObject(this));
+        _saveCommandLoop.Enqueue(new ConfigSaveCommand(Path, JsonConvert.SerializeObject(this)));
     }
 }
