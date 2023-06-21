@@ -31,18 +31,14 @@ namespace GHelper
                 Log.Error(args.Exception, "Unhandled exception");
             };
             
-            /*
             if (!IsAdmin())
             {
                 Log.Information("Running as non-admin, restarting as admin");
-                RunAsRestart();
                 Environment.Exit(0);
+                return;
             }
-            else
-            {
-                Log.Information("Running as admin");
-            }
-            */
+
+            Log.Information("Running as admin");
             
             InitializeComponent();
         }
