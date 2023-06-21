@@ -1,50 +1,28 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using GHelper.DeviceControls.CPU;
+﻿using GHelper.DeviceControls.CPU;
 using GHelper.Injection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.ViewModels;
 
-public class UnderVoltViewModel : INotifyPropertyChanged
+public partial class UnderVoltViewModel : ObservableObject
 {
     private readonly ICpuControl _cpuControl;
 
-    private bool _isAvailable;
-    
-    public bool IsAvailable
-    {
-        get => _isAvailable;
-        set
-        {
-            if (value == _isAvailable) return;
-            _isAvailable = value;
-            OnPropertyChanged();
-        }
-    }
-    
-    private int _underVolt;
-    public int UnderVolt
-    {
-        get => _underVolt;
-        set
-        {
-            _underVolt = value;
-            OnPropertyChanged();
-            _cpuControl.SetUnderVolt(value);
-        }
-    }
-    
+    [ObservableProperty] private bool _isAvailable;
+    [ObservableProperty] private int _underVolt;
+
     public UnderVoltViewModel()
     {
         _cpuControl = Services.ResolutionRoot.Get<ICpuControl>();
         IsAvailable = _cpuControl.IsUnderVoltSupported;
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        
+        PropertyChanged += (sender, args) =>
+        {
+            if (args.PropertyName == nameof(UnderVolt))
+            {
+                _cpuControl.SetUnderVolt(UnderVolt);
+            }
+        };
     }
 }

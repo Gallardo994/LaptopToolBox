@@ -1,34 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace GHelper;
 
-public class FlyoutPageItem : INotifyPropertyChanged
+public partial class FlyoutPageItem : ObservableObject
 {
-    public string Title { get; set; }
-    public Type TargetType { get; set; }
-    public IconElement Icon { get; set; }
-    public bool IsHomePage { get; set; }
-    public string Tag { get; set; }
-
-    private int _notificationCount;
-    public int NotificationCount 
-    {
-        get => _notificationCount;
-        set
-        {
-            _notificationCount = value;
-            OnPropertyChanged();
-        }
-    }
-    public bool IsFooter { get; set; }
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    [ObservableProperty] private string _title;
+    [ObservableProperty] private Type _targetType;
+    [ObservableProperty] private IconElement _icon;
+    [ObservableProperty] private bool _isHomePage;
+    [ObservableProperty] private string _tag;
+    [ObservableProperty] [AlsoNotifyChangeFor(nameof(NotificationsVisible))] private int _notificationCount;
+    [ObservableProperty] private bool _isFooter;
+    
+    public Visibility NotificationsVisible => NotificationCount > 0 ? Visibility.Visible : Visibility.Collapsed;
 }

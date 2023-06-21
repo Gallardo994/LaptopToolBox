@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace GHelper.DeviceControls.Lighting.Vendors.Asus.Aura;
 
-public class AuraModesProvider : IAuraModesProvider
+public partial class AuraModesProvider : ObservableObject, IAuraModesProvider
 {
-    public ObservableCollection<AuraModeModel> SupportedModes { get; init; }
+    [ObservableProperty] private ObservableCollection<AuraModeModel> _supportedModes;
 
     public AuraModesProvider()
     {

@@ -1,10 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace GHelper.About;
 
-public class AboutProvider : IAboutProvider
+public partial class AboutProvider : ObservableObject, IAboutProvider
 {
-    public ObservableCollection<IAboutItem> Items { get; }
+    [ObservableProperty] private ObservableCollection<IAboutItem> _items;
     
     public AboutProvider()
     {

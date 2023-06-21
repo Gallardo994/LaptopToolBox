@@ -1,13 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using GHelper.About;
 using GHelper.Injection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.ViewModels;
 
-public class AboutViewModel : INotifyPropertyChanged
+public class AboutViewModel : ObservableObject
 {
     private readonly IAboutProvider _aboutProvider;
     
@@ -16,12 +15,5 @@ public class AboutViewModel : INotifyPropertyChanged
     public AboutViewModel()
     {
         _aboutProvider = Services.ResolutionRoot.Get<IAboutProvider>();
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

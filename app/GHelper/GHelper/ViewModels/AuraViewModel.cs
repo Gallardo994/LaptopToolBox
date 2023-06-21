@@ -1,20 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using GHelper.DeviceControls.Lighting.Vendors.Asus.Aura;
 using GHelper.Injection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.ViewModels;
 
-public sealed class AuraViewModel : INotifyPropertyChanged
+public partial class AuraViewModel : ObservableObject
 {
     private readonly IAuraControl _auraControl;
     private readonly IAuraModesProvider _auraModesProvider;
     private readonly IAuraSpeedsProvider _auraSpeedsProvider;
+    
+    [ObservableProperty] private AuraModeModel _mode;
+    [ObservableProperty] private Color _color;
+    [ObservableProperty] private Color _color2;
+    [ObservableProperty] private AuraSpeedModel _speed;
     
     public ObservableCollection<AuraModeModel> Modes => _auraModesProvider.SupportedModes;
     
@@ -32,65 +35,19 @@ public sealed class AuraViewModel : INotifyPropertyChanged
         _color = Color.White;
         _color2 = Color.White;
         _speed = Speeds.First();
-    }
-
-    private AuraModeModel _mode;
-    public AuraModeModel Mode
-    {
-        get => _mode;
-        set 
+        
+        // Subscribe to Mode change to call Refresh
+        PropertyChanged += (sender, args) =>
         {
-            _mode = value;
-            Refresh();
-            OnPropertyChanged();
-        }
-    }
-    
-    private Color _color;
-    public Color Color
-    {
-        get => _color;
-        set 
-        {
-            _color = value;
-            Refresh();
-            OnPropertyChanged();
-        }
-    }
-    
-    private Color _color2;
-    public Color Color2
-    {
-        get => _color2;
-        set 
-        {
-            _color2 = value;
-            Refresh();
-            OnPropertyChanged();
-        }
-    }
-    
-    private AuraSpeedModel _speed;
-    public AuraSpeedModel Speed
-    {
-        get => _speed;
-        set 
-        {
-            _speed = value;
-            Refresh();
-            OnPropertyChanged();
-        }
+            if (args.PropertyName is nameof(Mode) or nameof(Color) or nameof(Color2) or nameof(Speed))
+            {
+                Refresh();
+            }
+        };
     }
 
     private void Refresh()
     {
         _auraControl.Apply(Mode.Mode, Color, Color2, Speed.Speed);
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

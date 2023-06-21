@@ -1,12 +1,13 @@
 ﻿using GHelper.ModelInfo;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.Updates.Core;
 
-public class UpdatesUrlProvider : IUpdatesUrlProvider
+public partial class UpdatesUrlProvider : ObservableObject, IUpdatesUrlProvider
 {
-    public string DriversUrl { get; private set; }
-    public string BiosUrl { get; private set; }
+    [ObservableProperty] private string _driversUrl;
+    [ObservableProperty] private string _biosUrl;
     
     [Inject]
     public UpdatesUrlProvider(IModelInfoProvider modelInfoProvider)

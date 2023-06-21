@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Microsoft.UI.Xaml.Controls;
 
 namespace GHelper.DeviceControls.PerformanceModes.Vendors.Asus;
 

@@ -1,45 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using GHelper.Updates.Models;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace GHelper.ViewModels;
 
-public class UpdatesViewModel : INotifyPropertyChanged
+public partial class UpdatesViewModel : ObservableObject
 {
-    private int _pendingUpdates;
-    public int PendingUpdates
-    {
-        get => _pendingUpdates;
-        set
-        {
-            _pendingUpdates = value;
-            OnPropertyChanged();
-        }
-    }
-    
-    private ObservableCollection<IUpdate> _updates = null!;
-    public ObservableCollection<IUpdate> Updates
-    {
-        get => _updates;
-        set
-        {
-            _updates = value;
-            OnPropertyChanged();
-        }
-    }
-
-    private bool _isUpdating;
-    public bool IsUpdating
-    {
-        get => _isUpdating;
-        set
-        {
-            _isUpdating = value;
-            OnPropertyChanged();
-        }
-    }
+    [ObservableProperty] private int _pendingUpdates;
+    [ObservableProperty] private ObservableCollection<IUpdate> _updates = null!;
+    [ObservableProperty] private bool _isUpdating;
 
     public UpdatesViewModel()
     {
@@ -60,12 +30,5 @@ public class UpdatesViewModel : INotifyPropertyChanged
             
             Updates.Add(update);
         }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

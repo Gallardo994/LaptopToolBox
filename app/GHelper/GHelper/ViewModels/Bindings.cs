@@ -1,5 +1,4 @@
-﻿using GHelper.Views;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 
 namespace GHelper.ViewModels;
 

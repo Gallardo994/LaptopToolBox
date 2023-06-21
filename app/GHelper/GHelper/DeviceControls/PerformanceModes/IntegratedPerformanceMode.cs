@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
-
-namespace GHelper.DeviceControls.PerformanceModes;
+﻿namespace GHelper.DeviceControls.PerformanceModes;
 
 public class IntegratedPerformanceMode : IPerformanceMode
 {

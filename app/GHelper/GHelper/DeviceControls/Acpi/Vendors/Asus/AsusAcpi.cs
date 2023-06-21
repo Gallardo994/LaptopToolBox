@@ -1,6 +1,5 @@
 ﻿using System;
 using GHelper.Serialization;
-using Ninject;
 using Serilog;
 
 namespace GHelper.DeviceControls.Acpi.Vendors.Asus;

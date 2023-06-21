@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GHelper.DeviceControls.Keyboard.Vendors;
+﻿namespace GHelper.DeviceControls.Keyboard.Vendors;
 
 public interface IVendorKeyBind
 {

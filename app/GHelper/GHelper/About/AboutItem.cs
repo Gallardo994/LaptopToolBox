@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace GHelper.About;
 
-public class AboutItem : IAboutItem
+public partial class AboutItem : ObservableObject, IAboutItem
 {
-    public string Title { get; init; }
-    public string Description { get; init; }
-    public string Link { get; init; }
-    public string LicenseLink { get; init; }
+    [ObservableProperty] private string _title;
+    [ObservableProperty] private string _description;
+    [ObservableProperty] private string _link;
+    [ObservableProperty] private string _licenseLink;
 }

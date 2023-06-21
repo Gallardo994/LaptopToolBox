@@ -1,9 +1,11 @@
-﻿namespace GHelper.Updates.Models;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-public class BiosUpdate : IUpdate
+namespace GHelper.Updates.Models;
+
+public partial class BiosUpdate : ObservableObject, IUpdate
 {
-    public string Name { get; init; }
-    public string Version { get; init; }
-    public string DownloadUrl { get; init; }
-    public bool IsNewerThanCurrent { get; init; }
+    [ObservableProperty] private string _name;
+    [ObservableProperty] private string _version;
+    [ObservableProperty] private string _downloadUrl;
+    [ObservableProperty] private bool _isNewerThanCurrent;
 }

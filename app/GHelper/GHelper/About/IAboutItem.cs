@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GHelper.About;
+﻿namespace GHelper.About;
 
 public interface IAboutItem
 {

@@ -32,10 +32,6 @@
     </VisualStateManager.VisualStateGroups>
     
     <Grid>
-        <Grid.Resources>
-            <converters:PositiveIntToVisibilityConverter x:Key="PositiveIntToVisibilityConverter" />
-        </Grid.Resources>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
@@ -82,7 +78,7 @@
                     >
                         <NavigationViewItem.InfoBadge>
                             <InfoBadge Value="{Binding Path=NotificationCount, Mode=OneWay}"
-                                       Visibility="{Binding Path=NotificationCount, Converter={StaticResource PositiveIntToVisibilityConverter}}"/>
+                                       Visibility="{Binding Path=NotificationsVisible}"/>
                         </NavigationViewItem.InfoBadge>
                     </NavigationViewItem>
                 </DataTemplate>
