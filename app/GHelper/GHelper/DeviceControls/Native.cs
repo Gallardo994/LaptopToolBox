@@ -30,4 +30,17 @@ public static class Native
     
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern bool CloseHandle(IntPtr hObject);
+    
+    [DllImport("kernel32")]
+    public static extern IntPtr LoadLibrary(string lpFileName);
+
+    [DllImport("kernel32", SetLastError = true)]
+    public static extern bool FreeLibrary(IntPtr hModule);
+
+    [DllImport("kernel32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = false)]
+    public static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
+    
+    [DllImport("inpoutx64.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetPhysLong(UIntPtr memAddress, out uint Data);
 }
