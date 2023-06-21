@@ -18,28 +18,5 @@ namespace GHelper.Pages
             
             DataContext = PerformanceViewModel;
         }
-
-        private void SetPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
-        {
-            PerformanceViewModel.SelectedMode = (IPerformanceMode) (sender as Button)?.DataContext;
-        }
-        
-        private void ListViewSwipeContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen)
-            {
-                VisualStateManager.GoToState(sender as Control, "HoverButtonsShown", true);
-            }
-        }
-
-        private void ListViewSwipeContainer_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
-        }
-
-        private void ButtonAddPerformanceMode_OnClicked(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
 }
