@@ -74,7 +74,11 @@
                         Icon="{Binding Path=Icon}"
                         Tag="{Binding Path=Tag}"
                         IsSelected="{Binding Path=IsSelected, Mode=TwoWay}"
-                    />
+                    >
+                        <NavigationViewItem.InfoBadge>
+                            <InfoBadge Value="{Binding Path=NotificationCount, Mode=OneWay}"/>
+                        </NavigationViewItem.InfoBadge>
+                    </NavigationViewItem>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
         
