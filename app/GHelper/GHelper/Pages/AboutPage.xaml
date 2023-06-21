@@ -64,7 +64,8 @@
         <ListView Grid.Row="1" BorderThickness="0"
                   ItemsSource="{Binding Path=Items}"
                   Style="{StaticResource ItemsList}"
-                  ItemContainerStyle="{StaticResource HorizontalSwipe}">
+                  ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                  SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
