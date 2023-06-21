@@ -91,6 +91,17 @@ public sealed class PageProvider : IPageProvider, INotifyPropertyChanged
             },
             new FlyoutPageItem
             {
+                Title = "About",
+                TargetType = typeof(AboutPage),
+                Icon = new FontIcon
+                {
+                    Glyph = "\uE946",
+                },
+                Tag = "About",
+                IsFooter = true,
+            },
+            new FlyoutPageItem
+            {
                 Title = "Settings",
                 TargetType = typeof(SettingsPage),
                 Icon = new FontIcon
