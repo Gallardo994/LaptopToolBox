@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="using:GHelper.Pages"
+    xmlns:converters="using:GHelper.Converters"
     mc:Ignorable="d">
     
     <Window.SystemBackdrop>
@@ -31,6 +32,10 @@
     </VisualStateManager.VisualStateGroups>
     
     <Grid>
+        <Grid.Resources>
+            <converters:PositiveIntToVisibilityConverter x:Key="PositiveIntToVisibilityConverter" />
+        </Grid.Resources>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
@@ -76,7 +81,8 @@
                         IsSelected="{Binding Path=IsSelected, Mode=TwoWay}"
                     >
                         <NavigationViewItem.InfoBadge>
-                            <InfoBadge Value="{Binding Path=NotificationCount, Mode=OneWay}"/>
+                            <InfoBadge Value="{Binding Path=NotificationCount, Mode=OneWay}"
+                                       Visibility="{Binding Path=NotificationCount, Converter={StaticResource PositiveIntToVisibilityConverter}}"/>
                         </NavigationViewItem.InfoBadge>
                     </NavigationViewItem>
                 </DataTemplate>

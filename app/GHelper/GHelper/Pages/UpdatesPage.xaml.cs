@@ -82,6 +82,11 @@ namespace GHelper.Pages
                     return string.Compare(update1.Name, update2.Name, StringComparison.Ordinal);
                 });
                 
+                if (DispatcherQueue == null || ViewModel == null)
+                {
+                    return;
+                }
+                
                 DispatcherQueue.TryEnqueue(() =>
                 {
                     ViewModel.SetUpdates(result);
