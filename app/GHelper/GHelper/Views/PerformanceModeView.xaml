@@ -96,7 +96,8 @@
                                     
                                     <StackPanel Grid.Column="0"
                                                 Orientation="Horizontal">
-                                        <UserControl Content="{Binding Path=Icon}" />
+                                        
+                                        <FontIcon Glyph="{Binding Path=Icon}"></FontIcon>
                                         
                                         <StackPanel Margin="8 0 0 0"
                                                     HorizontalAlignment="Left"

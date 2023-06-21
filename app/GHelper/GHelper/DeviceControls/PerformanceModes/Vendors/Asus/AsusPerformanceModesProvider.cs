@@ -15,30 +15,21 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             {
                 Title = "Silent",
                 Description = "Save battery life, reduce heat and fan noise by reducing performance",
-                Icon = new FontIcon
-                {
-                    Glyph = "\uEC48",
-                },
+                Icon = "\uEC48",
                 Type = PerformanceModeType.Silent,
             },
             new IntegratedPerformanceMode
             {
                 Title = "Balanced",
                 Description = "Balance performance and battery life. This is the default mode",
-                Icon = new FontIcon
-                {
-                    Glyph = "\uEC49",
-                },
+                Icon = "\uEC49",
                 Type = PerformanceModeType.Balanced,
             },
             new IntegratedPerformanceMode
             {
                 Title = "Turbo",
                 Description = "Maximize performance at the cost of battery life, temperatures and fan noise",
-                Icon = new FontIcon
-                {
-                    Glyph = "\uEC4A",
-                },
+                Icon = "\uEC4A",
                 Type = PerformanceModeType.Turbo,
             }
         };
