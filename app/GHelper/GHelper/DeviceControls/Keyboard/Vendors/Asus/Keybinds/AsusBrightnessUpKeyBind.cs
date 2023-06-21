@@ -5,7 +5,7 @@ namespace GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 
 public class AsusBrightnessUpKeyBind : IVendorKeyBind
 {
-    public int Key { get; init; } = 32;
+    public int Key { get; set; } = 32;
     
     private readonly IAcpi _acpi;
 
