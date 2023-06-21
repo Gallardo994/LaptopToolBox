@@ -4,21 +4,27 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD;
 
 public interface IOls : IDisposable
 {
-    public Ols._InitializeOls InitializeOls { get; }
-    public Ols._DeinitializeOls DeinitializeOls { get; }
+    public int InitializeOls();
+    public void DeinitializeOls();
 
-    public Ols._GetDllStatus GetDllStatus { get; }
-    public Ols._GetDriverType GetDriverType { get; }
-    public Ols._GetDllVersion GetDllVersion { get; }
-    public Ols._GetDriverVersion GetDriverVersion { get; }
-    public Ols._Cpuid Cpuid { get; }
-    public Ols._WritePciConfigDwordEx WritePciConfigDwordEx { get; }
+    public uint GetDllStatus();
+    public int Cpuid(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx);
     
-    public Ols._ReadPciConfigDwordEx ReadPciConfigDwordEx { get; }
-    public Ols._ReadPciConfigDwordEx64 ReadPciConfigDwordEx64 { get; }
-    public Ols._WritePciConfigDwordEx64 WritePciConfigDwordEx64 { get; }
-    public Ols._WritePciConfigDword WritePciConfigDword { get; }
-    public Ols._ReadPciConfigDword ReadPciConfigDword { get; }
+    public int WritePciConfigDwordEx(uint pciAddress, uint regAddress, byte value);
+    public int WritePciConfigDwordEx(uint pciAddress, uint regAddress, uint value);
+    public int ReadPciConfigDwordEx(uint pciAddress, uint regAddress, ref uint value);
+    
+    public int WritePciConfigDwordEx64(uint pciAddress, uint regAddress, uint value);
+    public int WritePciConfigDwordEx64(uint pciAddress, uint regAddress, ulong value);
+    public int ReadPciConfigDwordEx64(uint pciAddress, uint regAddress, ref ulong value);
+
+    public uint GetDriverType();
+    public uint GetDllVersion(ref byte major, ref byte minor, ref byte revision, ref byte release);
+    public uint GetDriverVersion(ref byte major, ref byte minor, ref byte revision, ref byte release);
+
+
+    public void WritePciConfigDword(uint pciAddress, byte regAddress, uint value);
+    public uint ReadPciConfigDword(uint pciAddress, byte regAddress);
 
     public uint GetStatus();
 }
