@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace GHelper.ExtraControls;
+namespace GHelper.ExtraControls.Wallpaper;
 
 public class DesktopWallpaperProvider : IWallpaperProvider
 {

@@ -1,6 +1,6 @@
 ﻿using Ninject.Modules;
 
-namespace GHelper.ExtraControls;
+namespace GHelper.ExtraControls.Wallpaper;
 
 public class Bindings : NinjectModule
 {

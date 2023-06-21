@@ -1,4 +1,4 @@
-﻿namespace GHelper.ExtraControls;
+﻿namespace GHelper.ExtraControls.Wallpaper;
 
 public interface IWallpaperProvider
 {
