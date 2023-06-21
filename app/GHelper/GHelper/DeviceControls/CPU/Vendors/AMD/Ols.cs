@@ -236,11 +236,6 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             }
         }
 
-        public uint GetStatus()
-        {
-            return status;
-        }
-
         public void Dispose()
         {
             if (module != IntPtr.Zero)
@@ -251,7 +246,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             }
         }
 
-        public Delegate GetDelegate(string procName, Type delegateType)
+        private Delegate GetDelegate(string procName, Type delegateType)
         {
             var ptr = Native.GetProcAddress(module, procName);
             if (ptr != IntPtr.Zero)
@@ -267,142 +262,147 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
         //-----------------------------------------------------------------------------
         // DLL Information
         //-----------------------------------------------------------------------------
-        public delegate uint _GetDllStatus();
-        public delegate uint _GetDllVersion(ref byte major, ref byte minor, ref byte revision, ref byte release);
-        public delegate uint _GetDriverVersion(ref byte major, ref byte minor, ref byte revision, ref byte release);
-        public delegate uint _GetDriverType();
-        public delegate int _InitializeOls();
-        public delegate void _DeinitializeOls();
+        private delegate uint _GetDllStatus();
 
-        public _GetDllStatus GetDllStatusInternal;
-        public _GetDriverType GetDriverTypeInternal;
-        public _GetDllVersion GetDllVersionInternal;
-        public _GetDriverVersion GetDriverVersionInternal;
-        public _InitializeOls InitializeOlsInternal;
-        public _DeinitializeOls DeinitializeOlsInternal;
+        private delegate uint _GetDllVersion(ref byte major, ref byte minor, ref byte revision, ref byte release);
+
+        private delegate uint _GetDriverVersion(ref byte major, ref byte minor, ref byte revision, ref byte release);
+
+        private delegate uint _GetDriverType();
+
+        private delegate int _InitializeOls();
+
+        private delegate void _DeinitializeOls();
+
+        private _GetDllStatus GetDllStatusInternal;
+        private _GetDriverType GetDriverTypeInternal;
+        private _GetDllVersion GetDllVersionInternal;
+        private _GetDriverVersion GetDriverVersionInternal;
+        private _InitializeOls InitializeOlsInternal;
+        private _DeinitializeOls DeinitializeOlsInternal;
 
         //-----------------------------------------------------------------------------
         // CPU
         //-----------------------------------------------------------------------------
-        public delegate int _IsCpuid();
-        public delegate int _IsMsr();
-        public delegate int _IsTsc();
-        public delegate int _Hlt();
-        public delegate int _HltTx(UIntPtr threadAffinityMask);
-        public delegate int _HltPx(UIntPtr processAffinityMask);
-        public delegate int _Rdmsr(uint index, ref uint eax, ref uint edx);
-        public delegate int _RdmsrTx(uint index, ref uint eax, ref uint edx, UIntPtr threadAffinityMask);
-        public delegate int _RdmsrPx(uint index, ref uint eax, ref uint edx, UIntPtr processAffinityMask);
-        public delegate int _Wrmsr(uint index, uint eax, uint edx);
-        public delegate int _WrmsrTx(uint index, uint eax, uint edx, UIntPtr threadAffinityMask);
-        public delegate int _WrmsrPx(uint index, uint eax, uint edx, UIntPtr processAffinityMask);
-        public delegate int _Rdpmc(uint index, ref uint eax, ref uint edx);
-        public delegate int _RdpmcTx(uint index, ref uint eax, ref uint edx, UIntPtr threadAffinityMask);
-        public delegate int _RdpmcPx(uint index, ref uint eax, ref uint edx, UIntPtr processAffinityMask);
-        public delegate int _Cpuid(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx);
+        private delegate int _IsCpuid();
+        private delegate int _IsMsr();
+        private delegate int _IsTsc();
+        private delegate int _Hlt();
+        private delegate int _HltTx(UIntPtr threadAffinityMask);
+        private delegate int _HltPx(UIntPtr processAffinityMask);
+        private delegate int _Rdmsr(uint index, ref uint eax, ref uint edx);
+        private delegate int _RdmsrTx(uint index, ref uint eax, ref uint edx, UIntPtr threadAffinityMask);
+        private delegate int _RdmsrPx(uint index, ref uint eax, ref uint edx, UIntPtr processAffinityMask);
+        private delegate int _Wrmsr(uint index, uint eax, uint edx);
+        private delegate int _WrmsrTx(uint index, uint eax, uint edx, UIntPtr threadAffinityMask);
+        private delegate int _WrmsrPx(uint index, uint eax, uint edx, UIntPtr processAffinityMask);
+        private delegate int _Rdpmc(uint index, ref uint eax, ref uint edx);
+        private delegate int _RdpmcTx(uint index, ref uint eax, ref uint edx, UIntPtr threadAffinityMask);
+        private delegate int _RdpmcPx(uint index, ref uint eax, ref uint edx, UIntPtr processAffinityMask);
+        private delegate int _Cpuid(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx);
 
-        public delegate int _CpuidTx(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx, UIntPtr threadAffinityMask);
-        public delegate int _CpuidPx(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx, UIntPtr processAffinityMask);
-        public delegate int _Rdtsc(ref uint eax, ref uint edx);
-        public delegate int _RdtscTx(ref uint eax, ref uint edx, UIntPtr threadAffinityMask);
-        public delegate int _RdtscPx(ref uint eax, ref uint edx, UIntPtr processAffinityMask);
+        private delegate int _CpuidTx(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx, UIntPtr threadAffinityMask);
+        private delegate int _CpuidPx(uint index, ref uint eax, ref uint ebx, ref uint ecx, ref uint edx, UIntPtr processAffinityMask);
+        private delegate int _Rdtsc(ref uint eax, ref uint edx);
+        private delegate int _RdtscTx(ref uint eax, ref uint edx, UIntPtr threadAffinityMask);
+        private delegate int _RdtscPx(ref uint eax, ref uint edx, UIntPtr processAffinityMask);
 
-        public _IsCpuid IsCpuidInternal = null;
-        public _IsMsr IsMsrInternal = null;
-        public _IsTsc IsTscInternal = null;
-        public _Hlt HltInternal = null;
-        public _HltTx HltTxInternal = null;
-        public _HltPx HltPxInternal = null;
-        public _Rdmsr RdmsrInternal = null;
-        public _RdmsrTx RdmsrTxInternal = null;
-        public _RdmsrPx RdmsrPxInternal = null;
-        public _Wrmsr WrmsrInternal = null;
-        public _WrmsrTx WrmsrTxInternal = null;
-        public _WrmsrPx WrmsrPxInternal = null;
-        public _Rdpmc RdpmcInternal = null;
-        public _RdpmcTx RdpmcTxInternal = null;
-        public _RdpmcPx RdpmcPxInternal = null;
-        public _Cpuid CpuidInternal = null;
-        public _CpuidTx CpuidTxInternal = null;
-        public _CpuidPx CpuidPxInternal = null;
-        public _Rdtsc RdtscInternal = null;
-        public _RdtscTx RdtscTxInternal = null;
-        public _RdtscPx RdtscPxInternal = null;
+        private _IsCpuid IsCpuidInternal = null;
+        private _IsMsr IsMsrInternal = null;
+        private _IsTsc IsTscInternal = null;
+        private _Hlt HltInternal = null;
+        private _HltTx HltTxInternal = null;
+        private _HltPx HltPxInternal = null;
+        private _Rdmsr RdmsrInternal = null;
+        private _RdmsrTx RdmsrTxInternal = null;
+        private _RdmsrPx RdmsrPxInternal = null;
+        private _Wrmsr WrmsrInternal = null;
+        private _WrmsrTx WrmsrTxInternal = null;
+        private _WrmsrPx WrmsrPxInternal = null;
+        private _Rdpmc RdpmcInternal = null;
+        private _RdpmcTx RdpmcTxInternal = null;
+        private _RdpmcPx RdpmcPxInternal = null;
+        private _Cpuid CpuidInternal = null;
+        private _CpuidTx CpuidTxInternal = null;
+        private _CpuidPx CpuidPxInternal = null;
+        private _Rdtsc RdtscInternal = null;
+        private _RdtscTx RdtscTxInternal = null;
+        private _RdtscPx RdtscPxInternal = null;
 
         //-----------------------------------------------------------------------------
         // I/O
         //-----------------------------------------------------------------------------
-        public delegate byte _ReadIoPortByte(ushort port);
-        public delegate ushort _ReadIoPortWord(ushort port);
-        public delegate uint _ReadIoPortDword(ushort port);
-        public _ReadIoPortByte ReadIoPortByteInternal;
-        public _ReadIoPortWord ReadIoPortWordInternal;
-        public _ReadIoPortDword ReadIoPortDwordInternal;
+        private delegate byte _ReadIoPortByte(ushort port);
+        private delegate ushort _ReadIoPortWord(ushort port);
+        private delegate uint _ReadIoPortDword(ushort port);
+        private _ReadIoPortByte ReadIoPortByteInternal;
+        private _ReadIoPortWord ReadIoPortWordInternal;
+        private _ReadIoPortDword ReadIoPortDwordInternal;
 
-        public delegate int _ReadIoPortByteEx(ushort port, ref byte value);
-        public delegate int _ReadIoPortWordEx(ushort port, ref ushort value);
-        public delegate int _ReadIoPortDwordEx(ushort port, ref uint value);
-        public _ReadIoPortByteEx ReadIoPortByteExInternal;
-        public _ReadIoPortWordEx ReadIoPortWordExInternal;
-        public _ReadIoPortDwordEx ReadIoPortDwordExInternal;
+        private delegate int _ReadIoPortByteEx(ushort port, ref byte value);
+        private delegate int _ReadIoPortWordEx(ushort port, ref ushort value);
+        private delegate int _ReadIoPortDwordEx(ushort port, ref uint value);
+        private _ReadIoPortByteEx ReadIoPortByteExInternal;
+        private _ReadIoPortWordEx ReadIoPortWordExInternal;
+        private _ReadIoPortDwordEx ReadIoPortDwordExInternal;
 
-        public delegate void _WriteIoPortByte(ushort port, byte value);
-        public delegate void _WriteIoPortWord(ushort port, ushort value);
-        public delegate void _WriteIoPortDword(ushort port, uint value);
-        public _WriteIoPortByte WriteIoPortByteInternal;
-        public _WriteIoPortWord WriteIoPortWordInternal;
-        public _WriteIoPortDword WriteIoPortDwordInternal;
+        private delegate void _WriteIoPortByte(ushort port, byte value);
+        private delegate void _WriteIoPortWord(ushort port, ushort value);
+        private delegate void _WriteIoPortDword(ushort port, uint value);
+        private _WriteIoPortByte WriteIoPortByteInternal;
+        private _WriteIoPortWord WriteIoPortWordInternal;
+        private _WriteIoPortDword WriteIoPortDwordInternal;
 
-        public delegate int _WriteIoPortByteEx(ushort port, byte value);
-        public delegate int _WriteIoPortWordEx(ushort port, ushort value);
-        public delegate int _WriteIoPortDwordEx(ushort port, uint value);
-        public _WriteIoPortByteEx WriteIoPortByteExInternal;
-        public _WriteIoPortWordEx WriteIoPortWordExInternal;
-        public _WriteIoPortDwordEx WriteIoPortDwordExInternal;
+        private delegate int _WriteIoPortByteEx(ushort port, byte value);
+        private delegate int _WriteIoPortWordEx(ushort port, ushort value);
+        private delegate int _WriteIoPortDwordEx(ushort port, uint value);
+        private _WriteIoPortByteEx WriteIoPortByteExInternal;
+        private _WriteIoPortWordEx WriteIoPortWordExInternal;
+        private _WriteIoPortDwordEx WriteIoPortDwordExInternal;
 
         //-----------------------------------------------------------------------------
         // PCI
         //-----------------------------------------------------------------------------
-        public delegate void _SetPciMaxBusIndex(byte max);
-        public _SetPciMaxBusIndex SetPciMaxBusIndexInternal;
+        private delegate void _SetPciMaxBusIndex(byte max);
+        private _SetPciMaxBusIndex SetPciMaxBusIndexInternal;
 
-        public delegate byte _ReadPciConfigByte(uint pciAddress, byte regAddress);
-        public delegate ushort _ReadPciConfigWord(uint pciAddress, byte regAddress);
-        public delegate uint _ReadPciConfigDword(uint pciAddress, byte regAddress);
-        public _ReadPciConfigByte ReadPciConfigByteInternal;
-        public _ReadPciConfigWord ReadPciConfigWordInternal;
-        public _ReadPciConfigDword ReadPciConfigDwordInternal;
+        private delegate byte _ReadPciConfigByte(uint pciAddress, byte regAddress);
+        private delegate ushort _ReadPciConfigWord(uint pciAddress, byte regAddress);
+        private delegate uint _ReadPciConfigDword(uint pciAddress, byte regAddress);
+        private _ReadPciConfigByte ReadPciConfigByteInternal;
+        private _ReadPciConfigWord ReadPciConfigWordInternal;
+        private _ReadPciConfigDword ReadPciConfigDwordInternal;
 
-        public delegate int _ReadPciConfigByteEx(uint pciAddress, uint regAddress, ref byte value);
-        public delegate int _ReadPciConfigWordEx(uint pciAddress, uint regAddress, ref ushort value);
+        private delegate int _ReadPciConfigByteEx(uint pciAddress, uint regAddress, ref byte value);
+        private delegate int _ReadPciConfigWordEx(uint pciAddress, uint regAddress, ref ushort value);
         public delegate int _ReadPciConfigDwordEx(uint pciAddress, uint regAddress, ref uint value);
-        public _ReadPciConfigByteEx ReadPciConfigByteExInternal;
-        public _ReadPciConfigWordEx ReadPciConfigWordExInternal;
-        public _ReadPciConfigDwordEx ReadPciConfigDwordExInternal;
+        private _ReadPciConfigByteEx ReadPciConfigByteExInternal;
+        private _ReadPciConfigWordEx ReadPciConfigWordExInternal;
+        private _ReadPciConfigDwordEx ReadPciConfigDwordExInternal;
         
-        public delegate int _ReadPciConfigDwordEx64(uint pciAddress, uint regAddress, ref ulong value);
-        public _ReadPciConfigDwordEx64 ReadPciConfigDwordEx64Internal;
+        private delegate int _ReadPciConfigDwordEx64(uint pciAddress, uint regAddress, ref ulong value);
+        private _ReadPciConfigDwordEx64 ReadPciConfigDwordEx64Internal;
         
-        public delegate void _WritePciConfigByte(uint pciAddress, byte regAddress, byte value);
-        public delegate void _WritePciConfigWord(uint pciAddress, byte regAddress, ushort value);
-        public delegate void _WritePciConfigDword(uint pciAddress, byte regAddress, uint value);
-        public _WritePciConfigByte WritePciConfigByteInternal;
-        public _WritePciConfigWord WritePciConfigWordInternal;
-        public _WritePciConfigDword WritePciConfigDwordInternal;
+        private delegate void _WritePciConfigByte(uint pciAddress, byte regAddress, byte value);
+        private delegate void _WritePciConfigWord(uint pciAddress, byte regAddress, ushort value);
+        private delegate void _WritePciConfigDword(uint pciAddress, byte regAddress, uint value);
+        private _WritePciConfigByte WritePciConfigByteInternal;
+        private _WritePciConfigWord WritePciConfigWordInternal;
+        private _WritePciConfigDword WritePciConfigDwordInternal;
         
-        public delegate int _WritePciConfigByteEx(uint pciAddress, uint regAddress, byte value);
-        public delegate int _WritePciConfigWordEx(uint pciAddress, uint regAddress, ushort value);
-        public delegate int _WritePciConfigDwordEx(uint pciAddress, uint regAddress, uint value);
-        public _WritePciConfigByteEx WritePciConfigByteExInternal;
-        public _WritePciConfigWordEx WritePciConfigWordExInternal;
-        public _WritePciConfigDwordEx WritePciConfigDwordExInternal;
-        public delegate int _WritePciConfigDwordEx64(uint pciAddress, uint regAddress, ulong value);
-        public _WritePciConfigDwordEx64 WritePciConfigDwordEx64Internal;
+        private delegate int _WritePciConfigByteEx(uint pciAddress, uint regAddress, byte value);
+        private delegate int _WritePciConfigWordEx(uint pciAddress, uint regAddress, ushort value);
+        private delegate int _WritePciConfigDwordEx(uint pciAddress, uint regAddress, uint value);
+        private _WritePciConfigByteEx WritePciConfigByteExInternal;
+        private _WritePciConfigWordEx WritePciConfigWordExInternal;
+        private _WritePciConfigDwordEx WritePciConfigDwordExInternal;
+        private delegate int _WritePciConfigDwordEx64(uint pciAddress, uint regAddress, ulong value);
+        private _WritePciConfigDwordEx64 WritePciConfigDwordEx64Internal;
         
-        public delegate uint _FindPciDeviceById(ushort vendorId, ushort deviceId, byte index);
-        public delegate uint _FindPciDeviceByClass(byte baseClass, byte subClass, byte programIf, byte index);
-        public _FindPciDeviceById FindPciDeviceByIdInternal;
-        public _FindPciDeviceByClass FindPciDeviceByClassInternal;
+        private delegate uint _FindPciDeviceById(ushort vendorId, ushort deviceId, byte index);
+        private delegate uint _FindPciDeviceByClass(byte baseClass, byte subClass, byte programIf, byte index);
+        private _FindPciDeviceById FindPciDeviceByIdInternal;
+        private _FindPciDeviceByClass FindPciDeviceByClassInternal;
 
         //-----------------------------------------------------------------------------
         // Physical Memory (unsafe)
@@ -489,6 +489,11 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
         public int WritePciConfigDwordEx64(uint pciAddress, uint regAddress, ulong value)
         {
             return WritePciConfigDwordEx64Internal(pciAddress, regAddress, value);
+        }
+        
+        public uint GetStatus()
+        {
+            return status;
         }
     }
 }
