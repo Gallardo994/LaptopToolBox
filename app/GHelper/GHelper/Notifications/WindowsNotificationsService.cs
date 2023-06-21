@@ -1,5 +1,6 @@
 ﻿using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Serilog;
 
 namespace GHelper.Notifications;
 
@@ -19,6 +20,7 @@ public class WindowsNotificationsService : INotificationService
         builder.AddText(title);
         builder.AddText(message);
         
+        Log.Debug("Show: {Category} {Title} {Message}", category, title, message);
         _notificationManager.Show(builder.BuildNotification());
     }
 }

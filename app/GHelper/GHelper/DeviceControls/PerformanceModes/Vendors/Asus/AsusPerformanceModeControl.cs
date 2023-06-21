@@ -1,6 +1,7 @@
 ﻿using GHelper.DeviceControls.Acpi;
 using GHelper.Notifications;
 using Ninject;
+using Serilog;
 
 namespace GHelper.DeviceControls.PerformanceModes.Vendors.Asus;
 
@@ -22,6 +23,8 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     public void SetMode(IPerformanceMode performanceMode)
     {
         var result = _acpi.DeviceSet(DeviceId, (int) performanceMode.Type);
+        
+        Log.Debug("SetMode: {DeviceId} {PerformanceModeType} {Result}", DeviceId, performanceMode.Type, result);
         
         if (result < 0)
         {

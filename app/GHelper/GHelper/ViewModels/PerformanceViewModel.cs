@@ -7,6 +7,7 @@ using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
 using Ninject;
+using Serilog;
 
 namespace GHelper.ViewModels;
 
