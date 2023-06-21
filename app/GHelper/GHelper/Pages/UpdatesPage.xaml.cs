@@ -82,13 +82,17 @@ namespace GHelper.Pages
                     return string.Compare(update1.Name, update2.Name, StringComparison.Ordinal);
                 });
                 
-                if (DispatcherQueue == null || ViewModel == null)
+                if (DispatcherQueue == null)
                 {
                     return;
                 }
                 
                 DispatcherQueue.TryEnqueue(() =>
                 {
+                    if (ViewModel == null)
+                    {
+                        return;
+                    }
                     ViewModel.SetUpdates(result);
                     ViewModel.IsUpdating = false;
                 });
