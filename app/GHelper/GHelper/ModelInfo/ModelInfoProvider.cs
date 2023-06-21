@@ -1,11 +1,12 @@
 ﻿using System.Management;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace GHelper.ModelInfo;
 
-public class ModelInfoProvider : IModelInfoProvider
+public partial class ModelInfoProvider : ObservableObject, IModelInfoProvider
 {
-    public string Model { get; }
-    public int Bios { get; }
+    [ObservableProperty] private string _model;
+    [ObservableProperty] private int _bios;
 
     public ModelInfoProvider()
     {
