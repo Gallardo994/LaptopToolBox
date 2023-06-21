@@ -8,6 +8,7 @@ using GHelper.DeviceControls.Battery;
 using GHelper.DeviceControls.CPU;
 using GHelper.DeviceControls.Keyboard.Vendors;
 using GHelper.Helpers;
+using GHelper.Initializers;
 using GHelper.Injection;
 using Ninject;
 using Serilog;
@@ -102,6 +103,7 @@ namespace GHelper
             Services.ResolutionRoot = kernel;
 
             kernel.Get<IConfig>().ReadFromLocalStorage();
+            kernel.Get<IInitializersProvider>().InitializeAll();
 
             // TODO: Move to prewarm phase
             kernel.Get<IVendorKeyRegister>();

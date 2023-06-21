@@ -8,5 +8,6 @@ public class Bindings : NinjectModule
     public override void Load()
     {
         Bind<IBattery>().To<AsusBattery>().InSingletonScope();
+        Bind<BatteryInitializer>().ToSelf().InSingletonScope();
     }
 }
