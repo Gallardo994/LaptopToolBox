@@ -2,5 +2,5 @@
 
 public interface IVendorKeyRegister
 {
-    
+    public void Register();
 }

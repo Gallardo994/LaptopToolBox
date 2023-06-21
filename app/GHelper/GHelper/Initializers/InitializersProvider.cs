@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GHelper.DeviceControls.Battery;
+using GHelper.Initializers.ConcreteInitializers;
 using Ninject;
 
 namespace GHelper.Initializers;
@@ -10,10 +10,14 @@ public class InitializersProvider : IInitializersProvider
 
     [Inject]
     public InitializersProvider(
-        BatteryInitializer batteryInitializer
+        BatteryInitializer batteryInitializer,
+        VendorKeyRegisterInitializer vendorKeyRegisterInitializer,
+        CpuControlInitializer cpuControlInitializer
         )
     {
         _initializers.Add(batteryInitializer);
+        _initializers.Add(vendorKeyRegisterInitializer);
+        _initializers.Add(cpuControlInitializer);
     }
     
     public void InitializeAll()

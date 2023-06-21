@@ -1,8 +1,8 @@
 ﻿using GHelper.Configs;
-using GHelper.Initializers;
+using GHelper.DeviceControls.Battery;
 using Ninject;
 
-namespace GHelper.DeviceControls.Battery;
+namespace GHelper.Initializers.ConcreteInitializers;
 
 public class BatteryInitializer : IInitializer
 {

@@ -105,12 +105,6 @@ namespace GHelper
             kernel.Get<IConfig>().ReadFromLocalStorage();
             kernel.Get<IInitializersProvider>().InitializeAll();
 
-            // TODO: Move to prewarm phase
-            kernel.Get<IVendorKeyRegister>();
-            kernel.Get<ICpuControl>();
-            
-            kernel.Get<IBattery>().SetBatteryLimit(70);
-            
             _window = kernel.Get<MainWindow>();
             
             // TODO: Minimize to tray support
