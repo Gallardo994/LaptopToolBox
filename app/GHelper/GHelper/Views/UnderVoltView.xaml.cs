@@ -1,5 +1,6 @@
 using GHelper.Injection;
 using GHelper.ViewModels;
+using Microsoft.UI.Xaml;
 using Ninject;
 
 namespace GHelper.Views
@@ -12,6 +13,11 @@ namespace GHelper.Views
         {
             InitializeComponent();
             DataContext = ViewModel;
+        }
+
+        private void UnderVoltApply_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.UnderVolt = (int) UnderVoltSlider.Value;
         }
     }
 }

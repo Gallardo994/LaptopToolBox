@@ -99,7 +99,9 @@ namespace GHelper
             
             Services.ResolutionRoot = kernel;
 
+            // TODO: Move to prewarm phase
             kernel.Get<IVendorKeyRegister>();
+            kernel.Get<ICpuControl>();
             
             _window = kernel.Get<MainWindow>();
             

@@ -23,6 +23,18 @@ public class UnderVoltViewModel : INotifyPropertyChanged
         }
     }
     
+    private int _underVolt;
+    public int UnderVolt
+    {
+        get => _underVolt;
+        set
+        {
+            _underVolt = value;
+            OnPropertyChanged();
+            _cpuControl.SetUnderVolt(value);
+        }
+    }
+    
     public UnderVoltViewModel()
     {
         _cpuControl = Services.ResolutionRoot.Get<ICpuControl>();
