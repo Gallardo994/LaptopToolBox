@@ -10,7 +10,6 @@ namespace GHelper.Views
 {
     public sealed partial class PerformanceModeView
     {
-        private readonly IPerformanceModeControl _performanceModeControl = Services.ResolutionRoot.Get<IPerformanceModeControl>();
         public PerformanceModeViewModel ViewModel { get; private set; } = Services.ResolutionRoot.Get<PerformanceModeViewModel>();
         
         public PerformanceModeView()
@@ -18,12 +17,7 @@ namespace GHelper.Views
             InitializeComponent();
             DataContext = ViewModel;
         }
-        
-        public void SetPerformanceMode(IPerformanceMode performanceMode)
-        {
-            _performanceModeControl.SetMode(performanceMode);
-        }
-        
+
         private void SetPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
         {
             ViewModel.SelectedMode = (IPerformanceMode) (sender as Button)?.DataContext;
