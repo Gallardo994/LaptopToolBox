@@ -36,7 +36,7 @@ public class LocalDriversVersionProvider : ILocalDriversVersionProvider
 
     private void Add(string key, string value)
     {
-        _data.Add(key, value);
+        _data[key] = value;
     }
     
     private void Clear()
