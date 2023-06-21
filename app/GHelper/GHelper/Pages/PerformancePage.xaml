@@ -11,9 +11,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
         <views:PerformanceModeView Grid.Row="0" />
+        <views:UnderVoltView Grid.Row="1" Margin="0 18 0 0"></views:UnderVoltView>
     </Grid>
 </Page>

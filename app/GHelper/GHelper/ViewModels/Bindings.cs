@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using GHelper.Views;
+using Ninject.Modules;
 
 namespace GHelper.ViewModels;
 
@@ -8,5 +9,7 @@ public class Bindings : NinjectModule
     {
         Bind<UpdatesViewModel>().ToSelf().InSingletonScope();
         Bind<AuraViewModel>().ToSelf().InSingletonScope();
+        Bind<PerformanceModeViewModel>().ToSelf().InSingletonScope();
+        Bind<UnderVoltViewModel>().ToSelf().InSingletonScope();
     }
 }
