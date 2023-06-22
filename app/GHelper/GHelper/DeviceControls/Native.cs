@@ -51,8 +51,8 @@ public static class Native
     public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey,byte bAlpha, uint dwFlags);
     
     [DllImport("user32.dll")]
-    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
     
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
+    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 }

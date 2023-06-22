@@ -44,7 +44,9 @@ namespace GHelper.AppWindows
         public void ShowMessage(string title, string message)
         {
             KillTimers();
-            
+
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(null);
             TitleBlock.Text = title;
             DescriptionBlock.Text = message;
             
@@ -147,9 +149,10 @@ namespace GHelper.AppWindows
             _presenter.IsMaximizable = false;
             _presenter.IsMinimizable = false;
             _presenter.IsAlwaysOnTop = true;
-            _presenter.IsResizable = false;
             
-            _presenter.SetBorderAndTitleBar(false, false);
+            // https://github.com/microsoft/microsoft-ui-xaml/issues/7629
+            _presenter.IsResizable = false;
+            _presenter.SetBorderAndTitleBar(true, true);
         }
     }
 }
