@@ -1,4 +1,6 @@
-﻿using GHelper.AppWindows;
+﻿using System.Drawing;
+using GHelper.AppWindows;
+using GHelper.Configs;
 using H.NotifyIcon;
 using Ninject;
 
@@ -6,11 +8,13 @@ namespace GHelper.Initializers.ConcreteInitializers;
 
 public class MainWindowInitializer : IInitializer
 {
+    private readonly IConfig _config;
     private readonly MainWindow _mainWindow;
     
     [Inject]
-    public MainWindowInitializer(MainWindow mainWindow)
+    public MainWindowInitializer(IConfig config, MainWindow mainWindow)
     {
+        _config = config;
         _mainWindow = mainWindow;
     }
     
@@ -23,5 +27,10 @@ public class MainWindowInitializer : IInitializer
             windowArgs.Handled = true;
             _mainWindow.Hide();
         };
+
+        if (_config.StartMinimized)
+        {
+            _mainWindow.Hide();
+        }
     }
 }

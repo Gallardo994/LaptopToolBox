@@ -7,5 +7,6 @@ public interface IConfig
     public void SaveToLocalStorage();
     
     
+    public bool StartMinimized { get; set; }
     public int BatteryLimit { get; set; }
 }

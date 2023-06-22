@@ -10,5 +10,6 @@ public class Bindings : NinjectModule
         Bind<AuraViewModel>().ToSelf().InSingletonScope();
         Bind<PerformanceModeViewModel>().ToSelf().InSingletonScope();
         Bind<UnderVoltViewModel>().ToSelf().InSingletonScope();
+        Bind<TrayViewModel>().ToSelf().InSingletonScope();
     }
 }

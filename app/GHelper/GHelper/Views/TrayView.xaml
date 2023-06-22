@@ -11,7 +11,7 @@
     mc:Ignorable="d">
     
     <UserControl.DataContext>
-        <viewModels:TrayViewModel x:Name="ViewModel" />
+        <viewModels:TrayViewModel />
     </UserControl.DataContext>
     
     <tb:TaskbarIcon

@@ -11,6 +11,7 @@ public partial class Config : ObservableObject, IConfig
     private readonly IConfigSaveCommandLoop _saveCommandLoop;
     public string Path { get; init; } = System.IO.Path.Combine(ApplicationHelper.AppDataFolder, "configuration.json");
     
+    [ObservableProperty] [JsonProperty("start_minimized")] private bool _startMinimized = false;
     [ObservableProperty] [JsonProperty("battery_limit")] private int _batteryLimit = 100;
 
     public Config(IConfigSaveCommandLoop saveCommandLoop)
