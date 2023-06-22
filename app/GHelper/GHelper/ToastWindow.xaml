@@ -17,17 +17,28 @@
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <FontIcon Grid.Column="0" Margin="16 0 16 0">
+            <FontIcon.Glyph>&#xE946;</FontIcon.Glyph>
+            <FontIcon.FontSize>32</FontIcon.FontSize>
+        </FontIcon>
+        
+        <StackPanel Grid.Column="1" 
+                    VerticalAlignment="Center">
+            
             <TextBlock x:Name="TitleBlock" 
-                       Style="{StaticResource BodyStrongTextBlockStyle}"></TextBlock>
+                       Style="{StaticResource BodyStrongTextBlockStyle}">
+            </TextBlock>
+            
             <TextBlock x:Name="DescriptionBlock" 
                        Style="{StaticResource CaptionTextBlockStyle}"
-                       Text="Test toast message" 
-                       HorizontalAlignment="Left" 
-                       VerticalAlignment="Center"></TextBlock>
+                       Text="Test toast message">
+                
+            </TextBlock>
+            
         </StackPanel>
     </Grid>
 </Window>

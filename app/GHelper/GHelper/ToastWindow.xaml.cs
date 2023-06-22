@@ -37,7 +37,7 @@ namespace GHelper
             InitializeComponent();
             ModifyWindowAppearance();
             
-            _appWindow.Resize(new SizeInt32(400, 100));
+            _appWindow.Resize(new SizeInt32(512, 128));
             HideOffScreen();
         }
 
