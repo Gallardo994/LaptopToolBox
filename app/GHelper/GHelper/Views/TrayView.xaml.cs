@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using GHelper.AppWindows;
+using GHelper.Controllers;
 using GHelper.Helpers;
 using GHelper.Injection;
 using GHelper.ViewModels;
@@ -21,16 +22,8 @@ namespace GHelper.Views
         [RelayCommand]
         private void ShowHideWindow()
         {
-            var mainWindow = Services.ResolutionRoot.Get<MainWindow>();
-            
-            if (mainWindow.Visible)
-            {
-                mainWindow.Hide();
-            }
-            else
-            {
-                mainWindow.Show();
-            }
+            var controller = Services.ResolutionRoot.Get<IMainWindowController>();
+            controller.ToggleState();
         }
         
         [RelayCommand]

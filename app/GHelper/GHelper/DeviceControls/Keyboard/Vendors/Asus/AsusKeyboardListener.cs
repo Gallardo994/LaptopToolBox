@@ -30,6 +30,8 @@ public class AsusKeyboardListener : IVendorKeyboardListener
 
     private void ThreadHandler()
     {
+        Log.Debug("Starting Asus keyboard listener");
+        
         var input = _hid.GetDevice(_usb.VendorId, _usb.DeviceIds, _usb.InputHidId);
         
         if (input == null)
@@ -38,6 +40,8 @@ public class AsusKeyboardListener : IVendorKeyboardListener
             return;
         }
         
+        Log.Debug($"Input device: {input.DevicePath}");
+
         while (!_cts.Token.IsCancellationRequested)
         {
             try
