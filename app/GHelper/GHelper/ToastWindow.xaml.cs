@@ -1,12 +1,9 @@
 using System;
+using System.Timers;
 using Windows.Graphics;
 using GHelper.DeviceControls;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
-using Ninject;
 
 namespace GHelper
 {
@@ -17,16 +14,43 @@ namespace GHelper
         private AppWindow _appWindow;
         private OverlappedPresenter _presenter;
         
+        private Timer _timer;
+        
         private DisplayArea DisplayArea => DisplayArea.GetFromWindowId(_windowId, DisplayAreaFallback.Nearest);
+
+        private byte _alpha;
+
+        public byte Alpha
+        {
+            get => _alpha;
+            set
+            {
+                _alpha = value;
+                Native.SetLayeredWindowAttributes(_handle, 0, _alpha, 0x2);
+            }
+        }
+        private byte MaxAlpha => 255;
+        private byte MinAlpha => 0;
         
         public ToastWindow()
         {
             InitializeComponent();
-
             ModifyWindowAppearance();
             
             _appWindow.Resize(new SizeInt32(400, 100));
             HideOffScreen();
+        }
+
+        public void ShowMessage(string title, string message)
+        {
+            KillTimers();
+            
+            TitleBlock.Text = title;
+            DescriptionBlock.Text = message;
+            
+            BringToScreen();
+            FadeIn();
+            StartFadeOutTimer(2000);
         }
 
         private void BringToScreen()
@@ -34,36 +58,75 @@ namespace GHelper
             var newPosition = _appWindow.Position;
             
             // Center horizontally
-            newPosition.X = (DisplayArea.WorkArea.Width - _appWindow.Size.Width) / 2;
+            newPosition.X = DisplayArea.WorkArea.Width - _appWindow.Size.Width - 8;
             
             // Show at the lower part of the screen
-            newPosition.Y = DisplayArea.WorkArea.Height - _appWindow.Size.Height - 200;
+            newPosition.Y = DisplayArea.WorkArea.Height - _appWindow.Size.Height - 8;
             
             _appWindow.Move(newPosition);
-            
-            SetAlpha(200);
         }
         
-        private void HideOffScreen()
+        public void HideOffScreen()
         {
+            KillTimers();
+            
             var newPosition = _appWindow.Position;
             
             // Center horizontally
-            newPosition.X = (DisplayArea.WorkArea.Width - _appWindow.Size.Width) / 2;
+            newPosition.X = DisplayArea.WorkArea.Width + 200;
             
             // Hide off screen
             newPosition.Y = DisplayArea.WorkArea.Height + 200;
             
             _appWindow.Move(newPosition);
-            
-            SetAlpha(0);
+
+            Alpha = 0;
         }
 
-        private void SetAlpha(byte alpha)
+        private void FadeIn()
         {
-            Native.SetLayeredWindowAttributes(_handle, 0, alpha, 0x2);
+            KillTimers();
+            
+            Alpha = MaxAlpha;
         }
         
+        private void StartFadeOutTimer(int interval)
+        {
+            KillTimers();
+            
+            _timer = new Timer(interval);
+            _timer.Elapsed += (sender, args) => { FadeOut(); };
+            _timer.Start();
+        }
+
+        private void FadeOut()
+        {
+            KillTimers();
+            
+            _timer = new Timer(10);
+            _timer.Elapsed += (sender, args) =>
+            {
+                if (Alpha <= MinAlpha)
+                {
+                    _timer?.Dispose();
+                    _timer = null;
+                    
+                    HideOffScreen();
+                }
+                else
+                {
+                    Alpha -= 5;
+                }
+            };
+            _timer.Start();
+        }
+
+        public void KillTimers()
+        {
+            _timer?.Dispose();
+            _timer = null;
+        }
+
         private void ModifyWindowAppearance()
         {
             _handle = WinRT.Interop.WindowNative.GetWindowHandle(this);

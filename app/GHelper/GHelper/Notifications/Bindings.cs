@@ -6,6 +6,6 @@ public class Bindings : NinjectModule
 {
     public override void Load()
     {
-        Bind<INotificationService>().To<WindowsNotificationsService>().InSingletonScope();
+        Bind<INotificationService>().To<ToastNotificationService>().InSingletonScope();
     }
 }

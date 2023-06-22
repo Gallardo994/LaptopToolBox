@@ -4,6 +4,7 @@ using Serilog;
 
 namespace GHelper.Notifications;
 
+// Does not work with admin rights
 public class WindowsNotificationsService : INotificationService
 {
     private readonly AppNotificationManager _notificationManager;

@@ -20,8 +20,14 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock x:Name="TextBlock" Text="Test toast message" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        </Border>
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock x:Name="TitleBlock" 
+                       Style="{StaticResource BodyStrongTextBlockStyle}"></TextBlock>
+            <TextBlock x:Name="DescriptionBlock" 
+                       Style="{StaticResource CaptionTextBlockStyle}"
+                       Text="Test toast message" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

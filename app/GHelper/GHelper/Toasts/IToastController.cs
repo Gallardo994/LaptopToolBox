@@ -2,5 +2,5 @@
 
 public interface IToastController
 {
-    public void ShowToast(string message);
+    public void ShowToast(string title, string message);
 }

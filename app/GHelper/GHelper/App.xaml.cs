@@ -75,8 +75,6 @@ namespace GHelper
 
             kernel.Get<IConfig>().ReadFromLocalStorage();
             kernel.Get<IInitializersProvider>().InitializeAll();
-            
-            kernel.Get<IToastController>().ShowToast("Test msg");
         }
         
         private bool FocusSameInstance()

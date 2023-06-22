@@ -1,10 +1,24 @@
-﻿namespace GHelper.Toasts;
+﻿using Ninject;
+
+namespace GHelper.Toasts;
 
 public class ToastController : IToastController
 {
-    public void ShowToast(string message)
+    private readonly ToastWindow _toastWindow;
+    
+    [Inject]
+    public ToastController(ToastWindow toastWindow)
     {
-        var toastWindow = new ToastWindow();
-        toastWindow.Activate();
+        _toastWindow = toastWindow;
+        _toastWindow.Activated += (sender, args) =>
+        {
+            _toastWindow.HideOffScreen();
+        };
+        _toastWindow.Activate();
+    }
+    
+    public void ShowToast(string title, string message)
+    {
+        _toastWindow.ShowMessage(title, message);
     }
 }
