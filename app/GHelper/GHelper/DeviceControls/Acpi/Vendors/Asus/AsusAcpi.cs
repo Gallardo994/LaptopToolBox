@@ -63,7 +63,7 @@ public class AsusAcpi : IAcpi
         
         uint lpBytesReturned = 0;
         Native.DeviceIoControl(
-            handle,
+            handle.DangerousGetHandle(),
             dwIoControlCode,
             lpInBuffer,
             (uint)lpInBuffer.Length,

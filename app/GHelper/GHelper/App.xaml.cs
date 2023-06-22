@@ -10,6 +10,7 @@ using GHelper.Injection;
 using GHelper.Toasts;
 using Ninject;
 using Serilog;
+using Vanara.PInvoke;
 
 namespace GHelper
 {
@@ -88,7 +89,7 @@ namespace GHelper
                     continue;
                 }
                 
-                Native.SetForegroundWindow(process.MainWindowHandle);
+                User32.SetForegroundWindow(process.MainWindowHandle);
                 return true;
             }
 

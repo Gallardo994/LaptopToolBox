@@ -8,9 +8,9 @@ public class Bindings : NinjectModule
 {
     public override void Load()
     {
-        Bind<IVendorKeyboardListener>().To<AsusKeyboardListener>();
-        Bind<IVendorKeyboardHandler>().To<AsusVendorKeyboardHandler>();
+        Bind<IVendorKeyboardListener>().To<AsusKeyboardListener>().InSingletonScope();
+        Bind<IVendorKeyboardHandler>().To<AsusVendorKeyboardHandler>().InSingletonScope();
         
-        Bind<IVendorKeyRegister>().To<AsusKeyRegister>();
+        Bind<IVendorKeyRegister>().To<AsusKeyRegister>().InSingletonScope();
     }
 }

@@ -24,6 +24,7 @@ public class AsusKeyRegister : IVendorKeyRegister
         {
             new AsusBrightnessUpKeyBind(_acpi),
             new AsusBrightnessDownKeyBind(_acpi),
+            new AsusOpenWindowKeyBind(),
         };
         
         foreach (var keyBind in keysList)

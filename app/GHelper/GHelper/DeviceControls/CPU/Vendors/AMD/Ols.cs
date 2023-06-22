@@ -10,6 +10,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using Vanara.PInvoke;
 
 namespace GHelper.DeviceControls.CPU.Vendors.AMD
 {
@@ -82,12 +83,12 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             return (address & 7);
         }
 
-        private IntPtr module = IntPtr.Zero;
+        private Kernel32.SafeHINSTANCE module;
         private uint status = (uint)Status.NO_ERROR;
 
         public Ols()
         {
-            module = Native.LoadLibrary(DllNameX64);
+            module = Kernel32.LoadLibrary(DllNameX64);
             if (module == IntPtr.Zero)
             {
                 status = (uint)Status.DLL_NOT_FOUND;
@@ -238,17 +239,19 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
 
         public void Dispose()
         {
-            if (module != IntPtr.Zero)
+            if (module.IsInvalid)
             {
-                DeinitializeOlsInternal();
-                Native.FreeLibrary(module);
-                module = IntPtr.Zero;
+                return;
             }
+
+            DeinitializeOlsInternal();
+            Kernel32.FreeLibrary(module);
+            module = null;
         }
 
         private Delegate GetDelegate(string procName, Type delegateType)
         {
-            var ptr = Native.GetProcAddress(module, procName);
+            var ptr = Kernel32.GetProcAddress(module, procName);
             if (ptr != IntPtr.Zero)
             {
                 var d = Marshal.GetDelegateForFunctionPointer(ptr, delegateType);

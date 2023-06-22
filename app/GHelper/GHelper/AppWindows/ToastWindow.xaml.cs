@@ -4,6 +4,7 @@ using Windows.Graphics;
 using GHelper.DeviceControls;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Vanara.PInvoke;
 
 namespace GHelper.AppWindows
 {
@@ -26,7 +27,7 @@ namespace GHelper.AppWindows
             set
             {
                 _alpha = value;
-                Native.SetLayeredWindowAttributes(_handle, 0, _alpha, 0x2);
+                User32.SetLayeredWindowAttributes(_handle, 0, _alpha, User32.LayeredWindowAttributes.LWA_ALPHA);
             }
         }
         private byte MaxAlpha => 255;
@@ -132,7 +133,8 @@ namespace GHelper.AppWindows
         private void ModifyWindowAppearance()
         {
             _handle = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            Native.SetWindowLong(_handle, -20, Native.GetWindowLong(_handle, -20) ^ 0x80000);
+            User32.SetWindowLong(_handle, User32.WindowLongFlags.GWL_EXSTYLE, 
+                User32.GetWindowLong(_handle, User32.WindowLongFlags.GWL_EXSTYLE) ^ 0x80000);
             
             _windowId = Win32Interop.GetWindowIdFromWindow(_handle);
             

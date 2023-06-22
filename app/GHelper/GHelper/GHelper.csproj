@@ -47,6 +47,8 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
     <PackageReference Include="hidlibrary" Version="3.3.40" />
+    <PackageReference Include="Vanara.PInvoke.Kernel32" Version="3.4.15" />
+    <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.15" />
   </ItemGroup>
 
   <!-- 

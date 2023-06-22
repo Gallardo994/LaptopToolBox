@@ -1,55 +1,51 @@
 ﻿using System;
+using System.IO;
+using Vanara.PInvoke;
 
 namespace GHelper.DeviceControls.Acpi.Vendors.Asus;
 
 public class AsusAcpiHandleProvider
 {
-    private IntPtr _handle;
+    private Kernel32.SafeHFILE _handle;
 
-    private const uint GenericRead = 0x80000000;
-    private const uint GenericWrite = 0x40000000;
-    private const uint OpenExisting = 3;
-    private const uint FileAttributeNormal = 0x80;
-    private const uint FileShareRead = 1;
-    private const uint FileShareWrite = 2;
-    
     public AsusAcpiHandleProvider()
     {
-        _handle = IntPtr.Zero;
+        _handle = null;
     }
     
-    public bool TryGet(out IntPtr handle)
+    public bool TryGet(out Kernel32.SafeHFILE handle)
     {
-        if (_handle == IntPtr.Zero)
+        if (_handle == null || _handle.IsInvalid)
         {
-            _handle = Native.CreateFile(
+            _handle = Kernel32.CreateFile(
                 @"\\.\\ATKACPI",
-                GenericRead | GenericWrite,
-                FileShareRead | FileShareWrite,
-                IntPtr.Zero,
-                OpenExisting,
-                FileAttributeNormal,
+                Kernel32.FileAccess.GENERIC_READ | Kernel32.FileAccess.GENERIC_WRITE,
+                FileShare.Read | FileShare.Write,
+                null,
+                FileMode.Open,
+                FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL,
                 IntPtr.Zero
             );
-            
-            if (_handle == new IntPtr(-1) || _handle == IntPtr.Zero)
-            {
-                handle = IntPtr.Zero;
-            }
         }
-        
+
+        if (_handle == null || _handle.IsInvalid)
+        {
+            handle = null;
+            return false;
+        }
+
         handle = _handle;
-        return _handle != IntPtr.Zero;
+        return true;
     }
     
     public void Dispose()
     {
-        if (_handle == IntPtr.Zero)
+        if (_handle == null || _handle.IsInvalid)
         {
             return;
         }
         
-        Native.CloseHandle(_handle);
-        _handle = IntPtr.Zero;
+        _handle.Close();
+        _handle = null;
     }
 }

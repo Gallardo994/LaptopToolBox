@@ -308,24 +308,6 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
 
             return $"{GetStringPart(part1)}{GetStringPart(part2)}{GetStringPart(part3)}{GetStringPart(part4)}";
         }
-        
-        public float ReadFloat(uint address, uint offset)
-        {
-            uint data = 0;
-            try
-            {
-                Native.GetPhysLong((UIntPtr)(address + offset * 4), out data);
-            }
-            catch(Exception e)
-            {
-                var exeptionMsg = $"Error Reading Address 0x{address:X8} + 0x{offset:X4}";
-            }
-
-            var bytes = BitConverter.GetBytes(data);
-
-            var pmData = BitConverter.ToSingle(bytes, 0);
-            return pmData;
-        }
 
         public string GetCpuName()
         {
