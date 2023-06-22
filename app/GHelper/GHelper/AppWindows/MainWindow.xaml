@@ -8,6 +8,7 @@
     xmlns:pages="using:GHelper.Pages"
     xmlns:converters="using:GHelper.Converters"
     xmlns:views="using:GHelper.Views"
+    Title="GHelper"
     mc:Ignorable="d">
     
     <Window.SystemBackdrop>
