@@ -12,12 +12,16 @@ public class InitializersProvider : IInitializersProvider
     public InitializersProvider(
         BatteryInitializer batteryInitializer,
         VendorKeyRegisterInitializer vendorKeyRegisterInitializer,
-        CpuControlInitializer cpuControlInitializer
+        CpuControlInitializer cpuControlInitializer,
+        
+        MainWindowInitializer mainWindowInitializer
         )
     {
         _initializers.Add(batteryInitializer);
         _initializers.Add(vendorKeyRegisterInitializer);
         _initializers.Add(cpuControlInitializer);
+        
+        _initializers.Add(mainWindowInitializer);
     }
     
     public void InitializeAll()

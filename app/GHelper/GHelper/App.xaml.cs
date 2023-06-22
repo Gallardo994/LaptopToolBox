@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Security.Principal;
 using GHelper.Configs;
-using GHelper.DeviceControls.Battery;
-using GHelper.DeviceControls.CPU;
-using GHelper.DeviceControls.Keyboard.Vendors;
 using GHelper.Helpers;
 using GHelper.Initializers;
 using GHelper.Injection;
@@ -17,8 +13,6 @@ namespace GHelper
 {
     public partial class App
     {
-        private Window _window;
-        
         public App()
         {
             var appDataLogPath = System.IO.Path.Combine(ApplicationHelper.AppDataFolder, "log.txt");
@@ -60,39 +54,7 @@ namespace GHelper
                 return p.IsInRole(@"BUILTIN\Administrators");
             }
         }
-        
-        private bool RunAsRestart()
-        {
-            var args = Environment.GetCommandLineArgs();
 
-            foreach (var s in args)
-            {
-                if (s.Equals("runas"))
-                {
-                    return false;
-                }
-            }
-            var startInfo = new ProcessStartInfo
-            {
-                UseShellExecute = true,
-                WorkingDirectory = Environment.CurrentDirectory,
-                FileName = ApplicationHelper.CurrentExecutableName,
-                Verb = "runas",
-                Arguments = "runas"
-            };
-
-            try
-            {
-                Process.Start(startInfo);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Failed to restart as admin");
-                return false;
-            }
-            return true;
-        }
-        
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             Log.Debug("Application launched");
@@ -104,17 +66,6 @@ namespace GHelper
 
             kernel.Get<IConfig>().ReadFromLocalStorage();
             kernel.Get<IInitializersProvider>().InitializeAll();
-
-            _window = kernel.Get<MainWindow>();
-            
-            // TODO: Minimize to tray support
-            /*
-            _window.Closed += (sender, windowArgs) =>
-            {
-                windowArgs.Handled = true;
-            };
-            */
-            _window.Activate();
         }
     }
 }

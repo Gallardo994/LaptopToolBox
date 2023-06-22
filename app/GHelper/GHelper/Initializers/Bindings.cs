@@ -10,6 +10,8 @@ public class Bindings : NinjectModule
         Bind<BatteryInitializer>().ToSelf().InSingletonScope();
         Bind<VendorKeyRegisterInitializer>().ToSelf().InSingletonScope();
         
+        Bind<MainWindowInitializer>().ToSelf().InSingletonScope();
+        
         Bind<IInitializersProvider>().To<InitializersProvider>().InSingletonScope();
     }
 }
