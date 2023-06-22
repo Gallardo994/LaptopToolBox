@@ -18,6 +18,7 @@
         x:Name="TrayIcon"
         x:FieldModifier="public"
         NoLeftClickDelay="True"
+        IconSource="ms-appx:///Assets/appicon.ico"
         ContextMenuMode="SecondWindow"
         LeftClickCommand="{x:Bind ShowHideWindowCommand}"
     >
