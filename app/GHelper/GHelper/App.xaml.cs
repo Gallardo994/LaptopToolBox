@@ -7,6 +7,7 @@ using GHelper.DeviceControls;
 using GHelper.Helpers;
 using GHelper.Initializers;
 using GHelper.Injection;
+using GHelper.Toasts;
 using Ninject;
 using Serilog;
 
@@ -74,6 +75,8 @@ namespace GHelper
 
             kernel.Get<IConfig>().ReadFromLocalStorage();
             kernel.Get<IInitializersProvider>().InitializeAll();
+            
+            kernel.Get<IToastController>().ShowToast("Test msg");
         }
         
         private bool FocusSameInstance()
