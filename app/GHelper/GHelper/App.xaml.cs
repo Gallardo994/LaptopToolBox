@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Security.Principal;
 using GHelper.Configs;
+using GHelper.DeviceControls;
 using GHelper.Helpers;
 using GHelper.Initializers;
 using GHelper.Injection;
@@ -37,6 +38,13 @@ namespace GHelper
 
             Log.Information("Running as admin");
             
+            if (FocusSameInstance())
+            {
+                Log.Information("Another instance is running, exiting");
+                Environment.Exit(0);
+                return;
+            }
+            
             InitializeComponent();
         }
         
@@ -66,6 +74,24 @@ namespace GHelper
 
             kernel.Get<IConfig>().ReadFromLocalStorage();
             kernel.Get<IInitializersProvider>().InitializeAll();
+        }
+        
+        private bool FocusSameInstance()
+        {
+            var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
+            var processes = System.Diagnostics.Process.GetProcessesByName(currentProcess.ProcessName);
+            foreach (var process in processes)
+            {
+                if (process.Id == currentProcess.Id)
+                {
+                    continue;
+                }
+                
+                Native.SetForegroundWindow(process.MainWindowHandle);
+                return true;
+            }
+
+            return false;
         }
     }
 }

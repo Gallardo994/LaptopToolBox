@@ -43,4 +43,7 @@ public static class Native
     [DllImport("inpoutx64.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool GetPhysLong(UIntPtr memAddress, out uint Data);
+    
+    [DllImport("user32.dll")]
+    public static extern bool SetForegroundWindow(IntPtr hWnd);
 }
