@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.Input;
 using GHelper.AppWindows;
+using GHelper.Helpers;
 using GHelper.Injection;
 using GHelper.ViewModels;
 using H.NotifyIcon;
-using Microsoft.UI.Xaml;
 using Ninject;
 
 namespace GHelper.Views
@@ -36,8 +36,7 @@ namespace GHelper.Views
         [RelayCommand]
         private void ExitApplication()
         {
-            TrayIcon.Dispose();
-            Application.Current.Exit();
+            ApplicationHelper.Exit();
         }
     }
 }
