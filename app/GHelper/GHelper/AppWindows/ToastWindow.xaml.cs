@@ -5,7 +5,7 @@ using GHelper.DeviceControls;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 
-namespace GHelper
+namespace GHelper.AppWindows
 {
     public sealed partial class ToastWindow
     {

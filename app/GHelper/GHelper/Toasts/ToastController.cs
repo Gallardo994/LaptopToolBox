@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using GHelper.AppWindows;
+using Ninject;
 
 namespace GHelper.Toasts;
 

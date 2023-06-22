@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using GHelper.AppWindows;
+using Ninject.Modules;
 
 namespace GHelper;
 

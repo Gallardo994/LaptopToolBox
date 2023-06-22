@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Ninject;
 
-namespace GHelper
+namespace GHelper.AppWindows
 {
     public sealed partial class MainWindow
     {
