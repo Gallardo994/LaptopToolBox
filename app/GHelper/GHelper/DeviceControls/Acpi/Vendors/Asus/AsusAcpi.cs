@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using GHelper.Serialization;
 using Serilog;
 using Vanara.PInvoke;
@@ -61,21 +62,25 @@ public class AsusAcpi : IAcpi
             Log.Error("Failed to get handle to ACPI device");
             return;
         }
-
-        unsafe
-        {
-            fixed (byte* inPtr = lpInBuffer)
-            fixed (byte* outPtr = lpOutBuffer)
-            {
-                Kernel32.DeviceIoControl(handle, 
-                    dwIoControlCode, 
-                    (IntPtr) inPtr, 
-                    (uint)lpInBuffer.Length, 
-                    (IntPtr) outPtr, 
-                    (uint)lpOutBuffer.Length, 
-                    out var lpBytesReturned, 
-                    IntPtr.Zero);
-            }
-        }
+        
+        var inBuffer = Marshal.AllocHGlobal(lpInBuffer.Length);
+        Marshal.Copy(lpInBuffer, 0, inBuffer, lpInBuffer.Length);
+        
+        var outBuffer = Marshal.AllocHGlobal(lpOutBuffer.Length);
+        Marshal.Copy(lpOutBuffer, 0, outBuffer, lpOutBuffer.Length);
+        
+        Kernel32.DeviceIoControl(handle, 
+            dwIoControlCode, 
+            inBuffer, 
+            (uint)lpInBuffer.Length, 
+            outBuffer, 
+            (uint)lpOutBuffer.Length, 
+            out var lpBytesReturned, 
+            IntPtr.Zero);
+        
+        Marshal.Copy(outBuffer, lpOutBuffer, 0, lpOutBuffer.Length);
+        
+        Marshal.FreeHGlobal(inBuffer);
+        Marshal.FreeHGlobal(outBuffer);
     }
 }
