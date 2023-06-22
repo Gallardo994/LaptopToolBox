@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="using:GHelper.Pages"
     xmlns:converters="using:GHelper.Converters"
+    xmlns:views="using:GHelper.Views"
     mc:Ignorable="d">
     
     <Window.SystemBackdrop>
@@ -92,5 +93,7 @@
                 <Frame Grid.Row="1" x:Name="ContentFrame" Background="Transparent" Padding="32 0 32 0"/>
             </Grid>
         </NavigationView>
+        
+        <views:TrayView x:Name="TrayIconView" />
     </Grid>
 </Window>

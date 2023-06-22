@@ -1,4 +1,5 @@
 ﻿using GHelper.AppWindows;
+using H.NotifyIcon;
 using Ninject;
 
 namespace GHelper.Initializers.ConcreteInitializers;
@@ -17,11 +18,10 @@ public class MainWindowInitializer : IInitializer
     {
         _mainWindow.Activate();
         
-        /*
         _mainWindow.Closed += (sender, windowArgs) =>
         {
             windowArgs.Handled = true;
+            _mainWindow.Hide();
         };
-        */
     }
 }
