@@ -20,6 +20,7 @@ public class AsusOpenWindowKeyBind : IVendorKeyBind
             if (process.Id == currentProcess.Id)
             {
                 User32.SetForegroundWindow(process.MainWindowHandle);
+                User32.ShowWindow(process.MainWindowHandle, ShowWindowCommand.SW_RESTORE);
                 return;
             }
         }
