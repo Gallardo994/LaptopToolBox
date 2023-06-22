@@ -2,6 +2,8 @@ using System;
 using System.Timers;
 using Windows.Graphics;
 using GHelper.DeviceControls;
+using H.NotifyIcon.Core;
+using H.NotifyIcon.Interop;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Vanara.PInvoke;
@@ -46,8 +48,6 @@ namespace GHelper.AppWindows
         {
             KillTimers();
 
-            ExtendsContentIntoTitleBar = true;
-            SetTitleBar(null);
             TitleBlock.Text = title;
             DescriptionBlock.Text = message;
             
@@ -136,6 +136,9 @@ namespace GHelper.AppWindows
             User32.SetWindowLong(_handle, User32.WindowLongFlags.GWL_EXSTYLE, 
                 User32.GetWindowLong(_handle, User32.WindowLongFlags.GWL_EXSTYLE) ^ 0x80000);
             
+            DesktopWindowsManagerMethods.SetRoundedCorners(_handle);
+            WindowUtilities.MakeTransparent(_handle);
+            
             _windowId = Win32Interop.GetWindowIdFromWindow(_handle);
             
             _appWindow = AppWindow.GetFromWindowId(_windowId);
@@ -154,7 +157,7 @@ namespace GHelper.AppWindows
             
             // https://github.com/microsoft/microsoft-ui-xaml/issues/7629
             _presenter.IsResizable = false;
-            _presenter.SetBorderAndTitleBar(true, true);
+            _presenter.SetBorderAndTitleBar(false, false);
         }
     }
 }
