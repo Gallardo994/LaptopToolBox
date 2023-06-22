@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System.Diagnostics;
+using Microsoft.UI.Xaml;
 
 namespace GHelper.Helpers;
 
@@ -10,5 +11,6 @@ public class ApplicationHelper
     public static void Exit()
     {
         Application.Current.Exit();
+        Process.GetCurrentProcess().Kill();
     }
 }
