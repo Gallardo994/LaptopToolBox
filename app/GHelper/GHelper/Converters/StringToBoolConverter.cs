@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace GHelper.Helpers;
+namespace GHelper.Converters;
 
 public class StringToBoolConverter : JsonConverter<bool>
 {
