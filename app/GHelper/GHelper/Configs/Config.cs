@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
 namespace GHelper.Configs;

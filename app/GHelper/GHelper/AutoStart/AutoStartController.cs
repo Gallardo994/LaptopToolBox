@@ -1,26 +1,29 @@
-﻿using System;
-using System.IO;
-using GHelper.Helpers;
+﻿using GHelper.Helpers;
+using Microsoft.Win32;
+using Serilog;
 
 namespace GHelper.AutoStart;
 
 public class AutoStartController : IAutoStartController
 {
-    private string AutoStartPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "GHelper.lnk");
+    private const string ApplicationName = "GHelper";
 
+    private RegistryKey GetKey()
+    {
+        return Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+    } 
+    
     private void EnableAutoStart()
     {
         if (IsAutoStartEnabled())
         {
             return;
         }
+
+        using var key = GetKey();
+        key.SetValue(ApplicationName, ApplicationHelper.CurrentExecutableName);
         
-        using var writer = new StreamWriter(AutoStartPath);
-        writer.WriteLine("[InternetShortcut]");
-        writer.WriteLine("URL=file:///" + ApplicationHelper.CurrentExecutableName);
-        writer.WriteLine("IconIndex=0");
-        writer.WriteLine("IconFile=" + ApplicationHelper.CurrentExecutableName);
-        writer.Flush();
+        Log.Information("AutoStartController.EnableAutoStart: Successfully created AutoStartPath: {AutoStartPath}", ApplicationHelper.CurrentExecutableName);
     }
 
     private void DisableAutoStart()
@@ -30,34 +33,16 @@ public class AutoStartController : IAutoStartController
             return;
         }
         
-        try
-        {
-            File.Delete(AutoStartPath);
-        } 
-        catch
-        {
-            // Ignore
-        }
+        using var key = GetKey();
+        key.DeleteValue(ApplicationName);
     }
     
     public bool IsAutoStartEnabled()
     {
-        if (!File.Exists(AutoStartPath))
-        {
-            return false;
-        }
-        
-        using var reader = new StreamReader(AutoStartPath);
-            
-        while (reader.ReadLine() is { } line)
-        {
-            if (line.StartsWith("URL=file:///") && line.EndsWith(ApplicationHelper.CurrentExecutableName))
-            {
-                return true;
-            }
-        }
+        using var key = GetKey();
 
-        return false;
+        var autoStartPath = key.GetValue(ApplicationName) as string;
+        return autoStartPath != null && autoStartPath.Equals(ApplicationHelper.CurrentExecutableName);
     }
     
     public void SetAutoStart(bool isAutoStartEnabled)

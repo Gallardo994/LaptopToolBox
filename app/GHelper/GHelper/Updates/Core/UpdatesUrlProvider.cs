@@ -1,5 +1,5 @@
-﻿using GHelper.ModelInfo;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.ModelInfo;
 using Ninject;
 
 namespace GHelper.Updates.Core;

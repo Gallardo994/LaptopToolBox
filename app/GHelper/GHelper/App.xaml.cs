@@ -3,14 +3,11 @@ using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Security.Principal;
 using GHelper.Configs;
-using GHelper.DeviceControls;
 using GHelper.Helpers;
 using GHelper.Initializers;
 using GHelper.Injection;
-using GHelper.Toasts;
 using Ninject;
 using Serilog;
-using Vanara.PInvoke;
 
 namespace GHelper
 {

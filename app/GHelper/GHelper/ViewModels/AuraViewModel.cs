@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.DeviceControls.Lighting.Vendors.Asus.Aura;
 using GHelper.Injection;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.ViewModels;

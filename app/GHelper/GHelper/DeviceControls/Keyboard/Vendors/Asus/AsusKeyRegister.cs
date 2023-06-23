@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GHelper.Commands;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 using GHelper.DeviceControls.PerformanceModes;

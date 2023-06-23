@@ -1,6 +1,6 @@
-﻿using GHelper.DeviceControls.CPU;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.DeviceControls.CPU;
 using GHelper.Injection;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.ViewModels;

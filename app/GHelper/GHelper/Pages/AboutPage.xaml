@@ -9,11 +9,8 @@
     xmlns:views="using:GHelper.Views"
     xmlns:converters="using:GHelper.Converters"
     xmlns:viewModels="using:GHelper.ViewModels"
+    xmlns:about="using:GHelper.About"
     mc:Ignorable="d">
-    
-    <Page.DataContext>
-        <viewModels:AboutViewModel />
-    </Page.DataContext>
     
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -62,12 +59,12 @@
         </StackPanel>
 
         <ListView Grid.Row="1" BorderThickness="0"
-                  ItemsSource="{Binding Path=Items}"
+                  ItemsSource="{x:Bind Path=ViewModel.Items}"
                   Style="{StaticResource ItemsList}"
                   ItemContainerStyle="{StaticResource HorizontalSwipe}"
                   SelectionMode="None">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="about:IAboutItem">
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                         <Grid Margin="0" Padding="0">
                             <VisualStateManager.VisualStateGroups>
@@ -97,9 +94,9 @@
                                         <StackPanel Margin="8 0 0 0"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Title}"
+                                            <TextBlock Text="{x:Bind Title}"
                                                        Style="{StaticResource BodyStrongTextBlockStyle}" />
-                                            <TextBlock Text="{Binding Description}"
+                                            <TextBlock Text="{x:Bind Description}"
                                                        Style="{StaticResource CaptionTextBlockStyle}" />
                                         </StackPanel>
                                     </StackPanel>

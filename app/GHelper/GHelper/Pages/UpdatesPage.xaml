@@ -8,11 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:GHelper.Converters"
     xmlns:viewModels="using:GHelper.ViewModels"
+    xmlns:models="using:GHelper.Updates.Models"
     mc:Ignorable="d">
-    
-    <Page.DataContext>
-        <viewModels:UpdatesViewModel />
-    </Page.DataContext>
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -66,17 +63,17 @@
         
         <ProgressRing
             Grid.Row="1"
-            Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}"
+            Visibility="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
             Style="{StaticResource Loading}"/>
 
         <ListView Grid.Row="1" BorderThickness="0"
-                  Visibility="{Binding IsUpdating, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                  ItemsSource="{Binding Path=Updates}"
+                  Visibility="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                  ItemsSource="{x:Bind ViewModel.Updates}"
                   Style="{StaticResource ItemsList}"
                   ItemContainerStyle="{StaticResource HorizontalSwipe}"
                   SelectionMode="None">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="models:IUpdate">
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
                         <Grid Margin="0" Padding="0">
                             <VisualStateManager.VisualStateGroups>
@@ -105,18 +102,18 @@
                                         Orientation="Horizontal">
                                         <FontIcon
                                             Glyph="&#xE73E;"
-                                            Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                            Visibility="{x:Bind IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                                             Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
                                         <FontIcon
                                             Glyph="&#xE7BA;"
-                                            Visibility="{Binding IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
+                                            Visibility="{x:Bind IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
                                         <StackPanel Margin="8 0 0 0"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}"
+                                            <TextBlock Text="{x:Bind Name}"
                                                        Style="{StaticResource BodyStrongTextBlockStyle}" />
-                                            <TextBlock Text="{Binding Version}"
+                                            <TextBlock Text="{x:Bind Version}"
                                                        Style="{StaticResource CaptionTextBlockStyle}" />
                                         </StackPanel>
                                     </StackPanel>

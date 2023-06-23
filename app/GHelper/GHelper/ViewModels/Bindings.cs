@@ -11,5 +11,6 @@ public class Bindings : NinjectModule
         Bind<PerformanceModeViewModel>().ToSelf().InSingletonScope();
         Bind<UnderVoltViewModel>().ToSelf().InSingletonScope();
         Bind<TrayViewModel>().ToSelf().InSingletonScope();
+        Bind<AutoStartViewModel>().ToSelf().InSingletonScope();
     }
 }

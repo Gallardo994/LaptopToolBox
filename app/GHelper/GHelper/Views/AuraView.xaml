@@ -11,10 +11,6 @@
     xmlns:converters="using:GHelper.Converters"
     mc:Ignorable="d">
 
-    <Grid.DataContext>
-        <viewModels:AuraViewModel />
-    </Grid.DataContext>
-
     <Grid.Resources>
         <converters:UiToDrawingColorConverter x:Key="UiToDrawingColorConverter" />
     </Grid.Resources>
@@ -32,16 +28,16 @@
 
     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
         <ComboBox
-            ItemsSource="{Binding Modes}"
-            SelectedItem="{Binding Mode, Mode=TwoWay}"
+            ItemsSource="{x:Bind ViewModel.Modes}"
+            SelectedItem="{x:Bind ViewModel.Mode, Mode=TwoWay}"
             DisplayMemberPath="Title" SelectedValuePath="Title"
             Header="Mode" Width="200" />
 
         <AppBarSeparator VerticalAlignment="Center" />
 
         <ComboBox
-            ItemsSource="{Binding Speeds}"
-            SelectedItem="{Binding Speed, Mode=TwoWay}"
+            ItemsSource="{x:Bind ViewModel.Speeds}"
+            SelectedItem="{x:Bind ViewModel.Speed, Mode=TwoWay}"
             DisplayMemberPath="Title" SelectedValuePath="Title"
             Header="Speed" Width="200" />
     </StackPanel>
@@ -54,7 +50,7 @@
               HorizontalAlignment="Stretch">
         <Expander.Content>
             <ColorPicker x:Name="PrimaryColorPicker"
-                         Color="{Binding Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
+                         Color="{x:Bind ViewModel.Color, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
                          ColorSpectrumShape="Box"
                          IsMoreButtonVisible="False"
                          IsColorSliderVisible="True"
@@ -74,7 +70,7 @@
               HorizontalAlignment="Stretch">
         <Expander.Content>
             <ColorPicker x:Name="SecondaryColorPicker"
-                         Color="{Binding Color2, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
+                         Color="{x:Bind ViewModel.Color2, Mode=TwoWay, Converter={StaticResource UiToDrawingColorConverter}}"
                          ColorSpectrumShape="Box"
                          IsMoreButtonVisible="False"
                          IsColorSliderVisible="True"

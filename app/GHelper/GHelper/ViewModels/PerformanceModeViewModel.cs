@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Ninject;
 
 namespace GHelper.ViewModels;

@@ -6,9 +6,15 @@
     xmlns:local="using:GHelper.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:GHelper.Views"
     mc:Ignorable="d">
 
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <views:AutoStartView Grid.Row="0" />
     </Grid>
 </Page>
