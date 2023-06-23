@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ServiceProcess;
+﻿using System.ServiceProcess;
 using GHelper.Helpers;
 
 namespace GHelper.VendorServices.Vendors.Asus;
