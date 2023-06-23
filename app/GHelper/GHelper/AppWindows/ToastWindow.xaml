@@ -30,11 +30,11 @@
         <StackPanel Grid.Column="1" 
                     VerticalAlignment="Center">
             
-            <TextBlock x:Name="TitleBlock" 
+            <TextBlock x:Name="TitleBlock" x:FieldModifier="public"
                        Style="{StaticResource BodyStrongTextBlockStyle}">
             </TextBlock>
             
-            <TextBlock x:Name="DescriptionBlock" 
+            <TextBlock x:Name="DescriptionBlock" x:FieldModifier="public"
                        Style="{StaticResource CaptionTextBlockStyle}"
                        Text="Test toast message">
                 

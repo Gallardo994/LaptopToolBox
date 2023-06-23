@@ -77,4 +77,22 @@ public class WindowHelper
         var windowId = Win32Interop.GetWindowIdFromWindow(handle);
         return DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest);
     }
+    
+    public static bool ShowWindow(Window window)
+    {
+        var handle = GetHandleOf(window);
+        return User32.ShowWindow(handle, ShowWindowCommand.SW_SHOW);
+    }
+    
+    public static bool HideWindow(Window window)
+    {
+        var handle = GetHandleOf(window);
+        return User32.ShowWindow(handle, ShowWindowCommand.SW_HIDE);
+    }
+    
+    public static bool FocusWindow(Window window)
+    {
+        var handle = GetHandleOf(window);
+        return User32.SetForegroundWindow(handle);
+    }
 }

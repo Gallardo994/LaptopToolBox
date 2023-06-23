@@ -1,4 +1,7 @@
-﻿using Vanara.PInvoke;
+﻿using GHelper.AppWindows;
+using GHelper.Helpers;
+using GHelper.Injection;
+using Ninject;
 
 namespace GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 
@@ -8,21 +11,8 @@ public class AsusOpenWindowKeyBind : IVendorKeyBind
 
     public void Execute()
     {
-        FocusThisApplication();
-    }
-    
-    private void FocusThisApplication()
-    {
-        var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-        var processes = System.Diagnostics.Process.GetProcessesByName(currentProcess.ProcessName);
-        foreach (var process in processes)
-        {
-            if (process.Id == currentProcess.Id)
-            {
-                User32.SetForegroundWindow(process.MainWindowHandle);
-                User32.ShowWindow(process.MainWindowHandle, ShowWindowCommand.SW_RESTORE);
-                return;
-            }
-        }
+        Services.ResolutionRoot.Get<MainWindow>()
+            .Show()
+            .Focus();
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.Drawing;
-using GHelper.AppWindows;
+﻿using GHelper.AppWindows;
 using GHelper.Configs;
-using H.NotifyIcon;
+using GHelper.Helpers;
 using Ninject;
 
 namespace GHelper.Initializers.ConcreteInitializers;

@@ -1,5 +1,5 @@
 ﻿using GHelper.AppWindows;
-using H.NotifyIcon;
+using GHelper.Helpers;
 using Ninject;
 
 namespace GHelper.Controllers;
