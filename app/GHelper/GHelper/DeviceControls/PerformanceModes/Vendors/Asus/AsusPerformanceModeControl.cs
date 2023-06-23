@@ -38,6 +38,8 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
         {
             _config.PerformanceModeCurrent = performanceMode.Id;
             _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Switched to " + performanceMode.Title);
+            
+            TrySetCustomParameters(performanceMode);
         }
         else
         {
@@ -61,5 +63,15 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
         var nextMode = _performanceModesProvider.GetNextModeAfter(currentMode);
         
         SetMode(nextMode);
+    }
+
+    private void TrySetCustomParameters(IPerformanceMode performanceMode)
+    {
+        if (performanceMode is not CustomPerformanceMode customPerformanceMode)
+        {
+            return;
+        }
+        
+        // TODO: Implement fan control, curves, etc.
     }
 }
