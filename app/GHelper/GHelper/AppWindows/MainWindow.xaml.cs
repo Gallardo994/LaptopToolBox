@@ -8,8 +8,6 @@ namespace GHelper.AppWindows
 {
     public sealed partial class MainWindow
     {
-        public string AppTitleText => "GHelper";
-        
         [Inject]
         public MainWindow(IPageProvider pageProvider)
         {
