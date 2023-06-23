@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using GHelper.Commands;
 using GHelper.DeviceControls.Usb;
 using HidLibrary;
 using Ninject;
@@ -13,15 +14,17 @@ public class AsusKeyboardListener : IVendorKeyboardListener
     
     private readonly IUsb _usb;
     private readonly IHid _hid;
+    private readonly ISTACommandLoop _staCommandLoop;
     
     private readonly CancellationTokenSource _cts;
     private readonly Thread _thread;
     
     [Inject]
-    public AsusKeyboardListener(IUsb usb, IHid hid)
+    public AsusKeyboardListener(IUsb usb, IHid hid, ISTACommandLoop staCommandLoop)
     {
         _usb = usb;
         _hid = hid;
+        _staCommandLoop = staCommandLoop;
         
         _cts = new CancellationTokenSource();
         _thread = new Thread(ThreadHandler);
@@ -61,7 +64,10 @@ public class AsusKeyboardListener : IVendorKeyboardListener
                 var data = input.Read().Data;
                 if (data?.Length > 1 && data[0] == _usb.InputHidId && data[1] > 0)
                 {
-                    KeyHandler?.Invoke(data[1]);
+                    _staCommandLoop.Enqueue(new ActionCommand(() =>
+                    {
+                        KeyHandler?.Invoke(data[1]);
+                    }));
                 }
             }
             catch (Exception ex)
