@@ -54,6 +54,7 @@ public class AsusKeyboardListener : IVendorKeyboardListener
             {
                 if ((input == null || !input.IsConnected) && !DetectInputDevice())
                 {
+                    Thread.SpinWait(1000);
                     continue;
                 }
                 
@@ -68,7 +69,7 @@ public class AsusKeyboardListener : IVendorKeyboardListener
                 Log.Debug(ex.ToString());
             }
 
-            // Thread.Sleep(100); // TODO: Implement a better way of sleeping so that the delay is not noticeable
+            Thread.Sleep(10);
         }
     }
 
