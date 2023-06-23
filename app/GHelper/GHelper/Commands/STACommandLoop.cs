@@ -1,4 +1,5 @@
-﻿using GHelper.AppWindows;
+﻿using System;
+using GHelper.AppWindows;
 using Microsoft.UI.Dispatching;
 using Ninject;
 
@@ -23,5 +24,10 @@ public class STACommandLoop : ISTACommandLoop
         }
         
         _dispatcherQueue.TryEnqueue(command.Execute);
+    }
+    
+    public void Enqueue(Action action)
+    {
+        Enqueue(new ActionCommand(action));
     }
 }

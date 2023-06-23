@@ -64,10 +64,10 @@ public class AsusKeyboardListener : IVendorKeyboardListener
                 var data = input.Read().Data;
                 if (data?.Length > 1 && data[0] == _usb.InputHidId && data[1] > 0)
                 {
-                    _staCommandLoop.Enqueue(new ActionCommand(() =>
+                    _staCommandLoop.Enqueue(() =>
                     {
                         KeyHandler?.Invoke(data[1]);
-                    }));
+                    });
                 }
             }
             catch (Exception ex)

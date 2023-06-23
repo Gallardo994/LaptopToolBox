@@ -34,6 +34,11 @@ namespace GHelper.Commands
                 Monitor.Pulse(_syncRoot);
             }
         }
+        
+        public void Enqueue(Action action)
+        {
+            Enqueue(new ActionCommand(action));
+        }
 
         private void Run(CancellationToken cancellationToken)
         {

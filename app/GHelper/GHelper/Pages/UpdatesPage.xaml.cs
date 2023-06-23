@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.System;
+using GHelper.Commands;
 using GHelper.Helpers;
 using GHelper.Injection;
 using GHelper.Updates.Core;
@@ -16,6 +17,7 @@ namespace GHelper.Pages
     public sealed partial class UpdatesPage
     {
         private readonly IUpdatesChecker _updatesChecker = Services.ResolutionRoot.Get<IUpdatesChecker>();
+        private readonly ISTACommandLoop _commandLoop = Services.ResolutionRoot.Get<ISTACommandLoop>();
         public UpdatesViewModel ViewModel { get; } = Services.ResolutionRoot.Get<UpdatesViewModel>();
         
         public UpdatesPage()
@@ -82,12 +84,7 @@ namespace GHelper.Pages
                     return string.Compare(update1.Name, update2.Name, StringComparison.Ordinal);
                 });
                 
-                if (DispatcherQueue == null)
-                {
-                    return;
-                }
-                
-                DispatcherQueue.TryEnqueue(() =>
+                _commandLoop.Enqueue(() =>
                 {
                     if (ViewModel == null)
                     {
