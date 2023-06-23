@@ -94,7 +94,5 @@
                 <Frame Grid.Row="1" x:Name="ContentFrame" Background="Transparent" Padding="32 0 32 0"/>
             </Grid>
         </NavigationView>
-        
-        <views:TrayView x:Name="TrayIconView" />
     </Grid>
 </Window>

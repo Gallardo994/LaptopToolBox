@@ -2,6 +2,8 @@ using System;
 using System.Timers;
 using Windows.Graphics;
 using GHelper.DeviceControls;
+using GHelper.Helpers;
+using GHelper.Helpers.Native;
 using H.NotifyIcon.Core;
 using H.NotifyIcon.Interop;
 using Microsoft.UI;
@@ -133,11 +135,9 @@ namespace GHelper.AppWindows
         private void ModifyWindowAppearance()
         {
             _handle = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            User32.SetWindowLong(_handle, User32.WindowLongFlags.GWL_EXSTYLE, 
-                User32.GetWindowLong(_handle, User32.WindowLongFlags.GWL_EXSTYLE) ^ 0x80000);
             
-            DesktopWindowsManagerMethods.SetRoundedCorners(_handle);
-            WindowUtilities.MakeTransparent(_handle);
+            WindowHelper.SetRoundedCorners(_handle, DwmWindowCornerPreference.Round);
+            WindowHelper.SetTransparent(_handle, true);
             
             _windowId = Win32Interop.GetWindowIdFromWindow(_handle);
             
