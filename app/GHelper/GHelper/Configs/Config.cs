@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using GHelper.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ public partial class Config : ObservableObject, IConfig
     
     [ObservableProperty] [JsonProperty("start_minimized")] private bool _startMinimized = false;
     [ObservableProperty] [JsonProperty("battery_limit")] private int _batteryLimit = 100;
+    [ObservableProperty] [JsonProperty("performance_mode_current")] private Guid _performanceModeCurrent;
 
     public Config(IConfigSaveCommandLoop saveCommandLoop)
     {

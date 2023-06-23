@@ -1,4 +1,6 @@
-﻿namespace GHelper.Configs;
+﻿using System;
+
+namespace GHelper.Configs;
 
 public interface IConfig
 {
@@ -9,4 +11,5 @@ public interface IConfig
     
     public bool StartMinimized { get; set; }
     public int BatteryLimit { get; set; }
+    public Guid PerformanceModeCurrent { get; set; }
 }
