@@ -4,7 +4,7 @@ using GHelper.DeviceControls.Usb;
 
 namespace GHelper.DeviceControls.Lighting.Vendors.Asus.Aura;
 
-public class AuraApplyCommand : ICommand
+public class AuraApplyCommand : IThreadCommand
 {
     private readonly IUsb _usb;
     private readonly IHid _hid;

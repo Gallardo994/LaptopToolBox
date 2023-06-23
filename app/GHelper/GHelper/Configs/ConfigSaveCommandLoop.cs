@@ -2,7 +2,7 @@
 
 namespace GHelper.Configs;
 
-public class ConfigSaveCommandLoop : LastOnlyCommandLoop<ConfigSaveCommand>, IConfigSaveCommandLoop
+public class ConfigSaveCommandLoop : LastOnlyThreadCommandLoop<ConfigSaveCommand>, IConfigSaveCommandLoop
 {
     
 }

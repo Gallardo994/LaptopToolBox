@@ -1,6 +1,6 @@
 ﻿namespace GHelper.Commands;
 
-public interface ICommand
+public interface IThreadCommand
 {
     public void Execute();
 }

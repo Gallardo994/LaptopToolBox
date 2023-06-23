@@ -2,7 +2,7 @@
 
 namespace GHelper.DeviceControls.Lighting.Vendors.Asus.Aura;
 
-public class AuraCommandLoop : LastOnlyCommandLoop<AuraApplyCommand>, IAuraCommandLoop
+public class AuraCommandLoop : LastOnlyThreadCommandLoop<AuraApplyCommand>, IAuraCommandLoop
 {
     
 }

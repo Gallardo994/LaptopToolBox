@@ -6,7 +6,7 @@ using Serilog;
 
 namespace GHelper.Commands
 {
-    public abstract class LastOnlyCommandLoop<T> where T : ICommand
+    public abstract class LastOnlyThreadCommandLoop<T> where T : IThreadCommand
     {
         private readonly ConcurrentQueue<T> _commands;
         private readonly CancellationTokenSource _cancellationTokenSource;
@@ -15,7 +15,7 @@ namespace GHelper.Commands
         
         private readonly Thread _thread;
 
-        public LastOnlyCommandLoop()
+        public LastOnlyThreadCommandLoop()
         {
             _commands = new ConcurrentQueue<T>();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -78,7 +78,7 @@ namespace GHelper.Commands
             try
             {
                 Log.Debug($"Executing command {lastCommand.GetType().Name}");
-                lastCommand.Execute();
+                //lastCommand.Execute();
             } 
             catch (Exception e)
             {

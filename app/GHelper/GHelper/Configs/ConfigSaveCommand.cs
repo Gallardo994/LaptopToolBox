@@ -3,7 +3,7 @@ using GHelper.Commands;
 
 namespace GHelper.Configs;
 
-public class ConfigSaveCommand : ICommand
+public class ConfigSaveCommand : IThreadCommand
 {
     private readonly string _path;
     private readonly string _content;
