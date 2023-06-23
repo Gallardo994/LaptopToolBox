@@ -1,5 +1,4 @@
 ﻿using System.ServiceProcess;
-using GHelper.Helpers;
 
 namespace GHelper.VendorServices.Vendors.Asus;
 
@@ -19,7 +18,14 @@ public class AsusServicesControl : IVendorServicesControl
         "ASUSOptimization",
     };
     
-    public int CountRunning()
+    private readonly IAsusServicesControlCommandLoop _commandLoop;
+
+    public AsusServicesControl(IAsusServicesControlCommandLoop commandLoop)
+    {
+        _commandLoop = commandLoop;
+    }
+    
+    public int CountRunningSlow()
     {
         var count = 0;
         
@@ -37,31 +43,11 @@ public class AsusServicesControl : IVendorServicesControl
 
     public void Enable()
     {
-        foreach (var service in _services)
-        {
-            using var serviceController = new ServiceController(service);
-            if (serviceController.Status != ServiceControllerStatus.Stopped)
-            {
-                continue;
-            }
-            
-            serviceController.Start();
-            serviceController.SetServiceAutoStartMode(ServiceAutoStartMode.Automatic);
-        }
+        _commandLoop.Enqueue(new AsusServicesEnableCommand(_services));
     }
 
     public void Disable()
     {
-        foreach (var service in _services)
-        {
-            using var serviceController = new ServiceController(service);
-            if (serviceController.Status != ServiceControllerStatus.Running)
-            {
-                continue;
-            }
-            
-            serviceController.Stop();
-            serviceController.SetServiceAutoStartMode(ServiceAutoStartMode.Disabled);
-        }
+        _commandLoop.Enqueue(new AsusServicesDisableCommand(_services));
     }
 }
