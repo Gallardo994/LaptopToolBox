@@ -78,7 +78,7 @@ namespace GHelper.Commands
             try
             {
                 Log.Debug($"Executing command {lastCommand.GetType().Name}");
-                //lastCommand.Execute();
+                lastCommand.Execute();
             } 
             catch (Exception e)
             {
