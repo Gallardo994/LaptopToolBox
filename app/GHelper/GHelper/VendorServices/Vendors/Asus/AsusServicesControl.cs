@@ -6,7 +6,7 @@ namespace GHelper.VendorServices.Vendors.Asus;
 
 public class AsusServicesControl : IVendorServicesControl
 {
-    private readonly HashSet<string> _services = new()
+    private readonly string[] _services = new[]
     {
         "AsusAppService",
         "ASUSLinkNear",
