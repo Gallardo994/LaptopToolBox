@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using GHelper.DeviceControls.Usb;
+using HidLibrary;
 using Ninject;
 using Serilog;
 
@@ -32,20 +33,30 @@ public class AsusKeyboardListener : IVendorKeyboardListener
     {
         Log.Debug("Starting Asus keyboard listener");
         
-        var input = _hid.GetDevice(_usb.VendorId, _usb.DeviceIds, _usb.InputHidId);
-        
-        if (input == null)
+        var input = default(HidDevice);
+
+        bool DetectInputDevice()
         {
-            Log.Debug("No input device found");
-            return;
+            input = _hid.GetDevice(_usb.VendorId, _usb.DeviceIds, _usb.InputHidId);
+
+            if (input is not { IsConnected: true })
+            {
+                return false;
+            }
+            
+            Log.Debug($"Detected new input device: {input.DevicePath}");
+            return true;
         }
-        
-        Log.Debug($"Input device: {input.DevicePath}");
 
         while (!_cts.Token.IsCancellationRequested)
         {
             try
             {
+                if ((input == null || !input.IsConnected) && !DetectInputDevice())
+                {
+                    continue;
+                }
+                
                 var data = input.Read().Data;
                 if (data?.Length > 1 && data[0] == _usb.InputHidId && data[1] > 0)
                 {
