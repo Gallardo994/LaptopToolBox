@@ -1,13 +1,29 @@
 ﻿using System;
 using GHelper.Helpers.Native;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Vanara.PInvoke;
 
 namespace GHelper.Helpers;
 
 public class WindowHelper
 {
-    public static void SetRoundedCorners(IntPtr handle, DwmWindowCornerPreference preference)
+    public static IntPtr GetHandleOf(Window window)
     {
+        return WinRT.Interop.WindowNative.GetWindowHandle(window);
+    }
+    
+    public static AppWindow GetAppWindowOf(Window window)
+    {
+        var handle = GetHandleOf(window);
+        var windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        return AppWindow.GetFromWindowId(windowId);
+    }
+    
+    public static void SetRoundedCorners(Window window, DwmWindowCornerPreference preference)
+    {
+        var handle = GetHandleOf(window);
         DwmApi.DwmSetWindowAttribute(
             handle,
             DwmWindowAttribute.DwmwaWindowCornerPreference,
@@ -15,8 +31,9 @@ public class WindowHelper
             sizeof(uint));
     }
 
-    public static void SetTransparent(IntPtr handle, bool state)
+    public static void SetTransparent(Window window, bool state)
     {
+        var handle = GetHandleOf(window);
         var extendedStyle = User32.GetWindowLong(handle, User32.WindowLongFlags.GWL_EXSTYLE);
     
         if (state)
@@ -27,5 +44,37 @@ public class WindowHelper
         {
             User32.SetWindowLong(handle, User32.WindowLongFlags.GWL_EXSTYLE, extendedStyle & ~0x80000);
         }
+    }
+
+    public static void ConvertToOverlay(Window window)
+    {
+        var appWindow = GetAppWindowOf(window);
+        appWindow.IsShownInSwitchers = false;
+
+        var presenter = appWindow.Presenter as OverlappedPresenter;
+            
+        if (presenter == null)
+        {
+            throw new InvalidOperationException("Unable to extract presenter from AppWindow");
+        }
+            
+        presenter.IsMaximizable = false;
+        presenter.IsMinimizable = false;
+        presenter.IsAlwaysOnTop = true;
+        presenter.IsResizable = false;
+        presenter.SetBorderAndTitleBar(false, false);
+    }
+
+    public static void SetWindowAlpha(Window window, byte alpha)
+    {
+        var handle = GetHandleOf(window);
+        User32.SetLayeredWindowAttributes(handle, 0, alpha, User32.LayeredWindowAttributes.LWA_ALPHA);
+    }
+
+    public static DisplayArea GetDisplayArea(Window window)
+    {
+        var handle = GetHandleOf(window);
+        var windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        return DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest);
     }
 }

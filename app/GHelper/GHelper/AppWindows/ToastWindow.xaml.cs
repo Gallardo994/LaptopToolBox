@@ -1,27 +1,16 @@
-using System;
 using System.Timers;
 using Windows.Graphics;
-using GHelper.DeviceControls;
 using GHelper.Helpers;
 using GHelper.Helpers.Native;
-using H.NotifyIcon.Core;
-using H.NotifyIcon.Interop;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
-using Vanara.PInvoke;
 
 namespace GHelper.AppWindows
 {
     public sealed partial class ToastWindow
     {
-        private IntPtr _handle;
-        private WindowId _windowId;
-        private AppWindow _appWindow;
-        private OverlappedPresenter _presenter;
-        
         private Timer _timer;
-        
-        private DisplayArea DisplayArea => DisplayArea.GetFromWindowId(_windowId, DisplayAreaFallback.Nearest);
+
+        private DisplayArea DisplayArea => WindowHelper.GetDisplayArea(this);
 
         private byte _alpha;
 
@@ -31,7 +20,7 @@ namespace GHelper.AppWindows
             set
             {
                 _alpha = value;
-                User32.SetLayeredWindowAttributes(_handle, 0, _alpha, User32.LayeredWindowAttributes.LWA_ALPHA);
+                WindowHelper.SetWindowAlpha(this, _alpha);
             }
         }
         private byte MaxAlpha => 255;
@@ -40,9 +29,14 @@ namespace GHelper.AppWindows
         public ToastWindow()
         {
             InitializeComponent();
-            ModifyWindowAppearance();
             
-            _appWindow.Resize(new SizeInt32(512, 128));
+            WindowHelper.ConvertToOverlay(this);
+            WindowHelper.SetRoundedCorners(this, DwmWindowCornerPreference.Round);
+            WindowHelper.SetTransparent(this, true);
+
+            var appWindow = WindowHelper.GetAppWindowOf(this);
+            appWindow.Resize(new SizeInt32(512, 128));
+
             HideOffScreen();
         }
 
@@ -60,30 +54,25 @@ namespace GHelper.AppWindows
 
         private void BringToScreen()
         {
-            var newPosition = _appWindow.Position;
+            var appWindow = WindowHelper.GetAppWindowOf(this);
             
-            // Center horizontally
-            newPosition.X = DisplayArea.WorkArea.Width - _appWindow.Size.Width - 8;
+            var newPosition = new PointInt32(
+                DisplayArea.WorkArea.Width - appWindow.Size.Width - 8, 
+                DisplayArea.WorkArea.Height - appWindow.Size.Height - 8);
             
-            // Show at the lower part of the screen
-            newPosition.Y = DisplayArea.WorkArea.Height - _appWindow.Size.Height - 8;
-            
-            _appWindow.Move(newPosition);
+            appWindow.Move(newPosition);
         }
         
         public void HideOffScreen()
         {
             KillTimers();
             
-            var newPosition = _appWindow.Position;
-            
-            // Center horizontally
-            newPosition.X = DisplayArea.WorkArea.Width + 200;
-            
-            // Hide off screen
-            newPosition.Y = DisplayArea.WorkArea.Height + 200;
-            
-            _appWindow.Move(newPosition);
+            var appWindow = WindowHelper.GetAppWindowOf(this);
+            var newPosition = new PointInt32(
+                DisplayArea.WorkArea.Width + 200, 
+                DisplayArea.WorkArea.Height + 200);
+
+            appWindow.Move(newPosition);
 
             Alpha = 0;
         }
@@ -130,34 +119,6 @@ namespace GHelper.AppWindows
         {
             _timer?.Dispose();
             _timer = null;
-        }
-
-        private void ModifyWindowAppearance()
-        {
-            _handle = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            
-            WindowHelper.SetRoundedCorners(_handle, DwmWindowCornerPreference.Round);
-            WindowHelper.SetTransparent(_handle, true);
-            
-            _windowId = Win32Interop.GetWindowIdFromWindow(_handle);
-            
-            _appWindow = AppWindow.GetFromWindowId(_windowId);
-            _appWindow.IsShownInSwitchers = false;
-
-            _presenter = _appWindow.Presenter as OverlappedPresenter;
-            
-            if (_presenter == null)
-            {
-                throw new InvalidOperationException("Unable to extract presenter from AppWindow");
-            }
-            
-            _presenter.IsMaximizable = false;
-            _presenter.IsMinimizable = false;
-            _presenter.IsAlwaysOnTop = true;
-            
-            // https://github.com/microsoft/microsoft-ui-xaml/issues/7629
-            _presenter.IsResizable = false;
-            _presenter.SetBorderAndTitleBar(false, false);
         }
     }
 }
