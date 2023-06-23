@@ -13,6 +13,7 @@ public class AsusOpenWindowKeyBind : IVendorKeyBind
     {
         Services.ResolutionRoot.Get<MainWindow>()
             .Show()
+            .Restore()
             .Focus();
     }
 }

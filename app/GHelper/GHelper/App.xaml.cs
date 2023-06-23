@@ -34,7 +34,7 @@ namespace GHelper
             if (!IsAdmin())
             {
                 Log.Information("Running as non-admin, restarting as admin");
-                Environment.Exit(0);
+                ApplicationHelper.Exit();
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace GHelper
             if (FocusSameInstance())
             {
                 Log.Information("Another instance is running, exiting");
-                Environment.Exit(0);
+                ApplicationHelper.Exit();
                 return;
             }
             
@@ -89,8 +89,14 @@ namespace GHelper
                     continue;
                 }
                 
-                User32.SetForegroundWindow(process.MainWindowHandle);
-                User32.ShowWindow(process.MainWindowHandle, ShowWindowCommand.SW_RESTORE);
+                WindowHelper.ShowWindow(process.MainWindowHandle);
+                
+                if (WindowHelper.IsMinimized(process.MainWindowHandle))
+                {
+                    WindowHelper.RestoreWindow(process.MainWindowHandle);
+                }
+                
+                WindowHelper.FocusWindow(process.MainWindowHandle);
                 return true;
             }
 

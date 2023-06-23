@@ -77,22 +77,17 @@ public class WindowHelper
         var windowId = Win32Interop.GetWindowIdFromWindow(handle);
         return DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest);
     }
+
+    public static bool ShowWindow(IntPtr handle) => User32.ShowWindow(handle, ShowWindowCommand.SW_SHOW);
+    public static bool ShowWindow(Window window) => ShowWindow(GetHandleOf(window));
     
-    public static bool ShowWindow(Window window)
-    {
-        var handle = GetHandleOf(window);
-        return User32.ShowWindow(handle, ShowWindowCommand.SW_SHOW);
-    }
+    public static bool HideWindow(IntPtr handle) => User32.ShowWindow(handle, ShowWindowCommand.SW_HIDE);
+    public static bool HideWindow(Window window) => HideWindow(GetHandleOf(window));
     
-    public static bool HideWindow(Window window)
-    {
-        var handle = GetHandleOf(window);
-        return User32.ShowWindow(handle, ShowWindowCommand.SW_HIDE);
-    }
+    public static bool FocusWindow(IntPtr handle) => User32.SetForegroundWindow(handle);
+    public static bool FocusWindow(Window window) => FocusWindow(GetHandleOf(window));
     
-    public static bool FocusWindow(Window window)
-    {
-        var handle = GetHandleOf(window);
-        return User32.SetForegroundWindow(handle);
-    }
+    public static bool IsMinimized(IntPtr handle) => User32.IsIconic(handle);
+    public static bool RestoreWindow(IntPtr handle) => User32.ShowWindow(handle, ShowWindowCommand.SW_RESTORE);
+    public static bool RestoreWindow(Window window) => RestoreWindow(GetHandleOf(window));
 }

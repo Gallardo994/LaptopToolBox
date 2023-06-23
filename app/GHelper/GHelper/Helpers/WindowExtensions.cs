@@ -21,4 +21,10 @@ public static class WindowExtensions
         WindowHelper.FocusWindow(window);
         return window;
     }
+    
+    public static Window Restore(this Window window)
+    {
+        WindowHelper.RestoreWindow(window);
+        return window;
+    }
 }
