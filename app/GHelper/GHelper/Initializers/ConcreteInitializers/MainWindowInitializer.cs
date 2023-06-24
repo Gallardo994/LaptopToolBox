@@ -23,7 +23,7 @@ public class MainWindowInitializer : IInitializer
     
     public void Initialize()
     {
-        foreach (var gpuInfo in _gpuGeneralInfoProvider.GpuGeneralInfoCollection)
+        foreach (var gpuInfo in _gpuGeneralInfoProvider.Collection)
         {
             Log.Debug("GPU: {gpuInfo}", gpuInfo);
         }
