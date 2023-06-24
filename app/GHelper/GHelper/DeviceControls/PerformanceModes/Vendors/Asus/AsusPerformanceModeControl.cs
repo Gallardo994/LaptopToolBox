@@ -31,20 +31,11 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     public void SetMode(IPerformanceMode performanceMode)
     {
         var result = _acpi.DeviceSet(DeviceId, (int) performanceMode.Type);
+        _config.PerformanceModeCurrent = performanceMode.Id;
+        TrySetCustomParameters(performanceMode);
         
         Log.Debug("SetMode: {DeviceId} {PerformanceModeType} {Result}", DeviceId, performanceMode.Type, result);
-        
-        if (result > 0)
-        {
-            _config.PerformanceModeCurrent = performanceMode.Id;
-            _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Switched to " + performanceMode.Title);
-            
-            TrySetCustomParameters(performanceMode);
-        }
-        else
-        {
-            _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Failed to switch to " + performanceMode.Title);
-        }
+        _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Switched to " + performanceMode.Title);
     }
 
     public IPerformanceMode GetCurrentMode()

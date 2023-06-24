@@ -13,6 +13,7 @@ public class InitializersProvider : IInitializersProvider
         BatteryInitializer batteryInitializer,
         VendorKeyRegisterInitializer vendorKeyRegisterInitializer,
         CpuControlInitializer cpuControlInitializer,
+        PerformanceModeInitializer performanceModeInitializer,
         
         MainWindowInitializer mainWindowInitializer
         )
@@ -20,6 +21,7 @@ public class InitializersProvider : IInitializersProvider
         _initializers.Add(batteryInitializer);
         _initializers.Add(vendorKeyRegisterInitializer);
         _initializers.Add(cpuControlInitializer);
+        _initializers.Add(performanceModeInitializer);
         
         _initializers.Add(mainWindowInitializer);
     }
