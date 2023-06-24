@@ -25,14 +25,14 @@ public partial class WmiGpuGeneralInfoProvider : ObservableObject, IGpuGeneralIn
             {
                 DeviceName = obj["Name"].ToString(),
                 DeviceId = obj["DeviceID"].ToString(),
-                AdapterRam = obj["AdapterRAM"].ToString(),
+                AdapterRam = uint.Parse(obj["AdapterRAM"].ToString()),
                 AdapterDacType = obj["AdapterDACType"].ToString(),
-                Monochrome = obj["Monochrome"].ToString(),
+                Monochrome = obj["Monochrome"].ToString() == "True",
                 InstalledDisplayDrivers = obj["InstalledDisplayDrivers"].ToString(),
                 DriverVersion = obj["DriverVersion"].ToString(),
                 VideoProcessor = obj["VideoProcessor"].ToString(),
-                VideoArchitecture = obj["VideoArchitecture"].ToString(),
-                VideoMemoryType = obj["VideoMemoryType"].ToString(),
+                VideoArchitecture = ushort.Parse(obj["VideoArchitecture"].ToString()),
+                VideoMemoryType = ushort.Parse(obj["VideoMemoryType"].ToString()),
             };
             
             GpuGeneralInfoCollection.Add(gpuGeneralInfo);
