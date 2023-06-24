@@ -25,14 +25,31 @@
         <Image Source="{x:Bind ViewModel.Wallpaper.ImagePath}" Width="256" Height="144" Stretch="Uniform"></Image>
     </Border>
     
-    <StackPanel Grid.Row="0"
+    <Grid Grid.Row="0"
                 Grid.Column="1"
-                Padding="12 0 0 0">
-        <TextBlock Text="{x:Bind ViewModel.ModelInfo.Model}" 
+                Padding="24 0 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Row="0" 
+                   Text="{x:Bind ViewModel.ModelInfo.Model}" 
                    Style="{StaticResource HeaderTextBlockStyle}"></TextBlock>
-        <TextBlock Text="{x:Bind ViewModel.ModelInfo.Bios}" 
+        
+        <TextBlock Grid.Row="1"
+                   Text="{x:Bind ViewModel.CpuFamily.FamilyName}" 
+                   Style="{StaticResource SubtitleTextBlockStyle}"
+                   VerticalAlignment="Center"></TextBlock>
+        
+        <TextBlock Grid.Row="2"
+                   Text="{x:Bind ViewModel.ModelInfo.Bios}" 
                    Style="{StaticResource SubtitleTextBlockStyle}"></TextBlock>
-        <TextBlock Text="{x:Bind ViewModel.CpuFamily.FamilyName}" 
-                   Style="{StaticResource SubtitleTextBlockStyle}"></TextBlock>
-    </StackPanel>
+    </Grid>
 </Grid>
