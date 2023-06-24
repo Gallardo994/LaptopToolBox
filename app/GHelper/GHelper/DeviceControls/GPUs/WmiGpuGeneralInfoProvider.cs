@@ -19,7 +19,17 @@ public partial class WmiGpuGeneralInfoProvider : ObservableObject, IGpuGeneralIn
     {
         var items = new ObservableCollection<IGpuGeneralInfo>();
         
-        using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
+        using var searcher = new ManagementObjectSearcher(@"SELECT Name, 
+                                                                            DeviceID,
+                                                                            AdapterRAM,
+                                                                            AdapterDACType,
+                                                                            Monochrome,
+                                                                            InstalledDisplayDrivers,
+                                                                            DriverVersion,
+                                                                            VideoProcessor,
+                                                                            VideoArchitecture,
+                                                                            VideoMemoryType
+                                                                            FROM Win32_VideoController");
         
         foreach (var obj in searcher.Get())
         {

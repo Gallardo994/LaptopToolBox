@@ -14,7 +14,20 @@ public partial class WmiCpuGeneralInfoProvider : ObservableObject, ICpuGeneralIn
 
     public void Refresh()
     {
-        using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+        using var searcher = new ManagementObjectSearcher(@"SELECT ProcessorId, 
+                                                                            SocketDesignation,
+                                                                            Name,
+                                                                            Caption,
+                                                                            AddressWidth,
+                                                                            DataWidth,
+                                                                            Architecture,
+                                                                            MaxClockSpeed,
+                                                                            ExtClock,
+                                                                            L2CacheSize,
+                                                                            L3CacheSize,
+                                                                            NumberOfCores,
+                                                                            NumberOfLogicalProcessors    
+                                                                            FROM Win32_Processor");
         
         foreach (var obj in searcher.Get())
         {

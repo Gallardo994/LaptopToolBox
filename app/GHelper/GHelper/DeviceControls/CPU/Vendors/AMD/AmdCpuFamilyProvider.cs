@@ -14,7 +14,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
         {
             FamilyName = "Unknown";
             
-            var myProcessorObject = new ManagementObjectSearcher("select * from Win32_Processor");
+            var myProcessorObject = new ManagementObjectSearcher("SELECT Caption FROM Win32_Processor");
             foreach (ManagementObject obj in myProcessorObject.Get())
             {
                 CpuModel = obj["Caption"].ToString();

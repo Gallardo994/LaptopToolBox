@@ -10,7 +10,7 @@ public partial class ModelInfoProvider : ObservableObject, IModelInfoProvider
 
     public ModelInfoProvider()
     {
-        using var objSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_BIOS");
+        using var objSearcher = new ManagementObjectSearcher("SELECT SMBIOSBIOSVersion FROM Win32_BIOS");
         using var objCollection = objSearcher.Get();
         
         foreach (ManagementObject obj in objCollection)
