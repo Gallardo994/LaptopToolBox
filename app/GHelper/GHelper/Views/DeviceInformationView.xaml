@@ -22,7 +22,7 @@
             CornerRadius="4"
             BorderThickness="2"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-        <Image Source="{x:Bind ViewModel.Wallpaper.ImagePath}" Width="256" Height="144" Stretch="Uniform"></Image>
+        <Image Source="{x:Bind ViewModel.Wallpaper.ImageSource, Mode=OneWay}" Width="256" Height="144" Stretch="Uniform"></Image>
     </Border>
     
     <Grid Grid.Row="0"
