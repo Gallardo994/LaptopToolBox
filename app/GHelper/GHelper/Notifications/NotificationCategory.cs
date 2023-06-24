@@ -3,4 +3,6 @@
 public enum NotificationCategory
 {
     PerformanceMode,
+    MicrophoneEnable,
+    MicrophoneDisable,
 }

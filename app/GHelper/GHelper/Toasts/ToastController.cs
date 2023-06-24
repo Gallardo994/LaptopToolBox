@@ -4,6 +4,7 @@ using GHelper.AppWindows;
 using GHelper.Helpers;
 using GHelper.Helpers.Native;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Ninject;
 
 namespace GHelper.Toasts;
@@ -42,12 +43,15 @@ public class ToastController : IToastController
         _toastWindow.Hide();
     }
     
-    public void ShowToast(string title, string message)
+    public void ShowToast(string glyphKey, string title, string message)
     {
         KillTimers();
 
+        _toastWindow.GlyphIcon.Glyph = glyphKey;
         _toastWindow.TitleBlock.Text = title;
+        
         _toastWindow.DescriptionBlock.Text = message;
+        _toastWindow.DescriptionBlock.Visibility = string.IsNullOrEmpty(message) ? Visibility.Collapsed : Visibility.Visible;
             
         _toastWindow.Show();
             

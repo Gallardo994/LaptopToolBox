@@ -14,7 +14,7 @@ public class WindowsNotificationsService : INotificationService
         _notificationManager = AppNotificationManager.Default;
     }
     
-    public void Show(NotificationCategory category, string title, string message)
+    public void Show(NotificationCategory category, string title, string message = "")
     {
         var builder = new AppNotificationBuilder();
         

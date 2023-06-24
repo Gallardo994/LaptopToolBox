@@ -13,8 +13,18 @@ public class ToastNotificationService : INotificationService
         _toastController = toastController;
     }
     
-    public void Show(NotificationCategory category, string title, string message)
+    public void Show(NotificationCategory category, string title, string message = "")
     {
-        _toastController.ShowToast(title, message);
+        _toastController.ShowToast(GetGlyphKey(category), title, message);
+    }
+
+    private string GetGlyphKey(NotificationCategory category)
+    {
+        return category switch
+        {
+            NotificationCategory.MicrophoneEnable => "\uEC71",
+            NotificationCategory.MicrophoneDisable => "\uF781",
+            _ => "\uE946"
+        };
     }
 }

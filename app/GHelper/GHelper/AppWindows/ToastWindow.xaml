@@ -22,7 +22,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <FontIcon Grid.Column="0" Margin="16 0 16 0">
+        <FontIcon x:Name="GlyphIcon" x:FieldModifier="public" Grid.Column="0" Margin="16 0 16 0">
             <FontIcon.Glyph>&#xE946;</FontIcon.Glyph>
             <FontIcon.FontSize>32</FontIcon.FontSize>
         </FontIcon>
