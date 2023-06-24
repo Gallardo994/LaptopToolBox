@@ -62,7 +62,7 @@ public partial class AsusBattery : ObservableObject, IBattery
 
     public bool IsCurrentlyOnBattery()
     {
-        var battery = new ManagementObjectSearcher("SELECT BatteryStatus FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
+        using var battery = new ManagementObjectSearcher("SELECT BatteryStatus FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
         return battery != null && Convert.ToInt32(battery["BatteryStatus"]) == 1;
     }
     
@@ -81,7 +81,7 @@ public partial class AsusBattery : ObservableObject, IBattery
 
     public int GetCurrentCharge()
     {
-        var battery = new ManagementObjectSearcher("SELECT EstimatedChargeRemaining FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
+        using var battery = new ManagementObjectSearcher("SELECT EstimatedChargeRemaining FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
         return battery == null ? 0 : Convert.ToInt32(battery["EstimatedChargeRemaining"]);
     }
     
