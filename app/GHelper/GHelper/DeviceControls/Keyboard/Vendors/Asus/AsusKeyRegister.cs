@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GHelper.AlwaysAwake;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Display;
 using GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
@@ -17,6 +18,7 @@ public class AsusKeyRegister : IVendorKeyRegister
     private readonly IDisplayNightLightController _displayNightLightController;
     private readonly IMicrophoneProvider _microphoneProvider;
     private readonly INotificationService _notificationService;
+    private readonly IAlwaysAwakeController _alwaysAwakeController;
     
     [Inject]
     public AsusKeyRegister(IVendorKeyboardHandler keyboardHandler, 
@@ -24,7 +26,8 @@ public class AsusKeyRegister : IVendorKeyRegister
         IPerformanceModeControl performanceModeControl,
         IDisplayNightLightController displayNightLightController,
         IMicrophoneProvider microphoneProvider,
-        INotificationService notificationService)
+        INotificationService notificationService,
+        IAlwaysAwakeController alwaysAwakeController)
     {
         _keyboardHandler = keyboardHandler;
         _acpi = acpi;
@@ -32,6 +35,7 @@ public class AsusKeyRegister : IVendorKeyRegister
         _displayNightLightController = displayNightLightController;
         _microphoneProvider = microphoneProvider;
         _notificationService = notificationService;
+        _alwaysAwakeController = alwaysAwakeController;
     }
 
     public void Register()
@@ -44,6 +48,7 @@ public class AsusKeyRegister : IVendorKeyRegister
             new AsusPerformanceModeKeyBind(_performanceModeControl),
             new AsusNightLightKeyBind(_displayNightLightController),
             new AsusMicrophoneToggleKeyBind(_microphoneProvider, _notificationService),
+            new AsusAlwaysAwakeKeyBind(_alwaysAwakeController, _notificationService)
         };
         
         foreach (var keyBind in keysList)
