@@ -67,7 +67,8 @@
                   Visibility="{Binding IsAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
                   ItemsSource="{Binding Path=Modes}" 
                   Style="{StaticResource ItemsList}"
-                  ItemContainerStyle="{StaticResource HorizontalSwipe}">
+                  ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                  SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
