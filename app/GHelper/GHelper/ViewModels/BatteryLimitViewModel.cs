@@ -14,7 +14,7 @@ public partial class BatteryLimitViewModel : ObservableObject
 
     public BatteryLimitViewModel()
     {
-        for (int i = Battery.MaxRange; i <= Battery.MinRange; i -= 10)
+        for (int i = Battery.MaxRange; i >= Battery.MinRange; i -= 10)
         {
             _batteryLimits.Add(i.ToString());
         }
