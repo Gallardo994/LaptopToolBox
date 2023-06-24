@@ -12,9 +12,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <views:VendorServicesView Grid.Row="0" />
+        <views:BatteryLimitView Grid.Row="0" />
+        <views:VendorServicesView Grid.Row="1" />
     </Grid>
 </Page>

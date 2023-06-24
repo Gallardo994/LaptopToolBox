@@ -42,4 +42,14 @@ public class AuraControl : IAuraControl
         var command = new AuraApplyCommand(_usb, _hid, message);
         _commandLoop.Enqueue(command);
     }
+    
+    public void IncreaseBrightness()
+    {
+        
+    }
+    
+    public void DecreaseBrightness()
+    {
+        
+    }
 }
