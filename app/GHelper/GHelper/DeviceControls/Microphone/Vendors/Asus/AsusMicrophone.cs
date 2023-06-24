@@ -1,4 +1,5 @@
 ﻿using NAudio.CoreAudioApi;
+using Serilog;
 
 namespace GHelper.DeviceControls.Microphone.Vendors.Asus;
 
@@ -8,15 +9,26 @@ public class AsusMicrophone : IMicrophoneProvider
     {
         using var enumerator = new MMDeviceEnumerator();
         
-        var commDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
-        commDevice.AudioEndpointVolume.Mute = !state;
+        foreach (var device in enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active))
+        {
+            device.AudioEndpointVolume.Mute = !state;
+        }
+        
+        Log.Debug($"Microphone state set to {state}");
     }
     
     public bool IsMicrophoneEnabled()
     {
         using var enumerator = new MMDeviceEnumerator();
         
-        var commDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
-        return !commDevice.AudioEndpointVolume.Mute;
+        foreach (var device in enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active))
+        {
+            if (!device.AudioEndpointVolume.Mute)
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
