@@ -23,10 +23,7 @@ public class MainWindowInitializer : IInitializer
     
     public void Initialize()
     {
-        foreach (var gpuInfo in _gpuGeneralInfoProvider.Collection)
-        {
-            Log.Debug("GPU: {gpuInfo}", gpuInfo);
-        }
+        Log.Debug("Best GPU: {gpuInfo}", _gpuGeneralInfoProvider.BestGpu);
         
         if (!_config.StartMinimized)
         {

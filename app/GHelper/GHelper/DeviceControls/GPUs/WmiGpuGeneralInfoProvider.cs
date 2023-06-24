@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Management;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -6,7 +7,7 @@ namespace GHelper.DeviceControls.GPUs;
 
 public partial class WmiGpuGeneralInfoProvider : ObservableObject, IGpuGeneralInfoProvider
 {
-    [ObservableProperty] private ObservableCollection<IGpuGeneralInfo> _gpuGeneralInfoCollection;
+    [ObservableProperty] private ObservableCollection<IGpuGeneralInfo> _items;
     [ObservableProperty] private IGpuGeneralInfo _bestGpu;
 
     public WmiGpuGeneralInfoProvider()
@@ -16,7 +17,7 @@ public partial class WmiGpuGeneralInfoProvider : ObservableObject, IGpuGeneralIn
 
     public void Refresh()
     {
-        var collection = new ObservableCollection<IGpuGeneralInfo>();
+        var items = new ObservableCollection<IGpuGeneralInfo>();
         
         using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
         
@@ -36,10 +37,10 @@ public partial class WmiGpuGeneralInfoProvider : ObservableObject, IGpuGeneralIn
                 VideoMemoryType = ushort.Parse(obj["VideoMemoryType"].ToString()),
             };
             
-            collection.Add(gpuGeneralInfo);
+            items.Add(gpuGeneralInfo);
         }
         
-        GpuGeneralInfoCollection = collection;
-        BestGpu = GpuGeneralInfoCollection.OrderByDescending(gpu => gpu.AdapterRam).First();
+        Items = items;
+        BestGpu = Items.OrderByDescending(gpu => gpu.AdapterRam).First();
     }
 }

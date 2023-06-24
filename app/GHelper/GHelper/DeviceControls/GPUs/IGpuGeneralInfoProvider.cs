@@ -5,7 +5,7 @@ namespace GHelper.DeviceControls.GPUs;
 
 public interface IGpuGeneralInfoProvider : IObservableObject
 {
-    public ObservableCollection<IGpuGeneralInfo> Collection { get; }
+    public ObservableCollection<IGpuGeneralInfo> Items { get; }
     public IGpuGeneralInfo BestGpu { get; }
     public void Refresh();
 }
