@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Security.Principal;
@@ -46,20 +47,12 @@ namespace GHelper
             
             InitializeComponent();
         }
-        
+
         private bool IsAdmin()
         {
-            var osInfo = Environment.OSVersion;
-            if (osInfo.Platform == PlatformID.Win32Windows)
-            {
-                return true;
-            }
-            else
-            {
-                var usrId = WindowsIdentity.GetCurrent();
-                var p = new WindowsPrincipal(usrId);
-                return p.IsInRole(@"BUILTIN\Administrators");
-            }
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
