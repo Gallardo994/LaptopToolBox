@@ -45,7 +45,7 @@
                    Style="{StaticResource HeaderTextBlockStyle}"></TextBlock>
         
         <TextBlock Grid.Row="1"
-                   Text="{x:Bind ViewModel.CpuFamily.FamilyName}" 
+                   Text="{x:Bind ViewModel.CpuGeneralInfo.Cpu.ProcessorName}" 
                    Style="{StaticResource SubtitleTextBlockStyle}"
                    VerticalAlignment="Center"></TextBlock>
         

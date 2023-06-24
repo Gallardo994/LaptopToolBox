@@ -12,7 +12,7 @@ public class DeviceInformationViewModel : ObservableObject
 {
     public IModelInfoProvider ModelInfo { get; } = Services.ResolutionRoot.Get<IModelInfoProvider>();
     public IWallpaperProvider Wallpaper { get; } = Services.ResolutionRoot.Get<IWallpaperProvider>();
-    public ICpuFamilyProvider CpuFamily { get; } = Services.ResolutionRoot.Get<ICpuFamilyProvider>();
+    public ICpuGeneralInfoProvider CpuGeneralInfo { get; } = Services.ResolutionRoot.Get<ICpuGeneralInfoProvider>();
     public IGpuGeneralInfoProvider GpuGeneralInfo { get; } = Services.ResolutionRoot.Get<IGpuGeneralInfoProvider>();
 
     public DeviceInformationViewModel()
