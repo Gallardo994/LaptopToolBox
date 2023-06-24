@@ -5,13 +5,13 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
     internal class RyzenProxy : IRyzenProxy
     {
         private readonly IRyzenAccess _ryzenAccess;
-        private readonly IAmdFamilyProvider _amdFamilyProvider;
+        private readonly ICpuFamilyProvider _cpuFamilyProvider;
 
         [Inject]
-        public RyzenProxy(IRyzenAccess ryzenAccess, IAmdFamilyProvider amdFamilyProvider)
+        public RyzenProxy(IRyzenAccess ryzenAccess, ICpuFamilyProvider cpuFamilyProvider)
         {
             _ryzenAccess = ryzenAccess;
-            _amdFamilyProvider = amdFamilyProvider;
+            _cpuFamilyProvider = cpuFamilyProvider;
         }
 
         //STAMP Limit
@@ -20,7 +20,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -47,7 +47,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 3:
                 case 5:
@@ -67,7 +67,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
         {
             var args = new uint[6];
             args[0] = value;
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -93,7 +93,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -119,7 +119,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -145,7 +145,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -171,7 +171,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x68, ref args);
@@ -208,7 +208,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -234,7 +234,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 5:
                 case 8:
@@ -257,7 +257,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -283,7 +283,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -309,7 +309,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 5:
                     _ryzenAccess.SendMp1(0x1c, ref args);
@@ -325,7 +325,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 5:
                     _ryzenAccess.SendMp1(0x1d, ref args);
@@ -341,7 +341,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -369,7 +369,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 5:
                     _ryzenAccess.SendMp1(0x1f, ref args);
@@ -385,7 +385,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -411,7 +411,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -429,7 +429,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -447,7 +447,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -465,7 +465,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -483,7 +483,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -501,7 +501,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -519,7 +519,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -537,7 +537,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -555,7 +555,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -573,7 +573,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -589,7 +589,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -619,7 +619,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 3:
                 case 8:
@@ -638,7 +638,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 3:
                 case 7:
@@ -660,7 +660,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -686,7 +686,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 0:
                 case 1:
@@ -712,7 +712,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x6c, ref args);
@@ -751,7 +751,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x6d, ref args);
@@ -790,7 +790,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x6e, ref args);
@@ -824,7 +824,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 3:
                 case 7:
@@ -857,7 +857,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 3:
                 case 7:
@@ -887,7 +887,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case 3:
                 case 7:
@@ -913,7 +913,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendMp1(0x24, ref args);
@@ -954,7 +954,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendMp1(0x23, ref args);
@@ -993,7 +993,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x6a, ref args);
@@ -1018,7 +1018,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x64, ref args);
@@ -1043,7 +1043,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x65, ref args);
@@ -1067,7 +1067,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
             var args = new uint[6];
             args[0] = value;
 
-            switch (_amdFamilyProvider.FamilyId)
+            switch (_cpuFamilyProvider.FamilyId)
             {
                 case -1:
                     _ryzenAccess.SendPsmu(0x66, ref args);

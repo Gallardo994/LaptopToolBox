@@ -1,6 +1,8 @@
-﻿namespace GHelper.ExtraControls.Wallpaper;
+﻿using GHelper.Helpers;
 
-public interface IWallpaperProvider
+namespace GHelper.ExtraControls.Wallpaper;
+
+public interface IWallpaperProvider : IObservableObject
 {
-    public string GetImagePath();
+    public string ImagePath { get; }
 }

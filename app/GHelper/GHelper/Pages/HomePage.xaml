@@ -13,10 +13,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <views:BatteryLimitView Grid.Row="0" />
-        <views:VendorServicesView Grid.Row="1" />
+        <views:DeviceInformationView Grid.Row="0" Margin="0 0 0 24" />
+        <views:BatteryLimitView Grid.Row="1" />
+        <views:VendorServicesView Grid.Row="2" />
     </Grid>
 </Page>

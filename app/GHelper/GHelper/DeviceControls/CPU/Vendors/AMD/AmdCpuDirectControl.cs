@@ -7,18 +7,18 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD;
 public class AmdCpuDirectControl : ICpuDirectControl
 {
     private readonly IRyzenProxy _ryzenProxy;
-    private readonly IAmdFamilyProvider _amdFamilyProvider;
+    private readonly ICpuFamilyProvider _cpuFamilyProvider;
     
     [Inject]
-    public AmdCpuDirectControl(IRyzenProxy ryzenProxy, IAmdFamilyProvider amdFamilyProvider)
+    public AmdCpuDirectControl(IRyzenProxy ryzenProxy, ICpuFamilyProvider cpuFamilyProvider)
     {
         _ryzenProxy = ryzenProxy;
-        _amdFamilyProvider = amdFamilyProvider;
+        _cpuFamilyProvider = cpuFamilyProvider;
         
-        Log.Debug("AMD CPU Direct Control initialized, family: {FamilyName}", _amdFamilyProvider.FamilyName);
+        Log.Debug("AMD CPU Direct Control initialized, family: {FamilyName}", _cpuFamilyProvider.FamilyName);
     }
     
-    public bool IsUnderVoltSupported => _amdFamilyProvider.FamilyId >= 0;
+    public bool IsUnderVoltSupported => _cpuFamilyProvider.FamilyId >= 0;
     
     public void SetUnderVolt(int mv)
     {

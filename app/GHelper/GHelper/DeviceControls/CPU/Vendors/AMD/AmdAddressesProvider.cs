@@ -17,13 +17,13 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
         public uint PSMU_ADDR_ARG { get; set; }
 
         [Inject]
-        public AmdAddressesProvider(IAmdFamilyProvider amdFamilyProvider)
+        public AmdAddressesProvider(ICpuFamilyProvider cpuFamilyProvider)
         {
             SMU_PCI_ADDR = 0x00000000;
             SMU_OFFSET_ADDR = 0xB8;
             SMU_OFFSET_DATA = 0xBC;
 
-            if (amdFamilyProvider.FamilyId == -1)
+            if (cpuFamilyProvider.FamilyId == -1)
             {
                 MP1_ADDR_MSG = 0X3B10528;
                 MP1_ADDR_RSP = 0X3B10564;
@@ -34,7 +34,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
                 PSMU_ADDR_ARG = 0X3B10590;
             }
 
-            if (amdFamilyProvider.FamilyId == 0 || amdFamilyProvider.FamilyId == 1 || amdFamilyProvider.FamilyId == 2 || amdFamilyProvider.FamilyId == 3 || amdFamilyProvider.FamilyId == 7)
+            if (cpuFamilyProvider.FamilyId == 0 || cpuFamilyProvider.FamilyId == 1 || cpuFamilyProvider.FamilyId == 2 || cpuFamilyProvider.FamilyId == 3 || cpuFamilyProvider.FamilyId == 7)
             {
                 MP1_ADDR_MSG = 0x3B10528;
                 MP1_ADDR_RSP = 0x3B10564;
@@ -44,7 +44,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
                 PSMU_ADDR_RSP = 0x3B10A80;
                 PSMU_ADDR_ARG = 0x3B10A88;
             }
-            else if (amdFamilyProvider.FamilyId == 5 || amdFamilyProvider.FamilyId == 8 || amdFamilyProvider.FamilyId == 9 || amdFamilyProvider.FamilyId == 11)
+            else if (cpuFamilyProvider.FamilyId == 5 || cpuFamilyProvider.FamilyId == 8 || cpuFamilyProvider.FamilyId == 9 || cpuFamilyProvider.FamilyId == 11)
             {
                 MP1_ADDR_MSG = 0x3B10528;
                 MP1_ADDR_RSP = 0x3B10578;
@@ -54,7 +54,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
                 PSMU_ADDR_RSP = 0x3B10a80;
                 PSMU_ADDR_ARG = 0x3B10a88;
             }
-            else if (amdFamilyProvider.FamilyId == 4 || amdFamilyProvider.FamilyId == 6)
+            else if (cpuFamilyProvider.FamilyId == 4 || cpuFamilyProvider.FamilyId == 6)
             {
                 MP1_ADDR_MSG = 0x3B10530;
                 MP1_ADDR_RSP = 0x3B1057C;
@@ -64,7 +64,7 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
                 PSMU_ADDR_RSP = 0x3B10570;
                 PSMU_ADDR_ARG = 0x3B10A40;
             }
-            else if (amdFamilyProvider.FamilyId == 10)
+            else if (cpuFamilyProvider.FamilyId == 10)
             {
                 MP1_ADDR_MSG = 0x3010508;
                 MP1_ADDR_RSP = 0x3010988;

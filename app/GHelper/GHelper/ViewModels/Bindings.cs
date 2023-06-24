@@ -13,6 +13,7 @@ public class Bindings : NinjectModule
         Bind<TrayViewModel>().ToSelf().InSingletonScope();
         Bind<AutoStartViewModel>().ToSelf().InSingletonScope();
         Bind<BatteryLimitViewModel>().ToSelf().InSingletonScope();
+        Bind<DeviceInformationViewModel>().ToSelf().InSingletonScope();
         Bind<VendorServicesViewModel>().ToSelf().InSingletonScope();
     }
 }

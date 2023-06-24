@@ -1,9 +1,17 @@
-﻿using Microsoft.Win32;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Win32;
 
 namespace GHelper.ExtraControls.Wallpaper;
 
-public class DesktopWallpaperProvider : IWallpaperProvider
+public partial class DesktopWallpaperProvider : ObservableObject, IWallpaperProvider
 {
+    [ObservableProperty] private string _imagePath;
+    
+    public DesktopWallpaperProvider()
+    {
+        ImagePath = GetImagePath();
+    }
+    
     public string GetImagePath()
     {
         var pathWallpaper = string.Empty;

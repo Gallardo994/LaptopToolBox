@@ -3,14 +3,14 @@ using System.Management;
 
 namespace GHelper.DeviceControls.CPU.Vendors.AMD
 {
-    internal class AmdFamilyProvider : IAmdFamilyProvider
+    internal class AmdCpuFamilyProvider : ICpuFamilyProvider
     {
         private readonly string[] _familyNames = { "Raven", "Picasso", "Dali", "Renoir/Lucienne", "Matisse", "Vangogh", "Vermeer", "Cezanne/Barcello", "Rembrandt", "Phoenix", "Raphael/Dragon Range" };
         public int FamilyId { get; init; }
         public string FamilyName { get; init; }
         private string CpuModel { get; init; }
 
-        public AmdFamilyProvider()
+        public AmdCpuFamilyProvider()
         {
             FamilyName = "Unknown";
             
