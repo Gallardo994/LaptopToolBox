@@ -31,6 +31,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
@@ -49,6 +50,11 @@
                    VerticalAlignment="Center"></TextBlock>
         
         <TextBlock Grid.Row="2"
+                   Text="{x:Bind ViewModel.GpuGeneralInfo.BestGpu.DeviceName}" 
+                   Style="{StaticResource SubtitleTextBlockStyle}"
+                   VerticalAlignment="Center"></TextBlock>
+        
+        <TextBlock Grid.Row="3"
                    Text="{x:Bind ViewModel.ModelInfo.Bios}" 
                    Style="{StaticResource SubtitleTextBlockStyle}"></TextBlock>
     </Grid>

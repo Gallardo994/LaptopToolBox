@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.DeviceControls.CPU;
+using GHelper.DeviceControls.GPUs;
 using GHelper.ExtraControls.Wallpaper;
 using GHelper.Injection;
 using GHelper.ModelInfo;
@@ -12,6 +13,7 @@ public class DeviceInformationViewModel : ObservableObject
     public IModelInfoProvider ModelInfo { get; } = Services.ResolutionRoot.Get<IModelInfoProvider>();
     public IWallpaperProvider Wallpaper { get; } = Services.ResolutionRoot.Get<IWallpaperProvider>();
     public ICpuFamilyProvider CpuFamily { get; } = Services.ResolutionRoot.Get<ICpuFamilyProvider>();
+    public IGpuGeneralInfoProvider GpuGeneralInfo { get; } = Services.ResolutionRoot.Get<IGpuGeneralInfoProvider>();
 
     public DeviceInformationViewModel()
     {
