@@ -14,6 +14,7 @@ public class Bindings : NinjectModule
         Bind<AutoStartViewModel>().ToSelf().InSingletonScope();
         Bind<BatteryLimitViewModel>().ToSelf().InSingletonScope();
         Bind<DeviceInformationViewModel>().ToSelf().InSingletonScope();
+        Bind<StartMinimizedViewModel>().ToSelf().InSingletonScope();
         Bind<VendorServicesViewModel>().ToSelf().InSingletonScope();
     }
 }
