@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using GHelper.Helpers;
 
 namespace GHelper.DeviceControls.Battery;
 
-public interface IBattery : INotifyPropertyChanging, INotifyPropertyChanged
+public interface IBattery : IObservableObject
 {
     public bool IsBatteryLimitSupported { get; }
     public void SetBatteryLimit(int limit);

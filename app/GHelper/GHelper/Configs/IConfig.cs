@@ -1,8 +1,9 @@
 ﻿using System;
+using GHelper.Helpers;
 
 namespace GHelper.Configs;
 
-public interface IConfig
+public interface IConfig : IObservableObject
 {
     public string Path { get; }
     public bool ReadFromLocalStorage();

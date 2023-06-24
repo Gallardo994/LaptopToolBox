@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using GHelper.Helpers;
 using Microsoft.UI.Xaml.Controls;
 
 namespace GHelper;
 
-public interface IPageProvider
+public interface IPageProvider : IObservableObject
 {
     public ObservableCollection<FlyoutPageItem?> Pages { get; set; }
     public FlyoutPageItem? GetPageItem<T>() where T : Page;

@@ -1,6 +1,8 @@
-﻿namespace GHelper.Updates.Models;
+﻿using GHelper.Helpers;
 
-public interface IUpdate
+namespace GHelper.Updates.Models;
+
+public interface IUpdate : IObservableObject
 {
     public string Name { get; }
     public string Version { get; }

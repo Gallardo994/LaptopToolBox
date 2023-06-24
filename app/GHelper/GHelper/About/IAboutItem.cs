@@ -1,6 +1,8 @@
-﻿namespace GHelper.About;
+﻿using GHelper.Helpers;
 
-public interface IAboutItem
+namespace GHelper.About;
+
+public interface IAboutItem : IObservableObject
 {
     public string Title { get; }
     public string Description { get; }
