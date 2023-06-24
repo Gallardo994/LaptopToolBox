@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Management;
+using GHelper.Commands;
 using GHelper.DeviceControls.Acpi;
 using Ninject;
 
@@ -9,6 +10,9 @@ namespace GHelper.DeviceControls.Battery.Vendors.Asus;
 public class AsusBattery : IBattery
 {
     private readonly IAcpi _acpi;
+    private readonly ISTACommandLoop _staCommandLoop;
+    
+    private readonly AsusBatteryTemporaryUnlimitedWatcher _asusBatteryTemporaryUnlimitedWatcher;
     
     private int _batteryLimit = 100;
     private bool _isTemporarilyUnlimited;
@@ -18,9 +22,12 @@ public class AsusBattery : IBattery
     public int MaxRange => 100;
     
     [Inject]
-    public AsusBattery(IAcpi acpi)
+    public AsusBattery(IAcpi acpi, ISTACommandLoop staCommandLoop)
     {
         _acpi = acpi;
+        _staCommandLoop = staCommandLoop;
+        
+        _asusBatteryTemporaryUnlimitedWatcher = new AsusBatteryTemporaryUnlimitedWatcher(this, _staCommandLoop);
     }
     
     public void SetBatteryLimit(int limit)
@@ -45,10 +52,24 @@ public class AsusBattery : IBattery
         return _isTemporarilyUnlimited;
     }
     
+    public bool IsCurrentlyOnBattery()
+    {
+        var battery = new ManagementObjectSearcher("SELECT * FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
+        return battery != null && Convert.ToBoolean(battery["BatteryStatus"]);
+    }
+    
     public void SetTemporarilyUnlimited(bool isTemporarilyUnlimited)
     {
         _isTemporarilyUnlimited = isTemporarilyUnlimited;
         CallAcpiSetMethod(isTemporarilyUnlimited ? 100 : _batteryLimit);
+        if (isTemporarilyUnlimited)
+        {
+            _asusBatteryTemporaryUnlimitedWatcher.StartWatching();
+        }
+        else
+        {
+            _asusBatteryTemporaryUnlimitedWatcher.StopWatching();
+        }
     }
 
     public int GetCurrentCharge()

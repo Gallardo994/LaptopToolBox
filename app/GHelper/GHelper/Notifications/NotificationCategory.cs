@@ -7,4 +7,7 @@ public enum NotificationCategory
     MicrophoneDisable,
     AlwaysAwakeEnable,
     AlwaysAwakeDisable,
+    TemporaryUnlimitedEnable,
+    TemporaryUnlimitedDisable,
+    TemporaryUnlimitedBatteryChargeComplete,
 }
