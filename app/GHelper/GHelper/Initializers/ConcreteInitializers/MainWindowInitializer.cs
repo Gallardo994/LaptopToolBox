@@ -19,17 +19,15 @@ public class MainWindowInitializer : IInitializer
     
     public void Initialize()
     {
-        _mainWindow.Activate();
+        if (!_config.StartMinimized)
+        {
+            _mainWindow.Activate();
+        }
         
         _mainWindow.Closed += (sender, windowArgs) =>
         {
             windowArgs.Handled = true;
             _mainWindow.Hide();
         };
-
-        if (_config.StartMinimized)
-        {
-            _mainWindow.Hide();
-        }
     }
 }
