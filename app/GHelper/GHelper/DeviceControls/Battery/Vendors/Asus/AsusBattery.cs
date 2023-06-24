@@ -1,40 +1,53 @@
 ﻿using System;
 using System.Linq;
 using System.Management;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Commands;
 using GHelper.DeviceControls.Acpi;
+using GHelper.Notifications;
 using Ninject;
 
 namespace GHelper.DeviceControls.Battery.Vendors.Asus;
 
-public class AsusBattery : IBattery
+public partial class AsusBattery : ObservableObject, IBattery
 {
     private readonly IAcpi _acpi;
     private readonly ISTACommandLoop _staCommandLoop;
+    private readonly INotificationService _notificationService;
     
     private readonly AsusBatteryTemporaryUnlimitedWatcher _asusBatteryTemporaryUnlimitedWatcher;
     
     private int _batteryLimit = 100;
     private bool _isTemporarilyUnlimited;
+    public bool IsTemporarilyUnlimited
+    {
+        get => _isTemporarilyUnlimited;
+        set
+        {
+            SetProperty(ref _isTemporarilyUnlimited, value);
+            SetTemporarilyUnlimited(value);
+        }
+    }
 
     public bool IsBatteryLimitSupported => true;
     public int MinRange => 40;
     public int MaxRange => 100;
     
     [Inject]
-    public AsusBattery(IAcpi acpi, ISTACommandLoop staCommandLoop)
+    public AsusBattery(IAcpi acpi, ISTACommandLoop staCommandLoop, INotificationService notificationService)
     {
         _acpi = acpi;
         _staCommandLoop = staCommandLoop;
+        _notificationService = notificationService;
         
-        _asusBatteryTemporaryUnlimitedWatcher = new AsusBatteryTemporaryUnlimitedWatcher(this, _staCommandLoop);
+        _asusBatteryTemporaryUnlimitedWatcher = new AsusBatteryTemporaryUnlimitedWatcher(this, _staCommandLoop, _notificationService);
     }
     
     public void SetBatteryLimit(int limit)
     {
         _batteryLimit = limit;
         
-        if (_isTemporarilyUnlimited)
+        if (IsTemporarilyUnlimited)
         {
             return;
         }
@@ -47,20 +60,14 @@ public class AsusBattery : IBattery
         return _batteryLimit;
     }
 
-    public bool IsTemporarilyUnlimited()
-    {
-        return _isTemporarilyUnlimited;
-    }
-    
     public bool IsCurrentlyOnBattery()
     {
         var battery = new ManagementObjectSearcher("SELECT * FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
-        return battery != null && Convert.ToBoolean(battery["BatteryStatus"]);
+        return battery != null && Convert.ToInt32(battery["BatteryStatus"]) == 1;
     }
     
-    public void SetTemporarilyUnlimited(bool isTemporarilyUnlimited)
+    private void SetTemporarilyUnlimited(bool isTemporarilyUnlimited)
     {
-        _isTemporarilyUnlimited = isTemporarilyUnlimited;
         CallAcpiSetMethod(isTemporarilyUnlimited ? 100 : _batteryLimit);
         if (isTemporarilyUnlimited)
         {

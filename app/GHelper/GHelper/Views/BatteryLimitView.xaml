@@ -44,6 +44,9 @@
         
     <StackPanel Grid.Column="1"
                 Orientation="Horizontal">
+        <CheckBox IsChecked="{x:Bind Path=ViewModel.Battery.IsTemporarilyUnlimited, Mode=TwoWay}" 
+                  Content="Charge to 100%"
+                  Margin="0 0 12 0"></CheckBox>
         <ComboBox VerticalAlignment="Center" 
                   x:Name="LimitComboBox" 
                   IsEditable="True" 

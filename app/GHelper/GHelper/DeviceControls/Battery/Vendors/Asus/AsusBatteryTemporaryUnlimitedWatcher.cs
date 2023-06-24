@@ -13,10 +13,11 @@ public class AsusBatteryTemporaryUnlimitedWatcher
     private Thread _thread;
     private const int CheckInterval = 1000;
 
-    public AsusBatteryTemporaryUnlimitedWatcher(IBattery battery, ISTACommandLoop staCommandLoop)
+    public AsusBatteryTemporaryUnlimitedWatcher(IBattery battery, ISTACommandLoop staCommandLoop, INotificationService notificationService)
     {
         _battery = battery;
         _staCommandLoop = staCommandLoop;
+        _notificationService = notificationService;
     }
 
     public void StartWatching()
@@ -47,7 +48,7 @@ public class AsusBatteryTemporaryUnlimitedWatcher
                 {
                     _staCommandLoop.Enqueue(() =>
                     {
-                        _battery.SetTemporarilyUnlimited(false);
+                        _battery.IsTemporarilyUnlimited = false;
                         _notificationService.Show(NotificationCategory.TemporaryUnlimitedBatteryChargeComplete, "Battery Charge Complete", "Unlimited battery charge has been disabled");
                     });
                     break;
@@ -57,7 +58,7 @@ public class AsusBatteryTemporaryUnlimitedWatcher
                 {
                     _staCommandLoop.Enqueue(() =>
                     {
-                        _battery.SetTemporarilyUnlimited(false);
+                        _battery.IsTemporarilyUnlimited = false;
                     });
                     break;
                 }

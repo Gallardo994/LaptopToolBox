@@ -8,13 +8,13 @@ namespace GHelper.ViewModels;
 
 public partial class BatteryLimitViewModel : ObservableObject
 {
-    private readonly IBattery _battery = Services.ResolutionRoot.Get<IBattery>();
+    public readonly IBattery Battery = Services.ResolutionRoot.Get<IBattery>();
     
     [ObservableProperty] private ObservableCollection<string> _batteryLimits = new();
-    
+
     public BatteryLimitViewModel()
     {
-        for (int i = _battery.MinRange; i <= _battery.MaxRange; i += 10)
+        for (int i = Battery.MinRange; i <= Battery.MaxRange; i += 10)
         {
             _batteryLimits.Add(i.ToString());
         }
