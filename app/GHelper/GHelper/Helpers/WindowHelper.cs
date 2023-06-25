@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Windows.ApplicationModel;
 using GHelper.Helpers.Native;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -89,4 +91,14 @@ public class WindowHelper
     public static bool IsMinimized(IntPtr handle) => User32.IsIconic(handle);
     public static bool IsMinimized(HWND handle) => User32.IsIconic(handle);
     public static bool IsMinimized(Window window) => User32.IsIconic(GetHandleOf(window));
+
+    public static void SetIcon(IntPtr handle, string iconName)
+    {
+        var iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, iconName);
+        var windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        var appWindow = AppWindow.GetFromWindowId(windowId);
+        appWindow.SetIcon(iconPath);
+    }
+    
+    public static void SetIcon(Window window, string iconName) => SetIcon(GetHandleOf(window), iconName);
 }

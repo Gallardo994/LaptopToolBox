@@ -1,4 +1,5 @@
 using System;
+using GHelper.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -12,6 +13,8 @@ namespace GHelper.AppWindows
         public MainWindow(IPageProvider pageProvider)
         {
             InitializeComponent();
+            
+            WindowHelper.SetIcon(this, "Assets/appicon.ico");
 
             NavigationView.DataContext = pageProvider;
             NavigationView.SelectedItem = pageProvider.GetPageItem<Pages.HomePage>();
