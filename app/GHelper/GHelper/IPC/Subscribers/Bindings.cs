@@ -1,6 +1,6 @@
 ﻿using Ninject.Modules;
 
-namespace GHelper.IPC.Subscribe;
+namespace GHelper.IPC.Subscribers;
 
 public class Bindings : NinjectModule
 {

@@ -8,7 +8,7 @@ using GHelper.Helpers;
 using GHelper.Initializers;
 using GHelper.Injection;
 using GHelper.IPC.Messages;
-using GHelper.IPC.Publish;
+using GHelper.IPC.Publishers;
 using Ninject;
 using Serilog;
 using Vanara.PInvoke;

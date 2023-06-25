@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GHelper.IPC.Subscribe;
+namespace GHelper.IPC.Subscribers;
 
 public interface IIpcBackgroundSubscriber
 {

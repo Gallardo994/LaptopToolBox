@@ -7,7 +7,7 @@ using GHelper.Serialization;
 using Ninject;
 using Serilog;
 
-namespace GHelper.IPC.Subscribe;
+namespace GHelper.IPC.Subscribers;
 
 public class IpcBackgroundSubscriber : IIpcBackgroundSubscriber
 {

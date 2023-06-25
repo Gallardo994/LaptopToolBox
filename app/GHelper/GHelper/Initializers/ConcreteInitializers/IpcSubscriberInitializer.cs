@@ -1,7 +1,7 @@
 ﻿using GHelper.IPC;
 using GHelper.IPC.Handlers;
 using GHelper.IPC.Messages;
-using GHelper.IPC.Subscribe;
+using GHelper.IPC.Subscribers;
 using Ninject;
 
 namespace GHelper.Initializers.ConcreteInitializers;
