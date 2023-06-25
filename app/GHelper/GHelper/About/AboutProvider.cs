@@ -66,6 +66,41 @@ public partial class AboutProvider : ObservableObject, IAboutProvider
                 Description = "Windows App SDK is a set of libraries, frameworks, components, and tools for Windows platform",
                 Link = "https://github.com/microsoft/windowsappsdk",
                 LicenseLink = "https://github.com/microsoft/WindowsAppSDK/blob/main/LICENSE",
+            },
+            new AboutItem
+            {
+                Title = "Interprocess",
+                Description = "Cloudtoid Interprocess is a cross-platform shared memory queue for fast communication between processes",
+                Link = "https://github.com/cloudtoid/interprocess",
+                LicenseLink = "https://github.com/cloudtoid/interprocess/blob/main/LICENSE",
+            },
+            new AboutItem
+            {
+                Title = "CommunityToolkit.Mvvm",
+                Description = ".NET Community Toolkit is a collection of helpers and APIs that work for all .NET developers and are agnostic of any specific UI platform",
+                Link = "https://github.com/CommunityToolkit/dotnet",
+                LicenseLink = "https://github.com/CommunityToolkit/dotnet/blob/main/License.md",
+            },
+            new AboutItem
+            {
+                Title = "NAudio",
+                Description = "NAudio is an open source .NET audio library",
+                Link = "https://github.com/naudio/NAudio",
+                LicenseLink = "https://github.com/naudio/NAudio/blob/master/license.txt",
+            },
+            new AboutItem
+            {
+                Title = "Vanara",
+                Description = "This project contains various .NET assemblies that contain P/Invoke functions, interfaces, enums and structures from Windows libraries",
+                Link = "https://github.com/dahall/vanara",
+                LicenseLink = "https://github.com/dahall/Vanara/blob/master/LICENSE",
+            },
+            new AboutItem
+            {
+                Title = "TaskScheduler",
+                Description = "The original .NET wrapper for the Windows Task Scheduler that aggregates the multiple versions and provides localized controls for editing.",
+                Link = "https://github.com/dahall/taskscheduler",
+                LicenseLink = "https://github.com/dahall/TaskScheduler/blob/master/license.md",
             }
         };
     }
