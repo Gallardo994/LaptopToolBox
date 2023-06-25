@@ -20,9 +20,6 @@ public class IpcBringToFrontHandler
     {
         Log.Information("Received {Message} from {ProcessId}", message, processId);
 
-        _mainWindow
-            .Show()
-            .Restore()
-            .Focus();
+        _mainWindow.BringToFront();
     }
 }

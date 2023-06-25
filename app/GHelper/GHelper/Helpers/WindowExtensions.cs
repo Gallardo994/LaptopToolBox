@@ -28,4 +28,9 @@ public static class WindowExtensions
         WindowHelper.ShowWindow(window, ShowWindowCommand.SW_RESTORE);
         return window;
     }
+    
+    public static Window BringToFront(this Window window)
+    {
+        return window.Show().Restore().Focus();
+    }
 }
