@@ -44,6 +44,30 @@ public class BinarySerializer
         _buffer[_position++] = (byte)((value >> 24) & 0xFF);
     }
     
+    public void WriteInt(int value)
+    {
+        WriteUint((uint) value);
+    }
+    
+    public void WriteULong(ulong value)
+    {
+        EnsureBuffer(8);
+        
+        _buffer[_position++] = (byte)(value & 0xFF);
+        _buffer[_position++] = (byte)((value >> 8) & 0xFF);
+        _buffer[_position++] = (byte)((value >> 16) & 0xFF);
+        _buffer[_position++] = (byte)((value >> 24) & 0xFF);
+        _buffer[_position++] = (byte)((value >> 32) & 0xFF);
+        _buffer[_position++] = (byte)((value >> 40) & 0xFF);
+        _buffer[_position++] = (byte)((value >> 48) & 0xFF);
+        _buffer[_position++] = (byte)((value >> 56) & 0xFF);
+    }
+    
+    public void WriteLong(long value)
+    {
+        WriteULong((ulong) value);
+    }
+    
     public byte[] ToArray()
     {
         return _buffer[.._position];

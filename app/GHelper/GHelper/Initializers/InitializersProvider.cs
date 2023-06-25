@@ -15,13 +15,15 @@ public class InitializersProvider : IInitializersProvider
         CpuControlInitializer cpuControlInitializer,
         PerformanceModeInitializer performanceModeInitializer,
         
-        MainWindowInitializer mainWindowInitializer
+        MainWindowInitializer mainWindowInitializer,
+        IpcSubscriberInitializer ipcSubscriberInitializer
         )
     {
         _initializers.Add(batteryInitializer);
         _initializers.Add(vendorKeyRegisterInitializer);
         _initializers.Add(cpuControlInitializer);
         _initializers.Add(performanceModeInitializer);
+        _initializers.Add(ipcSubscriberInitializer);
         
         _initializers.Add(mainWindowInitializer);
     }

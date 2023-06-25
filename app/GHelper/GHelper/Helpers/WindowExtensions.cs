@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
+using Vanara.PInvoke;
 
 namespace GHelper.Helpers;
 
@@ -6,13 +7,13 @@ public static class WindowExtensions
 {
     public static Window Show(this Window window)
     {
-        WindowHelper.ShowWindow(window);
+        WindowHelper.ShowWindow(window, ShowWindowCommand.SW_SHOWNORMAL);
         return window;
     }
     
     public static Window Hide(this Window window)
     {
-        WindowHelper.HideWindow(window);
+        WindowHelper.ShowWindow(window, ShowWindowCommand.SW_HIDE);
         return window;
     }
     
@@ -24,7 +25,7 @@ public static class WindowExtensions
     
     public static Window Restore(this Window window)
     {
-        WindowHelper.RestoreWindow(window);
+        WindowHelper.ShowWindow(window, ShowWindowCommand.SW_RESTORE);
         return window;
     }
 }

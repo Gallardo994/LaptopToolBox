@@ -7,8 +7,11 @@ using GHelper.Configs;
 using GHelper.Helpers;
 using GHelper.Initializers;
 using GHelper.Injection;
+using GHelper.IPC.Messages;
+using GHelper.IPC.Publish;
 using Ninject;
 using Serilog;
+using Vanara.PInvoke;
 
 namespace GHelper
 {
@@ -28,6 +31,11 @@ namespace GHelper
             {
                 Log.Error(args.Exception, "Unhandled exception");
             };
+            
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            
+            Services.ResolutionRoot = kernel;
             
             if (!IsAdmin())
             {
@@ -58,39 +66,39 @@ namespace GHelper
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             Log.Debug("Application launched");
-            
-            var kernel = new StandardKernel();
-            kernel.Load(Assembly.GetExecutingAssembly());
-            
-            Services.ResolutionRoot = kernel;
 
-            kernel.Get<IConfig>().ReadFromLocalStorage();
-            kernel.Get<IInitializersProvider>().InitializeAll();
+            Services.ResolutionRoot.Get<IConfig>().ReadFromLocalStorage();
+            Services.ResolutionRoot.Get<IInitializersProvider>().InitializeAll();
         }
         
         private bool FocusSameInstance()
         {
-            var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-            var processes = System.Diagnostics.Process.GetProcessesByName(currentProcess.ProcessName);
+            var currentProcess = Process.GetCurrentProcess();
+            
+            var processes = Process.GetProcessesByName(currentProcess.ProcessName);
+            Log.Debug("Found {ProcessCount} processes with name {ProcessName}", processes.Length, currentProcess.ProcessName);
+            
             foreach (var process in processes)
             {
                 if (process.Id == currentProcess.Id)
                 {
                     continue;
                 }
-                
-                WindowHelper.ShowWindow(process.MainWindowHandle);
-                
-                if (WindowHelper.IsMinimized(process.MainWindowHandle))
-                {
-                    WindowHelper.RestoreWindow(process.MainWindowHandle);
-                }
-                
-                WindowHelper.FocusWindow(process.MainWindowHandle);
-                return true;
-            }
 
-            return false;
+                try
+                {
+                    var publisher = new IpcPublisher(process.Id);
+                    var result = publisher.Publish(new IpcBringToFront());
+                
+                    Log.Debug("Published {Message} to process {ProcessId}, result: {Result}", typeof(IpcBringToFront), process.Id, result);
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e, "Failed to publish {Message} to process {ProcessId}", typeof(IpcBringToFront), process.Id);
+                }
+            }
+            
+            return processes.Length > 1;
         }
     }
 }
