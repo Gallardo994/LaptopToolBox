@@ -3,6 +3,7 @@ using GHelper.AlwaysAwake;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Display;
 using GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
+using GHelper.DeviceControls.Lighting;
 using GHelper.DeviceControls.Microphone;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Notifications;
@@ -19,6 +20,7 @@ public class AsusKeyRegister : IVendorKeyRegister
     private readonly IMicrophoneProvider _microphoneProvider;
     private readonly INotificationService _notificationService;
     private readonly IAlwaysAwakeController _alwaysAwakeController;
+    private readonly IVendorKeyboardBacklightController _vendorKeyboardBacklightController;
     
     [Inject]
     public AsusKeyRegister(IVendorKeyboardHandler keyboardHandler, 
@@ -27,7 +29,8 @@ public class AsusKeyRegister : IVendorKeyRegister
         IDisplayNightLightController displayNightLightController,
         IMicrophoneProvider microphoneProvider,
         INotificationService notificationService,
-        IAlwaysAwakeController alwaysAwakeController)
+        IAlwaysAwakeController alwaysAwakeController,
+        IVendorKeyboardBacklightController vendorKeyboardBacklightController)
     {
         _keyboardHandler = keyboardHandler;
         _acpi = acpi;
@@ -36,6 +39,7 @@ public class AsusKeyRegister : IVendorKeyRegister
         _microphoneProvider = microphoneProvider;
         _notificationService = notificationService;
         _alwaysAwakeController = alwaysAwakeController;
+        _vendorKeyboardBacklightController = vendorKeyboardBacklightController;
     }
 
     public void Register()
@@ -48,7 +52,9 @@ public class AsusKeyRegister : IVendorKeyRegister
             new AsusPerformanceModeKeyBind(_performanceModeControl),
             new AsusNightLightKeyBind(_displayNightLightController),
             new AsusMicrophoneToggleKeyBind(_microphoneProvider, _notificationService),
-            new AsusAlwaysAwakeKeyBind(_alwaysAwakeController, _notificationService)
+            new AsusAlwaysAwakeKeyBind(_alwaysAwakeController, _notificationService),
+            new AsusKeyboardBacklightBrightnessUpKeyBind(_vendorKeyboardBacklightController),
+            new AsusKeyboardBacklightBrightnessDownKeyBind(_vendorKeyboardBacklightController),
         };
         
         foreach (var keyBind in keysList)

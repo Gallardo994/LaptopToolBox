@@ -15,6 +15,7 @@ public partial class Config : ObservableObject, IConfig
     [ObservableProperty] [JsonProperty("start_minimized")] private bool _startMinimized = false;
     [ObservableProperty] [JsonProperty("battery_limit")] private int _batteryLimit = 100;
     [ObservableProperty] [JsonProperty("performance_mode_current")] private Guid _performanceModeCurrent;
+    [ObservableProperty] [JsonProperty("keyboard_backlight_brightness")] private byte _keyboardBacklightBrightness = 3;
 
     public Config(IConfigSaveCommandLoop saveCommandLoop)
     {

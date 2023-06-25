@@ -13,4 +13,5 @@ public interface IConfig : IObservableObject
     public bool StartMinimized { get; set; }
     public int BatteryLimit { get; set; }
     public Guid PerformanceModeCurrent { get; set; }
+    public byte KeyboardBacklightBrightness { get; set; }
 }

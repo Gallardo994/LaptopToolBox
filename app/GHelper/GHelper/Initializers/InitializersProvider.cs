@@ -14,6 +14,7 @@ public class InitializersProvider : IInitializersProvider
         VendorKeyRegisterInitializer vendorKeyRegisterInitializer,
         CpuControlInitializer cpuControlInitializer,
         PerformanceModeInitializer performanceModeInitializer,
+        KeyboardBacklightInitializer keyboardBacklightInitializer,
         
         MainWindowInitializer mainWindowInitializer,
         IpcSubscriberInitializer ipcSubscriberInitializer
@@ -23,9 +24,10 @@ public class InitializersProvider : IInitializersProvider
         _initializers.Add(vendorKeyRegisterInitializer);
         _initializers.Add(cpuControlInitializer);
         _initializers.Add(performanceModeInitializer);
-        _initializers.Add(ipcSubscriberInitializer);
+        _initializers.Add(keyboardBacklightInitializer);
         
         _initializers.Add(mainWindowInitializer);
+        _initializers.Add(ipcSubscriberInitializer);
     }
     
     public void InitializeAll()
