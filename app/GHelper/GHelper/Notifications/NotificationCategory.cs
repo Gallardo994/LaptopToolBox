@@ -17,4 +17,7 @@ public enum NotificationCategory
     
     AutoOverdriveOnBattery,
     AutoOverdriveConnectedToPower,
+    
+    TouchPadEnable,
+    TouchPadDisable,
 }

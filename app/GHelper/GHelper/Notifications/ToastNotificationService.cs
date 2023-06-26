@@ -26,6 +26,8 @@ public class ToastNotificationService : INotificationService
             NotificationCategory.MicrophoneDisable => "\uF781",
             NotificationCategory.AlwaysAwakeEnable => "\uEA3B",
             NotificationCategory.AlwaysAwakeDisable => "\uEA3A",
+            NotificationCategory.TouchPadEnable => "\uEFA5",
+            NotificationCategory.TouchPadDisable => "\uEFA5",
             _ => "\uE946"
         };
     }

@@ -60,7 +60,7 @@ public class AsusKeyRegister : IVendorKeyRegister
             new AsusAlwaysAwakeKeyBind(_alwaysAwakeController, _notificationService),
             new AsusKeyboardBacklightBrightnessUpKeyBind(_vendorKeyboardBacklightController),
             new AsusKeyboardBacklightBrightnessDownKeyBind(_vendorKeyboardBacklightController),
-            new AsusToggleTouchpadKeyBind(_touchPadControl),
+            new AsusToggleTouchpadKeyBind(_touchPadControl, _notificationService),
         };
         
         foreach (var keyBind in keysList)
