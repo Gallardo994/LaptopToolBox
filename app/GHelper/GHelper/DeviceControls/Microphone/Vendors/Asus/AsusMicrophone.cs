@@ -12,6 +12,7 @@ public class AsusMicrophone : IMicrophoneProvider
         foreach (var device in enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active))
         {
             device.AudioEndpointVolume.Mute = !state;
+            device.AudioEndpointVolume.MasterVolumeLevelScalar = state ? 1f : 0f;
         }
         
         Log.Debug($"Microphone state set to {state}");
