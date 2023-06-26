@@ -21,17 +21,16 @@ public class AsusKeyboardBacklightCallCommand : IBackgroundCommand
     {
         Log.Debug("Setting Asus Keyboard Backlight to {Brightness}", _brightness);
         
-        byte[] msg = { _usb.LightingHidId, 0xba, 0xc5, 0xc4, _brightness };
-
         var devices = _hid.GetHidDevicesBlocking(_usb.VendorId, _usb.DeviceIds, 0);
         
         foreach (var device in devices)
         {
             device.OpenDevice();
 
-            if (device.ReadFeatureData(out _, _usb.LightingHidId))
+            if (device.ReadFeatureData(out var buffer, _usb.LightingHidId))
             {
-                device.WriteFeatureData(msg);
+                buffer[4] = _brightness;
+                device.WriteFeatureData(buffer);
             }
 
             device.CloseDevice();
