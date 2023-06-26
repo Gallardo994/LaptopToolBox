@@ -8,9 +8,9 @@ A complete rewrite of original G-Helper with main goals:
 - WinUI3, following Microsoft's styleguides
 - Smooth and responsive animated interface
 - Zero interface hickups, proper thread scheduling
-- Windows notifications support
 - Resizable window
-- Readable code, with proper MVVM and following SRP
+- Readable code, with MVVM and following SRP
+- Modular functionality, with further ability to port to any other laptop brand
 
 Current functionality:
 - Performance Modes switching + hotkey support (M4)
@@ -26,18 +26,22 @@ Current functionality:
 - Display backlight hotkeys (FN+F7, FN+F8)
 - Driver and BIOS updates
 - Aura control (without FN+F4 key yet, also not designed properly at this moment)
+- AMD CPUs undervolt
 
 ## TODO
+- Detect CPU models and undervolt support
+- Implement undervolt for Intel CPUs
+- Implement Driver & BIOS updates notifications
 - Implement custom profiles
 - Implement power control
 - Implement fans control
 - Implement hints for UI elements
 - Implement tutorials for UI elements
-- Implement AMD undervolt
 - Implement NVIDIA GPU control
 - Implement sensors information
 - Implement hardware information
 - Implement CPU/GPU/RAM load information
+- Implement ability to close apps running on discrete GPU
 - Modify UI for styleguide compliance
 - Maybe more?
 
