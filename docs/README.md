@@ -31,6 +31,10 @@ Current functionality:
 - CPU/GPU fans RPM information
 - Microphone switch (M3, with notifications)
 
+## Tested on
+- G733PY
+- G513RW
+
 ## TODO
 - Detect CPU models and undervolt support
 - Implement undervolt for Intel CPUs
@@ -54,6 +58,7 @@ The code is currently "in progress", meaning that most parts still require rewor
 - Improve UI
 - Implement new features
 - Localize
+- Test on your device and report the results
 - Anything you want to improve the project!
 
 ## Why?
