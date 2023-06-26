@@ -12,19 +12,32 @@ A complete rewrite of original G-Helper with main goals:
 - Resizable window
 - Readable code, with proper MVVM and following SRP
 
+Current functionality:
+- Performance Modes switching + hotkey support (M4)
+- Re-open GHelper with a hotkey (M5) + reopen existing instance if already running when opening same .exe file
+- Always Awake mode (FN+C to toggle)
+- Night Light switch (FN+V to toggle)
+- Auto Overdrive mode (switches display HZ based on battery state)
+- Battery limit + temporary unlimiter until charged completely or removed the power source
+- CPU/GPU information on home page
+- Autostart + start minimized
+- Vendor services start/stop
+- Keyboard backlight hotkeys (FN+F2, FN+F3)
+- Display backlight hotkeys (FN+F7, FN+F8)
+- Driver and BIOS updates
+- Aura control (without FN+F4 key yet, also not designed properly at this moment)
+
 ## TODO
-- Implement performance modes
 - Implement custom profiles
 - Implement power control
 - Implement fans control
-- Implement hotkeys
 - Implement hints for UI elements
 - Implement tutorials for UI elements
-- Implement application settings
 - Implement AMD undervolt
-- Implement autostart
 - Implement NVIDIA GPU control
 - Implement sensors information
+- Implement hardware information
+- Implement CPU/GPU/RAM load information
 - Modify UI for styleguide compliance
 - Maybe more?
 
