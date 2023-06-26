@@ -15,6 +15,7 @@ public class InitializersProvider : IInitializersProvider
         CpuControlInitializer cpuControlInitializer,
         PerformanceModeInitializer performanceModeInitializer,
         KeyboardBacklightInitializer keyboardBacklightInitializer,
+        AutoOverdriveInitializer autoOverdriveInitializer,
         
         MainWindowInitializer mainWindowInitializer,
         IpcSubscriberInitializer ipcSubscriberInitializer
@@ -25,6 +26,7 @@ public class InitializersProvider : IInitializersProvider
         _initializers.Add(cpuControlInitializer);
         _initializers.Add(performanceModeInitializer);
         _initializers.Add(keyboardBacklightInitializer);
+        _initializers.Add(autoOverdriveInitializer);
         
         _initializers.Add(mainWindowInitializer);
         _initializers.Add(ipcSubscriberInitializer);

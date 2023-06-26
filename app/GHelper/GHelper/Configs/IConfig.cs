@@ -14,4 +14,5 @@ public interface IConfig : IObservableObject
     public int BatteryLimit { get; set; }
     public Guid PerformanceModeCurrent { get; set; }
     public byte KeyboardBacklightBrightness { get; set; }
+    public bool AutoOverdriveEnabled { get; set; }
 }
