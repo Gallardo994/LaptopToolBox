@@ -16,6 +16,16 @@ public class AsusAcpi : IAcpi
     public AsusAcpi()
     {
         _acpiHandleProvider = new AsusAcpiHandleProvider();
+
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        var serializer = new BinarySerializer();
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_INIT);
+        
+        CallMethod(serializer);
     }
 
     public uint DeviceSet(uint deviceId, uint status)

@@ -4,6 +4,8 @@ public interface IAcpi
 {
     public bool IsAvailable { get; }
     
+    public void Initialize();
+    
     public uint DeviceSet(uint deviceId, uint status);
     public byte[] DeviceSetWithBuffer(uint deviceId, uint status);
     
