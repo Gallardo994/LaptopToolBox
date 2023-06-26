@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using GHelper.Configs;
 using GHelper.DeviceControls.Acpi;
+using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using GHelper.Notifications;
 using Ninject;
 using Serilog;
@@ -13,8 +14,6 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     private readonly IAcpi _acpi;
     private readonly INotificationService _notificationService;
     private readonly IPerformanceModesProvider _performanceModesProvider;
-
-    private const uint DeviceId = 0x00120075;
     
     [Inject]
     public AsusPerformanceModeControl(IConfig config,
@@ -30,11 +29,10 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
 
     public void SetMode(IPerformanceMode performanceMode)
     {
-        var result = _acpi.DeviceSet(DeviceId, (int) performanceMode.Type);
+        var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY, (uint) performanceMode.Type);
         _config.PerformanceModeCurrent = performanceMode.Id;
         TrySetCustomParameters(performanceMode);
         
-        Log.Debug("SetMode: {DeviceId} {PerformanceModeType} {Result}", DeviceId, performanceMode.Type, result);
         _notificationService.Show(NotificationCategory.PerformanceMode, "Performance Mode", "Switched to " + performanceMode.Title);
     }
 

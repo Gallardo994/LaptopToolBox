@@ -1,4 +1,5 @@
 ﻿using GHelper.DeviceControls.Acpi;
+using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using Ninject;
 
 namespace GHelper.DeviceControls.Display.RefreshRate.Vendors.Asus;
@@ -6,8 +7,6 @@ namespace GHelper.DeviceControls.Display.RefreshRate.Vendors.Asus;
 public class AsusOverdriveController : IOverdriveController
 {
     private readonly IAcpi _acpi;
-
-    private const int Overdrive = 0x00050019;
     
     [Inject]
     public AsusOverdriveController(IAcpi acpi)
@@ -17,11 +16,11 @@ public class AsusOverdriveController : IOverdriveController
     
     public void SetState(bool state)
     {
-        _acpi.DeviceSet(Overdrive, state ? 1 : 0);
+        _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_PANEL_OD, state ? 1U : 0U);
     }
     
     public bool GetState()
     {
-        return _acpi.DeviceGet(Overdrive) == 1;
+        return _acpi.DeviceGet((uint) AsusWmi.ASUS_WMI_DEVID_PANEL_OD) == 1U;
     }
 }

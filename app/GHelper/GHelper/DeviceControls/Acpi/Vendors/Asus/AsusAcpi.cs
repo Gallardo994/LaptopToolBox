@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management;
 using System.Runtime.InteropServices;
 using GHelper.Serialization;
 using Serilog;
@@ -17,31 +18,35 @@ public class AsusAcpi : IAcpi
         _acpiHandleProvider = new AsusAcpiHandleProvider();
     }
 
-    public int DeviceSet(uint deviceId, int status)
+    public uint DeviceSet(uint deviceId, uint status)
     {
-        return BitConverter.ToInt32(DeviceSetWithBuffer(deviceId, status), 0);
+        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status));
+        return deserializer.ReadUint();
     }
     
-    public byte[] DeviceSetWithBuffer(uint deviceId, int status)
+    public byte[] DeviceSetWithBuffer(uint deviceId, uint status)
     {
         var serializer = new BinarySerializer();
-        serializer.WriteUint(0x53564544);
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
         serializer.WriteUint(sizeof(uint) * 2);
         serializer.WriteUint(deviceId);
-        serializer.WriteUint((uint) status);
+        serializer.WriteUint(status);
 
         return CallMethod(serializer);
     }
     
-    public int DeviceGet(uint deviceId)
+    public uint DeviceGet(uint deviceId)
     {
-        return BitConverter.ToInt32(DeviceGetWithBuffer(deviceId), 0);
+        var deserializer = new BinaryDeserializer(DeviceGetWithBuffer(deviceId));
+        return deserializer.ReadUint();
     }
     
     public byte[] DeviceGetWithBuffer(uint deviceId)
     {
         var serializer = new BinarySerializer();
-        serializer.WriteUint(0x53545344);
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DSTS);
         serializer.WriteUint(sizeof(uint));
         serializer.WriteUint(deviceId);
 
@@ -51,7 +56,7 @@ public class AsusAcpi : IAcpi
     private byte[] CallMethod(BinarySerializer serializer)
     {
         var outBuffer = new byte[20];
-        CallDeviceIoControl(0x0022240C, serializer.ToArray(), outBuffer);
+        CallDeviceIoControl((uint) AsusWmi.ASUS_WMI_CTRL_CODE, serializer.ToArray(), outBuffer);
         return outBuffer;
     }
 

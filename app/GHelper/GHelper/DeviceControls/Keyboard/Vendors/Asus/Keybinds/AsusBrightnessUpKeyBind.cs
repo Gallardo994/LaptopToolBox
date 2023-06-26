@@ -1,5 +1,6 @@
 ﻿
 using GHelper.DeviceControls.Acpi;
+using GHelper.DeviceControls.Acpi.Vendors.Asus;
 
 namespace GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 
@@ -16,6 +17,6 @@ public class AsusBrightnessUpKeyBind : IVendorKeyBind
     
     public void Execute()
     {
-        _acpi.DeviceSet(0x00100021, 0x20);
+        _acpi.DeviceSet(0x00100021, (uint) AsusWmi.ASUS_WMI_BRN_UP);
     }
 }

@@ -4,6 +4,7 @@ using System.Management;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Commands;
 using GHelper.DeviceControls.Acpi;
+using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using GHelper.Notifications;
 using Ninject;
 
@@ -92,6 +93,6 @@ public partial class AsusBattery : ObservableObject, IBattery
             throw new ArgumentOutOfRangeException(nameof(value), value, $"Value must be between {MinRange} and {MaxRange}");
         }
         
-        _acpi.DeviceSet(0x00120057, value);
+        _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_RSOC, (uint) value);
     }
 }
