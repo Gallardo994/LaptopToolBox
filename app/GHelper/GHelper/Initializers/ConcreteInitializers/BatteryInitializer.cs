@@ -1,6 +1,7 @@
 ﻿using GHelper.Configs;
 using GHelper.DeviceControls.Battery;
 using Ninject;
+using Serilog;
 
 namespace GHelper.Initializers.ConcreteInitializers;
 
@@ -8,12 +9,14 @@ public class BatteryInitializer : IInitializer
 {
     private readonly IConfig _config;
     private readonly IBattery _battery;
+    private readonly IBatteryStateProvider _batteryStateProvider;
     
     [Inject]
-    public BatteryInitializer(IConfig config, IBattery battery)
+    public BatteryInitializer(IConfig config, IBattery battery, IBatteryStateProvider batteryStateProvider)
     {
         _config = config;
         _battery = battery;
+        _batteryStateProvider = batteryStateProvider;
     }
     
     public void Initialize()
@@ -26,5 +29,12 @@ public class BatteryInitializer : IInitializer
         }
         
         _battery.SetBatteryLimit(limit);
+        
+        _batteryStateProvider.PowerStateChanged += OnPowerStateChanged;
+    }
+    
+    private void OnPowerStateChanged(PowerState powerState)
+    {
+        Log.Information("Power state changed to {PowerState}", powerState);
     }
 }
