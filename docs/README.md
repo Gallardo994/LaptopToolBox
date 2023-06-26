@@ -50,6 +50,12 @@ Current functionality:
 
 The code is currently "in progress", meaning that most parts still require rework and lots of features are non-functional.
 
+## How can I help?
+- Improve UI
+- Implement new features
+- Localize
+- Anything you want to improve the project!
+
 ## Why?
 
 The original upstream refuses to accept any PRs without giving any explanations.
