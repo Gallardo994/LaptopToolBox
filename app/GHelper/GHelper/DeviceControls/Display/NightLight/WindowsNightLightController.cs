@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Win32;
 using Serilog;
 
-namespace GHelper.DeviceControls.Display;
+namespace GHelper.DeviceControls.Display.NightLight;
 
 public class WindowsNightLightController : IDisplayNightLightController
 {

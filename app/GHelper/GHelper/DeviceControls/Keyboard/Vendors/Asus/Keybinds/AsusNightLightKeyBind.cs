@@ -1,4 +1,5 @@
 ﻿using GHelper.DeviceControls.Display;
+using GHelper.DeviceControls.Display.NightLight;
 
 namespace GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 

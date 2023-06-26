@@ -1,7 +1,7 @@
 ﻿using System;
-
-namespace GHelper.DeviceControls.Display;
 using System.Management;
+
+namespace GHelper.DeviceControls.Display.Brightness;
 
 public class WmiBrightnessControl : IBrightnessControl
 {

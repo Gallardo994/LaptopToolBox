@@ -1,4 +1,4 @@
-﻿namespace GHelper.DeviceControls.Display;
+﻿namespace GHelper.DeviceControls.Display.NightLight;
 
 public interface IDisplayNightLightController
 {

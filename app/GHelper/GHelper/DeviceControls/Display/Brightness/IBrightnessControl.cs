@@ -1,4 +1,4 @@
-﻿namespace GHelper.DeviceControls.Display;
+﻿namespace GHelper.DeviceControls.Display.Brightness;
 
 public interface IBrightnessControl
 {

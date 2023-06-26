@@ -11,7 +11,6 @@ using GHelper.IPC.Messages;
 using GHelper.IPC.Publishers;
 using Ninject;
 using Serilog;
-using Vanara.PInvoke;
 
 namespace GHelper
 {

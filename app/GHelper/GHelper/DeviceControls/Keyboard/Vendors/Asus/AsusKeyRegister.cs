@@ -2,6 +2,7 @@
 using GHelper.AlwaysAwake;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Display;
+using GHelper.DeviceControls.Display.NightLight;
 using GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 using GHelper.DeviceControls.Lighting;
 using GHelper.DeviceControls.Microphone;
