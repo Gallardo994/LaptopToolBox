@@ -3,11 +3,18 @@
 public enum NotificationCategory
 {
     PerformanceMode,
+    
     MicrophoneEnable,
     MicrophoneDisable,
+    
     AlwaysAwakeEnable,
     AlwaysAwakeDisable,
+    
     TemporaryUnlimitedEnable,
     TemporaryUnlimitedDisable,
+    
     TemporaryUnlimitedBatteryChargeComplete,
+    
+    AutoOverdriveOnBattery,
+    AutoOverdriveConnectedToPower,
 }
