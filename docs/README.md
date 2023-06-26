@@ -27,6 +27,9 @@ Current functionality:
 - Driver and BIOS updates
 - Aura control (without FN+F4 key yet, also not designed properly at this moment)
 - AMD CPUs undervolt
+- TouchPad Enable/Disable (FN+F10, with notifications)
+- CPU/GPU fans RPM information
+- Microphone switch (M3, with notifications)
 
 ## TODO
 - Detect CPU models and undervolt support
