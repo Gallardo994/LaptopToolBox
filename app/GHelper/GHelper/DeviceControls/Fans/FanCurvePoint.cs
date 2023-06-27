@@ -14,15 +14,20 @@ public partial class FanCurvePoint : ObservableObject
         
     }
     
-    public FanCurvePoint(FanCurvePoint fanCurvePoint)
+    public FanCurvePoint(FanCurvePoint other)
     {
-        Temperature = fanCurvePoint.Temperature;
-        Value = fanCurvePoint.Value;
+        Temperature = other.Temperature;
+        Value = other.Value;
     }
     
     public FanCurvePoint(byte temperature, byte value)
     {
         Temperature = temperature;
         Value = value;
+    }
+    
+    public bool HasModificationsComparedTo(FanCurvePoint other)
+    {
+        return other.Temperature != Temperature || other.Value != Value;
     }
 }

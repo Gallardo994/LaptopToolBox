@@ -52,7 +52,7 @@ namespace GHelper.Views
                 return;
             }
             
-            if (!modifyPage.ViewModel.IsDirty())
+            if (!modifyPage.IsDirty())
             {
                 return;
             }

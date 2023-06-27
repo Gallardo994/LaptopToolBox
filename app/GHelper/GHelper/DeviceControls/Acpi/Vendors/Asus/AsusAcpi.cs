@@ -85,9 +85,21 @@ public class AsusAcpi : IAcpi
         return CallMethod(serializer);
     }
     
+    public byte[] DeviceGetWithBuffer(uint deviceId, uint status)
+    {
+        var serializer = new BinarySerializer();
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DSTS);
+        serializer.WriteUint(sizeof(uint) * 2);
+        serializer.WriteUint(deviceId);
+        serializer.WriteUint(status);
+
+        return CallMethod(serializer);
+    }
+    
     private byte[] CallMethod(BinarySerializer serializer)
     {
-        var outBuffer = new byte[20];
+        var outBuffer = new byte[32];
         CallDeviceIoControl((uint) AsusWmi.ASUS_WMI_CTRL_CODE, serializer.ToArray(), outBuffer);
         return outBuffer;
     }

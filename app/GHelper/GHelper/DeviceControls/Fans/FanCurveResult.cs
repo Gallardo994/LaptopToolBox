@@ -6,4 +6,6 @@ public enum FanCurveResult
     WrongPointCount,
     PointsNotIncreasing,
     BeyondMaximum,
+    AllPointsZero,
+    BiosRejected,
 }

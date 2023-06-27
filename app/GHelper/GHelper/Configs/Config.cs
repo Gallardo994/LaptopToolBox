@@ -45,6 +45,6 @@ public partial class Config : ObservableObject, IConfig
     
     public void SaveToLocalStorage()
     {
-        _saveCommandLoop.Enqueue(new ConfigSaveCommand(Path, JsonConvert.SerializeObject(this)));
+        _saveCommandLoop.Enqueue(new ConfigSaveCommand(Path, JsonConvert.SerializeObject(this, Formatting.Indented)));
     }
 }

@@ -121,7 +121,7 @@
                                                       VerticalAlignment="Center"
                                                       Visibility="{Binding Converter={StaticResource VisibleIfCustomPerformanceMode}}">
                                             <AppBarButton.Icon>
-                                                <FontIcon Glyph="&#xE70F;" FontSize="16" />
+                                                <FontIcon Glyph="&#xE74D;" FontSize="16" />
                                             </AppBarButton.Icon>
                                         </AppBarButton>
                                         <AppBarButton Label="Modify" 

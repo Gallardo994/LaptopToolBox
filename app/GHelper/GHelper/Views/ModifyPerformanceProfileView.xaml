@@ -7,12 +7,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:GHelper.Converters"
+    xmlns:fans="using:GHelper.DeviceControls.Fans"
     mc:Ignorable="d">
     <Grid.Resources>
         <converters:UiToDrawingColorConverter x:Key="UiToDrawingColorConverter" />
+        
+        <Style x:Key="CurvePanel" TargetType="ListView">
+            <Setter Property="Margin" Value="-6 16 0 0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="CornerRadius" Value="4"></Setter>
+        </Style>
+        
+        <Style x:Key="CurvePanelItem" TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter Property="Margin" Value="0 0 0 0" />
+            <Setter Property="Width" Value="1"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        </Style>
     </Grid.Resources>
 
     <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="*"></RowDefinition>
     </Grid.RowDefinitions>
@@ -22,7 +37,8 @@
         <ColumnDefinition Width="Auto"></ColumnDefinition>
     </Grid.ColumnDefinitions>
         
-    <StackPanel Grid.Column="0"
+    <StackPanel Grid.Row="0"
+                Grid.Column="0"
                 Orientation="Horizontal">
         <StackPanel Margin="8 0 0 0"
                     HorizontalAlignment="Left"
@@ -33,4 +49,74 @@
             <CheckBox Content="Available by hotkey" IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableInHotkeys, Mode=TwoWay}"></CheckBox>
         </StackPanel>
     </StackPanel>
+    
+    <ListView Grid.Row="1" 
+              Grid.Column="0" 
+              ItemsSource="{x:Bind ViewModel.Modified.CpuFanCurve.Points, Mode=OneWay}"
+              ScrollViewer.HorizontalScrollMode="Enabled"
+              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  
+              ScrollViewer.VerticalScrollMode="Disabled"
+              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  
+              ScrollViewer.IsHorizontalRailEnabled="True"
+              
+              Style="{StaticResource CurvePanel}"
+              ItemContainerStyle="{StaticResource CurvePanelItem}">
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="fans:FanCurvePoint">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Bind Path=Temperature, Mode=OneWay}" />
+                    <Slider Orientation="Vertical" Value="{x:Bind Path=Value, Mode=TwoWay}" 
+                            TickFrequency="5" 
+                            Minimum="0" 
+                            Maximum="99" 
+                            Height="200"
+                            TickPlacement="Outside" />
+                    <TextBlock Text="{x:Bind Path=Value, Mode=OneWay}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+    
+    <ListView Grid.Row="2" 
+              Grid.Column="0" 
+              ItemsSource="{x:Bind ViewModel.Modified.GpuFanCurve.Points, Mode=OneWay}"
+              ScrollViewer.HorizontalScrollMode="Enabled"
+              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  
+              ScrollViewer.VerticalScrollMode="Disabled"
+              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  
+              ScrollViewer.IsHorizontalRailEnabled="True"
+              
+              Style="{StaticResource CurvePanel}"
+              ItemContainerStyle="{StaticResource CurvePanelItem}">
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="fans:FanCurvePoint">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Bind Path=Temperature, Mode=OneWay}" />
+                    <Slider Orientation="Vertical" Value="{x:Bind Path=Value, Mode=TwoWay}" 
+                            TickFrequency="5" 
+                            Minimum="0" 
+                            Maximum="99" 
+                            Height="200"
+                            TickPlacement="Outside" />
+                    <TextBlock Text="{x:Bind Path=Value, Mode=OneWay}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </Grid>

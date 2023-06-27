@@ -98,6 +98,7 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
     {
         if (mode is not CustomPerformanceMode customPerformanceMode)
         {
+            Log.Error("Attempted to delete a non-custom performance mode");
             return false;
         }
 
@@ -108,16 +109,18 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
     {
         if (modeCopy is not CustomPerformanceMode customPerformanceModeCopy)
         {
+            Log.Error("Attempted to apply modifications from a non-custom performance mode");
             return null;
         }
 
-        var originalMode = _config.CustomPerformanceModes.FirstOrDefault(mode => mode.Id == customPerformanceModeCopy.Id);
-        if (originalMode == null)
+        var originalMode = AvailableModes.FirstOrDefault(mode => mode.Id == customPerformanceModeCopy.Id);
+        if (originalMode is not CustomPerformanceMode customPerformanceModeOriginal)
         {
+            Log.Error("Attempted to apply modifications from a custom performance mode that does not exist");
             return null;
         }
 
-        customPerformanceModeCopy.CopyTo(originalMode);
+        customPerformanceModeCopy.CopyTo(customPerformanceModeOriginal);
         
         var index = AvailableModes.IndexOf(originalMode);
         AvailableModes.Remove(originalMode);

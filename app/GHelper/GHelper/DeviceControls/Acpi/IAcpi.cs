@@ -12,4 +12,5 @@ public interface IAcpi
     
     public uint DeviceGet(uint deviceId);
     public byte[] DeviceGetWithBuffer(uint deviceId);
+    public byte[] DeviceGetWithBuffer(uint deviceId, uint status);
 }
