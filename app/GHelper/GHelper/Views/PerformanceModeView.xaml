@@ -18,6 +18,7 @@
     <Grid.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converters:VisibleIfCustomPerformanceMode x:Key="VisibleIfCustomPerformanceMode" />
         
         <Style x:Key="ItemsList" TargetType="ListView">
             <Setter Property="Margin" Value="-6 16 0 0"></Setter>
@@ -114,6 +115,24 @@
                                                 Orientation="Horizontal" 
                                                 x:Name="HoverContainer"
                                                 Visibility="Collapsed">
+                                        <AppBarButton Label="Delete" 
+                                                      Click="DeletePerformanceMode_OnClicked"
+                                                      HorizontalContentAlignment="Right"
+                                                      VerticalAlignment="Center"
+                                                      Visibility="{Binding Converter={StaticResource VisibleIfCustomPerformanceMode}}">
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xE70F;" FontSize="16" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                        <AppBarButton Label="Modify" 
+                                                      Click="ModifyPerformanceMode_OnClicked"
+                                                      HorizontalContentAlignment="Right"
+                                                      VerticalAlignment="Center"
+                                                      Visibility="{Binding Converter={StaticResource VisibleIfCustomPerformanceMode}}">
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xE70F;" FontSize="16" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
                                         <AppBarButton Label="Apply" 
                                                       Click="SetPerformanceMode_OnClicked"
                                                       HorizontalContentAlignment="Right"

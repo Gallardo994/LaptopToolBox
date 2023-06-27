@@ -24,6 +24,40 @@ namespace GHelper.Views
             ViewModel.SelectedMode = (IPerformanceMode) (sender as Button)?.DataContext;
         }
         
+        private void ModifyPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
+        {
+            // TODO: Implement
+        }
+        
+        private async void DeletePerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var performanceMode = (IPerformanceMode) (sender as Button)?.DataContext;
+            
+            if (performanceMode == null)
+            {
+                return;
+            }
+            
+            var dialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Title = "Delete Performance Profile",
+                Content = $"Are you sure you want to delete the performance profile \"{performanceMode.Title}\"?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary
+            };
+            
+            var result = await dialog.ShowAsync();
+            
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+            
+            ViewModel.DeletePerformanceMode(performanceMode);
+        }
+        
         private void ListViewSwipeContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen)

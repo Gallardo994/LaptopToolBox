@@ -42,4 +42,9 @@ public partial class PerformanceModeViewModel : ObservableObject
     {
         _performanceModesProvider.CreateCustomPerformanceMode(title, description);
     }
+    
+    public void DeletePerformanceMode(IPerformanceMode performanceMode)
+    {
+        _performanceModesProvider.DeleteCustomPerformanceMode(performanceMode);
+    }
 }
