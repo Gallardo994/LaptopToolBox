@@ -1,6 +1,7 @@
 ﻿using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using Ninject;
+using Serilog;
 
 namespace GHelper.DeviceControls.Fans.Vendors;
 
@@ -30,26 +31,42 @@ public class AsusFanController : IFanController
 
     public FanCurveResult SetCpuFanCurve(FanCurve fanCurve)
     {
-        var result = ValidateFanCurve(fanCurve);
+        var validationResult = ValidateFanCurve(fanCurve);
         
-        if (result != FanCurveResult.OK)
+        if (validationResult != FanCurveResult.OK)
         {
-            return result;
+            return validationResult;
         }
+
+        var byteArray = fanCurve.ToByteArray();
         
-        throw new System.NotImplementedException();
+        Log.Debug("Set CPU fan curve: {ByteArray}", byteArray);
+        
+        //var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CURVE, byteArray);
+        
+        //Log.Debug("Set CPU fan curve result: {Result}", result);
+        
+        return FanCurveResult.OK;
     }
 
     public FanCurveResult SetGpuFanCurve(FanCurve fanCurve)
     {
-        var result = ValidateFanCurve(fanCurve);
+        var validationResult = ValidateFanCurve(fanCurve);
         
-        if (result != FanCurveResult.OK)
+        if (validationResult != FanCurveResult.OK)
         {
-            return result;
+            return validationResult;
         }
         
-        throw new System.NotImplementedException();
+        var byteArray = fanCurve.ToByteArray();
+        
+        Log.Debug("Set GPU fan curve: {ByteArray}", byteArray);
+        
+        //var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CURVE, byteArray);
+        
+        //Log.Debug("Set GPU fan curve result: {Result}", result);
+        
+        return FanCurveResult.OK;
     }
     
     public FanCurveResult ValidateFanCurve(FanCurve fanCurve)

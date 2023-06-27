@@ -34,6 +34,12 @@ public class AsusAcpi : IAcpi
         return deserializer.ReadUint();
     }
     
+    public uint DeviceSet(uint deviceId, byte[] buffer)
+    {
+        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer));
+        return deserializer.ReadUint();
+    }
+    
     public byte[] DeviceSetWithBuffer(uint deviceId, uint status)
     {
         var serializer = new BinarySerializer();
@@ -42,6 +48,22 @@ public class AsusAcpi : IAcpi
         serializer.WriteUint(sizeof(uint) * 2);
         serializer.WriteUint(deviceId);
         serializer.WriteUint(status);
+
+        return CallMethod(serializer);
+    }
+    
+    public byte[] DeviceSetWithBuffer(uint deviceId, byte[] buffer)
+    {
+        var serializer = new BinarySerializer();
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
+        serializer.WriteUint((uint) (sizeof(uint) + buffer.Length));
+        serializer.WriteUint(deviceId);
+        
+        foreach (var b in buffer)
+        {
+            serializer.WriteByte(b);
+        }
 
         return CallMethod(serializer);
     }

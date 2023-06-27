@@ -2,6 +2,7 @@
 using GHelper.Configs;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Acpi.Vendors.Asus;
+using GHelper.DeviceControls.Fans;
 using GHelper.Notifications;
 using Ninject;
 using Serilog;
@@ -14,22 +15,28 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     private readonly IAcpi _acpi;
     private readonly INotificationService _notificationService;
     private readonly IPerformanceModesProvider _performanceModesProvider;
+    private readonly IFanController _fanController;
     
     [Inject]
     public AsusPerformanceModeControl(IConfig config,
         IAcpi acpi,
         INotificationService notificationService,
-        IPerformanceModesProvider performanceModesProvider)
+        IPerformanceModesProvider performanceModesProvider,
+        IFanController fanController)
     {
         _config = config;
         _acpi = acpi;
         _notificationService = notificationService;
         _performanceModesProvider = performanceModesProvider;
+        _fanController = fanController;
     }
 
     public void SetMode(IPerformanceMode performanceMode)
     {
         var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY, (uint) performanceMode.Type);
+        
+        Log.Debug("Set performance mode result: {Result}", result);
+        
         _config.PerformanceModeCurrent = performanceMode.Id;
         TrySetCustomParameters(performanceMode);
         
@@ -67,6 +74,10 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
             return;
         }
         
-        // TODO: Implement fan control, curves, etc.
+        var result = _fanController.SetCpuFanCurve(customPerformanceMode.CpuFanCurve);
+        Log.Debug("Set CPU fan curve result: {Result}", result);
+        
+        result = _fanController.SetGpuFanCurve(customPerformanceMode.CpuFanCurve);
+        Log.Debug("Set GPU fan curve result: {Result}", result);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using GHelper.Configs;
+using GHelper.DeviceControls.Fans;
 using Ninject;
 using Serilog;
 
@@ -10,13 +11,15 @@ namespace GHelper.DeviceControls.PerformanceModes.Vendors.Asus;
 public class AsusPerformanceModesProvider : IPerformanceModesProvider
 {
     private readonly IConfig _config;
+    private readonly IFanController _fanController;
     
     public ObservableCollection<IPerformanceMode> AvailableModes { get; init; }
 
     [Inject]
-    public AsusPerformanceModesProvider(IConfig config)
+    public AsusPerformanceModesProvider(IConfig config, IFanController fanController)
     {
         _config = config;
+        _fanController = fanController;
         
         AvailableModes = new ObservableCollection<IPerformanceMode>
         {
@@ -81,6 +84,7 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             Description = description,
             IsAvailableOnStartup = false,
             IsAvailableInHotkeys = true,
+            CpuFanCurve = new FanCurve(_fanController.FanCurvePointCount),
         };
         
         AvailableModes.Add(newMode);

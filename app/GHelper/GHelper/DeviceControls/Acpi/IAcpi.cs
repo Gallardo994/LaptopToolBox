@@ -7,6 +7,7 @@ public interface IAcpi
     public void Initialize();
     
     public uint DeviceSet(uint deviceId, uint status);
+    public uint DeviceSet(uint deviceId, byte[] buffer);
     public byte[] DeviceSetWithBuffer(uint deviceId, uint status);
     
     public uint DeviceGet(uint deviceId);

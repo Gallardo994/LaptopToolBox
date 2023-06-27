@@ -1,5 +1,6 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.DeviceControls.Fans;
 using Newtonsoft.Json;
 
 namespace GHelper.DeviceControls.PerformanceModes;
@@ -22,6 +23,9 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
     [JsonProperty("is_available_in_hotkeys")]
     [ObservableProperty] private bool _isAvailableInHotkeys;
     
+    [JsonProperty("cpu_fan_curve")]
+    [ObservableProperty] private FanCurve _cpuFanCurve;
+    
     [JsonIgnore] public string Icon { get; } = "\uE7EE";
     [JsonIgnore] public PerformanceModeType Type { get; } = PerformanceModeType.Manual;
 
@@ -42,6 +46,7 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
         performanceMode.Description = Description;
         performanceMode.IsAvailableOnStartup = IsAvailableOnStartup;
         performanceMode.IsAvailableInHotkeys = IsAvailableInHotkeys;
+        performanceMode.CpuFanCurve = new FanCurve(CpuFanCurve);
     }
     
     public bool HasModificationsComparedTo(CustomPerformanceMode performanceMode)
@@ -50,6 +55,7 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
                performanceMode.Title != Title ||
                performanceMode.Description != Description ||
                performanceMode.IsAvailableOnStartup != IsAvailableOnStartup ||
-               performanceMode.IsAvailableInHotkeys != IsAvailableInHotkeys;
+               performanceMode.IsAvailableInHotkeys != IsAvailableInHotkeys ||
+               performanceMode.CpuFanCurve.HasModificationsComparedTo(CpuFanCurve);
     }
 }
