@@ -27,6 +27,8 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
                 Description = "Save battery life, reduce heat and fan noise by reducing performance",
                 Icon = "\uEC48",
                 Type = PerformanceModeType.Silent,
+                IsAvailableOnStartup = true,
+                IsAvailableInHotkeys = true,
             },
             new IntegratedPerformanceMode
             {
@@ -35,6 +37,8 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
                 Description = "Balance performance and battery life. This is the default mode",
                 Icon = "\uEC49",
                 Type = PerformanceModeType.Balanced,
+                IsAvailableOnStartup = true,
+                IsAvailableInHotkeys = true,
             },
             new IntegratedPerformanceMode
             {
@@ -43,6 +47,8 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
                 Description = "Maximize performance at the cost of battery life, temperatures and fan noise",
                 Icon = "\uEC4A",
                 Type = PerformanceModeType.Turbo,
+                IsAvailableOnStartup = true,
+                IsAvailableInHotkeys = true,
             }
         };
         
@@ -54,9 +60,11 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
     
     public IPerformanceMode GetNextModeAfter(IPerformanceMode currentMode)
     {
-        var currentModeIndex = AvailableModes.IndexOf(currentMode);
-        var nextModeIndex = (currentModeIndex + 1) % AvailableModes.Count;
-        return AvailableModes[nextModeIndex];
+        var availableModes = AvailableModes.Where(mode => mode.IsAvailableInHotkeys).ToList();
+        
+        var currentModeIndex = availableModes.IndexOf(currentMode);
+        var nextModeIndex = (currentModeIndex + 1) % availableModes.Count;
+        return availableModes[nextModeIndex];
     }
     
     public IPerformanceMode FindById(Guid id)
@@ -71,6 +79,8 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             Id = Guid.NewGuid(),
             Title = title,
             Description = description,
+            IsAvailableOnStartup = false,
+            IsAvailableInHotkeys = true,
         };
         
         AvailableModes.Add(newMode);

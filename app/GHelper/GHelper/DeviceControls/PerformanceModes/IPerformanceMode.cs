@@ -10,4 +10,6 @@ public interface IPerformanceMode : IObservableObject
     public string Description { get; set; }
     public string Icon { get; }
     public PerformanceModeType Type { get; }
+    public bool IsAvailableOnStartup { get; set; }
+    public bool IsAvailableInHotkeys { get; set; }
 }

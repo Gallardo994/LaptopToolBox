@@ -14,4 +14,9 @@ public class ModifyPerformanceProfileViewModel
         Original = performanceMode;
         Modified = new CustomPerformanceMode(Original);
     }
+    
+    public bool IsDirty()
+    {
+        return Modified.HasModificationsComparedTo(Original);
+    }
 }

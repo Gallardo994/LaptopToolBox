@@ -15,8 +15,11 @@ namespace GHelper.Views
             ViewModel = Services.ResolutionRoot.Get<ModifyPerformanceProfileViewModel>(new ConstructorArgument("performanceMode", performanceMode));
             
             InitializeComponent();
-            
-            
+        }
+        
+        public bool IsDirty()
+        {
+            return ViewModel.IsDirty();
         }
     }
 }

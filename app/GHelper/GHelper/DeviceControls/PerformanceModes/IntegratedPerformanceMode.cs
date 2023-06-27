@@ -10,4 +10,6 @@ public partial class IntegratedPerformanceMode : ObservableObject, IPerformanceM
     [ObservableProperty] private string _description;
     [ObservableProperty] private string _icon;
     [ObservableProperty] private PerformanceModeType _type;
+    [ObservableProperty] private bool _isAvailableOnStartup;
+    [ObservableProperty] private bool _isAvailableInHotkeys;
 }
