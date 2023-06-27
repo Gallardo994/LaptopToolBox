@@ -46,26 +46,9 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             }
         };
         
-        Log.Debug("Number of custom performance modes: {Count}", _config.CustomPerformanceModes.Count);
         foreach (var customPerformanceMode in _config.CustomPerformanceModes)
         {
-            Log.Debug("Type of custom performance mode: {Type}", customPerformanceMode.GetType());
             AvailableModes.Add(customPerformanceMode);
-        }
-
-        var testGuid = Guid.Parse("479071d6-8f6b-4709-9a4d-3460f529f0a7"); // Test guid
-        
-        if (AvailableModes.All(mode => mode.Id != testGuid))
-        {
-            var newMode = new CustomPerformanceMode
-            {
-                Id = testGuid,
-                Title = "Test",
-                Description = "Test",
-            };
-            
-            AvailableModes.Add(newMode);
-            _config.CustomPerformanceModes.Add(newMode);
         }
     }
     
