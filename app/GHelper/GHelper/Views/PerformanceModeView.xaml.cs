@@ -24,14 +24,40 @@ namespace GHelper.Views
             ViewModel.SelectedMode = (IPerformanceMode) (sender as Button)?.DataContext;
         }
         
-        private void ModifyPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
+        private async void ModifyPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
         {
-            // TODO: Implement
+            var performanceMode = (sender as Button)?.DataContext as CustomPerformanceMode;
+            
+            if (performanceMode == null)
+            {
+                return;
+            }
+
+            var modifyPage = new ModifyPerformanceProfileView(performanceMode);
+            
+            var contentDialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Title = "Modify: " + performanceMode.Title,
+                Content = modifyPage,
+                PrimaryButtonText = "Save",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+            };
+            
+            var result = await contentDialog.ShowAsync();
+            
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+            
+            ViewModel.ApplyModificationsFromCustomPerformanceMode(modifyPage.ViewModel.Modified);
         }
         
         private async void DeletePerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
         {
-            var performanceMode = (IPerformanceMode) (sender as Button)?.DataContext;
+            var performanceMode = (sender as Button)?.DataContext as CustomPerformanceMode;
             
             if (performanceMode == null)
             {
@@ -45,7 +71,7 @@ namespace GHelper.Views
                 Content = $"Are you sure you want to delete the performance profile \"{performanceMode.Title}\"?",
                 PrimaryButtonText = "Delete",
                 CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary
+                DefaultButton = ContentDialogButton.Primary,
             };
             
             var result = await dialog.ShowAsync();

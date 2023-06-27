@@ -8,4 +8,5 @@ public interface IPerformanceModesProvider
     public IPerformanceMode GetNextModeAfter(IPerformanceMode currentMode);
     public IPerformanceMode CreateCustomPerformanceMode(string title, string description = "");
     public bool DeleteCustomPerformanceMode(IPerformanceMode performanceMode);
+    public void ApplyModificationsFromCustomPerformanceMode(IPerformanceMode performanceMode);
 }

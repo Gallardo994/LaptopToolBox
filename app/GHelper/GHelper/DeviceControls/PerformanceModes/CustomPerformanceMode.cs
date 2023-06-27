@@ -18,4 +18,21 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
     
     [JsonIgnore] public string Icon { get; } = "\uE7EE";
     [JsonIgnore] public PerformanceModeType Type { get; } = PerformanceModeType.Manual;
+
+    public CustomPerformanceMode()
+    {
+        
+    }
+    
+    public CustomPerformanceMode(CustomPerformanceMode performanceMode)
+    {
+        performanceMode.CopyTo(this);
+    }
+    
+    public void CopyTo(CustomPerformanceMode performanceMode)
+    {
+        performanceMode.Id = Id;
+        performanceMode.Title = Title;
+        performanceMode.Description = Description;
+    }
 }
