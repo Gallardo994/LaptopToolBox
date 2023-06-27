@@ -37,4 +37,9 @@ public partial class PerformanceModeViewModel : ObservableObject
     {
         _performanceModeControl.SetMode(performanceMode);
     }
+    
+    public void AddCustomPerformanceMode(string title, string description)
+    {
+        _performanceModesProvider.CreateCustomPerformanceMode(title, description);
+    }
 }

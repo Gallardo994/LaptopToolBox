@@ -1,3 +1,4 @@
+using System;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
 using GHelper.ViewModels;
@@ -36,9 +37,44 @@ namespace GHelper.Views
             VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
         }
 
-        private void ButtonAddPerformanceMode_OnClicked(object sender, RoutedEventArgs e)
+        private async void ButtonAddPerformanceMode_OnClicked(object sender, RoutedEventArgs e)
         {
+            var titleTextBox = new TextBox
+            {
+                PlaceholderText = "Title",
+            };
             
+            var descriptionTextBox = new TextBox
+            {
+                PlaceholderText = "Description (optional)",
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+            
+            var dialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Title = "New Performance Profile",
+                PrimaryButtonText = "Create",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = new StackPanel
+                {
+                    Children =
+                    {
+                        titleTextBox,
+                        descriptionTextBox,
+                    }
+                }
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            ViewModel.AddCustomPerformanceMode(titleTextBox.Text, descriptionTextBox.Text);
         }
     }
 }
