@@ -46,9 +46,9 @@ public class AsusPowerLimitController : IPowerLimitController
     }
     
     // CPU Support information
-    public bool SupportsCpuSustainedPowerLimit => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_SPL_PL1);
-    public bool SupportsCpuShortTermPowerLimit => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_SPPT_PL2);
-    public bool SupportsCpuFastLimit => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_FPPT);
+    public bool SupportsCpuSpl => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_SPL_PL1);
+    public bool SupportsCpuSppt => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_SPPT_PL2);
+    public bool SupportsCpuFppt => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_FPPT);
     public int MinCpuPowerLimit => 5;
     public int MaxCpuPowerLimit => 130;
     public int DefaultCpuPowerLimit => 80;
@@ -58,13 +58,15 @@ public class AsusPowerLimitController : IPowerLimitController
     public bool SupportsGpuTempTarget => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_NVIDIA_GPU_TEMP_TARGET);
     public int MinGpuPowerBoost => 0;
     public int MaxGpuPowerBoost => 25;
+    public int DefaultGpuPowerBoost => 0;
     public int MinGpuTempTarget => 75;
     public int MaxGpuTempTarget => 87;
+    public int DefaultGpuTempTarget => 87;
     
     // CPU Control
-    public bool SetCpuSustainedPowerLimit(int sustainedPowerLimit)
+    public bool SetCpuSpl(int sustainedPowerLimit)
     {
-        if (!SupportsCpuSustainedPowerLimit)
+        if (!SupportsCpuSpl)
         {
             return false;
         }
@@ -77,9 +79,9 @@ public class AsusPowerLimitController : IPowerLimitController
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPL_PL1, (uint)sustainedPowerLimit) > 0;
     }
 
-    public bool SetCpuShortTermPowerLimit(int shortTermPowerLimit)
+    public bool SetCpuSppt(int shortTermPowerLimit)
     {
-        if (!SupportsCpuShortTermPowerLimit)
+        if (!SupportsCpuSppt)
         {
             return false;
         }
@@ -92,9 +94,9 @@ public class AsusPowerLimitController : IPowerLimitController
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPPT_PL2, (uint)shortTermPowerLimit) > 0;
     }
 
-    public bool SetCpuFastLimit(int fastLimit)
+    public bool SetCpuFppt(int fastLimit)
     {
-        if (!SupportsCpuFastLimit)
+        if (!SupportsCpuFppt)
         {
             return false;
         }

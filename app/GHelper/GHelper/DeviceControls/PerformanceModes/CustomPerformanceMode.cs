@@ -29,6 +29,21 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
     [JsonProperty("gpu_fan_curve")]
     [ObservableProperty] private FanCurve _gpuFanCurve;
     
+    [JsonProperty("cpu_spl")]
+    [ObservableProperty] private int _cpuSpl;
+    
+    [JsonProperty("cpu_sppt")]
+    [ObservableProperty] private int _cpuSppt;
+    
+    [JsonProperty("cpu_fppt")]
+    [ObservableProperty] private int _cpuFppt;
+    
+    [JsonProperty("gpu_power_boost")]
+    [ObservableProperty] private int _gpuPowerBoost;
+    
+    [JsonProperty("gpu_temp_target")]
+    [ObservableProperty] private int _gpuTempTarget;
+
     [JsonIgnore] public string Icon { get; } = "\uE7EE";
     [JsonIgnore] public PerformanceModeType Type { get; } = PerformanceModeType.Manual;
 
@@ -51,6 +66,11 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
         performanceMode.IsAvailableInHotkeys = IsAvailableInHotkeys;
         performanceMode.CpuFanCurve = new FanCurve(CpuFanCurve);
         performanceMode.GpuFanCurve = new FanCurve(GpuFanCurve);
+        performanceMode.CpuSpl = CpuSpl;
+        performanceMode.CpuSppt = CpuSppt;
+        performanceMode.CpuFppt = CpuFppt;
+        performanceMode.GpuPowerBoost = GpuPowerBoost;
+        performanceMode.GpuTempTarget = GpuTempTarget;
     }
     
     public bool HasModificationsComparedTo(CustomPerformanceMode performanceMode)
@@ -61,6 +81,11 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
                performanceMode.IsAvailableOnStartup != IsAvailableOnStartup ||
                performanceMode.IsAvailableInHotkeys != IsAvailableInHotkeys ||
                performanceMode.CpuFanCurve.HasModificationsComparedTo(CpuFanCurve) ||
-               performanceMode.GpuFanCurve.HasModificationsComparedTo(GpuFanCurve);
+               performanceMode.GpuFanCurve.HasModificationsComparedTo(GpuFanCurve) ||
+               performanceMode.CpuSpl != CpuSpl ||
+               performanceMode.CpuSppt != CpuSppt ||
+               performanceMode.CpuFppt != CpuFppt ||
+               performanceMode.GpuPowerBoost != GpuPowerBoost ||
+               performanceMode.GpuTempTarget != GpuTempTarget;
     }
 }

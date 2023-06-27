@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using GHelper.Configs;
 using GHelper.DeviceControls.Fans;
+using GHelper.DeviceControls.PowerLimits;
 using Ninject;
 using Serilog;
 
@@ -12,14 +13,16 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
 {
     private readonly IConfig _config;
     private readonly IFanController _fanController;
+    private readonly IPowerLimitController _powerLimitController;
     
     public ObservableCollection<IPerformanceMode> AvailableModes { get; init; }
 
     [Inject]
-    public AsusPerformanceModesProvider(IConfig config, IFanController fanController)
+    public AsusPerformanceModesProvider(IConfig config, IFanController fanController, IPowerLimitController powerLimitController)
     {
         _config = config;
         _fanController = fanController;
+        _powerLimitController = powerLimitController;
         
         AvailableModes = new ObservableCollection<IPerformanceMode>
         {
@@ -86,6 +89,11 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             IsAvailableInHotkeys = true,
             CpuFanCurve = new FanCurve(_fanController.IntegratedCpuFanCurves.Last()),
             GpuFanCurve = new FanCurve(_fanController.IntegratedGpuFanCurves.Last()),
+            CpuSpl = _powerLimitController.DefaultCpuPowerLimit,
+            CpuSppt = _powerLimitController.DefaultCpuPowerLimit,
+            CpuFppt = _powerLimitController.DefaultCpuPowerLimit,
+            GpuPowerBoost = _powerLimitController.DefaultGpuPowerBoost,
+            GpuTempTarget = _powerLimitController.DefaultGpuTempTarget,
         };
         
         AvailableModes.Add(newMode);

@@ -21,7 +21,7 @@ namespace GHelper
             var appDataLogPath = System.IO.Path.Combine(ApplicationHelper.AppDataFolder, "log.txt");
             
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File(appDataLogPath, rollingInterval: RollingInterval.Day)
+                .WriteTo.File(appDataLogPath, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10, retainedFileTimeLimit: TimeSpan.FromDays(3))
                 .WriteTo.Console()
                 .MinimumLevel.Debug()
                 .CreateLogger();

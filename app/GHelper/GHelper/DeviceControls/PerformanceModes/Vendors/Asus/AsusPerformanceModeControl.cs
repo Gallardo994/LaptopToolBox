@@ -3,6 +3,7 @@ using GHelper.Configs;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using GHelper.DeviceControls.Fans;
+using GHelper.DeviceControls.PowerLimits;
 using GHelper.Notifications;
 using Ninject;
 using Serilog;
@@ -16,19 +17,22 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     private readonly INotificationService _notificationService;
     private readonly IPerformanceModesProvider _performanceModesProvider;
     private readonly IFanController _fanController;
+    private readonly IPowerLimitController _powerLimitController;
     
     [Inject]
     public AsusPerformanceModeControl(IConfig config,
         IAcpi acpi,
         INotificationService notificationService,
         IPerformanceModesProvider performanceModesProvider,
-        IFanController fanController)
+        IFanController fanController,
+        IPowerLimitController powerLimitController)
     {
         _config = config;
         _acpi = acpi;
         _notificationService = notificationService;
         _performanceModesProvider = performanceModesProvider;
         _fanController = fanController;
+        _powerLimitController = powerLimitController;
     }
 
     public void SetMode(IPerformanceMode performanceMode)
@@ -74,10 +78,19 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
             return;
         }
 
-        var result = _fanController.SetCpuFanCurve(customPerformanceMode.CpuFanCurve);
-        Log.Debug("Set CPU fan curve result: {Result}", result);
+        var fanResult = _fanController.SetCpuFanCurve(customPerformanceMode.CpuFanCurve);
+        Log.Debug("Set CPU fan curve result: {Result}", fanResult);
         
-        result = _fanController.SetGpuFanCurve(customPerformanceMode.GpuFanCurve);
-        Log.Debug("Set GPU fan curve result: {Result}", result);
+        fanResult = _fanController.SetGpuFanCurve(customPerformanceMode.GpuFanCurve);
+        Log.Debug("Set GPU fan curve result: {Result}", fanResult);
+        
+        var result = _powerLimitController.SetCpuSpl(customPerformanceMode.CpuSpl);
+        Log.Debug("Set CPU SPL result: {Result}", result);
+        
+        result = _powerLimitController.SetCpuSppt(customPerformanceMode.CpuSppt);
+        Log.Debug("Set CPU SPPT result: {Result}", result);
+        
+        result = _powerLimitController.SetCpuFppt(customPerformanceMode.CpuFppt);
+        Log.Debug("Set CPU FPPT result: {Result}", result);
     }
 }

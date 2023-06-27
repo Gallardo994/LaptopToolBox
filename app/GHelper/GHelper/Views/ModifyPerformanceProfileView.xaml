@@ -47,6 +47,56 @@
             <TextBox Text="{x:Bind Path=ViewModel.Modified.Description, Mode=TwoWay}" />
             <CheckBox Content="Can be applied on startup" IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableOnStartup, Mode=TwoWay}"></CheckBox>
             <CheckBox Content="Available by hotkey" IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableInHotkeys, Mode=TwoWay}"></CheckBox>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="SPL"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}" 
+                        TickFrequency="5" 
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}" 
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}" 
+                        Width="200"
+                        TickPlacement="Outside" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="SPPT"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}" 
+                        TickFrequency="5" 
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}" 
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}" 
+                        Width="200"
+                        TickPlacement="Outside" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="FPPT"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}" 
+                        TickFrequency="5" 
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}" 
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}" 
+                        Width="200"
+                        TickPlacement="Outside" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="GPU Power Boost"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}" 
+                        TickFrequency="5" 
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinGpuPowerBoost}" 
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuPowerBoost}" 
+                        Width="200"
+                        TickPlacement="Outside" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="GPU Temp Target"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}" 
+                        TickFrequency="5" 
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinGpuTempTarget}" 
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuTempTarget}" 
+                        Width="200"
+                        TickPlacement="Outside" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
     
