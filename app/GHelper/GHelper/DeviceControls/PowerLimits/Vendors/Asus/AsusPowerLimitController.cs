@@ -49,10 +49,17 @@ public class AsusPowerLimitController : IPowerLimitController
     public bool SupportsCpuSustainedPowerLimit => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_SPL_PL1);
     public bool SupportsCpuShortTermPowerLimit => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_SPPT_PL2);
     public bool SupportsCpuFastLimit => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_CPU_FPPT);
+    public int MinCpuPowerLimit => 5;
+    public int MaxCpuPowerLimit => 130;
+    public int DefaultCpuPowerLimit => 80;
     
     // GPU Support information
     public bool SupportsGpuPowerBoost => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_NVIDIA_GPU_BOOST);
     public bool SupportsGpuTempTarget => _supportedWmiCalls.Contains(AsusWmi.ASUS_WMI_NVIDIA_GPU_TEMP_TARGET);
+    public int MinGpuPowerBoost => 0;
+    public int MaxGpuPowerBoost => 25;
+    public int MinGpuTempTarget => 75;
+    public int MaxGpuTempTarget => 87;
     
     // CPU Control
     public bool SetCpuSustainedPowerLimit(int sustainedPowerLimit)
@@ -61,6 +68,12 @@ public class AsusPowerLimitController : IPowerLimitController
         {
             return false;
         }
+        
+        if (sustainedPowerLimit < MinCpuPowerLimit || sustainedPowerLimit > MaxCpuPowerLimit)
+        {
+            return false;
+        }
+        
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPL_PL1, (uint)sustainedPowerLimit) > 0;
     }
 
@@ -70,6 +83,12 @@ public class AsusPowerLimitController : IPowerLimitController
         {
             return false;
         }
+        
+        if (shortTermPowerLimit < MinCpuPowerLimit || shortTermPowerLimit > MaxCpuPowerLimit)
+        {
+            return false;
+        }
+        
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPPT_PL2, (uint)shortTermPowerLimit) > 0;
     }
 
@@ -79,6 +98,12 @@ public class AsusPowerLimitController : IPowerLimitController
         {
             return false;
         }
+        
+        if (fastLimit < MinCpuPowerLimit || fastLimit > MaxCpuPowerLimit)
+        {
+            return false;
+        }
+        
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_FPPT, (uint)fastLimit) > 0;
     }
 
@@ -89,6 +114,12 @@ public class AsusPowerLimitController : IPowerLimitController
         {
             return false;
         }
+        
+        if (powerBoost < MinGpuPowerBoost || powerBoost > MaxGpuPowerBoost)
+        {
+            return false;
+        }
+        
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_NVIDIA_GPU_BOOST, (uint)powerBoost) > 0;
     }
 
@@ -98,6 +129,12 @@ public class AsusPowerLimitController : IPowerLimitController
         {
             return false;
         }
+        
+        if (tempTarget < MinGpuTempTarget || tempTarget > MaxGpuTempTarget)
+        {
+            return false;
+        }
+        
         return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_NVIDIA_GPU_TEMP_TARGET, (uint)tempTarget) > 0;
     }
 }

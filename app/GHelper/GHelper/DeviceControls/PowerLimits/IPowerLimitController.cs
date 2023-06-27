@@ -6,10 +6,17 @@ public interface IPowerLimitController
     public bool SupportsCpuSustainedPowerLimit { get; }
     public bool SupportsCpuShortTermPowerLimit { get; }
     public bool SupportsCpuFastLimit { get; }
+    public int MinCpuPowerLimit { get; }
+    public int MaxCpuPowerLimit { get; }
+    public int DefaultCpuPowerLimit { get; }
     
     // GPU Support information
     public bool SupportsGpuPowerBoost { get; }
     public bool SupportsGpuTempTarget { get; }
+    public int MinGpuPowerBoost { get; }
+    public int MaxGpuPowerBoost { get; }
+    public int MinGpuTempTarget { get; }
+    public int MaxGpuTempTarget { get; }
     
     // CPU Control
     public bool SetCpuSustainedPowerLimit(int sustainedPowerLimit);
