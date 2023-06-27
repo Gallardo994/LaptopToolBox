@@ -26,6 +26,8 @@ public class FanCurve : ObservableObject, IEnumerable<FanCurvePoint>
         {
             Points.Add(new FanCurvePoint());
         }
+        
+        SortByTemperature();
     }
 
     public FanCurve(FanCurve other)
@@ -37,6 +39,8 @@ public class FanCurve : ObservableObject, IEnumerable<FanCurvePoint>
         {
             Points.Add(new FanCurvePoint(point));
         }
+
+        SortByTemperature();
     }
     
     public FanCurve(byte[] byteArray)
@@ -54,6 +58,8 @@ public class FanCurve : ObservableObject, IEnumerable<FanCurvePoint>
             Points[i].Temperature = byteArray[i];
             Points[i].Value = byteArray[i + PointCount];
         }
+
+        SortByTemperature();
     }
     
     public struct Enumerator : IEnumerator<FanCurvePoint>
@@ -102,6 +108,25 @@ public class FanCurve : ObservableObject, IEnumerable<FanCurvePoint>
     {
         get => Points[index];
         set => Points[index] = value;
+    }
+
+    private void SortByTemperature()
+    {
+        var list = new List<FanCurvePoint>();
+        
+        foreach (var point in Points)
+        {
+            list.Add(new FanCurvePoint(point));
+        }
+        
+        list.Sort((point1, point2) => point1.Temperature.CompareTo(point2.Temperature));
+        
+        Points.Clear();
+        
+        foreach (var point in list)
+        {
+            Points.Add(point);
+        }
     }
     
     public byte[] ToByteArray()
