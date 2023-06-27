@@ -107,5 +107,7 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
         var index = AvailableModes.IndexOf(originalMode);
         AvailableModes.Remove(originalMode);
         AvailableModes.Insert(index, originalMode);
+        
+        _config.SaveToLocalStorage();
     }
 }
