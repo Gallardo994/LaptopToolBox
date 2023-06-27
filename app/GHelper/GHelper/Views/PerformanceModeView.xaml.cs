@@ -52,6 +52,11 @@ namespace GHelper.Views
                 return;
             }
             
+            if (!modifyPage.ViewModel.IsDirty())
+            {
+                return;
+            }
+            
             ViewModel.ApplyModificationsFromCustomPerformanceMode(modifyPage.ViewModel.Modified);
         }
         

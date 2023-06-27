@@ -99,17 +99,17 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
         return AvailableModes.Remove(mode) && _config.CustomPerformanceModes.Remove(customPerformanceMode);
     }
     
-    public void ApplyModificationsFromCustomPerformanceMode(IPerformanceMode modeCopy)
+    public IPerformanceMode ApplyModificationsFromCustomPerformanceMode(IPerformanceMode modeCopy)
     {
         if (modeCopy is not CustomPerformanceMode customPerformanceModeCopy)
         {
-            return;
+            return null;
         }
 
         var originalMode = _config.CustomPerformanceModes.FirstOrDefault(mode => mode.Id == customPerformanceModeCopy.Id);
         if (originalMode == null)
         {
-            return;
+            return null;
         }
 
         customPerformanceModeCopy.CopyTo(originalMode);
@@ -119,5 +119,7 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
         AvailableModes.Insert(index, originalMode);
         
         _config.SaveToLocalStorage();
+        
+        return originalMode;
     }
 }

@@ -45,6 +45,12 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
 
         return currentPerformanceMode;
     }
+    
+    public void RestoreToFallbackMode()
+    {
+        var mode = _performanceModesProvider.AvailableModes.FirstOrDefault(performanceMode => performanceMode.Type == PerformanceModeType.Balanced);
+        SetMode(mode);
+    }
 
     public void CycleMode()
     {

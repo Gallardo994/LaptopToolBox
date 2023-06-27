@@ -4,6 +4,7 @@ using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
 using Ninject;
+using Serilog;
 
 namespace GHelper.ViewModels;
 
@@ -45,11 +46,25 @@ public partial class PerformanceModeViewModel : ObservableObject
     
     public void DeletePerformanceMode(IPerformanceMode performanceMode)
     {
+        var currentMode = _performanceModeControl.GetCurrentMode();
+        
+        if (currentMode == performanceMode)
+        {
+            _performanceModeControl.RestoreToFallbackMode();
+        }
+        
         _performanceModesProvider.DeleteCustomPerformanceMode(performanceMode);
     }
     
     public void ApplyModificationsFromCustomPerformanceMode(IPerformanceMode performanceMode)
     {
-        _performanceModesProvider.ApplyModificationsFromCustomPerformanceMode(performanceMode);
+        var appliedMode = _performanceModesProvider.ApplyModificationsFromCustomPerformanceMode(performanceMode);
+
+        var currentMode = _performanceModeControl.GetCurrentMode();
+
+        if (currentMode == appliedMode)
+        {
+            _performanceModeControl.SetMode(appliedMode);
+        }
     }
 }
