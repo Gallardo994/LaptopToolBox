@@ -84,8 +84,8 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             Description = description,
             IsAvailableOnStartup = false,
             IsAvailableInHotkeys = true,
-            CpuFanCurve = new FanCurve(_fanController.FanCurvePointCount),
-            GpuFanCurve = new FanCurve(_fanController.FanCurvePointCount),
+            CpuFanCurve = new FanCurve(_fanController.IntegratedCpuFanCurves.Last()),
+            GpuFanCurve = new FanCurve(_fanController.IntegratedGpuFanCurves.Last()),
         };
         
         AvailableModes.Add(newMode);
