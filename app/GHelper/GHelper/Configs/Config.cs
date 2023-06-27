@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Helpers;
 using Newtonsoft.Json;
 
@@ -17,11 +19,14 @@ public partial class Config : ObservableObject, IConfig
     [ObservableProperty] [JsonProperty("performance_mode_current")] private Guid _performanceModeCurrent;
     [ObservableProperty] [JsonProperty("keyboard_backlight_brightness")] private byte _keyboardBacklightBrightness = 3;
     [ObservableProperty] [JsonProperty("auto_overdrive_enabled")] private bool _autoOverdriveEnabled = false;
+    [ObservableProperty] [JsonProperty("custom_performance_modes")] private ObservableCollection<CustomPerformanceMode> _customPerformanceModes = new();
 
     public Config(IConfigSaveCommandLoop saveCommandLoop)
     {
         _saveCommandLoop = saveCommandLoop;
         PropertyChanged += (sender, args) => SaveToLocalStorage();
+        
+        CustomPerformanceModes.CollectionChanged += (sender, args) => SaveToLocalStorage();
     }
 
     public bool ReadFromLocalStorage()

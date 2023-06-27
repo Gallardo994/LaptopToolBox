@@ -6,5 +6,6 @@ public interface IPerformanceModesProvider
 {
     public ObservableCollection<IPerformanceMode> AvailableModes { get; }
     public IPerformanceMode GetNextModeAfter(IPerformanceMode currentMode);
-
+    public IPerformanceMode CreateCustomPerformanceMode(string title, string description = "");
+    public bool DeleteCustomPerformanceMode(IPerformanceMode performanceMode);
 }

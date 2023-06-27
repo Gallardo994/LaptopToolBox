@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using GHelper.Configs;
+using Ninject;
+using Serilog;
 
 namespace GHelper.DeviceControls.PerformanceModes.Vendors.Asus;
 
 public class AsusPerformanceModesProvider : IPerformanceModesProvider
 {
+    private readonly IConfig _config;
+    
     public ObservableCollection<IPerformanceMode> AvailableModes { get; init; }
 
-    public AsusPerformanceModesProvider()
+    [Inject]
+    public AsusPerformanceModesProvider(IConfig config)
     {
+        _config = config;
+        
         AvailableModes = new ObservableCollection<IPerformanceMode>
         {
             new IntegratedPerformanceMode
@@ -37,6 +45,28 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
                 Type = PerformanceModeType.Turbo,
             }
         };
+        
+        Log.Debug("Number of custom performance modes: {Count}", _config.CustomPerformanceModes.Count);
+        foreach (var customPerformanceMode in _config.CustomPerformanceModes)
+        {
+            Log.Debug("Type of custom performance mode: {Type}", customPerformanceMode.GetType());
+            AvailableModes.Add(customPerformanceMode);
+        }
+
+        var testGuid = Guid.Parse("479071d6-8f6b-4709-9a4d-3460f529f0a7"); // Test guid
+        
+        if (AvailableModes.All(mode => mode.Id != testGuid))
+        {
+            var newMode = new CustomPerformanceMode
+            {
+                Id = testGuid,
+                Title = "Test",
+                Description = "Test",
+            };
+            
+            AvailableModes.Add(newMode);
+            _config.CustomPerformanceModes.Add(newMode);
+        }
     }
     
     public IPerformanceMode GetNextModeAfter(IPerformanceMode currentMode)
@@ -49,5 +79,30 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
     public IPerformanceMode FindById(Guid id)
     {
         return AvailableModes.FirstOrDefault(mode => mode.Id == id);
+    }
+    
+    public IPerformanceMode CreateCustomPerformanceMode(string title, string description = "")
+    {
+        var newMode = new CustomPerformanceMode
+        {
+            Id = Guid.NewGuid(),
+            Title = title,
+            Description = description,
+        };
+        
+        AvailableModes.Add(newMode);
+        _config.CustomPerformanceModes.Add(newMode);
+        
+        return newMode;
+    }
+    
+    public bool DeleteCustomPerformanceMode(IPerformanceMode mode)
+    {
+        if (mode is not CustomPerformanceMode customPerformanceMode)
+        {
+            return false;
+        }
+
+        return AvailableModes.Remove(mode) && _config.CustomPerformanceModes.Remove(customPerformanceMode);
     }
 }

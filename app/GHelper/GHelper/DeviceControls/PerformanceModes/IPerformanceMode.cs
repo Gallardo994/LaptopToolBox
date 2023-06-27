@@ -1,8 +1,9 @@
 ﻿using System;
+using GHelper.Helpers;
 
 namespace GHelper.DeviceControls.PerformanceModes;
 
-public interface IPerformanceMode
+public interface IPerformanceMode : IObservableObject
 {
     public Guid Id { get; }
     public string Title { get; set; }

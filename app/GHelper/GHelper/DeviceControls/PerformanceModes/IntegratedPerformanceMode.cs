@@ -1,12 +1,13 @@
 ﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace GHelper.DeviceControls.PerformanceModes;
 
-public class IntegratedPerformanceMode : IPerformanceMode
+public partial class IntegratedPerformanceMode : ObservableObject, IPerformanceMode
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string Icon { get; set; }
-    public PerformanceModeType Type { get; init; }
+    [ObservableProperty] private Guid _id;
+    [ObservableProperty] private string _title;
+    [ObservableProperty] private string _description;
+    [ObservableProperty] private string _icon;
+    [ObservableProperty] private PerformanceModeType _type;
 }
