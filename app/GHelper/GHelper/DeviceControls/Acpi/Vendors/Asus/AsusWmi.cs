@@ -127,4 +127,16 @@ public enum AsusWmi : uint
     // Temperature
     ASUS_WMI_CPU_TEMP = 0x00120094,
     ASUS_WMI_GPU_TEMP = 0x00120097,
+
+    // Power limits
+    ASUS_WMI_CPU_SPL_PL1 = 0x001200A0,  // SPL (Total limit for all-AMD models) / PL1
+    // ASUS_WMI_CPU_EDC = 0x001200A1,
+    // ASUS_WMI_CPU_TDC = 0x001200A2,
+    ASUS_WMI_CPU_SPPT_PL2 = 0x001200A3,  // sPPT (long boost limit) / PL2
+    ASUS_WMI_CPU_FPPT = 0x001200C1,  // fPPT (fast boost limit)
+    ASUS_WMI_CPU_PPT_LIMIT_APU = 0x001200B0,  // CPU PPT on 2022 (PPT_LIMIT_APU)
+    //ASUS_WMI_CPU_PPT_LIMIT_SLOW = 0x001200B1,  // Total PPT on 2022 (PPT_LIMIT_SLOW)
+
+    ASUS_WMI_NVIDIA_GPU_BOOST = 0x001200C0,  // NVIDIA GPU Boost
+    ASUS_WMI_NVIDIA_GPU_TEMP_TARGET = 0x001200C2,  // NVIDIA GPU Temp Target (75.. 87 C) 
 }
