@@ -73,11 +73,11 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
         {
             return;
         }
-        
+
         var result = _fanController.SetCpuFanCurve(customPerformanceMode.CpuFanCurve);
         Log.Debug("Set CPU fan curve result: {Result}", result);
         
-        result = _fanController.SetGpuFanCurve(customPerformanceMode.CpuFanCurve);
+        result = _fanController.SetGpuFanCurve(customPerformanceMode.GpuFanCurve);
         Log.Debug("Set GPU fan curve result: {Result}", result);
     }
 }

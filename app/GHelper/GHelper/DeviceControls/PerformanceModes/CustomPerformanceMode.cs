@@ -26,6 +26,9 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
     [JsonProperty("cpu_fan_curve")]
     [ObservableProperty] private FanCurve _cpuFanCurve;
     
+    [JsonProperty("gpu_fan_curve")]
+    [ObservableProperty] private FanCurve _gpuFanCurve;
+    
     [JsonIgnore] public string Icon { get; } = "\uE7EE";
     [JsonIgnore] public PerformanceModeType Type { get; } = PerformanceModeType.Manual;
 
@@ -47,6 +50,7 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
         performanceMode.IsAvailableOnStartup = IsAvailableOnStartup;
         performanceMode.IsAvailableInHotkeys = IsAvailableInHotkeys;
         performanceMode.CpuFanCurve = new FanCurve(CpuFanCurve);
+        performanceMode.GpuFanCurve = new FanCurve(GpuFanCurve);
     }
     
     public bool HasModificationsComparedTo(CustomPerformanceMode performanceMode)
@@ -56,6 +60,7 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
                performanceMode.Description != Description ||
                performanceMode.IsAvailableOnStartup != IsAvailableOnStartup ||
                performanceMode.IsAvailableInHotkeys != IsAvailableInHotkeys ||
-               performanceMode.CpuFanCurve.HasModificationsComparedTo(CpuFanCurve);
+               performanceMode.CpuFanCurve.HasModificationsComparedTo(CpuFanCurve) ||
+               performanceMode.GpuFanCurve.HasModificationsComparedTo(GpuFanCurve);
     }
 }

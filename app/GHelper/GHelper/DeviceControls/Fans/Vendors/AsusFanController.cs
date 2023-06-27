@@ -9,7 +9,7 @@ public class AsusFanController : IFanController
 {
     private readonly IAcpi _acpi;
 
-    public int FanCurvePointCount { get; } = 16;
+    public int FanCurvePointCount { get; } = 8;
     
     [Inject]
     public AsusFanController(IAcpi acpi)
@@ -42,9 +42,9 @@ public class AsusFanController : IFanController
         
         Log.Debug("Set CPU fan curve: {ByteArray}", byteArray);
         
-        //var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CURVE, byteArray);
+        var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CURVE, byteArray);
         
-        //Log.Debug("Set CPU fan curve result: {Result}", result);
+        Log.Debug("Set CPU fan curve result: {Result}", result);
         
         return FanCurveResult.OK;
     }
@@ -62,9 +62,9 @@ public class AsusFanController : IFanController
         
         Log.Debug("Set GPU fan curve: {ByteArray}", byteArray);
         
-        //var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CURVE, byteArray);
+        var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CURVE, byteArray);
         
-        //Log.Debug("Set GPU fan curve result: {Result}", result);
+        Log.Debug("Set GPU fan curve result: {Result}", result);
         
         return FanCurveResult.OK;
     }

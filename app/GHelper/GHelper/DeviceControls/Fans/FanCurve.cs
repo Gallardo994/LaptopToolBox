@@ -24,25 +24,11 @@ public class FanCurve : ObservableObject
         {
             Points.Add(new FanCurvePoint());
         }
-        
-        /*
-        // Below FanCurvePointCount*40%, fan speed is 20%
-        for (var i = 0; i < (int) (PointCount * 0.4); i++)
-        {
-            Points[i].Value = 20;
-        }
-        
-        // Otherwise, increase linearly to 100%
-        for (var i = (int) (PointCount * 0.4); i < PointCount; i++)
-        {
-            Points[i].Value = (byte) (i * 100 / PointCount);
-        }
-        */
-        
-        // Set all to 99 for testing
+
         for (var i = 0; i < PointCount; i++)
         {
-            Points[i].Value = 99;
+            Points[i].Temperature = (byte) (i * 100 / PointCount);
+            Points[i].Value = 70;
         }
     }
 
@@ -90,11 +76,12 @@ public class FanCurve : ObservableObject
     
     public byte[] ToByteArray()
     {
-        var byteArray = new byte[PointCount];
+        var byteArray = new byte[PointCount * 2];
         
         for (var i = 0; i < PointCount; i++)
         {
-            byteArray[i] = Points[i].Value;
+            byteArray[i] = Points[i].Temperature;
+            byteArray[i + PointCount] = Points[i].Value;
         }
 
         return byteArray;
@@ -109,7 +96,7 @@ public class FanCurve : ObservableObject
 
         for (var i = 0; i < PointCount; i++)
         {
-            if (Points[i].Value != other.Points[i].Value)
+            if (Points[i].Temperature != other.Points[i].Temperature || Points[i].Value != other.Points[i].Value)
             {
                 return true;
             }
