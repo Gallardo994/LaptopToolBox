@@ -29,7 +29,7 @@ namespace GHelper.AppWindows
             };
         }
         
-        public Type NavigateContentFrame(
+        public void NavigateContentFrame(
             Type pageType, 
             object parameter = null, 
             NavigationTransitionInfo transitionInfo = null,
@@ -40,11 +40,7 @@ namespace GHelper.AppWindows
                 ContentFrame.BackStack.Clear();
             }
             
-            var previousPageType = ContentFrame.Content?.GetType();
-            
             ContentFrame.Navigate(pageType, parameter, transitionInfo);
-
-            return previousPageType;
         }
         
         public void AddThisPageToBackStack(object parameter = null, 
