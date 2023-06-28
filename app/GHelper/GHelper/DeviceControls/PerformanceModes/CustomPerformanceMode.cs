@@ -43,6 +43,12 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
     
     [JsonProperty("gpu_temp_target")]
     [ObservableProperty] private int _gpuTempTarget;
+    
+    [JsonProperty("gpu_core_offset")]
+    [ObservableProperty] private int _gpuCoreOffset;
+    
+    [JsonProperty("gpu_memory_offset")]
+    [ObservableProperty] private int _gpuMemoryOffset;
 
     [JsonIgnore] public string Icon { get; } = "\uE7EE";
     [JsonIgnore] public PerformanceModeType Type { get; } = PerformanceModeType.Manual;
@@ -71,6 +77,8 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
         performanceMode.CpuFppt = CpuFppt;
         performanceMode.GpuPowerBoost = GpuPowerBoost;
         performanceMode.GpuTempTarget = GpuTempTarget;
+        performanceMode.GpuCoreOffset = GpuCoreOffset;
+        performanceMode.GpuMemoryOffset = GpuMemoryOffset;
     }
     
     public bool HasModificationsComparedTo(CustomPerformanceMode performanceMode)
@@ -86,6 +94,8 @@ public partial class CustomPerformanceMode : ObservableObject, IPerformanceMode
                performanceMode.CpuSppt != CpuSppt ||
                performanceMode.CpuFppt != CpuFppt ||
                performanceMode.GpuPowerBoost != GpuPowerBoost ||
-               performanceMode.GpuTempTarget != GpuTempTarget;
+               performanceMode.GpuTempTarget != GpuTempTarget ||
+               performanceMode.GpuCoreOffset != GpuCoreOffset ||
+               performanceMode.GpuMemoryOffset != GpuMemoryOffset;
     }
 }

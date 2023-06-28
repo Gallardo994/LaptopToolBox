@@ -3,7 +3,9 @@ using GHelper.Configs;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using GHelper.DeviceControls.Fans;
+using GHelper.DeviceControls.GPUs;
 using GHelper.DeviceControls.PowerLimits;
+using GHelper.Injection;
 using GHelper.Notifications;
 using Ninject;
 using Serilog;
@@ -18,6 +20,7 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     private readonly IPerformanceModesProvider _performanceModesProvider;
     private readonly IFanController _fanController;
     private readonly IPowerLimitController _powerLimitController;
+    private readonly IGpuControl _gpuControl;
     
     [Inject]
     public AsusPerformanceModeControl(IConfig config,
@@ -25,7 +28,8 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
         INotificationService notificationService,
         IPerformanceModesProvider performanceModesProvider,
         IFanController fanController,
-        IPowerLimitController powerLimitController)
+        IPowerLimitController powerLimitController,
+        IGpuControl gpuControl)
     {
         _config = config;
         _acpi = acpi;
@@ -33,10 +37,13 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
         _performanceModesProvider = performanceModesProvider;
         _fanController = fanController;
         _powerLimitController = powerLimitController;
+        _gpuControl = gpuControl;
     }
 
     public void SetMode(IPerformanceMode performanceMode)
     {
+        TryResetCustomParameters(GetCurrentMode());
+        
         var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY, (uint) performanceMode.Type);
         
         Log.Debug("Set performance mode result: {Result}", result);
@@ -92,5 +99,22 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
         
         result = _powerLimitController.SetCpuFppt(customPerformanceMode.CpuFppt);
         Log.Debug("Set CPU FPPT result: {Result}", result);
+        
+        _gpuControl.SetCoreClockOffset(customPerformanceMode.GpuCoreOffset);
+        Log.Debug("Set memory clock offset {memoryClockOffset}", _gpuControl.GetMemoryClockOffset());
+        
+        _gpuControl.SetMemoryClockOffset(customPerformanceMode.GpuMemoryOffset);
+        Log.Debug("Set core clock offset {coreClockOffset}", _gpuControl.GetCoreClockOffset());
+    }
+
+    private void TryResetCustomParameters(IPerformanceMode performanceMode)
+    {
+        if (performanceMode is not CustomPerformanceMode customPerformanceMode)
+        {
+            return;
+        }
+        
+        _gpuControl.SetCoreClockOffset(0);
+        _gpuControl.SetMemoryClockOffset(0);
     }
 }

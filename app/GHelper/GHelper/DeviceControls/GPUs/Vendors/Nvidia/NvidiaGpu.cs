@@ -5,30 +5,34 @@ using NvAPIWrapper.Native;
 using NvAPIWrapper.Native.GPU;
 using NvAPIWrapper.Native.GPU.Structures;
 using NvAPIWrapper.Native.Interfaces.GPU;
+using Serilog;
 
 namespace GHelper.DeviceControls.GPUs.Vendors.Nvidia;
 
 public class NvidiaGpu : IGpuControl
 {
     private readonly PhysicalGPU _physicalGpu;
-    private readonly IThermalSensor _thermalSensor;
     
     public NvidiaGpu()
     {
         _physicalGpu = FindPhysicalGpu();
-        _thermalSensor = GetThermalSensor();
     }
 
     private PhysicalGPU FindPhysicalGpu()
     {
         try
         {
-            return PhysicalGPU
+            var gpu = PhysicalGPU
                 .GetPhysicalGPUs()
                 .FirstOrDefault(gpu => gpu.SystemType == SystemType.Laptop);
+            
+            Log.Information("Found physical GPU: {Gpu}", gpu);
+            
+            return gpu;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Log.Error(ex, "Failed to find physical GPU");
             return null;
         }
     }
@@ -46,17 +50,23 @@ public class NvidiaGpu : IGpuControl
     
     public bool IsAvailable()
     {
+        Log.Information("Checking if Nvidia GPU is available: {IsAvailable}", EnsureGpuIsValid());
         return EnsureGpuIsValid();
     }
     
     private bool EnsureGpuIsValid()
     {
-        return _physicalGpu != null && _thermalSensor != null;
+        return _physicalGpu != null;
     }
 
     public int GetTemperature()
     {
-        return !EnsureGpuIsValid() ? 0 : _thermalSensor.CurrentTemperature;
+        if (!EnsureGpuIsValid())
+        {
+            return 0;
+        }
+        
+        return GetThermalSensor() is not { } sensor ? 0 : sensor.CurrentTemperature;
     }
     
     public int GetFanRpm()
