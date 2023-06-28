@@ -7,6 +7,10 @@ internal struct IoControlCode
 {
     public uint Numeric => code;
     private uint code;
+    
+    public IoControlCode(IoControlCodeComponents components) : this(components.DeviceType, components.Function, components.Method, components.Access)
+    {
+    }
 
     public IoControlCode(uint deviceType, uint function, Access access) : this(deviceType, function, Method.Buffered, access)
     {
