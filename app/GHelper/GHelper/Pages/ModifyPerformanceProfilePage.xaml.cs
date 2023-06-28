@@ -6,6 +6,7 @@ using GHelper.Injection;
 using GHelper.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
 using Ninject;
 using Ninject.Parameters;
@@ -30,15 +31,32 @@ namespace GHelper.Pages
             base.OnNavigatedTo(e);
             
             var guid = (Guid) e.Parameter;
-            
             var mode = _performanceModesProvider.FindById(guid);
-            Log.Debug("Found mode {Mode} with ID {ID}", mode.Title, mode.Id);
             
-            ViewModel = Services.ResolutionRoot.Get<ModifyPerformanceProfileViewModel>(new ConstructorArgument("performanceMode", mode));
+            ViewModel = Services.ResolutionRoot.Get<ModifyPerformanceProfileViewModel>(
+                new ConstructorArgument("performanceMode", mode));
         }
 
-        private void SaveButton_OnClick(object sender, RoutedEventArgs e)
+        private async void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
+            var contentDialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Content = "Do you want to save your changes?",
+                PrimaryButtonText = "Save Changes",
+                CloseButtonText = "Continue Editing",
+                DefaultButton = ContentDialogButton.Primary,
+                CloseButtonCommandParameter = false,
+                PrimaryButtonCommandParameter = true,
+            };
+            
+            var result = await contentDialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+            
             ViewModel.ApplyModificationsFromCustomPerformanceMode();
             _mainWindow.TryNavigateBack();
         }
@@ -115,6 +133,19 @@ namespace GHelper.Pages
             
             var result = await contentDialog.ShowAsync();
             return result == ContentDialogResult.Primary;
+        }
+
+        private void PowerLimitValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (SplSlider.Value > FpptSlider.Value)
+            {
+                FpptSlider.Value = SplSlider.Value;
+            }
+
+            if (SplSlider.Value > SpptSlider.Value)
+            {
+                SpptSlider.Value = SplSlider.Value;
+            }
         }
     }
 }

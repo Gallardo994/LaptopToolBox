@@ -97,7 +97,7 @@
                            x:Name="ContentFrame" 
                            x:FieldModifier="public" 
                            Background="Transparent" 
-                           Padding="32 0 32 0"/>
+                           Padding="32 0 32 28"/>
                 </ScrollViewer>
             </Grid>
         </NavigationView>

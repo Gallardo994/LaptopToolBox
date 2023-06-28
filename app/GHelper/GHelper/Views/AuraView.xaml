@@ -47,6 +47,7 @@
               ExpandDirection="Down"
               VerticalAlignment="Top"
               Header="Primary Color"
+              Margin="-1 0 -1 0"
               HorizontalAlignment="Stretch">
         <Expander.Content>
             <ColorPicker x:Name="PrimaryColorPicker"
@@ -67,6 +68,7 @@
               ExpandDirection="Down"
               VerticalAlignment="Top"
               Header="Secondary Color"
+              Margin="-1 0 -1 0"
               HorizontalAlignment="Stretch">
         <Expander.Content>
             <ColorPicker x:Name="SecondaryColorPicker"

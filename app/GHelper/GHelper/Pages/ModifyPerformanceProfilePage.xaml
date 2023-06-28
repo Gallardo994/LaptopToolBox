@@ -30,12 +30,13 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
         <Grid Grid.Row="0"
@@ -50,185 +51,269 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                           Text="{x:Bind Path=ViewModel.Modified.Title, Mode=OneWay}" />
+                <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                           Text="{x:Bind Path=ViewModel.Modified.Description, Mode=OneWay}" />
+            </StackPanel>
  
             <StackPanel Grid.Row="0"
                         Grid.Column="2" 
-                        Orientation="Horizontal">
-                <Button Content="Save changes"
-                        Style="{StaticResource AccentButtonStyle}"
-                        Click="SaveButton_OnClick"></Button>
-                <Button Content="Undo all changes"
-                        Margin="4 0 0 0"
-                        Click="UndoButton_OnClick"></Button>
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <Button Style="{StaticResource AccentButtonStyle}"
+                        ToolTipService.ToolTip="Save"
+                        Click="SaveButton_OnClick">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Save"></SymbolIcon>
+                    </Button.Content>
+                </Button>
+                <Button Margin="8 0 0 0"
+                        ToolTipService.ToolTip="Reset changes"
+                        Click="UndoButton_OnClick">
+                    <Button.Content>
+                        <SymbolIcon Symbol="DisableUpdates"></SymbolIcon>
+                    </Button.Content>
+                </Button>
+                <Button Margin="8 0 0 0"
+                        ToolTipService.ToolTip="Discard and exit"
+                        Click="CancelButton_OnClick">
+                    <Button.Content>
+                        <SymbolIcon Symbol="ClosePane"></SymbolIcon>
+                    </Button.Content>
+                </Button>
             </StackPanel>
             
-            
-            <TextBox Grid.Row="1"
-                     Grid.Column="0"
-                     Text="{x:Bind Path=ViewModel.Modified.Title, Mode=TwoWay}" />
-            <TextBox Grid.Row="2" 
-                     Grid.Column="0"
-                     Text="{x:Bind Path=ViewModel.Modified.Description, Mode=TwoWay}" />
-            <CheckBox Grid.Row="3" 
-                      Grid.Column="0"
-                      Content="Can be applied on startup"
-                      IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableOnStartup, Mode=TwoWay}">
-            </CheckBox>
-            <CheckBox Grid.Row="4" 
-                      Grid.Column="0"
-                      Content="Available by hotkey"
-                      IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableInHotkeys, Mode=TwoWay}">
-            </CheckBox>
         </Grid>
         
-        <Grid Grid.Row="1"
-              Grid.Column="0" >
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            
-            <TextBlock Grid.Row="0"
-                       Grid.Column="0"
-                       Text="SPL"></TextBlock>
-            <Slider Grid.Row="0"
-                    Grid.Column="1"
-                    Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
-                    TickFrequency="5"
-                    Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
-                    Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
-                    Width="200"
-                    TickPlacement="Outside" />
-            
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0" Text="SPPT"></TextBlock>
-            <Slider Grid.Row="1"
-                    Grid.Column="1" 
-                    Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
-                    TickFrequency="5"
-                    Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
-                    Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
-                    Width="200"
-                    TickPlacement="Outside" />
-            
-            <TextBlock Grid.Row="2"
-                       Grid.Column="0" 
-                       Text="FPPT"></TextBlock>
-            <Slider Grid.Row="2"
-                    Grid.Column="1" 
-                    Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
-                    TickFrequency="5"
-                    Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
-                    Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
-                    Width="200"
-                    TickPlacement="Outside" />
-            
-            <TextBlock Grid.Row="3"
-                       Grid.Column="0" 
-                       Text="GPU Power Boost"></TextBlock>
-            <Slider Grid.Row="3"
-                    Grid.Column="1" 
-                    Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
-                    TickFrequency="5"
-                    Minimum="{x:Bind Path=ViewModel.PLC.MinGpuPowerBoost}"
-                    Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuPowerBoost}"
-                    Width="200"
-                    TickPlacement="Outside" />
-            
-            <TextBlock Grid.Row="4"
-                       Grid.Column="0" 
-                       Text="GPU Temp Target"></TextBlock>
-            <Slider Grid.Row="4"
-                    Grid.Column="1" 
-                    Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
-                    TickFrequency="5"
-                    Minimum="{x:Bind Path=ViewModel.PLC.MinGpuTempTarget}"
-                    Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuTempTarget}"
-                    Width="200"
-                    TickPlacement="Outside" />
-        </Grid>
-
-        <ListView Grid.Row="2"
+        <Expander Grid.Row="1"
                   Grid.Column="0"
-                  ItemsSource="{x:Bind ViewModel.Modified.CpuFanCurve.Points, Mode=OneWay}"
-                  ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
-
-                  ScrollViewer.VerticalScrollMode="Disabled"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-
-                  ScrollViewer.IsHorizontalRailEnabled="True"
-
-                  Style="{StaticResource CurvePanel}"
-                  ItemContainerStyle="{StaticResource CurvePanelItem}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="fans:FanCurvePoint">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{x:Bind Path=Temperature, Mode=OneWay}" />
-                        <Slider Orientation="Vertical" Value="{x:Bind Path=Value, Mode=TwoWay}"
-                                TickFrequency="5"
-                                Minimum="0"
-                                Maximum="99"
-                                Height="200"
-                                TickPlacement="Outside" />
-                        <TextBlock Text="{x:Bind Path=Value, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView Grid.Row="3"
+                  Header="Presentation"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Margin="-1 8 -1 0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 2 0 4">
+                    
+                    <TextBlock VerticalAlignment="Center"
+                               Text="Change name:"></TextBlock>
+                    <TextBox VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch"
+                             Margin="8 0 0 0"
+                             Text="{x:Bind Path=ViewModel.Modified.Title, Mode=TwoWay}" />
+                    
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 4 0 2">
+                    
+                    <TextBlock VerticalAlignment="Center"
+                               Text="Change description:"></TextBlock>
+                    
+                    <TextBox VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch"
+                             Margin="8 0 0 0"
+                             Text="{x:Bind Path=ViewModel.Modified.Title, Mode=TwoWay}" />
+                    
+                </StackPanel>
+            </StackPanel>
+        </Expander>
+                  
+        <Expander Grid.Row="2"
                   Grid.Column="0"
-                  ItemsSource="{x:Bind ViewModel.Modified.GpuFanCurve.Points, Mode=OneWay}"
-                  ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  Header="General settings"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  IsExpanded="True"
+                  Margin="-1 0 -1 0">
+            <StackPanel>
+                <CheckBox Content="Can be applied on startup"
+                          IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableOnStartup, Mode=TwoWay}">
+                </CheckBox>
+                <CheckBox Content="Available by hotkey"
+                          IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableInHotkeys, Mode=TwoWay}">
+                </CheckBox>
+            </StackPanel>
+        </Expander>
+        
+        <Expander Grid.Row="3"
+                  Grid.Column="0"
+                  Header="Power Limits"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                  IsExpanded="True">
+            <StackPanel>
+                <TextBlock Text="SPL"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
+                        Name="SplSlider"
+                        TickFrequency="5"
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
+                        ValueChanged="PowerLimitValueChanged"
+                        TickPlacement="Outside"
+                        HorizontalAlignment="Stretch"/>
+                
+                <TextBlock Text="SPPT"
+                           Margin="0 4 0 0"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
+                        Name="SpptSlider"
+                        TickFrequency="5"
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
+                        ValueChanged="PowerLimitValueChanged"
+                        TickPlacement="Outside" />
+                
+                <TextBlock Text="FPPT"
+                           Margin="0 4 0 0"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
+                        Name="FpptSlider"
+                        TickFrequency="5"
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
+                        ValueChanged="PowerLimitValueChanged"
+                        TickPlacement="Outside" />
+                
+                <TextBlock Text="GPU Power Boost"
+                           Margin="0 4 0 0"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
+                        TickFrequency="1"
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinGpuPowerBoost}"
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuPowerBoost}"
+                        TickPlacement="Outside" />
+                
+                <TextBlock Text="GPU Temp Target"
+                           Margin="0 4 0 0"></TextBlock>
+                <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
+                        TickFrequency="1"
+                        Minimum="{x:Bind Path=ViewModel.PLC.MinGpuTempTarget}"
+                        Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuTempTarget}"
+                        TickPlacement="Outside" />
+            </StackPanel>
+        </Expander>
 
-                  ScrollViewer.VerticalScrollMode="Disabled"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
 
-                  ScrollViewer.IsHorizontalRailEnabled="True"
+        <Expander Grid.Row="4"
+                  Grid.Column="0"
+                  Header="CPU Fan"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Center">
+            <ListView ItemsSource="{x:Bind ViewModel.Modified.CpuFanCurve.Points, Mode=OneWay}"
+                      ScrollViewer.HorizontalScrollMode="Enabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
 
-                  Style="{StaticResource CurvePanel}"
-                  ItemContainerStyle="{StaticResource CurvePanelItem}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
+                      ScrollViewer.VerticalScrollMode="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
 
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="fans:FanCurvePoint">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{x:Bind Path=Temperature, Mode=OneWay}" />
-                        <Slider Orientation="Vertical" Value="{x:Bind Path=Value, Mode=TwoWay}"
-                                TickFrequency="5"
-                                Minimum="0"
-                                Maximum="99"
-                                Height="200"
-                                TickPlacement="Outside" />
-                        <TextBlock Text="{x:Bind Path=Value, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                      ScrollViewer.IsHorizontalRailEnabled="True"
+                      
+                      SelectionMode="None"
+
+                      Style="{StaticResource CurvePanel}"
+                      ItemContainerStyle="{StaticResource CurvePanelItem}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="fans:FanCurvePoint">
+                        <StackPanel Orientation="Vertical">
+                            
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Margin="0 8 0 4">
+                                <TextBlock Text="{x:Bind Path=Value, Mode=OneWay}"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="%"/>
+                            </StackPanel>
+                            
+                            <Slider Orientation="Vertical" Value="{x:Bind Path=Value, Mode=TwoWay}"
+                                    TickFrequency="5"
+                                    Minimum="0"
+                                    Maximum="99"
+                                    Height="200"
+                                    TickPlacement="Outside"
+                                    HorizontalAlignment="Center"/>
+                            
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Margin="0 4 0 8">
+                                <TextBlock Text="{x:Bind Path=Temperature, Mode=OneWay}"/>
+                                <TextBlock Text=" °C"/>
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Expander>
+
+        <Expander Grid.Row="5"
+                  Grid.Column="0"
+                  Header="GPU Fan"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Center">
+            <ListView ItemsSource="{x:Bind ViewModel.Modified.GpuFanCurve.Points, Mode=OneWay}"
+                      ScrollViewer.HorizontalScrollMode="Enabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
+
+                      ScrollViewer.VerticalScrollMode="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+
+                      ScrollViewer.IsHorizontalRailEnabled="True"
+                      
+                      SelectionMode="None"
+
+                      Style="{StaticResource CurvePanel}"
+                      ItemContainerStyle="{StaticResource CurvePanelItem}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="fans:FanCurvePoint">
+                        <StackPanel Orientation="Vertical">
+                            
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Margin="0 8 0 4">
+                                <TextBlock Text="{x:Bind Path=Value, Mode=OneWay}"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="%"/>
+                            </StackPanel>
+                            
+                            <Slider Orientation="Vertical" Value="{x:Bind Path=Value, Mode=TwoWay}"
+                                    TickFrequency="5"
+                                    Minimum="0"
+                                    Maximum="99"
+                                    Height="200"
+                                    TickPlacement="Outside" />
+                            
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Margin="0 4 0 8">
+                                <TextBlock Text="{x:Bind Path=Temperature, Mode=OneWay}"/>
+                                <TextBlock Text=" °C"/>
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Expander>
     </Grid>
 </Page>

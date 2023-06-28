@@ -41,6 +41,6 @@ public class ModifyPerformanceProfileViewModel
     
     public void UndoModifications()
     {
-        Modified = new CustomPerformanceMode(Original);
+        Original.CopyTo(Modified);
     }
 }
