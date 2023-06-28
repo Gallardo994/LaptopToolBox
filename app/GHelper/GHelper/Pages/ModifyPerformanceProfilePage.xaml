@@ -160,8 +160,8 @@
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
                         Name="SplSlider"
                         TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinCpuPowerLimit}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxCpuPowerLimit}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSpl.Min}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSpl.Max}"
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside"
                         HorizontalAlignment="Stretch"/>
@@ -174,8 +174,8 @@
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
                         Name="SpptSlider"
                         TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinCpuPowerLimit}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxCpuPowerLimit}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSppt.Min}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSppt.Max}"
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside" />
                 
@@ -187,8 +187,8 @@
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
                         Name="FpptSlider"
                         TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinCpuPowerLimit}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxCpuPowerLimit}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuFppt.Min}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuFppt.Max}"
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside" />
                 
@@ -199,8 +199,8 @@
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
                         TickFrequency="1"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinGpuPowerBoost}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxGpuPowerBoost}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuPower.Min}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuPower.Max}"
                         TickPlacement="Outside"/>
                 
                 <TextBlock Text="GPU Temp Target"
@@ -210,8 +210,8 @@
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
                         TickFrequency="1"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinGpuTempTarget}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxGpuTempTarget}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Min}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Max}"
                         TickPlacement="Outside" />
             </StackPanel>
         </Expander>

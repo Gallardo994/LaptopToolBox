@@ -89,11 +89,11 @@ public class AsusPerformanceModesProvider : IPerformanceModesProvider
             IsAvailableInHotkeys = true,
             CpuFanCurve = new FanCurve(_fanController.IntegratedCpuFanCurves.Last()),
             GpuFanCurve = new FanCurve(_fanController.IntegratedGpuFanCurves.Last()),
-            CpuSpl = _powerLimitController.DefaultCpuPowerLimit,
-            CpuSppt = _powerLimitController.DefaultCpuPowerLimit,
-            CpuFppt = _powerLimitController.DefaultCpuPowerLimit,
-            GpuPowerBoost = _powerLimitController.DefaultGpuPowerBoost,
-            GpuTempTarget = _powerLimitController.DefaultGpuTempTarget,
+            CpuSpl = _powerLimitController.PowerLimits.CpuSpl.Default,
+            CpuSppt = _powerLimitController.PowerLimits.CpuSpl.Default,
+            CpuFppt = _powerLimitController.PowerLimits.CpuFppt.Default,
+            GpuPowerBoost = _powerLimitController.PowerLimits.GpuPower.Default,
+            GpuTempTarget = _powerLimitController.PowerLimits.GpuTarget.Default,
         };
         
         AvailableModes.Add(newMode);
