@@ -152,7 +152,11 @@
                   HorizontalContentAlignment="Stretch"
                   IsExpanded="True">
             <StackPanel>
-                <TextBlock Text="SPL"></TextBlock>
+                <TextBlock Text="Sustained Power Limit (SPL)"
+                           Margin="0 4 0 0"></TextBlock>
+                <TextBlock Text="Power allowed to be consumed for a long period of time. Measured in Watts."
+                           Style="{StaticResource CaptionTextBlockStyle}"
+                           Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
                         Name="SplSlider"
                         TickFrequency="5"
@@ -162,7 +166,10 @@
                         TickPlacement="Outside"
                         HorizontalAlignment="Stretch"/>
                 
-                <TextBlock Text="SPPT"
+                <TextBlock Text="Slow Package Power Tracking Limit (SPPT)"
+                           Margin="0 16 0 0"></TextBlock>
+                <TextBlock Text="Power allowed to be consumed for several minutes. Measured in Watts."
+                           Style="{StaticResource CaptionTextBlockStyle}"
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
                         Name="SpptSlider"
@@ -172,7 +179,10 @@
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside" />
                 
-                <TextBlock Text="FPPT"
+                <TextBlock Text="Fast Package Power Tracking Limit (FPPT)"
+                           Margin="0 16 0 0"></TextBlock>
+                <TextBlock Text="Power allowed to be consumed for several seconds. Measured in Watts."
+                           Style="{StaticResource CaptionTextBlockStyle}"
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
                         Name="FpptSlider"
@@ -183,14 +193,20 @@
                         TickPlacement="Outside" />
                 
                 <TextBlock Text="GPU Power Boost"
+                           Margin="0 14 0 0"></TextBlock>
+                <TextBlock Text="Additional power allowed to be consumed by GPU. Measured in Watts."
+                           Style="{StaticResource CaptionTextBlockStyle}"
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
                         TickFrequency="1"
                         Minimum="{x:Bind Path=ViewModel.PLC.MinGpuPowerBoost}"
                         Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuPowerBoost}"
-                        TickPlacement="Outside" />
+                        TickPlacement="Outside"/>
                 
                 <TextBlock Text="GPU Temp Target"
+                           Margin="0 16 0 0"></TextBlock>
+                <TextBlock Text="Target temperature for GPU. Measured in °C."
+                           Style="{StaticResource CaptionTextBlockStyle}"
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
                         TickFrequency="1"
