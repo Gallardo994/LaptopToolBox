@@ -1,4 +1,5 @@
-﻿using GHelper.DeviceControls.PerformanceModes;
+﻿using GHelper.DeviceControls.Fans;
+using GHelper.DeviceControls.PerformanceModes;
 using GHelper.DeviceControls.PowerLimits;
 using GHelper.Injection;
 using Ninject;
@@ -9,8 +10,8 @@ public class ModifyPerformanceProfileViewModel
 {
     public CustomPerformanceMode Original { get; init; }
     public CustomPerformanceMode Modified { get; private set; }
-    public IPowerLimitController PLC { get; init; }
-    
+    public IPowerLimitController PowerLimitController { get; init; } = Services.ResolutionRoot.Get<IPowerLimitController>();
+    public IFanController FanController { get; init; } = Services.ResolutionRoot.Get<IFanController>();
     private readonly IPerformanceModesProvider _performanceModesProvider = Services.ResolutionRoot.Get<IPerformanceModesProvider>();
     private readonly IPerformanceModeControl _performanceModeControl = Services.ResolutionRoot.Get<IPerformanceModeControl>();
     
@@ -19,7 +20,6 @@ public class ModifyPerformanceProfileViewModel
     {
         Original = performanceMode;
         Modified = new CustomPerformanceMode(Original);
-        PLC = Services.ResolutionRoot.Get<IPowerLimitController>();
     }
     
     public bool IsDirty()

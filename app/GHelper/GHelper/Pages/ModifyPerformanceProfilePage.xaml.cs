@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using GHelper.AppWindows;
+using GHelper.DeviceControls.Fans;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
 using GHelper.ViewModels;
@@ -146,6 +147,80 @@ namespace GHelper.Pages
             {
                 SpptSlider.Value = SplSlider.Value;
             }
+        }
+
+        private void CpuPresetsFlyout_Loaded(object sender, RoutedEventArgs e)
+        {
+            CpuUpdateFlyoutItems();
+            ViewModel.FanController.IntegratedCpuFanCurves.CollectionChanged += IntegratedCpuFanCurves_CollectionChanged;
+        }
+        
+        private void IntegratedCpuFanCurves_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CpuUpdateFlyoutItems();
+        }
+        
+        private void CpuUpdateFlyoutItems()
+        {
+            CpuPresetsFlyout.Items.Clear();
+
+            var index = 0;
+            
+            foreach (var curve in ViewModel.FanController.IntegratedCpuFanCurves)
+            {
+                var name = "CPU Fan Preset #" + ++index;
+                var menuItem = new MenuFlyoutItem
+                {
+                    Text = name,
+                };
+                menuItem.Click += (s, e) => CpuFanCurvePresetClicked(curve, e);
+                CpuPresetsFlyout.Items.Add(menuItem);
+            }
+        }
+        
+        private void CpuFanCurvePresetClicked(object sender, RoutedEventArgs e)
+        {
+            var fanCurve = (FanCurve) sender;
+            
+            Log.Debug("Applying preset fan curve {@FanCurve}", fanCurve);
+
+            fanCurve.CopyTo(ViewModel.Modified.CpuFanCurve);
+        }
+        
+        private void GpuPresetsFlyout_Loaded(object sender, RoutedEventArgs e)
+        {
+            GpuUpdateFlyoutItems();
+            ViewModel.FanController.IntegratedCpuFanCurves.CollectionChanged += IntegratedGpuFanCurves_CollectionChanged;
+        }
+        
+        private void IntegratedGpuFanCurves_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            GpuUpdateFlyoutItems();
+        }
+        
+        private void GpuUpdateFlyoutItems()
+        {
+            GpuPresetsFlyout.Items.Clear();
+
+            var index = 0;
+            
+            foreach (var curve in ViewModel.FanController.IntegratedGpuFanCurves)
+            {
+                var name = "GPU Fan Preset #" + ++index;
+                var menuItem = new MenuFlyoutItem
+                {
+                    Text = name,
+                };
+                menuItem.Click += (s, e) => GpuFanCurvePresetClicked(curve, e);
+                GpuPresetsFlyout.Items.Add(menuItem);
+            }
+        }
+        
+        private void GpuFanCurvePresetClicked(object sender, RoutedEventArgs e)
+        {
+            var fanCurve = (FanCurve) sender;
+            
+            fanCurve.CopyTo(ViewModel.Modified.GpuFanCurve);
         }
     }
 }

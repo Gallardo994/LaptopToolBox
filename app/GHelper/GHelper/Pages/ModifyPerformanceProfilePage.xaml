@@ -160,8 +160,8 @@
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
                         Name="SplSlider"
                         TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
-                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinCpuPowerLimit}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxCpuPowerLimit}"
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside"
                         HorizontalAlignment="Stretch"/>
@@ -174,8 +174,8 @@
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
                         Name="SpptSlider"
                         TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
-                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinCpuPowerLimit}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxCpuPowerLimit}"
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside" />
                 
@@ -187,8 +187,8 @@
                 <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
                         Name="FpptSlider"
                         TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PLC.MinCpuPowerLimit}"
-                        Maximum="{x:Bind Path=ViewModel.PLC.MaxCpuPowerLimit}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinCpuPowerLimit}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxCpuPowerLimit}"
                         ValueChanged="PowerLimitValueChanged"
                         TickPlacement="Outside" />
                 
@@ -199,8 +199,8 @@
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
                         TickFrequency="1"
-                        Minimum="{x:Bind Path=ViewModel.PLC.MinGpuPowerBoost}"
-                        Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuPowerBoost}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinGpuPowerBoost}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxGpuPowerBoost}"
                         TickPlacement="Outside"/>
                 
                 <TextBlock Text="GPU Temp Target"
@@ -210,8 +210,8 @@
                            Margin="0 4 0 0"></TextBlock>
                 <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
                         TickFrequency="1"
-                        Minimum="{x:Bind Path=ViewModel.PLC.MinGpuTempTarget}"
-                        Maximum="{x:Bind Path=ViewModel.PLC.MaxGpuTempTarget}"
+                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.MinGpuTempTarget}"
+                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.MaxGpuTempTarget}"
                         TickPlacement="Outside" />
             </StackPanel>
         </Expander>
@@ -219,10 +219,36 @@
 
         <Expander Grid.Row="4"
                   Grid.Column="0"
-                  Header="CPU Fan"
                   VerticalAlignment="Top"
                   HorizontalAlignment="Stretch"
                   HorizontalContentAlignment="Center">
+            
+            <Expander.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="CPU Fan" VerticalAlignment="Center"/>
+                    
+                    <DropDownButton Grid.Column="1" 
+                                    Content="Presets" 
+                                    Loaded="CpuPresetsFlyout_Loaded"
+                                    VerticalAlignment="Center">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout x:Name="CpuPresetsFlyout" 
+                                        Placement="Bottom">
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                </Grid>
+            </Expander.Header>
+            
             <ListView ItemsSource="{x:Bind ViewModel.Modified.CpuFanCurve.Points, Mode=OneWay}"
                       ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -277,10 +303,36 @@
 
         <Expander Grid.Row="5"
                   Grid.Column="0"
-                  Header="GPU Fan"
                   VerticalAlignment="Top"
                   HorizontalAlignment="Stretch"
                   HorizontalContentAlignment="Center">
+            
+            <Expander.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="GPU Fan" VerticalAlignment="Center"/>
+                    
+                    <DropDownButton Grid.Column="1" 
+                                    Content="Presets" 
+                                    Loaded="GpuPresetsFlyout_Loaded"
+                                    VerticalAlignment="Center">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout x:Name="GpuPresetsFlyout" 
+                                        Placement="Bottom">
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                </Grid>
+            </Expander.Header>
+            
             <ListView ItemsSource="{x:Bind ViewModel.Modified.GpuFanCurve.Points, Mode=OneWay}"
                       ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Visible"

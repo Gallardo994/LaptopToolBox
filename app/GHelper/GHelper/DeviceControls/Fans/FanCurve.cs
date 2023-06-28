@@ -9,7 +9,7 @@ namespace GHelper.DeviceControls.Fans;
 [JsonObject(MemberSerialization.OptIn)]
 public class FanCurve : ObservableObject, IEnumerable<FanCurvePoint>
 {
-    [JsonProperty("point_count")] public int PointCount { get; init; }
+    [JsonProperty("point_count")] public int PointCount { get; set; }
     [JsonProperty("points")] public ObservableCollection<FanCurvePoint> Points { get; init; }
 
     public FanCurve()
@@ -140,6 +140,19 @@ public class FanCurve : ObservableObject, IEnumerable<FanCurvePoint>
         }
 
         return byteArray;
+    }
+    
+    public void CopyTo(FanCurve fanCurve)
+    {
+        fanCurve.PointCount = PointCount;
+        fanCurve.Points.Clear();
+        
+        foreach (var point in Points)
+        {
+            fanCurve.Points.Add(new FanCurvePoint(point));
+        }
+        
+        fanCurve.SortByTemperature();
     }
     
     public bool HasModificationsComparedTo(FanCurve other)
