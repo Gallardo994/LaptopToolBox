@@ -1,20 +1,27 @@
-﻿using System.Management;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.DeviceControls.Wmi;
+using Ninject;
 
 namespace GHelper.DeviceControls.CPU;
 
 public partial class WmiCpuGeneralInfoProvider : ObservableObject, ICpuGeneralInfoProvider
 {
+    private readonly IWmiSessionFactory _wmiSessionFactory;
+    
     [ObservableProperty] private ICpuGeneralInfo _cpu;
     
-    public WmiCpuGeneralInfoProvider()
+    [Inject]
+    public WmiCpuGeneralInfoProvider(IWmiSessionFactory wmiSessionFactory)
     {
+        _wmiSessionFactory = wmiSessionFactory;
+        
         Refresh();
     }
 
     public void Refresh()
     {
-        using var searcher = new ManagementObjectSearcher(@"SELECT ProcessorId, 
+        using var session = _wmiSessionFactory.CreateSession();
+        var instances = session.QueryInstances("root\\cimv2", "WQL", @"SELECT ProcessorId, 
                                                                             SocketDesignation,
                                                                             Name,
                                                                             Caption,
@@ -28,24 +35,23 @@ public partial class WmiCpuGeneralInfoProvider : ObservableObject, ICpuGeneralIn
                                                                             NumberOfCores,
                                                                             NumberOfLogicalProcessors    
                                                                             FROM Win32_Processor");
-        
-        foreach (var obj in searcher.Get())
+        foreach (var obj in instances)
         {
             var cpuGeneralInfo = new CpuGeneralInfo
             {
-                ProcessorId = obj["ProcessorId"].ToString(),
-                SocketDesignation = obj["SocketDesignation"].ToString(),
-                ProcessorName = obj["Name"].ToString().Trim(),
-                Caption = obj["Caption"].ToString(),
-                AddressWidth = ushort.Parse(obj["AddressWidth"].ToString()),
-                DataWidth = ushort.Parse(obj["DataWidth"].ToString()),
-                Architecture = ushort.Parse(obj["Architecture"].ToString()),
-                MaxClockSpeed = uint.Parse(obj["MaxClockSpeed"].ToString()),
-                ExtClock = uint.Parse(obj["ExtClock"].ToString()),
-                L2CacheSize = ulong.Parse(obj["L2CacheSize"].ToString()),
-                L3CacheSize = ulong.Parse(obj["L3CacheSize"].ToString()),
-                NumberOfCores = uint.Parse(obj["NumberOfCores"].ToString()),
-                NumberOfLogicalProcessors = uint.Parse(obj["NumberOfLogicalProcessors"].ToString()),
+                ProcessorId = obj.CimInstanceProperties["ProcessorId"].Value.ToString(),
+                SocketDesignation = obj.CimInstanceProperties["SocketDesignation"].Value.ToString(),
+                ProcessorName = obj.CimInstanceProperties["Name"].Value.ToString().Trim(),
+                Caption = obj.CimInstanceProperties["Caption"].Value.ToString(),
+                AddressWidth = ushort.Parse(obj.CimInstanceProperties["AddressWidth"].Value.ToString()),
+                DataWidth = ushort.Parse(obj.CimInstanceProperties["DataWidth"].Value.ToString()),
+                Architecture = ushort.Parse(obj.CimInstanceProperties["Architecture"].Value.ToString()),
+                MaxClockSpeed = uint.Parse(obj.CimInstanceProperties["MaxClockSpeed"].Value.ToString()),
+                ExtClock = uint.Parse(obj.CimInstanceProperties["ExtClock"].Value.ToString()),
+                L2CacheSize = ulong.Parse(obj.CimInstanceProperties["L2CacheSize"].Value.ToString()),
+                L3CacheSize = ulong.Parse(obj.CimInstanceProperties["L3CacheSize"].Value.ToString()),
+                NumberOfCores = uint.Parse(obj.CimInstanceProperties["NumberOfCores"].Value.ToString()),
+                NumberOfLogicalProcessors = uint.Parse(obj.CimInstanceProperties["NumberOfLogicalProcessors"].Value.ToString()),
             };
             
             Cpu = cpuGeneralInfo;

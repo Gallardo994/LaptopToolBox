@@ -1,23 +1,27 @@
 ﻿using System;
-using System.Management;
+using GHelper.DeviceControls.Wmi;
+using Microsoft.Management.Infrastructure;
 
 namespace GHelper.DeviceControls.Display.Brightness;
 
 public class WmiBrightnessControl : IBrightnessControl
 {
+    private readonly IWmiSessionFactory _wmiSessionFactory;
+    
     public int BrightnessStep { get; set; } = 10;
+    
+    public WmiBrightnessControl(IWmiSessionFactory wmiSessionFactory)
+    {
+        _wmiSessionFactory = wmiSessionFactory;
+    }
 
     public int Get()
     {
-        using var mClass = new ManagementClass("WmiMonitorBrightness")
+        using var session = _wmiSessionFactory.CreateSession();
+        var instances = session.EnumerateInstances(@"root\wmi", "WmiMonitorBrightness");
+        foreach (var instance in instances)
         {
-            Scope = new ManagementScope(@"\\.\root\wmi")
-        };
-        using var instances = mClass.GetInstances();
-        foreach (var o in instances)
-        {
-            var instance = (ManagementObject)o;
-            return (byte)instance.GetPropertyValue("CurrentBrightness");
+            return (byte)instance.CimInstanceProperties["CurrentBrightness"].Value;
         }
         return 0;
     }
@@ -26,16 +30,17 @@ public class WmiBrightnessControl : IBrightnessControl
     {
         brightness = Math.Min(100, Math.Max(0, brightness));
         
-        using var mClass = new ManagementClass("WmiMonitorBrightnessMethods")
+        using var session = _wmiSessionFactory.CreateSession();
+        var instances = session.EnumerateInstances(@"root\wmi", "WmiMonitorBrightnessMethods");
+        var args = new CimMethodParametersCollection
         {
-            Scope = new ManagementScope(@"\\.\root\wmi")
+            CimMethodParameter.Create("Timeout", 1, CimType.UInt32, CimFlags.None), 
+            CimMethodParameter.Create("Brightness", brightness, CimType.UInt32, CimFlags.None)
         };
-        using var instances = mClass.GetInstances();
-        var args = new object[] { 1, brightness };
-        foreach (var o in instances)
+        
+        foreach (var instance in instances)
         {
-            var instance = (ManagementObject)o;
-            instance.InvokeMethod("WmiSetBrightness", args);
+            session.InvokeMethod(instance.CimSystemProperties.Namespace, instance, "WmiSetBrightness", args);
         }
     }
     

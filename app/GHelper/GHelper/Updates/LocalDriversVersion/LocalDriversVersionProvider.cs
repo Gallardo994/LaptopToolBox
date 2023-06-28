@@ -1,36 +1,38 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Management;
+using GHelper.DeviceControls.Wmi;
+using Ninject;
 
 namespace GHelper.Updates.LocalDriversVersion;
 
 public class LocalDriversVersionProvider : ILocalDriversVersionProvider
 {
     private readonly Dictionary<string, string> _data;
+    private readonly IWmiSessionFactory _wmiSessionFactory;
 
-    public LocalDriversVersionProvider()
+    [Inject]
+    public LocalDriversVersionProvider(IWmiSessionFactory wmiSessionFactory)
     {
+        _wmiSessionFactory = wmiSessionFactory;
         _data = new Dictionary<string, string>();
     }
 
     public void Refresh()
     {
         Clear();
-        
-        using var objSearcher = new ManagementObjectSearcher("Select * from Win32_PnPSignedDriver");
-        using var objCollection = objSearcher.Get();
-        
-        foreach (ManagementObject obj in objCollection)
+
+        using var session = _wmiSessionFactory.CreateSession();
+        var instances = session.QueryInstances("root\\cimv2", "WQL", "Select * from Win32_PnPSignedDriver");
+
+        foreach (var obj in instances)
         {
-            var deviceID = obj["DeviceID"];
-            var driverVersion = obj["DriverVersion"];
-            
-            if (deviceID == null || driverVersion == null)
+            var deviceID = obj.CimInstanceProperties["DeviceID"].Value?.ToString();
+            var driverVersion = obj.CimInstanceProperties["DriverVersion"].Value?.ToString();
+
+            if (deviceID != null && driverVersion != null)
             {
-                continue;
+                Add(deviceID, driverVersion);
             }
-            
-            Add(deviceID.ToString(), driverVersion.ToString());
         }
     }
 
@@ -38,7 +40,7 @@ public class LocalDriversVersionProvider : ILocalDriversVersionProvider
     {
         _data[key] = value;
     }
-    
+
     private void Clear()
     {
         _data.Clear();

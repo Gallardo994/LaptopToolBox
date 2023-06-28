@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Management;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Commands;
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Acpi.Vendors.Asus;
+using GHelper.DeviceControls.Wmi;
 using GHelper.Notifications;
 using Ninject;
 
@@ -15,6 +15,7 @@ public partial class AsusBattery : ObservableObject, IBattery
     private readonly IAcpi _acpi;
     private readonly ISTACommandLoop _staCommandLoop;
     private readonly INotificationService _notificationService;
+    private readonly IWmiSessionFactory _wmiSessionFactory;
     
     private readonly AsusBatteryTemporaryUnlimitedWatcher _asusBatteryTemporaryUnlimitedWatcher;
     
@@ -35,11 +36,12 @@ public partial class AsusBattery : ObservableObject, IBattery
     public int MaxRange => 100;
     
     [Inject]
-    public AsusBattery(IAcpi acpi, ISTACommandLoop staCommandLoop, INotificationService notificationService)
+    public AsusBattery(IAcpi acpi, ISTACommandLoop staCommandLoop, INotificationService notificationService, IWmiSessionFactory wmiSessionFactory)
     {
         _acpi = acpi;
         _staCommandLoop = staCommandLoop;
         _notificationService = notificationService;
+        _wmiSessionFactory = wmiSessionFactory;
         
         _asusBatteryTemporaryUnlimitedWatcher = new AsusBatteryTemporaryUnlimitedWatcher(this, _staCommandLoop, _notificationService);
     }
@@ -63,8 +65,10 @@ public partial class AsusBattery : ObservableObject, IBattery
 
     public bool IsCurrentlyOnBattery()
     {
-        using var battery = new ManagementObjectSearcher("SELECT BatteryStatus FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
-        return battery != null && Convert.ToInt32(battery["BatteryStatus"]) == 1;
+        using var session = _wmiSessionFactory.CreateSession();
+        var instances = session.QueryInstances("root\\cimv2", "WQL", "SELECT BatteryStatus FROM Win32_Battery");
+        var battery = instances.FirstOrDefault();
+        return battery != null && Convert.ToInt32(battery.CimInstanceProperties["BatteryStatus"].Value) == 1;
     }
     
     private void SetTemporarilyUnlimited(bool isTemporarilyUnlimited)
@@ -82,8 +86,10 @@ public partial class AsusBattery : ObservableObject, IBattery
 
     public int GetCurrentCharge()
     {
-        using var battery = new ManagementObjectSearcher("SELECT EstimatedChargeRemaining FROM Win32_Battery").Get().Cast<ManagementObject>().FirstOrDefault();
-        return battery == null ? 0 : Convert.ToInt32(battery["EstimatedChargeRemaining"]);
+        using var session = _wmiSessionFactory.CreateSession();
+        var instances = session.QueryInstances("root\\cimv2", "WQL", "SELECT EstimatedChargeRemaining FROM Win32_Battery");
+        var battery = instances.FirstOrDefault();
+        return battery == null ? 0 : Convert.ToInt32(battery.CimInstanceProperties["EstimatedChargeRemaining"].Value);
     }
     
     private void CallAcpiSetMethod(int value)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Management;
 using System.Runtime.InteropServices;
 using GHelper.Serialization;
 using Serilog;

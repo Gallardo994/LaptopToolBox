@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Management;
+using System.Linq;
+using GHelper.DeviceControls.Wmi;
+using Ninject;
 
 namespace GHelper.DeviceControls.CPU.Vendors.AMD
 {
@@ -10,15 +12,15 @@ namespace GHelper.DeviceControls.CPU.Vendors.AMD
         public string FamilyName { get; init; }
         private string CpuModel { get; init; }
 
-        public AmdCpuFamilyProvider()
+        [Inject]
+        public AmdCpuFamilyProvider(IWmiSessionFactory wmiSessionFactory)
         {
             FamilyName = "Unknown";
             
-            var myProcessorObject = new ManagementObjectSearcher("SELECT Caption FROM Win32_Processor");
-            foreach (ManagementObject obj in myProcessorObject.Get())
-            {
-                CpuModel = obj["Caption"].ToString();
-            }
+            using var session = wmiSessionFactory.CreateSession();
+            var instances = session.QueryInstances("root\\cimv2", "WQL", "SELECT Caption FROM Win32_Processor");
+            CpuModel = instances.First().CimInstanceProperties["Caption"].Value.ToString();
+
             
             FamilyId = -1;
 
