@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Management.Automation;
+using GHelper.Commands;
 using Ninject;
 using Serilog;
 
@@ -7,14 +8,22 @@ namespace GHelper.DeviceControls.TouchPad;
 
 public class WindowsPnpTouchPadControl : ITouchPadControl
 {
+    private readonly IBackgroundCommandLoop _backgroundCommandLoop;
+    
     private readonly PowerShell _powerShell;
     private readonly string _touchpadDeviceId;
-    
+
     public bool IsAvailable => !string.IsNullOrEmpty(_touchpadDeviceId);
     
+    private bool _state;
+
     [Inject]
-    public WindowsPnpTouchPadControl()
+    public WindowsPnpTouchPadControl(IBackgroundCommandLoop backgroundCommandLoop)
     {
+        _backgroundCommandLoop = backgroundCommandLoop;
+        
+        _state = true;
+        
         _powerShell = PowerShell.Create();
         
         _powerShell.Commands.Clear();
@@ -36,6 +45,13 @@ public class WindowsPnpTouchPadControl : ITouchPadControl
         _touchpadDeviceId = results.Count > 0 ? results.First().Members["DeviceID"].Value.ToString() : string.Empty;
         
         Log.Information($"Touchpad Device ID: {_touchpadDeviceId}");
+        
+        if (string.IsNullOrEmpty(_touchpadDeviceId))
+        {
+            return;
+        }
+        
+        _state = ReadState();
     }
 
     public void SetState(bool state)
@@ -45,16 +61,16 @@ public class WindowsPnpTouchPadControl : ITouchPadControl
             return;
         }
         
-        _powerShell.Commands.Clear();
+        _state = state;
+        _backgroundCommandLoop.Enqueue(new PnpSetDeviceStateCommand(_powerShell, _touchpadDeviceId, state));
+    }
 
-        _powerShell.AddScript(state
-            ? $"Get-PnpDevice -InstanceId \"{_touchpadDeviceId}\" | Enable-PnpDevice -Confirm:$false"
-            : $"Get-PnpDevice -InstanceId \"{_touchpadDeviceId}\" | Disable-PnpDevice -Confirm:$false");
-
-        _powerShell.Invoke();
+    public bool GetState()
+    {
+        return _state;
     }
     
-    public bool GetState()
+    private bool ReadState()
     {
         if (string.IsNullOrEmpty(_touchpadDeviceId))
         {

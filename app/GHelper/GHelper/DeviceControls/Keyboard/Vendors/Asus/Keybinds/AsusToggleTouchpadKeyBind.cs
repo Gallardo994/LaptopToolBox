@@ -24,7 +24,6 @@ public class AsusToggleTouchpadKeyBind : IVendorKeyBind
         }
         
         var newState = !_touchPadControl.GetState();
-        _touchPadControl.SetState(newState);
         
         if (newState)
         {
@@ -34,5 +33,7 @@ public class AsusToggleTouchpadKeyBind : IVendorKeyBind
         {
             _notificationService.Show(NotificationCategory.TouchPadDisable, "TouchPad Disabled");
         }
+        
+        _touchPadControl.SetState(newState);
     }
 }
