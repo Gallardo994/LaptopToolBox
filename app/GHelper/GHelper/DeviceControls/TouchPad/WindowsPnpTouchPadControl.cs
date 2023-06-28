@@ -61,6 +61,11 @@ public class WindowsPnpTouchPadControl : ITouchPadControl
             return;
         }
         
+        if (state == _state)
+        {
+            return;
+        }
+        
         _state = state;
         _backgroundCommandLoop.Enqueue(new PnpSetDeviceStateCommand(_powerShell, _touchpadDeviceId, state));
     }
