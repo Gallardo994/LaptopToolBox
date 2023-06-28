@@ -25,31 +25,22 @@ public class AsusAcpi : IAcpi
         var serializer = new BinarySerializer();
         serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_INIT);
         
-        CallMethod(serializer);
-    }
-
-    public uint DeviceSet(uint deviceId, uint status)
-    {
-        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status));
-        return deserializer.ReadUint();
+        CallDeviceIoControl(serializer);
     }
     
-    public uint DeviceSet(uint deviceId, byte[] buffer)
-    {
-        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer));
-        return deserializer.ReadUint();
-    }
+    public uint DeviceSet(uint deviceId, uint status) => new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status)).ReadUint();
+    public uint DeviceSet(uint deviceId, byte[] buffer) => new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer)).ReadUint();
     
     public byte[] DeviceSetWithBuffer(uint deviceId, uint status)
     {
         var serializer = new BinarySerializer();
         
         serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
-        serializer.WriteUint(sizeof(uint) * 2);
+        serializer.WriteSizeOf<uint>(count: 2);
         serializer.WriteUint(deviceId);
         serializer.WriteUint(status);
 
-        return CallMethod(serializer);
+        return CallDeviceIoControl(serializer);
     }
     
     public byte[] DeviceSetWithBuffer(uint deviceId, byte[] buffer)
@@ -57,32 +48,24 @@ public class AsusAcpi : IAcpi
         var serializer = new BinarySerializer();
         
         serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
-        serializer.WriteUint((uint) (sizeof(uint) + buffer.Length));
+        serializer.WriteSizeOf<uint>(extraBytes: buffer.Length);
         serializer.WriteUint(deviceId);
-        
-        foreach (var b in buffer)
-        {
-            serializer.WriteByte(b);
-        }
+        serializer.WriteBytes(buffer);
 
-        return CallMethod(serializer);
+        return CallDeviceIoControl(serializer);
     }
     
-    public uint DeviceGet(uint deviceId)
-    {
-        var deserializer = new BinaryDeserializer(DeviceGetWithBuffer(deviceId));
-        return deserializer.ReadUint();
-    }
+    public uint DeviceGet(uint deviceId) => new BinaryDeserializer(DeviceGetWithBuffer(deviceId)).ReadUint();
     
     public byte[] DeviceGetWithBuffer(uint deviceId)
     {
         var serializer = new BinarySerializer();
         
         serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DSTS);
-        serializer.WriteUint(sizeof(uint));
+        serializer.WriteSizeOf<uint>();
         serializer.WriteUint(deviceId);
 
-        return CallMethod(serializer);
+        return CallDeviceIoControl(serializer);
     }
     
     public byte[] DeviceGetWithBuffer(uint deviceId, uint status)
@@ -90,46 +73,42 @@ public class AsusAcpi : IAcpi
         var serializer = new BinarySerializer();
         
         serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DSTS);
-        serializer.WriteUint(sizeof(uint) * 2);
+        serializer.WriteSizeOf<uint>(count: 2);
         serializer.WriteUint(deviceId);
         serializer.WriteUint(status);
 
-        return CallMethod(serializer);
-    }
-    
-    private byte[] CallMethod(BinarySerializer serializer)
-    {
-        var outBuffer = new byte[32];
-        CallDeviceIoControl(serializer.ToArray(), outBuffer);
-        return outBuffer;
+        return CallDeviceIoControl(serializer);
     }
 
-    private void CallDeviceIoControl(byte[] lpInBuffer, byte[] lpOutBuffer)
+    private byte[] CallDeviceIoControl(BinarySerializer serializer)
     {
         if (!_acpiHandleProvider.TryGet(out var handle))
         {
             Log.Error("Failed to get handle to ACPI device");
-            return;
+            return Array.Empty<byte>();
         }
         
-        var inBuffer = Marshal.AllocHGlobal(lpInBuffer.Length);
-        Marshal.Copy(lpInBuffer, 0, inBuffer, lpInBuffer.Length);
+        var inBuffer = Marshal.AllocHGlobal(serializer.Position);
+        Marshal.Copy(serializer.Buffer, 0, inBuffer, serializer.Position);
         
-        var outBuffer = Marshal.AllocHGlobal(lpOutBuffer.Length);
-        Marshal.Copy(lpOutBuffer, 0, outBuffer, lpOutBuffer.Length);
+        const int outLimit = 64;
+        var outBuffer = Marshal.AllocHGlobal(outLimit);
         
         Kernel32.DeviceIoControl(handle, 
             _acpiIoControlCode.Numeric, 
             inBuffer, 
-            (uint)lpInBuffer.Length, 
-            outBuffer, 
-            (uint)lpOutBuffer.Length, 
-            out var lpBytesReturned, 
+            (uint)serializer.Position, 
+            outBuffer,
+            outLimit,
+            out var lpBytesReturned,
             IntPtr.Zero);
         
-        Marshal.Copy(outBuffer, lpOutBuffer, 0, lpOutBuffer.Length);
+        var lpOutBuffer = new byte[lpBytesReturned];
+        Marshal.Copy(outBuffer, lpOutBuffer, 0, (int) lpBytesReturned);
         
         Marshal.FreeHGlobal(inBuffer);
         Marshal.FreeHGlobal(outBuffer);
+        
+        return lpOutBuffer;
     }
 }

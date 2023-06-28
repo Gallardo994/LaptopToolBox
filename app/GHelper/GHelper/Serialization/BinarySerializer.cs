@@ -7,6 +7,9 @@ public class BinarySerializer
     private byte[] _buffer;
     private int _position;
     
+    public int Position => _position;
+    public byte[] Buffer => _buffer;
+    
     public BinarySerializer(int initialCapacity = 8)
     {
         _buffer = new byte[initialCapacity];
@@ -66,6 +69,11 @@ public class BinarySerializer
     public void WriteLong(long value)
     {
         WriteULong((ulong) value);
+    }
+
+    public unsafe void WriteSizeOf<T>(int count = 1, int extraBytes = 0) where T : unmanaged
+    {
+        WriteUint((uint) (count * sizeof(T)) + (uint) extraBytes);
     }
     
     public byte[] ToArray()
