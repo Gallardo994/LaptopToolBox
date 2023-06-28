@@ -2,6 +2,7 @@
 
 public interface IGpuControl
 {
+    public bool IsAvailable();
     public int GetTemperature();
 
     public bool SupportsCoreOverclock { get; }

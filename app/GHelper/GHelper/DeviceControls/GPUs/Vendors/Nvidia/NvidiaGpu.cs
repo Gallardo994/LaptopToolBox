@@ -2,6 +2,7 @@
 using System.Linq;
 using NvAPIWrapper.GPU;
 using NvAPIWrapper.Native;
+using NvAPIWrapper.Native.Exceptions;
 using NvAPIWrapper.Native.GPU;
 using NvAPIWrapper.Native.GPU.Structures;
 using NvAPIWrapper.Native.Interfaces.GPU;
@@ -11,14 +12,14 @@ namespace GHelper.DeviceControls.GPUs.Vendors.Nvidia;
 
 public class NvidiaGpu : IGpuControl
 {
-    private readonly PhysicalGPU _physicalGpu;
+    private PhysicalGPU _physicalGpu;
 
     public bool SupportsCoreOverclock => EnsureGpuIsValid();
     public bool SupportsMemoryOverclock => EnsureGpuIsValid();
     
     public NvidiaGpu()
     {
-        _physicalGpu = FindPhysicalGpu();
+        
     }
 
     private PhysicalGPU FindPhysicalGpu()
@@ -53,13 +54,32 @@ public class NvidiaGpu : IGpuControl
     
     public bool IsAvailable()
     {
-        Log.Information("Checking if Nvidia GPU is available: {IsAvailable}", EnsureGpuIsValid());
         return EnsureGpuIsValid();
     }
     
     private bool EnsureGpuIsValid()
     {
-        return _physicalGpu != null;
+        if (_physicalGpu != null && IsDeviceAccessible(_physicalGpu))
+        {
+            return true;
+        }
+        
+        _physicalGpu = FindPhysicalGpu();
+        return _physicalGpu != null && IsDeviceAccessible(_physicalGpu);
+    }
+
+    private bool IsDeviceAccessible(PhysicalGPU gpu)
+    {
+        try
+        {
+            var _ = gpu.GPUId;
+            return true;
+        }
+        catch (NVIDIAApiException ex)
+        {
+            Log.Error(ex, "Failed to access GPU");
+            return false;
+        }
     }
 
     public int GetTemperature()

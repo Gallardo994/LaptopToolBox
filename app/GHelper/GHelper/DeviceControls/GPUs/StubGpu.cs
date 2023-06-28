@@ -1,10 +1,15 @@
-﻿namespace GHelper.DeviceControls.GPUs.Vendors;
+﻿namespace GHelper.DeviceControls.GPUs;
 
 public class StubGpu : IGpuControl
 {
     public bool SupportsCoreOverclock => false;
     public bool SupportsMemoryOverclock => false;
-    
+
+    public bool IsAvailable()
+    {
+        return true;
+    }
+
     public int GetTemperature()
     {
         return 0;
