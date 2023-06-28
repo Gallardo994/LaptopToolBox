@@ -9,6 +9,7 @@ namespace GHelper.DeviceControls.Acpi.Vendors.Asus;
 public class AsusAcpi : IAcpi
 {
     private readonly AsusAcpiHandleProvider _acpiHandleProvider;
+    private readonly IoControlCode _acpiIoControlCode = new((uint) FileDeviceType.FILE_DEVICE_UNKNOWN, 0x903, IoControlCode.Method.Buffered, IoControlCode.Access.Any);
 
     public bool IsAvailable => _acpiHandleProvider.TryGet(out _);
     
@@ -99,11 +100,11 @@ public class AsusAcpi : IAcpi
     private byte[] CallMethod(BinarySerializer serializer)
     {
         var outBuffer = new byte[32];
-        CallDeviceIoControl((uint) AsusWmi.ASUS_WMI_CTRL_CODE, serializer.ToArray(), outBuffer);
+        CallDeviceIoControl(serializer.ToArray(), outBuffer);
         return outBuffer;
     }
 
-    private void CallDeviceIoControl(uint dwIoControlCode, byte[] lpInBuffer, byte[] lpOutBuffer)
+    private void CallDeviceIoControl(byte[] lpInBuffer, byte[] lpOutBuffer)
     {
         if (!_acpiHandleProvider.TryGet(out var handle))
         {
@@ -118,7 +119,7 @@ public class AsusAcpi : IAcpi
         Marshal.Copy(lpOutBuffer, 0, outBuffer, lpOutBuffer.Length);
         
         Kernel32.DeviceIoControl(handle, 
-            dwIoControlCode, 
+            _acpiIoControlCode.Numeric, 
             inBuffer, 
             (uint)lpInBuffer.Length, 
             outBuffer, 

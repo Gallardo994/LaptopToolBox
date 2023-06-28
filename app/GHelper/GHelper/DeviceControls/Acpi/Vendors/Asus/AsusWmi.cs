@@ -4,8 +4,6 @@
 
 public enum AsusWmi : uint
 {
-    ASUS_WMI_CTRL_CODE = 0x0022240C,
-    
     ASUS_WMI_METHODID_SPEC = 0x43455053, // BIOS SPECification
     ASUS_WMI_METHODID_SFBD = 0x44424653, // Set First Boot Device
     ASUS_WMI_METHODID_GLCD = 0x44434C47, // Get LCD status
