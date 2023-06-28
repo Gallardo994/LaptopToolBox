@@ -9,23 +9,24 @@
     xmlns:converters="using:GHelper.Converters"
     xmlns:fans="using:GHelper.DeviceControls.Fans"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        
+        <Style x:Key="CurvePanel" TargetType="ListView">
+            <Setter Property="Margin" Value="-6 16 0 0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="CornerRadius" Value="4"></Setter>
+        </Style>
+
+        <Style x:Key="CurvePanelItem" TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter Property="Margin" Value="0 0 0 0" />
+            <Setter Property="Width" Value="1"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        </Style>
+    </Page.Resources>
+    
     <Grid>
-        <Grid.Resources>
-            <converters:UiToDrawingColorConverter x:Key="UiToDrawingColorConverter" />
-
-            <Style x:Key="CurvePanel" TargetType="ListView">
-                <Setter Property="Margin" Value="-6 16 0 0"></Setter>
-                <Setter Property="Padding" Value="0"></Setter>
-                <Setter Property="CornerRadius" Value="4"></Setter>
-            </Style>
-
-            <Style x:Key="CurvePanelItem" TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
-                <Setter Property="Margin" Value="0 0 0 0" />
-                <Setter Property="Width" Value="1"></Setter>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-            </Style>
-        </Grid.Resources>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -152,67 +153,77 @@
                   HorizontalContentAlignment="Stretch"
                   IsExpanded="True">
             <StackPanel>
-                <TextBlock Text="Sustained Power Limit (SPL)"
-                           Margin="0 4 0 0"></TextBlock>
-                <TextBlock Text="Power allowed to be consumed for a long period of time. Measured in Watts."
-                           Style="{StaticResource CaptionTextBlockStyle}"
-                           Margin="0 4 0 0"></TextBlock>
-                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
-                        Name="SplSlider"
-                        TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSpl.Min}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSpl.Max}"
-                        ValueChanged="PowerLimitValueChanged"
-                        TickPlacement="Outside"
-                        HorizontalAlignment="Stretch"/>
+                <StackPanel Visibility="{x:Bind Path=ViewModel.PowerLimitController.SupportsCpuSpl, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Sustained Power Limit (SPL)"
+                               Margin="0 4 0 0"></TextBlock>
+                    <TextBlock Text="Power allowed to be consumed for a long period of time. Measured in Watts."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSpl, Mode=TwoWay}"
+                            Name="SplSlider"
+                            TickFrequency="5"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSpl.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSpl.Max}"
+                            ValueChanged="PowerLimitValueChanged"
+                            TickPlacement="Outside"
+                            HorizontalAlignment="Stretch"/>
+                </StackPanel>
                 
-                <TextBlock Text="Slow Package Power Tracking Limit (SPPT)"
-                           Margin="0 16 0 0"></TextBlock>
-                <TextBlock Text="Power allowed to be consumed for several minutes. Measured in Watts."
-                           Style="{StaticResource CaptionTextBlockStyle}"
-                           Margin="0 4 0 0"></TextBlock>
-                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
-                        Name="SpptSlider"
-                        TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSppt.Min}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSppt.Max}"
-                        ValueChanged="PowerLimitValueChanged"
-                        TickPlacement="Outside" />
+                <StackPanel Visibility="{x:Bind Path=ViewModel.PowerLimitController.SupportsCpuSppt, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Slow Package Power Tracking Limit (SPPT)"
+                               Margin="0 16 0 0"></TextBlock>
+                    <TextBlock Text="Power allowed to be consumed for several minutes. Measured in Watts."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.CpuSppt, Mode=TwoWay}"
+                            Name="SpptSlider"
+                            TickFrequency="5"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSppt.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuSppt.Max}"
+                            ValueChanged="PowerLimitValueChanged"
+                            TickPlacement="Outside" />
+                </StackPanel>
                 
-                <TextBlock Text="Fast Package Power Tracking Limit (FPPT)"
-                           Margin="0 16 0 0"></TextBlock>
-                <TextBlock Text="Power allowed to be consumed for several seconds. Measured in Watts."
-                           Style="{StaticResource CaptionTextBlockStyle}"
-                           Margin="0 4 0 0"></TextBlock>
-                <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
-                        Name="FpptSlider"
-                        TickFrequency="5"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuFppt.Min}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuFppt.Max}"
-                        ValueChanged="PowerLimitValueChanged"
-                        TickPlacement="Outside" />
+                <StackPanel Visibility="{x:Bind Path=ViewModel.PowerLimitController.SupportsCpuFppt, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Fast Package Power Tracking Limit (FPPT)"
+                               Margin="0 16 0 0"></TextBlock>
+                    <TextBlock Text="Power allowed to be consumed for several seconds. Measured in Watts."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.CpuFppt, Mode=TwoWay}"
+                            Name="FpptSlider"
+                            TickFrequency="5"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuFppt.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.CpuFppt.Max}"
+                            ValueChanged="PowerLimitValueChanged"
+                            TickPlacement="Outside" />
+                </StackPanel>
                 
-                <TextBlock Text="GPU Power Boost"
-                           Margin="0 14 0 0"></TextBlock>
-                <TextBlock Text="Additional power allowed to be consumed by GPU. Measured in Watts."
-                           Style="{StaticResource CaptionTextBlockStyle}"
-                           Margin="0 4 0 0"></TextBlock>
-                <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
-                        TickFrequency="1"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuPower.Min}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuPower.Max}"
-                        TickPlacement="Outside"/>
+                <StackPanel Visibility="{x:Bind Path=ViewModel.PowerLimitController.SupportsGpuPowerBoost, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="GPU Power Boost"
+                               Margin="0 14 0 0"></TextBlock>
+                    <TextBlock Text="Additional power allowed to be consumed by GPU. Measured in Watts."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.GpuPowerBoost, Mode=TwoWay}"
+                            TickFrequency="1"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuPower.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuPower.Max}"
+                            TickPlacement="Outside"/>
+                </StackPanel>
                 
-                <TextBlock Text="GPU Temp Target"
-                           Margin="0 16 0 0"></TextBlock>
-                <TextBlock Text="Target temperature for GPU. Measured in °C."
-                           Style="{StaticResource CaptionTextBlockStyle}"
-                           Margin="0 4 0 0"></TextBlock>
-                <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
-                        TickFrequency="1"
-                        Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Min}"
-                        Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Max}"
-                        TickPlacement="Outside" />
+                <StackPanel Visibility="{x:Bind Path=ViewModel.PowerLimitController.SupportsGpuTempTarget, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="GPU Temp Target"
+                               Margin="0 16 0 0"></TextBlock>
+                    <TextBlock Text="Target temperature for GPU. Measured in °C."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.GpuTempTarget, Mode=TwoWay}"
+                            TickFrequency="1"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Max}"
+                            TickPlacement="Outside" />
+                </StackPanel>
             </StackPanel>
         </Expander>
 
