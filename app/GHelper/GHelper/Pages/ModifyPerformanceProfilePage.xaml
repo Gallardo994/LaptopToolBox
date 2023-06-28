@@ -120,7 +120,7 @@
                     <TextBox VerticalAlignment="Center"
                              HorizontalAlignment="Stretch"
                              Margin="8 0 0 0"
-                             Text="{x:Bind Path=ViewModel.Modified.Title, Mode=TwoWay}" />
+                             Text="{x:Bind Path=ViewModel.Modified.Description, Mode=TwoWay}" />
                     
                 </StackPanel>
             </StackPanel>
