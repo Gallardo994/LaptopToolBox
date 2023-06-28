@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using GHelper.AppWindows;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
@@ -12,7 +13,7 @@ using Serilog;
 
 namespace GHelper.Pages
 {
-    public sealed partial class ModifyPerformanceProfilePage
+    public sealed partial class ModifyPerformanceProfilePage : IPageBackHandler
     {
         private readonly IPerformanceModesProvider _performanceModesProvider = Services.ResolutionRoot.Get<IPerformanceModesProvider>();
         private readonly MainWindow _mainWindow = Services.ResolutionRoot.Get<MainWindow>();
@@ -40,6 +41,29 @@ namespace GHelper.Pages
         {
             ViewModel.ApplyModificationsFromCustomPerformanceMode();
             _mainWindow.TryNavigateBack();
+        }
+        
+        private async void UndoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var contentDialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Content = "Do you want to discard your changes?",
+                PrimaryButtonText = "Discard Changes",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                CloseButtonCommandParameter = false,
+                PrimaryButtonCommandParameter = true,
+            };
+            
+            var result = await contentDialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+            
+            ViewModel.UndoModifications();
         }
 
         private async void CancelButton_OnClick(object sender, RoutedEventArgs e)
@@ -69,6 +93,28 @@ namespace GHelper.Pages
             }
             
             _mainWindow.TryNavigateBack();
+        }
+
+        public async Task<bool> TryHandleBackAsync()
+        {
+            if (!ViewModel.IsDirty())
+            {
+                return true;
+            }
+            
+            var contentDialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Content = "You have unsaved changes. Are you sure you want to discard them?",
+                PrimaryButtonText = "Discard Changes",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                CloseButtonCommandParameter = false,
+                PrimaryButtonCommandParameter = true,
+            };
+            
+            var result = await contentDialog.ShowAsync();
+            return result == ContentDialogResult.Primary;
         }
     }
 }

@@ -43,6 +43,8 @@
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
             <Grid.RowDefinitions>
@@ -50,28 +52,34 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+ 
+            <StackPanel Grid.Row="0"
+                        Grid.Column="2" 
+                        Orientation="Horizontal">
+                <Button Content="Save changes"
+                        Style="{StaticResource AccentButtonStyle}"
+                        Click="SaveButton_OnClick"></Button>
+                <Button Content="Undo all changes"
+                        Margin="4 0 0 0"
+                        Click="UndoButton_OnClick"></Button>
+            </StackPanel>
             
-            <Button Grid.Row="0" 
-                    Content="Save"
-                    Style="{StaticResource AccentButtonStyle}"
-                    Click="SaveButton_OnClick"></Button>
             
-            <Button Grid.Row="1"
-                    Content="Discard"
-                    Click="CancelButton_OnClick"></Button>
-            
-            <TextBox Grid.Row="2" 
+            <TextBox Grid.Row="1"
+                     Grid.Column="0"
                      Text="{x:Bind Path=ViewModel.Modified.Title, Mode=TwoWay}" />
-            <TextBox Grid.Row="3" 
+            <TextBox Grid.Row="2" 
+                     Grid.Column="0"
                      Text="{x:Bind Path=ViewModel.Modified.Description, Mode=TwoWay}" />
-            <CheckBox Grid.Row="4" 
+            <CheckBox Grid.Row="3" 
+                      Grid.Column="0"
                       Content="Can be applied on startup"
                       IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableOnStartup, Mode=TwoWay}">
             </CheckBox>
-            <CheckBox Grid.Row="5" 
+            <CheckBox Grid.Row="4" 
+                      Grid.Column="0"
                       Content="Available by hotkey"
                       IsChecked="{x:Bind Path=ViewModel.Modified.IsAvailableInHotkeys, Mode=TwoWay}">
             </CheckBox>

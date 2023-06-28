@@ -8,7 +8,7 @@ namespace GHelper.ViewModels;
 public class ModifyPerformanceProfileViewModel
 {
     public CustomPerformanceMode Original { get; init; }
-    public CustomPerformanceMode Modified { get; init; }
+    public CustomPerformanceMode Modified { get; private set; }
     public IPowerLimitController PLC { get; init; }
     
     private readonly IPerformanceModesProvider _performanceModesProvider = Services.ResolutionRoot.Get<IPerformanceModesProvider>();
@@ -37,5 +37,10 @@ public class ModifyPerformanceProfileViewModel
         {
             _performanceModeControl.SetMode(appliedMode);
         }
+    }
+    
+    public void UndoModifications()
+    {
+        Modified = new CustomPerformanceMode(Original);
     }
 }

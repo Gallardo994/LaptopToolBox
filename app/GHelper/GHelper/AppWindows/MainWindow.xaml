@@ -57,8 +57,7 @@
         
         <NavigationView
             x:Name="NavigationView"
-            IsBackButtonVisible="Collapsed"
-            IsBackEnabled="False"
+            IsBackEnabled="True"
             IsSettingsVisible="False"
             PaneDisplayMode="Auto"
             IsTabStop="False"
@@ -94,6 +93,7 @@
                 <ScrollViewer Grid.Row="1" >
                     <Frame ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                           IsNavigationStackEnabled="False"
                            x:Name="ContentFrame" 
                            x:FieldModifier="public" 
                            Background="Transparent" 

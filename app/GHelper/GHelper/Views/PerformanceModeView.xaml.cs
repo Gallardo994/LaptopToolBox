@@ -42,13 +42,17 @@ namespace GHelper.Views
         
         private void OpenPerformanceModeModification(CustomPerformanceMode performanceMode)
         {
-            _mainWindow.AddThisPageToBackStack();
+            _mainWindow.AddThisPageToBackStack(null, new SlideNavigationTransitionInfo
+            {
+                Effect = SlideNavigationTransitionEffect.FromLeft,
+            });
+            
             _mainWindow.NavigateContentFrame(
                 typeof(ModifyPerformanceProfilePage), 
                 performanceMode.Id,
                 new SlideNavigationTransitionInfo
                 {
-                    Effect = SlideNavigationTransitionEffect.FromRight
+                    Effect = SlideNavigationTransitionEffect.FromRight,
                 },
                 false);
         }

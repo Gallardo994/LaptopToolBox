@@ -1,16 +1,18 @@
 using System;
+using System.Collections.Generic;
 using GHelper.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Ninject;
-using Serilog;
 
 namespace GHelper.AppWindows
 {
     public sealed partial class MainWindow
     {
+        private readonly Stack<PageStackEntry> _pageBackStack = new();
+
         [Inject]
         public MainWindow(IPageProvider pageProvider)
         {
@@ -21,6 +23,8 @@ namespace GHelper.AppWindows
             NavigationView.DataContext = pageProvider;
             NavigationView.SelectedItem = pageProvider.GetPageItem<Pages.HomePage>();
             
+            NavigationView.BackRequested += NavigationViewOnBackRequested;
+
             AppTitleBar.Loaded += (sender, args) =>
             {
                 ExtendsContentIntoTitleBar = true;
@@ -28,7 +32,23 @@ namespace GHelper.AppWindows
                 NavigationView.IsTitleBarAutoPaddingEnabled = false;
             };
         }
-        
+
+        private async void NavigationViewOnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            if (ContentFrame.Content is not IPageBackHandler pageBackHandler)
+            {
+                TryNavigateBack();
+                return;
+            }
+            
+            var result = await pageBackHandler.TryHandleBackAsync();
+
+            if (result)
+            {
+                TryNavigateBack();
+            }
+        }
+
         public void NavigateContentFrame(
             Type pageType, 
             object parameter = null, 
@@ -37,7 +57,8 @@ namespace GHelper.AppWindows
         {
             if (clearBackStack)
             {
-                ContentFrame.BackStack.Clear();
+                _pageBackStack.Clear();
+                RefreshBackButtonState();
             }
             
             ContentFrame.Navigate(pageType, parameter, transitionInfo);
@@ -53,18 +74,29 @@ namespace GHelper.AppWindows
                 throw new InvalidOperationException("Cannot add a page to the back stack when there is no page currently displayed");
             }
             
-            ContentFrame.BackStack.Add(new PageStackEntry(currentPageType, parameter, transitionInfo));
+            _pageBackStack.Push(new PageStackEntry(currentPageType, parameter, transitionInfo));
+            
+            RefreshBackButtonState();
         }
 
         public bool TryNavigateBack()
         {
-            if (!ContentFrame.CanGoBack)
+            if (_pageBackStack.Count == 0)
             {
                 return false;
             }
 
-            ContentFrame.GoBack();
+            var item = _pageBackStack.Pop();
+            
+            NavigateContentFrame(item.SourcePageType, null, item.NavigationTransitionInfo, false);
+            RefreshBackButtonState();
+            
             return true;
+        }
+        
+        private void RefreshBackButtonState()
+        {
+            NavigationView.IsBackEnabled = _pageBackStack.Count > 0;
         }
 
         private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
