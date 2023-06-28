@@ -18,6 +18,8 @@ public class AsusPowerLimitController : IPowerLimitController
     {
         _acpi = acpi;
         PowerLimits = asusPowerLimitFactory.Resolve(modelInfoProvider);
+        
+        InitializeSupportedWmiCalls();
     }
 
     private HashSet<AsusWmi> _supportedWmiCalls;
