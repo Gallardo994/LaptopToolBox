@@ -14,4 +14,9 @@ internal struct IoControlCodeComponents
         Method = (IoControlCode.Method)(controlCode & 0x3);
         Access = (IoControlCode.Access)((controlCode >> 14) & 0x3);
     }
+
+    public override string ToString()
+    {
+        return $"DeviceType: {DeviceType}, Function: {Function}, Method: {Method}, Access: {Access}";
+    }
 }
