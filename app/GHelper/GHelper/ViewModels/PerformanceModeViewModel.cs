@@ -39,9 +39,9 @@ public partial class PerformanceModeViewModel : ObservableObject
         _performanceModeControl.SetMode(performanceMode);
     }
     
-    public void AddCustomPerformanceMode(string title, string description)
+    public IPerformanceMode AddCustomPerformanceMode(string title, string description)
     {
-        _performanceModesProvider.CreateCustomPerformanceMode(title, description);
+        return _performanceModesProvider.CreateCustomPerformanceMode(title, description);
     }
     
     public void DeletePerformanceMode(IPerformanceMode performanceMode)
@@ -54,17 +54,5 @@ public partial class PerformanceModeViewModel : ObservableObject
         }
         
         _performanceModesProvider.DeleteCustomPerformanceMode(performanceMode);
-    }
-    
-    public void ApplyModificationsFromCustomPerformanceMode(IPerformanceMode performanceMode)
-    {
-        var appliedMode = _performanceModesProvider.ApplyModificationsFromCustomPerformanceMode(performanceMode);
-
-        var currentMode = _performanceModeControl.GetCurrentMode();
-
-        if (currentMode == appliedMode)
-        {
-            _performanceModeControl.SetMode(appliedMode);
-        }
     }
 }

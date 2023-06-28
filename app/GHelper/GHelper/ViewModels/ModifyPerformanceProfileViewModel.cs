@@ -11,6 +11,9 @@ public class ModifyPerformanceProfileViewModel
     public CustomPerformanceMode Modified { get; init; }
     public IPowerLimitController PLC { get; init; }
     
+    private readonly IPerformanceModesProvider _performanceModesProvider = Services.ResolutionRoot.Get<IPerformanceModesProvider>();
+    private readonly IPerformanceModeControl _performanceModeControl = Services.ResolutionRoot.Get<IPerformanceModeControl>();
+    
     [Inject]
     public ModifyPerformanceProfileViewModel(CustomPerformanceMode performanceMode)
     {
@@ -22,5 +25,17 @@ public class ModifyPerformanceProfileViewModel
     public bool IsDirty()
     {
         return Modified.HasModificationsComparedTo(Original);
+    }
+    
+    public void ApplyModificationsFromCustomPerformanceMode()
+    {
+        var appliedMode = _performanceModesProvider.ApplyModificationsFromCustomPerformanceMode(Modified);
+
+        var currentMode = _performanceModeControl.GetCurrentMode();
+
+        if (currentMode == appliedMode)
+        {
+            _performanceModeControl.SetMode(appliedMode);
+        }
     }
 }

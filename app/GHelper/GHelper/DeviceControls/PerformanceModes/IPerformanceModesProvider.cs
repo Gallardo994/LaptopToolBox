@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace GHelper.DeviceControls.PerformanceModes;
 
@@ -9,4 +10,5 @@ public interface IPerformanceModesProvider
     public IPerformanceMode CreateCustomPerformanceMode(string title, string description = "");
     public bool DeleteCustomPerformanceMode(IPerformanceMode performanceMode);
     public IPerformanceMode ApplyModificationsFromCustomPerformanceMode(IPerformanceMode performanceMode);
+    public IPerformanceMode FindById(Guid id);
 }

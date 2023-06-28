@@ -91,7 +91,14 @@
                     <RowDefinition Height="44" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Frame Grid.Row="1" x:Name="ContentFrame" Background="Transparent" Padding="32 0 32 0"/>
+                <ScrollViewer Grid.Row="1" >
+                    <Frame ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                           x:Name="ContentFrame" 
+                           x:FieldModifier="public" 
+                           Background="Transparent" 
+                           Padding="32 0 32 0"/>
+                </ScrollViewer>
             </Grid>
         </NavigationView>
     </Grid>

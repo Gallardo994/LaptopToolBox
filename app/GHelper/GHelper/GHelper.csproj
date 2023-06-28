@@ -23,6 +23,7 @@
     <None Remove="Pages\TitleBarPage.xaml" />
     <None Remove="Pages\UpdatesPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\ModifyPerformanceProfilePage.xaml" />
     <None Remove="Views\AuraControl.xaml" />
   </ItemGroup>
 
@@ -90,6 +91,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ModifyPerformanceProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

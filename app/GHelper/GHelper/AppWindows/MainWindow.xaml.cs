@@ -3,7 +3,9 @@ using GHelper.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using Ninject;
+using Serilog;
 
 namespace GHelper.AppWindows
 {
@@ -26,6 +28,48 @@ namespace GHelper.AppWindows
                 NavigationView.IsTitleBarAutoPaddingEnabled = false;
             };
         }
+        
+        public Type NavigateContentFrame(
+            Type pageType, 
+            object parameter = null, 
+            NavigationTransitionInfo transitionInfo = null,
+            bool clearBackStack = true)
+        {
+            if (clearBackStack)
+            {
+                ContentFrame.BackStack.Clear();
+            }
+            
+            var previousPageType = ContentFrame.Content?.GetType();
+            
+            ContentFrame.Navigate(pageType, parameter, transitionInfo);
+
+            return previousPageType;
+        }
+        
+        public void AddThisPageToBackStack(object parameter = null, 
+            NavigationTransitionInfo transitionInfo = null)
+        {
+            var currentPageType = ContentFrame.Content?.GetType();
+            
+            if (currentPageType == null)
+            {
+                throw new InvalidOperationException("Cannot add a page to the back stack when there is no page currently displayed");
+            }
+            
+            ContentFrame.BackStack.Add(new PageStackEntry(currentPageType, parameter, transitionInfo));
+        }
+
+        public bool TryNavigateBack()
+        {
+            if (!ContentFrame.CanGoBack)
+            {
+                return false;
+            }
+
+            ContentFrame.GoBack();
+            return true;
+        }
 
         private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
@@ -41,7 +85,7 @@ namespace GHelper.AppWindows
                 return;
             }
 
-            ContentFrame.Navigate(pageItem.TargetType, null, new DrillInNavigationTransitionInfo());
+            NavigateContentFrame(pageItem.TargetType, null, new DrillInNavigationTransitionInfo());
         }
         
         private void NavigationView_OnPaneDisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

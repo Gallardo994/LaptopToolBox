@@ -1,16 +1,20 @@
 using System;
+using GHelper.AppWindows;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.Injection;
+using GHelper.Pages;
 using GHelper.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Animation;
 using Ninject;
 
 namespace GHelper.Views
 {
     public sealed partial class PerformanceModeView
     {
+        private readonly MainWindow _mainWindow = Services.ResolutionRoot.Get<MainWindow>();
         public PerformanceModeViewModel ViewModel { get; private set; } = Services.ResolutionRoot.Get<PerformanceModeViewModel>();
         
         public PerformanceModeView()
@@ -24,7 +28,7 @@ namespace GHelper.Views
             ViewModel.SelectedMode = (IPerformanceMode) (sender as Button)?.DataContext;
         }
         
-        private async void ModifyPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
+        private void ModifyPerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
         {
             var performanceMode = (sender as Button)?.DataContext as CustomPerformanceMode;
             
@@ -33,31 +37,20 @@ namespace GHelper.Views
                 return;
             }
 
-            var modifyPage = new ModifyPerformanceProfileView(performanceMode);
-            
-            var contentDialog = new ContentDialog
-            {
-                XamlRoot = XamlRoot,
-                Title = "Modify: " + performanceMode.Title,
-                Content = modifyPage,
-                PrimaryButtonText = "Save",
-                CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary,
-            };
-            
-            var result = await contentDialog.ShowAsync();
-            
-            if (result != ContentDialogResult.Primary)
-            {
-                return;
-            }
-            
-            if (!modifyPage.IsDirty())
-            {
-                return;
-            }
-            
-            ViewModel.ApplyModificationsFromCustomPerformanceMode(modifyPage.ViewModel.Modified);
+            OpenPerformanceModeModification(performanceMode);
+        }
+        
+        private void OpenPerformanceModeModification(CustomPerformanceMode performanceMode)
+        {
+            _mainWindow.AddThisPageToBackStack();
+            _mainWindow.NavigateContentFrame(
+                typeof(ModifyPerformanceProfilePage), 
+                performanceMode.Id,
+                new SlideNavigationTransitionInfo
+                {
+                    Effect = SlideNavigationTransitionEffect.FromRight
+                },
+                false);
         }
         
         private async void DeletePerformanceMode_OnClicked(object sender, RoutedEventArgs routedEventArgs)
@@ -139,7 +132,14 @@ namespace GHelper.Views
                 return;
             }
 
-            ViewModel.AddCustomPerformanceMode(titleTextBox.Text, descriptionTextBox.Text);
+            var mode = ViewModel.AddCustomPerformanceMode(titleTextBox.Text, descriptionTextBox.Text);
+            
+            if (mode is not CustomPerformanceMode performanceMode)
+            {
+                return;
+            }
+            
+            OpenPerformanceModeModification(performanceMode);
         }
     }
 }
