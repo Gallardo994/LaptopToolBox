@@ -12,6 +12,9 @@ namespace GHelper.DeviceControls.GPUs.Vendors.Nvidia;
 public class NvidiaGpu : IGpuControl
 {
     private readonly PhysicalGPU _physicalGpu;
+
+    public bool SupportsCoreOverclock => EnsureGpuIsValid();
+    public bool SupportsMemoryOverclock => EnsureGpuIsValid();
     
     public NvidiaGpu()
     {

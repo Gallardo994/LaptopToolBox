@@ -201,7 +201,7 @@
                 
                 <StackPanel Visibility="{x:Bind Path=ViewModel.PowerLimitController.SupportsGpuPowerBoost, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="GPU Power Boost"
-                               Margin="0 14 0 0"></TextBlock>
+                               Margin="0 16 0 0"></TextBlock>
                     <TextBlock Text="Additional power allowed to be consumed by GPU. Measured in Watts."
                                Style="{StaticResource CaptionTextBlockStyle}"
                                Margin="0 4 0 0"></TextBlock>
@@ -224,7 +224,34 @@
                             Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuTarget.Max}"
                             TickPlacement="Outside" />
                 </StackPanel>
+                
+                <StackPanel Visibility="{x:Bind Path=ViewModel.GpuControl.SupportsCoreOverclock, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="GPU Core Clock Offset"
+                               Margin="0 16 0 0"></TextBlock>
+                    <TextBlock Text="Offset to be applied to GPU core clock. Measured in MHz."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.GpuCoreOffset, Mode=TwoWay}"
+                            TickFrequency="20"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuCore.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuCore.Max}"
+                            TickPlacement="Outside" />
+                </StackPanel>
+                
+                <StackPanel Visibility="{x:Bind Path=ViewModel.GpuControl.SupportsMemoryOverclock, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="GPU Memory Clock Offset"
+                               Margin="0 16 0 0"></TextBlock>
+                    <TextBlock Text="Offset to be applied to GPU memory clock. Measured in MHz."
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Margin="0 4 0 0"></TextBlock>
+                    <Slider Value="{x:Bind Path=ViewModel.Modified.GpuMemoryOffset, Mode=TwoWay}"
+                            TickFrequency="20"
+                            Minimum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuMemory.Min}"
+                            Maximum="{x:Bind Path=ViewModel.PowerLimitController.PowerLimits.GpuMemory.Max}"
+                            TickPlacement="Outside" />
+                </StackPanel>
             </StackPanel>
+            
         </Expander>
 
 

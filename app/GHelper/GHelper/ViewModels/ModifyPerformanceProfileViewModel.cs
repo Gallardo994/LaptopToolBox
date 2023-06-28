@@ -1,4 +1,5 @@
 ﻿using GHelper.DeviceControls.Fans;
+using GHelper.DeviceControls.GPUs;
 using GHelper.DeviceControls.PerformanceModes;
 using GHelper.DeviceControls.PowerLimits;
 using GHelper.Injection;
@@ -12,6 +13,7 @@ public class ModifyPerformanceProfileViewModel
     public CustomPerformanceMode Modified { get; private set; }
     public IPowerLimitController PowerLimitController { get; init; } = Services.ResolutionRoot.Get<IPowerLimitController>();
     public IFanController FanController { get; init; } = Services.ResolutionRoot.Get<IFanController>();
+    public IGpuControl GpuControl { get; init; } = Services.ResolutionRoot.Get<IGpuControl>();
     private readonly IPerformanceModesProvider _performanceModesProvider = Services.ResolutionRoot.Get<IPerformanceModesProvider>();
     private readonly IPerformanceModeControl _performanceModeControl = Services.ResolutionRoot.Get<IPerformanceModeControl>();
     

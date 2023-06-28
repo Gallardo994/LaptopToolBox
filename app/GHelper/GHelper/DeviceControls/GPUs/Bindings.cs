@@ -1,4 +1,5 @@
-﻿using GHelper.DeviceControls.GPUs.Vendors.Nvidia;
+﻿using GHelper.DeviceControls.GPUs.Vendors;
+using GHelper.DeviceControls.GPUs.Vendors.Nvidia;
 using Ninject.Modules;
 
 namespace GHelper.DeviceControls.GPUs;
@@ -14,6 +15,10 @@ public class Bindings : NinjectModule
         if (nvidiaGpu.IsAvailable())
         {
             Bind<IGpuControl>().ToConstant(nvidiaGpu);
+        }
+        else
+        {
+            Bind<IGpuControl>().To<StubGpu>();
         }
     }
 }
