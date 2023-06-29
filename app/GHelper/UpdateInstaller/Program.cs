@@ -64,6 +64,12 @@ public static class Program
             return;
         }
         
+        Log.Information("Waiting for GHelper to exit");
+        while (Process.GetProcessesByName("GHelper").Length > 0)
+        {
+            Thread.Sleep(1000);
+        }
+        
         var success = false;
 
         try
