@@ -2,7 +2,6 @@
 using System.Linq;
 using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 using OpenHardwareMonitor.Hardware;
-using Serilog;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 
@@ -12,7 +11,6 @@ public class CpuConstructor : IConstructor
     {
         var total = hardware.Sensors.FirstOrDefault(sensor => sensor.SensorType == SensorType.Load && sensor.Name.Contains("Total"));
         report.CpuInformation.TotalLoad = (int) (total?.Value ?? 0);
-        Log.Debug("CPU Total Load: {TotalLoad}", report.CpuInformation.TotalLoad);
         
         var cores = hardware.Sensors
             .Where(sensor => sensor.SensorType == SensorType.Load && sensor.Name.Contains("Core"))
