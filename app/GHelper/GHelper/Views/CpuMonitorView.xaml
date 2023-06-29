@@ -74,7 +74,7 @@
                                     Height="{x:Bind helpers:IntPercentageSize.ToPercentage(96, TotalLoad), Mode=OneWay}" />
                         </Border>
                         
-                        <TextBlock Text="{x:Bind CoreIndex, Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind CoreNumber, Mode=OneWay}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource CaptionTextBlockStyle}" />
                     </StackPanel>
