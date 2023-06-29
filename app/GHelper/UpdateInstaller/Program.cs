@@ -113,6 +113,12 @@ public static class Program
         {
             var destinationPath = Path.Combine(destinationDirectory, entry.FullName);
             
+            var destinationFolder = Path.GetDirectoryName(destinationPath);
+            if (destinationFolder == AppDomain.CurrentDomain.BaseDirectory)
+            {
+                continue;
+            }
+            
             if (entry.FullName.EndsWith("/"))
             {
                 Directory.CreateDirectory(destinationPath);
