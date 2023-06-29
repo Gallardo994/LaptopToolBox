@@ -12,7 +12,7 @@ public class HardwareMonitor : IHardwareMonitor
     private readonly IBackgroundCommandLoop _backgroundCommandLoop;
     private readonly ISTACommandLoop _staCommandLoop;
     
-    private readonly Computer _computer;
+    private Computer _computer;
     private Timer _timer;
     
     private readonly Dictionary<HardwareType, IConstructor> _constructors = new()
@@ -33,21 +33,27 @@ public class HardwareMonitor : IHardwareMonitor
         _backgroundCommandLoop = backgroundCommandLoop;
         _staCommandLoop = staCommandLoop;
         
-        _computer = new Computer
+        _backgroundCommandLoop.Enqueue(() =>
         {
-            CPUEnabled = true,
-            GPUEnabled = true,
-            MainboardEnabled = true,
-            RAMEnabled = true,
-            HDDEnabled = true,
-            FanControllerEnabled = true,
-        };
+            _computer = new Computer
+            {
+                CPUEnabled = true,
+                GPUEnabled = true,
+                MainboardEnabled = true,
+                RAMEnabled = true,
+                HDDEnabled = true,
+                FanControllerEnabled = true,
+            };
+        });
     }
     
     public void StartMonitoring()
     {
-        _computer.Open();
-        
+        _backgroundCommandLoop.Enqueue(() =>
+        {
+            _computer.Open();
+        });
+
         _timer = new Timer(1000);
         _timer.Elapsed += RequestUpdateHardware;
         _timer.Start();
@@ -58,16 +64,17 @@ public class HardwareMonitor : IHardwareMonitor
         _timer?.Dispose();
         _timer = null;
         
-        _computer.Close();
+        _backgroundCommandLoop.Enqueue(() =>
+        {
+            _computer.Close();
+        });
     }
     
     private void RequestUpdateHardware(object sender, ElapsedEventArgs e)
     {
-        var computer = _computer;
-        
         _backgroundCommandLoop.Enqueue(() =>
         {
-            foreach (var hardware in computer.Hardware)
+            foreach (var hardware in _computer.Hardware)
             {
                 hardware.Update();
                 
@@ -81,7 +88,7 @@ public class HardwareMonitor : IHardwareMonitor
             {
                 HardwareReport.Clear();
                 
-                foreach (var hardware in computer.Hardware)
+                foreach (var hardware in _computer.Hardware)
                 {
                     if (!_constructors.TryGetValue(hardware.HardwareType, out var constructor))
                     {
