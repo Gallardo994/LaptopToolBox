@@ -14,6 +14,7 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
+    <AssemblyVersion></AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\HomePage.xaml" />
@@ -50,6 +51,7 @@
     <PackageReference Include="Ninject" Version="3.3.6" />
     <PackageReference Include="NvAPIWrapper.Net" Version="0.8.1.101" />
     <PackageReference Include="OpenHardwareMonitor.Core" Version="0.8.0.5" />
+    <PackageReference Include="Semver" Version="2.3.0" />
     <PackageReference Include="Serilog" Version="2.12.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />

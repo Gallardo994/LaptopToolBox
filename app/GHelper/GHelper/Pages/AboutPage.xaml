@@ -41,10 +41,27 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <StackPanel>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0 0 0 16">
+            
+            <Button Content="Check for updates"
+                    Style="{StaticResource AccentButtonStyle}"
+                    Click="UpdateButton_Pressed"/>
+            
+            <TextBlock Text="Current version:"
+                       Margin="8 0 4 0"
+                       VerticalAlignment="Center" />
+            
+            <TextBlock Text="{x:Bind Path=ViewModel.Version}"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1">
             <Grid Margin="0" Padding="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -58,7 +75,7 @@
                        Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>
 
-        <ListView Grid.Row="1" BorderThickness="0"
+        <ListView Grid.Row="2" BorderThickness="0"
                   ItemsSource="{x:Bind Path=ViewModel.Items}"
                   Style="{StaticResource ItemsList}"
                   ItemContainerStyle="{StaticResource HorizontalSwipe}"
