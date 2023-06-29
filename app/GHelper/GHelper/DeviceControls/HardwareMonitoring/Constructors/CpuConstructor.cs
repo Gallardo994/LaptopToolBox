@@ -33,6 +33,7 @@ public class CpuConstructor : IConstructor
             
             report.CpuInformation.CoresLoad[i].Name = coreSensor.Name;
             report.CpuInformation.CoresLoad[i].CoreIndex = i;
+            report.CpuInformation.CoresLoad[i].CoreNumber = i + 1;
             report.CpuInformation.CoresLoad[i].TotalLoad = (int) Math.Round(coreSensor.Value ?? 0);
         }
     }

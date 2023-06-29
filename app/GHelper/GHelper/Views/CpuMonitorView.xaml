@@ -9,6 +9,7 @@
     xmlns:viewModels="using:GHelper.ViewModels"
     xmlns:converters="using:GHelper.Converters"
     xmlns:cpu="using:GHelper.DeviceControls.HardwareMonitoring.Data.CPU"
+    xmlns:helpers="using:GHelper.Helpers"
     mc:Ignorable="d"
     HorizontalAlignment="Stretch"
     IsExpanded="True">
@@ -54,30 +55,30 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="cpu:ICpuCoreInformation">
-                    <Border Height="64" Width="64"
-                            Margin="4 4 4 4"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="2"
-                            BorderBrush="{x:Bind Path=TotalLoad, Mode=OneWay, Converter={StaticResource CpuLoadToBrushConverter}}">
+                    <StackPanel>
+                        <Border Height="96" Width="24"
+                                Margin="4 4 4 4"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderThickness="0"
+                                CornerRadius="2"
+                                BorderBrush="{x:Bind Path=TotalLoad, Mode=OneWay, Converter={StaticResource CpuLoadToBrushConverter}}"
+                                x:Name="BorderContainer">
+                            
+                            <ToolTipService.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{x:Bind Path=Name, Mode=OneWay}" />
+                                </StackPanel>
+                            </ToolTipService.ToolTip>
+                            
+                            <Border Background="{x:Bind Path=TotalLoad, Mode=OneWay, Converter={StaticResource CpuLoadToBrushConverter}}"
+                                    VerticalAlignment="Bottom"
+                                    Height="{x:Bind helpers:IntPercentageSize.ToPercentage(96, TotalLoad), Mode=OneWay}" />
+                        </Border>
                         
-                        <ToolTipService.ToolTip>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{x:Bind Path=Name, Mode=OneWay}" />
-                            </StackPanel>
-                        </ToolTipService.ToolTip>
-                        
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}"
-                                       Text="{x:Bind Path=TotalLoad, Mode=OneWay}"
-                                       IsHitTestVisible="False"/>
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}"
-                                       Text="%"
-                                       IsHitTestVisible="False"/>
-                        </StackPanel>
-                    </Border>
+                        <TextBlock Text="{x:Bind CoreIndex, Mode=OneWay}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

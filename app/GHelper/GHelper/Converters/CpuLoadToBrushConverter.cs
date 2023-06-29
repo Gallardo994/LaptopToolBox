@@ -1,4 +1,5 @@
 ﻿using System;
+using GHelper.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 
@@ -12,10 +13,9 @@ public class CpuLoadToBrushConverter : IValueConverter
         {
             return intValue switch
             {
-                >= 75 => new SolidColorBrush(Windows.UI.Color.FromArgb(200, 255, 0, 0)),
-                >= 50 => new SolidColorBrush(Windows.UI.Color.FromArgb(160, 255, 127, 0)),
-                >= 20 => new SolidColorBrush(Windows.UI.Color.FromArgb(125, 255, 255, 0)),
-                _ => new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0))
+                >= 75 => new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 0, 0)),
+                >= 50 => new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 127, 0)),
+                _ => ColorBrushes.Accent,
             };
         }
 
