@@ -122,12 +122,13 @@ namespace GHelper.Pages
                 PrimaryButtonText = "Yes",
                 CloseButtonText = "No"
             };
-        
+
             var result = await dialog.ShowAsync();
 
             if (result != ContentDialogResult.Primary)
             {
                 Log.Debug("User chose not to update");
+                return;
             }
             
             var notificationDialog = new ContentDialog

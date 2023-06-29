@@ -15,7 +15,7 @@ namespace GHelper.AppUpdater.GitHub;
 
 public class GitHubAppUpdater : IAppUpdater
 {
-    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(1, 11, 0, "beta-0");
+    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(1, 12, 0, "beta");
     
     private readonly string _repoSlug;
     private readonly string _releasesApi;
