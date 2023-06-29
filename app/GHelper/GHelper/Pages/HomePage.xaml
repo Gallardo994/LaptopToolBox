@@ -17,6 +17,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
@@ -26,6 +27,7 @@
         <views:AutoOverdriveView Grid.Row="3" />
         
         <TextBlock Grid.Row="4" Text="System Monitoring" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
-        <views:FansView Grid.Row="5"></views:FansView>
+        <views:CpuMonitorView Grid.Row="5"></views:CpuMonitorView>
+        <views:FansView Grid.Row="6"></views:FansView>
     </Grid>
 </Page>
