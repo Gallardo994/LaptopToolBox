@@ -13,8 +13,8 @@ public class CpuLoadToBrushConverter : IValueConverter
         {
             return intValue switch
             {
-                >= 75 => new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 0, 0)),
-                >= 50 => new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 127, 0)),
+                >= 75 => ColorBrushes.Critical,
+                >= 50 => ColorBrushes.Caution,
                 _ => ColorBrushes.Accent,
             };
         }
