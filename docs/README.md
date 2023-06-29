@@ -30,6 +30,10 @@ Current functionality:
 - TouchPad Enable/Disable (FN+F10, with notifications)
 - CPU/GPU fans RPM information
 - Microphone switch (M3, with notifications)
+- NVIDIA GPU Memory/Core clock control
+- SPL/SPPT/FPPT control for AMD CPUs
+- CPU/GPU fan control with in-BIOS presets available
+- CPU Monitoring
 
 ## Tested on
 - G733PY
@@ -40,14 +44,11 @@ Current functionality:
 - Implement undervolt for Intel CPUs
 - Implement Driver & BIOS updates notifications
 - Implement custom profiles
-- Implement power control
-- Implement fans control
 - Implement hints for UI elements
 - Implement tutorials for UI elements
-- Implement NVIDIA GPU control
 - Implement sensors information
 - Implement hardware information
-- Implement CPU/GPU/RAM load information
+- Implement GPU/RAM load information
 - Implement ability to close apps running on discrete GPU
 - Modify UI for styleguide compliance
 - Maybe more?
