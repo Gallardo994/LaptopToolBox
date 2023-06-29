@@ -60,7 +60,7 @@
                                 Margin="4 4 4 4"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderThickness="0"
-                                CornerRadius="2"
+                                CornerRadius="4"
                                 x:Name="BorderContainer">
                             
                             <ToolTipService.ToolTip>
