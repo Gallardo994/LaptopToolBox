@@ -115,12 +115,14 @@ public static class Program
     {
         using var archive = ZipFile.OpenRead(sourceZipFile);
         
+        var thisDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+        
         foreach (var entry in archive.Entries)
         {
             var destinationPath = Path.Combine(destinationDirectory, entry.FullName);
             
             var destinationFolder = Path.GetDirectoryName(destinationPath);
-            if (destinationFolder == AppDomain.CurrentDomain.BaseDirectory)
+            if (destinationFolder == thisDirectory)
             {
                 continue;
             }
