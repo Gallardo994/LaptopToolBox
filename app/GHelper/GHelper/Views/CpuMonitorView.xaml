@@ -61,7 +61,6 @@
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderThickness="0"
                                 CornerRadius="2"
-                                BorderBrush="{x:Bind Path=TotalLoad, Mode=OneWay, Converter={StaticResource CpuLoadToBrushConverter}}"
                                 x:Name="BorderContainer">
                             
                             <ToolTipService.ToolTip>
