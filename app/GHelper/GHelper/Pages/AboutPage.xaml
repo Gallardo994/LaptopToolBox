@@ -47,7 +47,8 @@
         
         <StackPanel Grid.Row="0"
                     Orientation="Horizontal"
-                    Margin="0 0 0 16">
+                    Margin="0 0 0 16"
+                    Visibility="{x:Bind ViewModel.IsUpdateCheckingLocked, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
             
             <Button Content="Check for updates"
                     Style="{StaticResource AccentButtonStyle}"
@@ -58,6 +59,26 @@
                        VerticalAlignment="Center" />
             
             <TextBlock Text="{x:Bind Path=ViewModel.Version}"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0 0 0 16"
+                    Visibility="{x:Bind ViewModel.IsCheckingForUpdates, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressRing></ProgressRing>
+            <TextBlock Text="Checking for updates..."
+                       Margin="8 0 4 0"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0 0 0 16"
+                    Visibility="{x:Bind ViewModel.IsDownloadingUpdate, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressRing></ProgressRing>
+            <TextBlock Text="Update is downloading in background..."
+                       Margin="8 0 4 0"
                        VerticalAlignment="Center" />
         </StackPanel>
         

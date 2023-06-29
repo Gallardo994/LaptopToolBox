@@ -97,6 +97,8 @@ namespace GHelper.Pages
         
         private async void UpdateButton_Pressed(object sender, RoutedEventArgs e)
         {
+            ViewModel.IsCheckingForUpdates = true;
+            
             var release = await _appUpdater.GetSuggestedUpdate();
             
             if (release == null)
@@ -110,9 +112,12 @@ namespace GHelper.Pages
                 };
                 
                 await dialogNoNewVersion.ShowAsync();
-                
+
+                ViewModel.IsCheckingForUpdates = false;
                 return;
             }
+
+            ViewModel.IsCheckingForUpdates = false;
             
             var dialog = new ContentDialog
             {
@@ -141,15 +146,21 @@ namespace GHelper.Pages
             
             await notificationDialog.ShowAsync();
 
+            ViewModel.IsDownloadingUpdate = true;
+
             var downloadCts = new CancellationTokenSource();
             var zipPath = await _appUpdater.Download(release, downloadCts.Token);
         
             if (string.IsNullOrEmpty(zipPath))
             {
                 Log.Error("Failed to download release");
+                ViewModel.IsDownloadingUpdate = false;
+                return;
             }
         
             Log.Debug("Downloaded release to {zipPath}", zipPath);
+
+            ViewModel.IsDownloadingUpdate = false;
             
             var installDialog = new ContentDialog
             {

@@ -8,12 +8,18 @@ using Ninject;
 
 namespace GHelper.ViewModels;
 
-public class AboutViewModel : ObservableObject
+public partial class AboutViewModel : ObservableObject
 {
     private readonly IAboutProvider _aboutProvider = Services.ResolutionRoot.Get<IAboutProvider>();
     private readonly IAppUpdater _appUpdater = Services.ResolutionRoot.Get<IAppUpdater>();
 
     public ObservableCollection<IAboutItem> Items => _aboutProvider.Items;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsUpdateCheckingLocked))] private bool _isCheckingForUpdates;
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsUpdateCheckingLocked))] private bool _isDownloadingUpdate;
+
+    public bool IsUpdateCheckingLocked => IsCheckingForUpdates || IsDownloadingUpdate;
+    
     public string Version
     {
         get
