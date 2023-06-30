@@ -9,16 +9,9 @@
     xmlns:views="using:GHelper.Views"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <views:AutoStartView Grid.Row="0" />
-        <views:StartMinimizedView Grid.Row="1"></views:StartMinimizedView>
-        <Button Grid.Row="2" Content="Quit" Click="QuitButton_OnClick"></Button>
-    </Grid>
+    <StackPanel>
+        <views:AutoStartView />
+        <views:StartMinimizedView></views:StartMinimizedView>
+        <Button Content="Quit" Click="QuitButton_OnClick"></Button>
+    </StackPanel>
 </Page>
