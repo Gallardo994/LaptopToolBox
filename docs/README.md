@@ -1,6 +1,6 @@
 # G-Helper Fork
 
-![main](https://github.com/gallardo994/g-helper/blob/main/docs/screenshot1.png?raw=true)
+![main](https://github.com/gallardo994/g-helper/blob/main/docs/screenshot2.png?raw=true)
 
 ## What is this?
 
