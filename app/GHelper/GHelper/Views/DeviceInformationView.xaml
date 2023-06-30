@@ -19,43 +19,57 @@
     
     <Border Grid.Row="0"
             Grid.Column="0"
-            CornerRadius="4"
-            BorderThickness="2"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-        <Image Source="{x:Bind ViewModel.Wallpaper.ImageSource, Mode=OneWay}" Width="256" Height="144" Stretch="Uniform"></Image>
+            Width="192"
+            Height="108">
+        <Border BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}"
+                BorderThickness="2">
+            <Image Source="{x:Bind ViewModel.Wallpaper.ImageSource, Mode=OneWay}" Stretch="Fill"></Image>
+        </Border>
     </Border>
     
-    <Grid Grid.Row="0"
+    <StackPanel Grid.Row="0"
                 Grid.Column="1"
-                Padding="24 0 0 0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        
-        <TextBlock Grid.Row="0" 
-                   Text="{x:Bind ViewModel.ModelInfo.Model}" 
-                   Style="{StaticResource HeaderTextBlockStyle}"></TextBlock>
-        
-        <TextBlock Grid.Row="1"
-                   Text="{x:Bind ViewModel.CpuGeneralInfo.Cpu.ProcessorName}" 
-                   Style="{StaticResource SubtitleTextBlockStyle}"
-                   VerticalAlignment="Center"></TextBlock>
-        
-        <TextBlock Grid.Row="2"
-                   Text="{x:Bind ViewModel.GpuGeneralInfo.BestGpu.DeviceName}" 
-                   Style="{StaticResource SubtitleTextBlockStyle}"
-                   VerticalAlignment="Center"></TextBlock>
-        
-        <TextBlock Grid.Row="3"
-                   Text="{x:Bind ViewModel.ModelInfo.Bios}" 
-                   Style="{StaticResource SubtitleTextBlockStyle}"></TextBlock>
-    </Grid>
+                Padding="16 0 0 0"
+                VerticalAlignment="Stretch"
+                Height="108">
+
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource LayerFillColorDefaultBrush}"
+                    Padding="16 4 4 4"
+                    Margin="0 0 0 0"
+                    Height="32">
+            <FontIcon Glyph="&#xE7F8;"
+                      VerticalAlignment="Center"
+                      FontSize="13" />
+            <TextBlock Margin="16 0 0 0"
+                       Text="{x:Bind ViewModel.ModelInfo.Model}"
+                       VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource LayerFillColorDefaultBrush}"
+                    Padding="16 4 4 4"
+                    Margin="0 6 0 6"
+                    Height="32">   
+            <FontIcon Glyph="&#xE9F5;" 
+                      FontSize="13" />
+            <TextBlock Margin="16 0 0 0"
+                       Text="{x:Bind ViewModel.CpuGeneralInfo.Cpu.ProcessorName}" 
+                       VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    Background="{StaticResource LayerFillColorDefaultBrush}"
+                    Padding="16 4 4 4"
+                    Height="32">
+            <FontIcon Glyph="&#xE7F4;" 
+                      FontSize="13" 
+                      VerticalAlignment="Center"/>
+            <TextBlock Margin="16 0 0 0"
+                       Text="{x:Bind ViewModel.GpuGeneralInfo.BestGpu.DeviceName}" 
+                       VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+    </StackPanel>
 </Grid>
