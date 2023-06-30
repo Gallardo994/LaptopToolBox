@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Expander
-    x:Class="GHelper.Views.CpuMonitorView"
+    x:Class="GHelper.Views.SensorsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,15 +19,15 @@
     </Expander.DataContext>
     
     <Expander.Resources>
-        <converters:CpuLoadToBrushConverter x:Key="CpuLoadToBrushConverter" />
+        <converters:SensorToBrushConverter x:Key="SensorToBrushConverter" />
     </Expander.Resources>
     
     <Expander.Header>
         <StackPanel Orientation="Horizontal">
-            <FontIcon Glyph="&#xE950;" 
+            <FontIcon Glyph="&#xE957;" 
                       Margin="2 0 0 0"></FontIcon>
             <TextBlock Margin="20 0 0 0"
-                       Text="CPU Cores Usage" 
+                       Text="Sensors" 
                        Style="{StaticResource BaseTextBlockStyle}" />
         </StackPanel>
     </Expander.Header>
@@ -45,7 +45,7 @@
 
         <ItemsControl Grid.Row="1"
                       Grid.Column="0"
-                      ItemsSource="{x:Bind ViewModel.Report.CpuInformation.CoresLoad}">
+                      ItemsSource="{x:Bind ViewModel.Report.CpuInformation.Sensors}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapGrid Orientation="Horizontal">
@@ -54,9 +54,10 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="cpu:ICpuCoreInformation">
+                <DataTemplate x:DataType="cpu:ICpuSensor">
                     <StackPanel>
-                        <Border Height="96" Width="24"
+                        <Border Height="24"
+                                Width="256"
                                 Margin="4 4 4 4"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderThickness="0"
@@ -69,12 +70,37 @@
                                 </StackPanel>
                             </ToolTipService.ToolTip>
                             
-                            <Border Background="{x:Bind Path=TotalLoad, Mode=OneWay, Converter={StaticResource CpuLoadToBrushConverter}}"
-                                    VerticalAlignment="Bottom"
-                                    Height="{x:Bind helpers:IntPercentageSize.ToIntPercentage(96, TotalLoad), Mode=OneWay}" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Border Background="{x:Bind Path=Value, Mode=OneWay, Converter={StaticResource SensorToBrushConverter}}"
+                                        VerticalAlignment="Bottom"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        Width="{x:Bind helpers:IntPercentageSize.ToFloatPercentage(256, Value), Mode=OneWay}">
+                                </Border>
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind Path=RoundedValue, Mode=OneWay}" 
+                                               Foreground="{StaticResource TextOnAccentFillColorPrimaryBrush}"
+                                    />
+                                    <TextBlock Text="°C"
+                                               Margin="4 0 0 0"
+                                               Foreground="{StaticResource TextOnAccentFillColorPrimaryBrush}"
+                                    />
+                                </StackPanel>
+                                
+                                </Grid>
                         </Border>
                         
-                        <TextBlock Text="{x:Bind CoreNumber, Mode=OneWay}" 
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource CaptionTextBlockStyle}" />
                     </StackPanel>

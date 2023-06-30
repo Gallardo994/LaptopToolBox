@@ -6,6 +6,7 @@ public interface ICpuSensor : IObservableObject
 {
     public string Name { get; set; }
     public float Value { get; set; }
+    public int RoundedValue { get; set; }
     
     public void Clear();
 }

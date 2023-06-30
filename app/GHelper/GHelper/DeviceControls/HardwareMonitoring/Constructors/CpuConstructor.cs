@@ -45,6 +45,7 @@ public class CpuConstructor : IConstructor
             
             report.CpuInformation.Sensors[i].Name = temperatureSensor.Name;
             report.CpuInformation.Sensors[i].Value = temperatureSensor.Value ?? 0;
+            report.CpuInformation.Sensors[i].RoundedValue = (int) Math.Round(temperatureSensor.Value ?? 0);
         }
     }
 }
