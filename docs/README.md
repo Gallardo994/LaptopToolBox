@@ -35,6 +35,9 @@ Current functionality:
 - CPU/GPU fan control with in-BIOS presets available
 - CPU Monitoring
 - In-App self-updates with notifications and periodic checking
+- Sensors information
+- Power draw information
+- RAM usage information
 
 ## Tested on
 - G733PY
@@ -47,9 +50,8 @@ Current functionality:
 - Implement custom profiles
 - Implement hints for UI elements
 - Implement tutorials for UI elements
-- Implement sensors information
 - Implement hardware information
-- Implement GPU/RAM load information
+- Implement GPU load information
 - Implement ability to close apps running on discrete GPU
 - Modify UI for styleguide compliance
 - Maybe more?
