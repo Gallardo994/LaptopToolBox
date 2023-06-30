@@ -11,4 +11,9 @@ public static class IntPercentageSize
     {
         return value * (int) percentage / 100d;
     }
+    
+    public static double ToFloatPercentage(double value, float percentage, float maxPercentage)
+    {
+        return value * (int) percentage / (int) maxPercentage;
+    }
 }

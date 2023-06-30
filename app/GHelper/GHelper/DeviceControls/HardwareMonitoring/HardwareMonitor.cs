@@ -28,6 +28,7 @@ public class HardwareMonitor : IHardwareMonitor
     
     private readonly IPostProcessor[] _postProcessors = 
     {
+        new PowerConsumersPostProcessor(),
         new SensorsPostProcessor(),
     };
 

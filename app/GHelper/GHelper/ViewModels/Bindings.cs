@@ -20,6 +20,7 @@ public class Bindings : NinjectModule
         Bind<GpuFanViewModel>().ToSelf().InSingletonScope();
         Bind<CpuMonitorViewModel>().ToSelf().InSingletonScope();
         Bind<SensorsViewModel>().ToSelf().InSingletonScope();
+        Bind<PowerConsumersViewModel>().ToSelf().InSingletonScope();
 
         Bind<ModifyPerformanceProfileViewModel>().ToSelf().InTransientScope();
     }

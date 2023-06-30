@@ -14,6 +14,7 @@ public interface IHardwareReport : IObservableObject
     public IGpuInformation GpuInformation { get; set; }
     
     public ObservableCollection<ITemperatureSensor> Sensors { get; set; }
+    public ObservableCollection<IPowerConsumer> PowerConsumers { get; set; }
     
     public void Clear();
 }

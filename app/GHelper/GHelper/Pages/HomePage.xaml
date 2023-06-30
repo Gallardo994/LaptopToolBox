@@ -20,6 +20,7 @@
         <views:RamUsageView />
         <views:CpuMonitorView />
         <views:SensorsView />
+        <views:PowerConsumersView />
         <views:CpuFanView />
         <views:GpuFanView />
     </StackPanel>

@@ -14,6 +14,7 @@ public partial class HardwareReport : ObservableObject, IHardwareReport
     [ObservableProperty] private IGpuInformation _gpuInformation;
     
     [ObservableProperty] private ObservableCollection<ITemperatureSensor> _sensors;
+    [ObservableProperty] private ObservableCollection<IPowerConsumer> _powerConsumers;
 
     public HardwareReport()
     {
@@ -22,6 +23,7 @@ public partial class HardwareReport : ObservableObject, IHardwareReport
         GpuInformation = new GpuInformation();
         
         Sensors = new ObservableCollection<ITemperatureSensor>();
+        PowerConsumers = new ObservableCollection<IPowerConsumer>();
     }
 
     public void Clear()
@@ -33,6 +35,11 @@ public partial class HardwareReport : ObservableObject, IHardwareReport
         foreach (var sensor in Sensors)
         {
             sensor.Clear();
+        }
+        
+        foreach (var powerConsumer in PowerConsumers)
+        {
+            powerConsumer.Clear();
         }
     }
 }
