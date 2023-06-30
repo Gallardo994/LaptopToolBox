@@ -4,7 +4,7 @@ namespace GHelper.AppVersion;
 
 public class AppVersionProvider : IAppVersionProvider
 {
-    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(1, 15, 0, "beta");
+    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(1, 16, 0, "beta");
     
     public SemVersion GetCurrentVersion()
     {
