@@ -98,7 +98,7 @@
                                         <RowDefinition Height="64" />
                                     </Grid.RowDefinitions>
                                     
-                                    <StackPanel
+                                    <StackPanel Margin="4 0 0 0"
                                         Orientation="Horizontal">
                                         <FontIcon
                                             Glyph="&#xE73E;"
@@ -108,7 +108,7 @@
                                             Glyph="&#xE7BA;"
                                             Visibility="{x:Bind IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
-                                        <StackPanel Margin="8 0 0 0"
+                                        <StackPanel Margin="16 0 0 0"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center">
                                             <TextBlock Text="{x:Bind Name}"
