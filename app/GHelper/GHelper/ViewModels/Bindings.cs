@@ -16,7 +16,8 @@ public class Bindings : NinjectModule
         Bind<DeviceInformationViewModel>().ToSelf().InSingletonScope();
         Bind<StartMinimizedViewModel>().ToSelf().InSingletonScope();
         Bind<VendorServicesViewModel>().ToSelf().InSingletonScope();
-        Bind<FansViewModel>().ToSelf().InSingletonScope();
+        Bind<CpuFanViewModel>().ToSelf().InSingletonScope();
+        Bind<GpuFanViewModel>().ToSelf().InSingletonScope();
         Bind<CpuMonitorViewModel>().ToSelf().InSingletonScope();
         Bind<SensorsViewModel>().ToSelf().InSingletonScope();
 

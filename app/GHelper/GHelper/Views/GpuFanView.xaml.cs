@@ -6,11 +6,11 @@ using Ninject;
 
 namespace GHelper.Views
 {
-    public sealed partial class FansView
+    public sealed partial class GpuFanView
     {
-        public FansViewModel ViewModel { get; private set; } = Services.ResolutionRoot.Get<FansViewModel>();
+        public GpuFanViewModel ViewModel { get; private set; } = Services.ResolutionRoot.Get<GpuFanViewModel>();
         
-        public FansView()
+        public GpuFanView()
         {
             InitializeComponent();
             DataContext = ViewModel;
