@@ -4,7 +4,9 @@ namespace GHelper.DeviceControls.HardwareMonitoring.Data.RAM;
 
 public interface IRamInformation : IObservableObject
 {
-    public long Total { get; set; }
+    public float Total { get; set; }
+    public float Used { get; set; }
+    public float Available { get; set; }
     
     public void Clear();
 }

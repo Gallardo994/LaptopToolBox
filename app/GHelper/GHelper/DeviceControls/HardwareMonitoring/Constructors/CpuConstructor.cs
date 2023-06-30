@@ -2,6 +2,7 @@
 using System.Linq;
 using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 using LibreHardwareMonitor.Hardware;
+using Serilog;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 
@@ -16,6 +17,14 @@ public class CpuConstructor : IConstructor
             .Where(sensor => sensor.SensorType == SensorType.Load && sensor.Name.Contains("Core"))
             .OrderBy(sensor => int.Parse(sensor.Name.AsSpan()[(sensor.Name.IndexOf('#') + 1)..]))
             .ToList();
+        
+        /*
+        var temperatureSensors = hardware.Sensors.Where(sensor => sensor.SensorType == SensorType.Temperature);
+        foreach (var sensor in temperatureSensors)
+        {
+            Log.Debug("Temperature Sensor: {Name} = {Value}", sensor.Name, sensor.Value);
+        }
+        */
         
         while (report.CpuInformation.CoresLoad.Count < cores.Count)
         {
