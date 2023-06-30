@@ -34,6 +34,7 @@ Current functionality:
 - SPL/SPPT/FPPT control for AMD CPUs
 - CPU/GPU fan control with in-BIOS presets available
 - CPU Monitoring
+- In-App self-updates with notifications and periodic checking
 
 ## Tested on
 - G733PY
