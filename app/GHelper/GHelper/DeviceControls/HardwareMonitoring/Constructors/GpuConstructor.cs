@@ -10,10 +10,13 @@ public class GpuConstructor : IConstructor
 {
     public void FillReport(IHardwareReport report, IHardware hardware)
     {
+        var totalPower = hardware.Sensors.FirstOrDefault(sensor => sensor.SensorType == SensorType.Power);
+        report.GpuInformation.TotalPower = (int) (totalPower?.Value ?? 0);
+        
         var temperatureSensors = hardware.Sensors
             .Where(sensor => sensor.SensorType == SensorType.Temperature)
             .ToList();
-        
+
         ObservableCollectionHelpers.AdaptToSize(report.GpuInformation.Sensors, temperatureSensors.Count, () => new TemperatureSensor());
         
         for (var i = 0; i < temperatureSensors.Count; i++)
