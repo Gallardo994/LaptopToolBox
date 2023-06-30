@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Timers;
 using GHelper.Commands;
 using GHelper.DeviceControls.HardwareMonitoring.Constructors;
+using GHelper.DeviceControls.HardwareMonitoring.PostProcessors;
 using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring;
@@ -23,6 +24,11 @@ public class HardwareMonitor : IHardwareMonitor
         // { HardwareType.Motherboard, new MotherboardConstructor() },
         { HardwareType.Memory, new MemoryConstructor() },
         // { HardwareType.Storage, new StorageConstructor() },
+    };
+    
+    private readonly IPostProcessor[] _postProcessors = 
+    {
+        new SensorsPostProcessor(),
     };
 
     public IHardwareReport HardwareReport { get; private set; } = new HardwareReport();
@@ -95,6 +101,11 @@ public class HardwareMonitor : IHardwareMonitor
                     }
                     
                     constructor.FillReport(HardwareReport, hardware);
+                }
+                
+                foreach (var postProcessor in _postProcessors)
+                {
+                    postProcessor.PostProcess(HardwareReport, _computer);
                 }
                 
                 HardwareReportUpdated?.Invoke(HardwareReport);

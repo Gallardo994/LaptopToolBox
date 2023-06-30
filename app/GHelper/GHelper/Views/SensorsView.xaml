@@ -33,8 +33,8 @@
     </Expander.Header>
     
     <StackPanel>
-        <ItemsControl ItemsSource="{x:Bind ViewModel.Report.CpuInformation.Sensors}"
-                      Margin="16 16 16 16">
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Report.Sensors}"
+                      Margin="16 16 16 8">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapGrid Orientation="Horizontal">
@@ -86,76 +86,13 @@
                                     />
                                 </StackPanel>
                                 
-                                </Grid>
+                            </Grid>
                         </Border>
                         
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
                                    HorizontalAlignment="Center"
-                                   Style="{StaticResource CaptionTextBlockStyle}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        
-        <ItemsControl ItemsSource="{x:Bind ViewModel.Report.GpuInformation.Sensors}"
-                      Margin="16 16 16 16">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapGrid Orientation="Horizontal">
-
-                    </WrapGrid>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="data:ITemperatureSensor">
-                    <StackPanel>
-                        <Border Height="24"
-                                Width="256"
-                                Margin="4 4 4 4"
-                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                BorderThickness="0"
-                                CornerRadius="4"
-                                x:Name="BorderContainer">
-                            
-                            <ToolTipService.ToolTip>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{x:Bind Path=Name, Mode=OneWay}" />
-                                </StackPanel>
-                            </ToolTipService.ToolTip>
-                            
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                
-                                <Border Background="{x:Bind Path=Value, Mode=OneWay, Converter={StaticResource SensorToBrushConverter}}"
-                                        VerticalAlignment="Bottom"
-                                        Height="24"
-                                        HorizontalAlignment="Left"
-                                        Width="{x:Bind helpers:IntPercentageSize.ToFloatPercentage(256, Value), Mode=OneWay}">
-                                </Border>
-                                <StackPanel Orientation="Horizontal"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
-                                    <TextBlock Text="{x:Bind Path=RoundedValue, Mode=OneWay}" 
-                                               Foreground="{StaticResource TextOnAccentFillColorPrimaryBrush}"
-                                    />
-                                    <TextBlock Text="°C"
-                                               Margin="4 0 0 0"
-                                               Foreground="{StaticResource TextOnAccentFillColorPrimaryBrush}"
-                                    />
-                                </StackPanel>
-                                
-                                </Grid>
-                        </Border>
-                        
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
-                                   HorizontalAlignment="Center"
-                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                                   Style="{StaticResource CaptionTextBlockStyle}"
+                                   Margin="0 0 0 8"/>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

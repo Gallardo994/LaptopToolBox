@@ -3,7 +3,7 @@ using GHelper.Helpers;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 
-public interface ICpuInformation : ITemperatureSensorsProvider, IObservableObject
+public interface ICpuInformation : IObservableObject
 {
     public int TotalLoad { get; set; }
     public int TotalPower { get; set; }

@@ -12,20 +12,5 @@ public class GpuConstructor : IConstructor
     {
         var totalPower = hardware.Sensors.FirstOrDefault(sensor => sensor.SensorType == SensorType.Power);
         report.GpuInformation.TotalPower = (int) (totalPower?.Value ?? 0);
-        
-        var temperatureSensors = hardware.Sensors
-            .Where(sensor => sensor.SensorType == SensorType.Temperature)
-            .ToList();
-
-        ObservableCollectionHelpers.AdaptToSize(report.GpuInformation.Sensors, temperatureSensors.Count, () => new TemperatureSensor());
-        
-        for (var i = 0; i < temperatureSensors.Count; i++)
-        {
-            var temperatureSensor = temperatureSensors[i];
-            
-            report.GpuInformation.Sensors[i].Name = temperatureSensor.Name;
-            report.GpuInformation.Sensors[i].Value = temperatureSensor.Value ?? 0;
-            report.GpuInformation.Sensors[i].RoundedValue = (int) Math.Round(temperatureSensor.Value ?? 0);
-        }
     }
 }

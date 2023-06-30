@@ -2,7 +2,7 @@
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Data.GPU;
 
-public interface IGpuInformation : ITemperatureSensorsProvider, IObservableObject
+public interface IGpuInformation : IObservableObject
 {
     public int TotalPower { get; set; }
     

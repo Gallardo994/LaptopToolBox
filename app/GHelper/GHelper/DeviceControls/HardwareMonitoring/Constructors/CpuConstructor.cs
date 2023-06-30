@@ -33,22 +33,5 @@ public class CpuConstructor : IConstructor
             report.CpuInformation.CoresLoad[i].CoreNumber = i + 1;
             report.CpuInformation.CoresLoad[i].TotalLoad = (int) Math.Round(coreSensor.Value ?? 0);
         }
-        
-        var temperatureSensors = hardware.Sensors
-            .Where(sensor => sensor.SensorType == SensorType.Temperature && 
-                             !sensor.Name.Contains("Average") && 
-                             !sensor.Name.Contains("Max"))
-            .ToList();
-        
-        ObservableCollectionHelpers.AdaptToSize(report.CpuInformation.Sensors, temperatureSensors.Count, () => new TemperatureSensor());
-        
-        for (var i = 0; i < temperatureSensors.Count; i++)
-        {
-            var temperatureSensor = temperatureSensors[i];
-            
-            report.CpuInformation.Sensors[i].Name = temperatureSensor.Name;
-            report.CpuInformation.Sensors[i].Value = temperatureSensor.Value ?? 0;
-            report.CpuInformation.Sensors[i].RoundedValue = (int) Math.Round(temperatureSensor.Value ?? 0);
-        }
     }
 }
