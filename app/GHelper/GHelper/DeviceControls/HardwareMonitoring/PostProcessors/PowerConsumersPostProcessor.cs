@@ -29,8 +29,6 @@ public class PowerConsumersPostProcessor : IPostProcessor
             report.PowerConsumers[i].MaxValue = Math.Max(powerConsumers[i].Max ?? 0, 1);
             report.PowerConsumers[i].RoundedValue = (int) Math.Round(powerConsumers[i].Value ?? 0);
             report.PowerConsumers[i].RoundedMaxValue = (int) Math.Round(report.PowerConsumers[i].MaxValue);
-            
-            Log.Debug("Power Consumer {PowerConsumerName} has value {PowerConsumerValue}", report.PowerConsumers[i].Name, report.PowerConsumers[i].Value);
         }
     }
 }
