@@ -1,4 +1,4 @@
-﻿using OpenHardwareMonitor.Hardware;
+﻿using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 

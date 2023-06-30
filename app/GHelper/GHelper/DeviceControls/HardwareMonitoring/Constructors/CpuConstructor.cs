@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
-using OpenHardwareMonitor.Hardware;
+using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 

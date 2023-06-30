@@ -1,9 +1,8 @@
-﻿using OpenHardwareMonitor.Hardware;
-using Serilog;
+﻿using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 
-public class MainboardConstructor : IConstructor
+public class MotherboardConstructor : IConstructor
 {
     public void FillReport(IHardwareReport report, IHardware hardware)
     {

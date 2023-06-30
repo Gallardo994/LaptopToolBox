@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Timers;
 using GHelper.Commands;
 using GHelper.DeviceControls.HardwareMonitoring.Constructors;
-using OpenHardwareMonitor.Hardware;
+using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring;
 
@@ -17,12 +17,12 @@ public class HardwareMonitor : IHardwareMonitor
     
     private readonly Dictionary<HardwareType, IConstructor> _constructors = new()
     {
-        { HardwareType.CPU, new CpuConstructor() },
+        { HardwareType.Cpu, new CpuConstructor() },
         { HardwareType.GpuNvidia, new GpuConstructor() },
-        { HardwareType.GpuAti, new GpuConstructor() },
-        { HardwareType.Mainboard, new MainboardConstructor() },
-        { HardwareType.RAM, new RamConstructor() },
-        { HardwareType.HDD, new HddConstructor() },
+        { HardwareType.GpuAmd, new GpuConstructor() },
+        { HardwareType.Motherboard, new MotherboardConstructor() },
+        { HardwareType.Memory, new MemoryConstructor() },
+        { HardwareType.Storage, new StorageConstructor() },
     };
 
     public IHardwareReport HardwareReport { get; private set; } = new HardwareReport();
@@ -37,12 +37,11 @@ public class HardwareMonitor : IHardwareMonitor
         {
             _computer = new Computer
             {
-                CPUEnabled = true,
-                GPUEnabled = true,
-                MainboardEnabled = true,
-                RAMEnabled = true,
-                HDDEnabled = true,
-                FanControllerEnabled = true,
+                IsCpuEnabled = true,
+                IsGpuEnabled = true,
+                IsMotherboardEnabled = true,
+                IsMemoryEnabled = true,
+                IsStorageEnabled = true,
             };
         });
     }

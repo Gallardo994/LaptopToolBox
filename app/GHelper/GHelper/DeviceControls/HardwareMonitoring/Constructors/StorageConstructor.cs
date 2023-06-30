@@ -1,8 +1,8 @@
-﻿using OpenHardwareMonitor.Hardware;
+﻿using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 
-public class HddConstructor : IConstructor
+public class StorageConstructor : IConstructor
 {
     public void FillReport(IHardwareReport report, IHardware hardware)
     {
