@@ -60,8 +60,7 @@
                                 Margin="4 4 4 4"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderThickness="0"
-                                CornerRadius="4"
-                                x:Name="BorderContainer">
+                                CornerRadius="4">
                             
                             <ToolTipService.ToolTip>
                                 <StackPanel Orientation="Vertical">

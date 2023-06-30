@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using GHelper.DeviceControls.HardwareMonitoring.Data.RAM;
 using LibreHardwareMonitor.Hardware;
-using Serilog;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 

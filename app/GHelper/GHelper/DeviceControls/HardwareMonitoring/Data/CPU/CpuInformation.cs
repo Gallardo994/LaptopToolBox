@@ -7,12 +7,14 @@ namespace GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 public partial class CpuInformation : ObservableObject, ICpuInformation
 {
     [ObservableProperty] private int _totalLoad;
+    [ObservableProperty] private int _totalPower;
     [ObservableProperty] private ObservableCollection<ICpuCoreInformation> _coresLoad;
     [ObservableProperty] private ObservableCollection<ITemperatureSensor> _sensors;
 
     public CpuInformation()
     {
         TotalLoad = 0;
+        TotalPower = 0;
         CoresLoad = new ObservableCollection<ICpuCoreInformation>();
         Sensors = new ObservableCollection<ITemperatureSensor>();
     }
@@ -20,6 +22,7 @@ public partial class CpuInformation : ObservableObject, ICpuInformation
     public void Clear()
     {
         TotalLoad = 0;
+        TotalPower = 0;
         
         foreach (var core in CoresLoad)
         {
@@ -37,6 +40,7 @@ public partial class CpuInformation : ObservableObject, ICpuInformation
         var sb = new StringBuilder();
         
         sb.AppendLine($"Total Load: {TotalLoad}");
+        sb.AppendLine($"Total Power: {TotalPower}");
         
         sb.AppendLine("Cores Load:");
         foreach (var core in CoresLoad)

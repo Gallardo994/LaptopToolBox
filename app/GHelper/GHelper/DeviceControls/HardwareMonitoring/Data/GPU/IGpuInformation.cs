@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using GHelper.Helpers;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Data.GPU;
 
-public interface IGpuInformation
+public interface IGpuInformation : ITemperatureSensorsProvider, IObservableObject
 {
-    public ObservableCollection<ITemperatureSensor> Sensors { get; set; }
-    
     public void Clear();
 }

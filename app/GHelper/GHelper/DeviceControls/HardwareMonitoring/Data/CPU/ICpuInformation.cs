@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using GHelper.Helpers;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 
-public interface ICpuInformation
+public interface ICpuInformation : ITemperatureSensorsProvider, IObservableObject
 {
     public int TotalLoad { get; set; }
+    public int TotalPower { get; set; }
     public ObservableCollection<ICpuCoreInformation> CoresLoad { get; set; }
-    public ObservableCollection<ITemperatureSensor> Sensors { get; set; }
     
     public void Clear();
 }

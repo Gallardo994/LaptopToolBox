@@ -4,7 +4,6 @@ using GHelper.DeviceControls.HardwareMonitoring.Data;
 using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 using GHelper.Helpers;
 using LibreHardwareMonitor.Hardware;
-using Serilog;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 
@@ -15,16 +14,19 @@ public class CpuConstructor : IConstructor
         var total = hardware.Sensors.FirstOrDefault(sensor => sensor.SensorType == SensorType.Load && sensor.Name.Contains("Total"));
         report.CpuInformation.TotalLoad = (int) (total?.Value ?? 0);
         
-        var cores = hardware.Sensors
+        var totalPower = hardware.Sensors.FirstOrDefault(sensor => sensor.SensorType == SensorType.Power && sensor.Name.Contains("Package"));
+        report.CpuInformation.TotalPower = (int) (totalPower?.Value ?? 0);
+        
+        var coresLoad = hardware.Sensors
             .Where(sensor => sensor.SensorType == SensorType.Load && sensor.Name.Contains("Core"))
             .OrderBy(sensor => int.Parse(sensor.Name.AsSpan()[(sensor.Name.IndexOf('#') + 1)..]))
             .ToList();
 
-        ObservableCollectionHelpers.AdaptToSize(report.CpuInformation.CoresLoad, cores.Count, () => new CpuCoreInformation());
+        ObservableCollectionHelpers.AdaptToSize(report.CpuInformation.CoresLoad, coresLoad.Count, () => new CpuCoreInformation());
 
-        for (var i = 0; i < cores.Count; i++)
+        for (var i = 0; i < coresLoad.Count; i++)
         {
-            var coreSensor = cores[i];
+            var coreSensor = coresLoad[i];
             
             report.CpuInformation.CoresLoad[i].Name = coreSensor.Name;
             report.CpuInformation.CoresLoad[i].CoreIndex = i;
