@@ -8,11 +8,13 @@ public partial class CpuInformation : ObservableObject, ICpuInformation
 {
     [ObservableProperty] private int _totalLoad;
     [ObservableProperty] private ObservableCollection<ICpuCoreInformation> _coresLoad;
+    [ObservableProperty] private ObservableCollection<ICpuSensor> _sensors;
 
     public CpuInformation()
     {
         TotalLoad = 0;
         CoresLoad = new ObservableCollection<ICpuCoreInformation>();
+        Sensors = new ObservableCollection<ICpuSensor>();
     }
     
     public void Clear()
@@ -22,6 +24,11 @@ public partial class CpuInformation : ObservableObject, ICpuInformation
         foreach (var core in CoresLoad)
         {
             core.Clear();
+        }
+        
+        foreach (var sensor in Sensors)
+        {
+            sensor.Clear();
         }
     }
 
@@ -35,6 +42,12 @@ public partial class CpuInformation : ObservableObject, ICpuInformation
         foreach (var core in CoresLoad)
         {
             sb.AppendLine(core.ToString());
+        }
+        
+        sb.AppendLine("Sensors:");
+        foreach (var sensor in Sensors)
+        {
+            sb.AppendLine(sensor.ToString());
         }
         
         return sb.ToString();
