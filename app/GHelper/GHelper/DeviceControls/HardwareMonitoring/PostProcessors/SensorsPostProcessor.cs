@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GHelper.DeviceControls.HardwareMonitoring.Data;
 using GHelper.Helpers;
@@ -10,10 +11,13 @@ public class SensorsPostProcessor : IPostProcessor
 {
     public void PostProcess(IHardwareReport report, IComputer computer)
     {
-        var temperatureSensors = computer.Hardware
-            .SelectMany(hardware => hardware.Sensors)
-            .Where(sensor => sensor.SensorType == SensorType.Temperature)
-            .ToList();
+        var temperatureSensors = new List<ISensor>();
+        
+        foreach (var hardware in computer.Hardware)
+        {
+            temperatureSensors.AddRange(hardware.Sensors.Where(sensor => sensor.SensorType == SensorType.Temperature));
+            temperatureSensors.AddRange(from subHardware in hardware.SubHardware from sensor in subHardware.Sensors where sensor.SensorType == SensorType.Temperature select sensor);
+        }
 
         ObservableCollectionHelpers.AdaptToSize(report.Sensors, temperatureSensors.Count, () => new TemperatureSensor());
         
