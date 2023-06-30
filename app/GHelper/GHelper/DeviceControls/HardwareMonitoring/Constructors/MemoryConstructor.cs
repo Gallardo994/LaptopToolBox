@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GHelper.DeviceControls.HardwareMonitoring.Data.RAM;
 using LibreHardwareMonitor.Hardware;
+using Serilog;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;
 
@@ -23,5 +25,14 @@ public class MemoryConstructor : IConstructor
         }
         
         report.RamInformation.Total = report.RamInformation.Used + report.RamInformation.Available;
+        
+        if (report.RamInformation.Total == 0)
+        {
+            report.RamInformation.PercentageUsed = 0;
+        }
+        else
+        {
+            report.RamInformation.PercentageUsed = (int) Math.Round(report.RamInformation.Used / report.RamInformation.Total * 100);
+        }
     }
 }

@@ -17,6 +17,7 @@
         <views:AutoOverdriveView />
         
         <TextBlock Text="System Monitoring" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
+        <views:RamUsageView />
         <views:CpuMonitorView />
         <views:SensorsView />
         <views:FansView />

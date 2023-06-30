@@ -1,14 +1,15 @@
-﻿using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 using GHelper.DeviceControls.HardwareMonitoring.Data.GPU;
 using GHelper.DeviceControls.HardwareMonitoring.Data.RAM;
 
 namespace GHelper.DeviceControls.HardwareMonitoring;
 
-public class HardwareReport : IHardwareReport
+public partial class HardwareReport : ObservableObject, IHardwareReport
 {
-    public IRamInformation RamInformation { get; set; }
-    public ICpuInformation CpuInformation { get; set; }
-    public IGpuInformation GpuInformation { get; set; }
+    [ObservableProperty] private IRamInformation _ramInformation;
+    [ObservableProperty] private ICpuInformation _cpuInformation;
+    [ObservableProperty] private IGpuInformation _gpuInformation;
     
     public HardwareReport()
     {

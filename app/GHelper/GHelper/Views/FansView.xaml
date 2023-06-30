@@ -45,7 +45,7 @@
                     VerticalAlignment="Center">
             <TextBlock Text="{x:Bind ViewModel.CpuFanRpm, Mode=OneWay}" />
             <TextBlock Text="RPM" 
-                       Margin="4 0 12 0"/>
+                       Margin="2 0 12 0"/>
         </StackPanel>
     </Grid>
     
@@ -80,7 +80,7 @@
                     VerticalAlignment="Center">
             <TextBlock Text="{x:Bind ViewModel.GpuFanRpm, Mode=OneWay}" />
             <TextBlock Text="RPM" 
-                       Margin="4 0 12 0"/>
+                       Margin="2 0 12 0"/>
         </StackPanel>
     </Grid>
 </Grid>

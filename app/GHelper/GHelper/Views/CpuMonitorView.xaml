@@ -27,7 +27,7 @@
             <FontIcon Glyph="&#xE950;" 
                       Margin="2 0 0 0"></FontIcon>
             <TextBlock Margin="20 0 0 0"
-                       Text="CPU Cores Usage" 
+                       Text="CPU Cores Load"
                        Style="{StaticResource BaseTextBlockStyle}" />
         </StackPanel>
     </Expander.Header>
