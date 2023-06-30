@@ -73,7 +73,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" PointerExited="ListViewSwipeContainer_PointerExited">
-                        <Grid Margin="0" Padding="0">
+                        <Grid Margin="0" Padding="4 0 0 0">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="HoveringStates">
                                     <VisualState x:Name="HoverButtonsHidden"></VisualState>
@@ -101,7 +101,7 @@
                                         
                                         <FontIcon Glyph="{Binding Path=Icon}"></FontIcon>
                                         
-                                        <StackPanel Margin="8 0 0 0"
+                                        <StackPanel Margin="16 0 0 0"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Path=Title}" 
