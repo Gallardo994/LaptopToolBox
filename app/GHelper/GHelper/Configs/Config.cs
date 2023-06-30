@@ -20,6 +20,7 @@ public partial class Config : ObservableObject, IConfig
     [ObservableProperty] [JsonProperty("keyboard_backlight_brightness")] private byte _keyboardBacklightBrightness = 3;
     [ObservableProperty] [JsonProperty("auto_overdrive_enabled")] private bool _autoOverdriveEnabled = false;
     [ObservableProperty] [JsonProperty("custom_performance_modes")] private ObservableCollection<CustomPerformanceMode> _customPerformanceModes = new();
+    [ObservableProperty] [JsonProperty("dont_check_app_updates_automatically")] private bool _dontCheckAppUpdatesAutomatically = false;
 
     public Config(IConfigSaveCommandLoop saveCommandLoop)
     {

@@ -6,7 +6,7 @@ public class Bindings : NinjectModule
 {
     public override void Load()
     {
-        Bind<IBackgroundCommandLoop>().To<BackgroundCommandLoop>().InSingletonScope();
+        Bind<IBackgroundCommandLoop>().To<GeneralBackgroundCommandLoop>().InSingletonScope();
         Bind<ISTACommandLoop>().To<STACommandLoop>().InSingletonScope();
     }
 }

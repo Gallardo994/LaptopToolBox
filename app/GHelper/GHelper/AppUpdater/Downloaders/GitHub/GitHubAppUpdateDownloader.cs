@@ -6,39 +6,37 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using GHelper.AppUpdater.GitHub.Models;
+using GHelper.AppUpdater.Downloaders.GitHub.Models;
+using GHelper.AppVersion;
 using Newtonsoft.Json;
 using Semver;
 using Serilog;
 
-namespace GHelper.AppUpdater.GitHub;
+namespace GHelper.AppUpdater.Downloaders.GitHub;
 
-public class GitHubAppUpdater : IAppUpdater
+public class GitHubAppUpdateDownloader : IAppUpdateDownloader
 {
-    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(1, 13, 0, "beta");
+    private readonly IAppVersionProvider _appVersionProvider;
     
     private readonly string _repoSlug;
     private readonly string _releasesApi;
     private readonly HttpClient _httpClient;
 
-    public GitHubAppUpdater()
+    public GitHubAppUpdateDownloader(IAppVersionProvider appVersionProvider)
     {
+        _appVersionProvider = appVersionProvider;
+        
         _repoSlug = "gallardo994/g-helper";
         _releasesApi = $"https://api.github.com/repos/{_repoSlug}/releases";
         _httpClient = new HttpClient
         {
             DefaultRequestHeaders =
             {
-                UserAgent = { new ProductInfoHeaderValue("GHelper", GetCurrentVersion().ToString()) }
+                UserAgent = { new ProductInfoHeaderValue("GHelper", _appVersionProvider.GetCurrentVersion().ToString()) }
             }
         };
     }
-    
-    public SemVersion GetCurrentVersion()
-    {
-        return CurrentVersion;
-    }
-    
+
     private bool TryGetVersionFromString(string version, out SemVersion semVersion)
     {
         try
@@ -88,7 +86,7 @@ public class GitHubAppUpdater : IAppUpdater
 
     private bool IsNewerThanCurrent(Release release)
     {
-        var currentVersion = GetCurrentVersion();
+        var currentVersion = _appVersionProvider.GetCurrentVersion();
         if (currentVersion == null)
         {
             Log.Error("Could not get current version");
@@ -145,7 +143,7 @@ public class GitHubAppUpdater : IAppUpdater
 
     public async Task<Release> GetSuggestedUpdate()
     {
-        var currentVersion = GetCurrentVersion();
+        var currentVersion = _appVersionProvider.GetCurrentVersion();
         if (currentVersion == null)
         {
             Log.Error("Could not get current version");

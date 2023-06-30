@@ -20,4 +20,7 @@ public enum NotificationCategory
     
     TouchPadEnable,
     TouchPadDisable,
+    
+    AppUpdateStartedDownloading,
+    AppUpdateAvailable,
 }

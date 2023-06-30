@@ -14,6 +14,7 @@ public class Bindings : NinjectModule
         Bind<KeyboardBacklightInitializer>().ToSelf().InSingletonScope();
         Bind<AutoOverdriveInitializer>().ToSelf().InSingletonScope();
         Bind<HardwareMonitorInitializer>().ToSelf().InSingletonScope();
+        Bind<BackgroundAppUpdateInitializer>().ToSelf().InSingletonScope();
         
         Bind<MainWindowInitializer>().ToSelf().InSingletonScope();
         

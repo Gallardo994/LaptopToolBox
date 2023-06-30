@@ -1,13 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using GHelper.AppUpdater.GitHub.Models;
-using Semver;
+using GHelper.AppUpdater.Downloaders.GitHub.Models;
 
-namespace GHelper.AppUpdater;
+namespace GHelper.AppUpdater.Downloaders;
 
-public interface IAppUpdater
+public interface IAppUpdateDownloader
 {
     public Task<Release> GetSuggestedUpdate();
     public Task<string> Download(Release release, CancellationToken cancellationToken);
-    public SemVersion GetCurrentVersion();
 }

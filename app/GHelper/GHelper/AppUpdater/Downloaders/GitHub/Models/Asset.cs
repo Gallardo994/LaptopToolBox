@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace GHelper.AppUpdater.GitHub.Models;
+namespace GHelper.AppUpdater.Downloaders.GitHub.Models;
 
 [JsonObject]
 public class Asset

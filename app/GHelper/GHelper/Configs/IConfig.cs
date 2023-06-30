@@ -18,4 +18,5 @@ public interface IConfig : IObservableObject
     public byte KeyboardBacklightBrightness { get; set; }
     public bool AutoOverdriveEnabled { get; set; }
     public ObservableCollection<CustomPerformanceMode> CustomPerformanceModes { get; set; }
+    public bool DontCheckAppUpdatesAutomatically { get; set; }
 }

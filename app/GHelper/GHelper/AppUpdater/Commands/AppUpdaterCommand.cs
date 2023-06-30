@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace GHelper.Commands;
+namespace GHelper.AppUpdater.Commands;
 
-public class ActionCommand : IBackgroundCommand, ISTACommand
+public class AppUpdaterCommand : IAppUpdaterCommand
 {
     private readonly Action _action;
     
-    public ActionCommand(Action action)
+    public AppUpdaterCommand(Action action)
     {
         _action = action;
     }

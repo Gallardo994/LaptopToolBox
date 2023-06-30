@@ -1,6 +1,6 @@
 ﻿namespace GHelper.Commands;
 
-public interface IBackgroundCommand
+public interface IBackgroundCommand : ICommand
 {
-    public void Execute();
+    
 }

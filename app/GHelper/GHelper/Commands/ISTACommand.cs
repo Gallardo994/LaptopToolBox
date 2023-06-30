@@ -1,6 +1,6 @@
 ﻿namespace GHelper.Commands;
 
-public interface ISTACommand
+public interface ISTACommand : ICommand
 {
-    public void Execute();
+    
 }

@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.About;
 using GHelper.AppUpdater;
+using GHelper.AppVersion;
 using GHelper.Injection;
-using GHelper.Updates.Core;
 using Ninject;
 
 namespace GHelper.ViewModels;
@@ -11,27 +11,34 @@ namespace GHelper.ViewModels;
 public partial class AboutViewModel : ObservableObject
 {
     private readonly IAboutProvider _aboutProvider = Services.ResolutionRoot.Get<IAboutProvider>();
-    private readonly IAppUpdater _appUpdater = Services.ResolutionRoot.Get<IAppUpdater>();
+    private readonly IAppVersionProvider _appVersionProvider = Services.ResolutionRoot.Get<IAppVersionProvider>();
+    
+    public IAppUpdateProvider AppUpdater { get; } = Services.ResolutionRoot.Get<IAppUpdateProvider>();
 
     public ObservableCollection<IAboutItem> Items => _aboutProvider.Items;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsUpdateCheckingLocked))] private bool _isCheckingForUpdates;
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsUpdateCheckingLocked))] private bool _isDownloadingUpdate;
-
-    public bool IsUpdateCheckingLocked => IsCheckingForUpdates || IsDownloadingUpdate;
-    
     public string Version
     {
         get
         {
-            var version = _appUpdater.GetCurrentVersion();
-            
+            var version = _appVersionProvider.GetCurrentVersion();
+
             if (version == null)
             {
                 return "Unknown";
             }
-            
+
             return version.ToString();
         }
+    }
+
+    public void PerformUpdatesCheck()
+    {
+        AppUpdater.CheckForUpdate();
+    }
+
+    public void InstallUpdate()
+    {
+        AppUpdater.InstallUpdate();
     }
 }

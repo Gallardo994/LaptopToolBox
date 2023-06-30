@@ -6,9 +6,9 @@ using Serilog;
 
 namespace GHelper.Commands
 {
-    public class BackgroundCommandLoop : IBackgroundCommandLoop
+    public class BackgroundCommandLoop<T> where T : ICommand
     {
-        private readonly ConcurrentQueue<IBackgroundCommand> _commands;
+        private readonly ConcurrentQueue<T> _commands;
         private readonly CancellationTokenSource _cancellationTokenSource;
         
         private readonly object _syncRoot;
@@ -17,7 +17,7 @@ namespace GHelper.Commands
 
         public BackgroundCommandLoop()
         {
-            _commands = new ConcurrentQueue<IBackgroundCommand>();
+            _commands = new ConcurrentQueue<T>();
             _cancellationTokenSource = new CancellationTokenSource();
             
             _syncRoot = new object();
@@ -26,18 +26,13 @@ namespace GHelper.Commands
             _thread.Start();
         }
 
-        public void Enqueue(IBackgroundCommand command)
+        public void Enqueue(T command)
         {
             _commands.Enqueue(command);
             lock (_syncRoot)
             {
                 Monitor.Pulse(_syncRoot);
             }
-        }
-        
-        public void Enqueue(Action action)
-        {
-            Enqueue(new ActionCommand(action));
         }
 
         private void Run(CancellationToken cancellationToken)
@@ -72,7 +67,7 @@ namespace GHelper.Commands
             {
                 try
                 {
-                    Log.Debug($"Executing command {command.GetType().Name}");
+                    //Log.Debug($"Executing command {command.GetType().Name}");
                     command.Execute();
                 } 
                 catch (Exception e)

@@ -1,23 +1,17 @@
 using System;
-using System.Diagnostics;
-using System.Threading;
 using Windows.System;
 using GHelper.About;
-using GHelper.AppUpdater;
-using GHelper.Helpers;
 using GHelper.Injection;
 using GHelper.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Ninject;
-using Serilog;
 
 namespace GHelper.Pages
 {
     public sealed partial class AboutPage
     {
-        private readonly IAppUpdater _appUpdater = Services.ResolutionRoot.Get<IAppUpdater>();
         public AboutViewModel ViewModel { get; } = Services.ResolutionRoot.Get<AboutViewModel>();
         
         public AboutPage()
@@ -94,94 +88,15 @@ namespace GHelper.Pages
                 await Launcher.LaunchUriAsync(new Uri(item.LicenseLink));
             }
         }
-        
-        private async void UpdateButton_Pressed(object sender, RoutedEventArgs e)
+
+        private void UpdateButton_Pressed(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsCheckingForUpdates = true;
-            
-            var release = await _appUpdater.GetSuggestedUpdate();
-            
-            if (release == null)
-            {
-                var dialogNoNewVersion = new ContentDialog
-                {
-                    XamlRoot = XamlRoot,
-                    Title = "No Update Available",
-                    Content = "No update is available at this time.",
-                    CloseButtonText = "OK",
-                };
-                
-                await dialogNoNewVersion.ShowAsync();
+            ViewModel.PerformUpdatesCheck();
+        }
 
-                ViewModel.IsCheckingForUpdates = false;
-                return;
-            }
-
-            ViewModel.IsCheckingForUpdates = false;
-            
-            var dialog = new ContentDialog
-            {
-                XamlRoot = XamlRoot,
-                Title = "Update Available",
-                Content = $"Version {release.Name} is available. Would you like to update?",
-                PrimaryButtonText = "Yes",
-                CloseButtonText = "No"
-            };
-
-            var result = await dialog.ShowAsync();
-
-            if (result != ContentDialogResult.Primary)
-            {
-                Log.Debug("User chose not to update");
-                return;
-            }
-            
-            var notificationDialog = new ContentDialog
-            {
-                XamlRoot = XamlRoot,
-                Title = "Update Downloading",
-                Content = "The update is downloading. You will be prompted to install it when it is finished.",
-                CloseButtonText = "OK",
-            };
-            
-            await notificationDialog.ShowAsync();
-
-            ViewModel.IsDownloadingUpdate = true;
-
-            var downloadCts = new CancellationTokenSource();
-            var zipPath = await _appUpdater.Download(release, downloadCts.Token);
-        
-            if (string.IsNullOrEmpty(zipPath))
-            {
-                Log.Error("Failed to download release");
-                ViewModel.IsDownloadingUpdate = false;
-                return;
-            }
-        
-            Log.Debug("Downloaded release to {zipPath}", zipPath);
-
-            ViewModel.IsDownloadingUpdate = false;
-            
-            var installDialog = new ContentDialog
-            {
-                XamlRoot = XamlRoot,
-                Title = "Update Downloaded",
-                Content = "The update has finished downloading",
-                CloseButtonText = "Install",
-            };
-            
-            await installDialog.ShowAsync();
-            
-            var processStartInfo = new ProcessStartInfo
-            {
-                FileName = "UpdateInstaller\\UpdateInstaller.exe",
-                Arguments = $"--zipPath=\"{zipPath}\" --targetDir=\"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')}\" --runAfter=\"GHelper.exe\"",
-                UseShellExecute = true,
-            };
-            
-            Process.Start(processStartInfo);
-            
-            ApplicationHelper.Exit();
+        private void InstallUpdateButton_Pressed(object sender, RoutedEventArgs e)
+        {
+            ViewModel.InstallUpdate();
         }
     }
 }

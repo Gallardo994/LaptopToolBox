@@ -1,11 +1,11 @@
 ﻿using Ninject.Modules;
 
-namespace GHelper.AppUpdater;
+namespace GHelper.AppVersion;
 
 public class Bindings : NinjectModule
 {
     public override void Load()
     {
-        Bind<IAppUpdateProvider>().To<AppUpdateProvider>().InSingletonScope();
+        Bind<IAppVersionProvider>().To<AppVersionProvider>().InSingletonScope();
     }
 }
