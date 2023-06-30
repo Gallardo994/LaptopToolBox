@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GHelper.DeviceControls.HardwareMonitoring.Data;
 using GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 using GHelper.Helpers;
 using LibreHardwareMonitor.Hardware;
@@ -37,7 +38,7 @@ public class CpuConstructor : IConstructor
                              !sensor.Name.Contains("Max"))
             .ToList();
         
-        ObservableCollectionHelpers.AdaptToSize(report.CpuInformation.Sensors, temperatureSensors.Count, () => new CpuSensor());
+        ObservableCollectionHelpers.AdaptToSize(report.CpuInformation.Sensors, temperatureSensors.Count, () => new TemperatureSensor());
         
         for (var i = 0; i < temperatureSensors.Count; i++)
         {

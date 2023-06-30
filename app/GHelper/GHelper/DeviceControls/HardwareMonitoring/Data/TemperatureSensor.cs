@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
+namespace GHelper.DeviceControls.HardwareMonitoring.Data;
 
-public partial class CpuSensor : ObservableObject, ICpuSensor
+public partial class TemperatureSensor : ObservableObject, ITemperatureSensor
 {
     [ObservableProperty] private string _name;
     [ObservableProperty] private float _value;

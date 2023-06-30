@@ -8,13 +8,13 @@ public partial class CpuInformation : ObservableObject, ICpuInformation
 {
     [ObservableProperty] private int _totalLoad;
     [ObservableProperty] private ObservableCollection<ICpuCoreInformation> _coresLoad;
-    [ObservableProperty] private ObservableCollection<ICpuSensor> _sensors;
+    [ObservableProperty] private ObservableCollection<ITemperatureSensor> _sensors;
 
     public CpuInformation()
     {
         TotalLoad = 0;
         CoresLoad = new ObservableCollection<ICpuCoreInformation>();
-        Sensors = new ObservableCollection<ICpuSensor>();
+        Sensors = new ObservableCollection<ITemperatureSensor>();
     }
     
     public void Clear()

@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:GHelper.ViewModels"
     xmlns:converters="using:GHelper.Converters"
-    xmlns:cpu="using:GHelper.DeviceControls.HardwareMonitoring.Data.CPU"
     xmlns:helpers="using:GHelper.Helpers"
+    xmlns:data="using:GHelper.DeviceControls.HardwareMonitoring.Data"
     mc:Ignorable="d"
     HorizontalAlignment="Stretch"
     IsExpanded="True">
@@ -32,20 +32,9 @@
         </StackPanel>
     </Expander.Header>
     
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <ItemsControl Grid.Row="1"
-                      Grid.Column="0"
-                      ItemsSource="{x:Bind ViewModel.Report.CpuInformation.Sensors}">
+    <StackPanel>
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Report.CpuInformation.Sensors}"
+                      Margin="16 16 16 16">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapGrid Orientation="Horizontal">
@@ -54,7 +43,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="cpu:ICpuSensor">
+                <DataTemplate x:DataType="data:ITemperatureSensor">
                     <StackPanel>
                         <Border Height="24"
                                 Width="256"
@@ -107,5 +96,69 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </Grid>
+        
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Report.GpuInformation.Sensors}"
+                      Margin="16 16 16 16">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal">
+
+                    </WrapGrid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="data:ITemperatureSensor">
+                    <StackPanel>
+                        <Border Height="24"
+                                Width="256"
+                                Margin="4 4 4 4"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderThickness="0"
+                                CornerRadius="4"
+                                x:Name="BorderContainer">
+                            
+                            <ToolTipService.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{x:Bind Path=Name, Mode=OneWay}" />
+                                </StackPanel>
+                            </ToolTipService.ToolTip>
+                            
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Border Background="{x:Bind Path=Value, Mode=OneWay, Converter={StaticResource SensorToBrushConverter}}"
+                                        VerticalAlignment="Bottom"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        Width="{x:Bind helpers:IntPercentageSize.ToFloatPercentage(256, Value), Mode=OneWay}">
+                                </Border>
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind Path=RoundedValue, Mode=OneWay}" 
+                                               Foreground="{StaticResource TextOnAccentFillColorPrimaryBrush}"
+                                    />
+                                    <TextBlock Text="°C"
+                                               Margin="4 0 0 0"
+                                               Foreground="{StaticResource TextOnAccentFillColorPrimaryBrush}"
+                                    />
+                                </StackPanel>
+                                
+                                </Grid>
+                        </Border>
+                        
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
 </Expander>

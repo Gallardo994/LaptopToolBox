@@ -1,8 +1,8 @@
 ﻿using GHelper.Helpers;
 
-namespace GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
+namespace GHelper.DeviceControls.HardwareMonitoring.Data;
 
-public interface ICpuSensor : IObservableObject
+public interface ITemperatureSensor : IObservableObject
 {
     public string Name { get; set; }
     public float Value { get; set; }
