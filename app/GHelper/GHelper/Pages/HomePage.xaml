@@ -10,7 +10,8 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <views:DeviceInformationView Margin="0 0 0 24" />
+        <views:DeviceInformationView />
+        <TextBlock Text="General" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
         <views:VendorServicesView />
         <views:BatteryLimitView />
         <views:AutoOverdriveView />
