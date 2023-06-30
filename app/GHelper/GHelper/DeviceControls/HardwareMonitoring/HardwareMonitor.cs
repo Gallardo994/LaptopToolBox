@@ -19,7 +19,7 @@ public class HardwareMonitor : IHardwareMonitor
     {
         { HardwareType.Cpu, new CpuConstructor() },
         { HardwareType.GpuNvidia, new GpuConstructor() },
-        { HardwareType.GpuAmd, new GpuConstructor() },
+        // { HardwareType.GpuAmd, new GpuConstructor() },
         { HardwareType.Motherboard, new MotherboardConstructor() },
         { HardwareType.Memory, new MemoryConstructor() },
         { HardwareType.Storage, new StorageConstructor() },
