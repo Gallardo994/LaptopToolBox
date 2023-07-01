@@ -16,8 +16,6 @@ namespace GHelper.Pages
 {
     public sealed partial class UpdatesPage
     {
-        private readonly IUpdatesChecker _updatesChecker = Services.ResolutionRoot.Get<IUpdatesChecker>();
-        private readonly ISTACommandLoop _commandLoop = Services.ResolutionRoot.Get<ISTACommandLoop>();
         public UpdatesViewModel ViewModel { get; } = Services.ResolutionRoot.Get<UpdatesViewModel>();
         
         public UpdatesPage()
@@ -25,8 +23,6 @@ namespace GHelper.Pages
             InitializeComponent();
         
             DataContext = ViewModel;
-        
-            RefreshUpdates();
         }
         
         private void Button_OnClicked(object sender, RoutedEventArgs routedEventArgs)
@@ -64,36 +60,7 @@ namespace GHelper.Pages
 
         private void RefreshUpdates()
         {
-            ViewModel.IsUpdating = true;
-            Task.Run(async () =>
-            {
-                var result = await _updatesChecker.CheckForUpdates();
-
-                result.Sort((update1, update2) =>
-                {
-                    if (update1.IsNewerThanCurrent && !update2.IsNewerThanCurrent)
-                    {
-                        return -1;
-                    }
-
-                    if (!update1.IsNewerThanCurrent && update2.IsNewerThanCurrent)
-                    {
-                        return 1;
-                    }
-
-                    return string.Compare(update1.Name, update2.Name, StringComparison.Ordinal);
-                });
-                
-                _commandLoop.Enqueue(() =>
-                {
-                    if (ViewModel == null)
-                    {
-                        return;
-                    }
-                    ViewModel.SetUpdates(result);
-                    ViewModel.IsUpdating = false;
-                });
-            }).Forget();
+            ViewModel.CheckForUpdates();
         }
         
         private void ListViewSwipeContainer_PointerEntered(object sender, PointerRoutedEventArgs e)

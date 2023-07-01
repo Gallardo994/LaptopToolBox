@@ -18,6 +18,8 @@ public class InitializersProvider : IInitializersProvider
         AutoOverdriveInitializer autoOverdriveInitializer,
         HardwareMonitorInitializer hardwareMonitorInitializer,
         BackgroundAppUpdateInitializer backgroundAppUpdateInitializer,
+        BackgroundUpdatesInitializer backgroundUpdatesInitializer,
+        NavigationBellInitializer navigationBellInitializer,
         
         MainWindowInitializer mainWindowInitializer,
         IpcSubscriberInitializer ipcSubscriberInitializer
@@ -31,6 +33,8 @@ public class InitializersProvider : IInitializersProvider
         _initializers.Add(autoOverdriveInitializer);
         _initializers.Add(hardwareMonitorInitializer);
         _initializers.Add(backgroundAppUpdateInitializer);
+        _initializers.Add(backgroundUpdatesInitializer);
+        _initializers.Add(navigationBellInitializer);
         
         _initializers.Add(mainWindowInitializer);
         _initializers.Add(ipcSubscriberInitializer);

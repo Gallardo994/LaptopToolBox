@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:GHelper.Converters"
-    xmlns:viewModels="using:GHelper.ViewModels"
     xmlns:models="using:GHelper.Updates.Models"
     mc:Ignorable="d">
 
@@ -63,12 +62,12 @@
         
         <ProgressRing
             Grid.Row="1"
-            Visibility="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+            Visibility="{x:Bind ViewModel.UpdatesProvider.IsCheckingForUpdates, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
             Style="{StaticResource Loading}"/>
 
         <ListView Grid.Row="1" BorderThickness="0"
-                  Visibility="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                  ItemsSource="{x:Bind ViewModel.Updates}"
+                  Visibility="{x:Bind ViewModel.UpdatesProvider.IsCheckingForUpdates, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                  ItemsSource="{x:Bind ViewModel.UpdatesProvider.Updates}"
                   Style="{StaticResource ItemsList}"
                   ItemContainerStyle="{StaticResource HorizontalSwipe}"
                   SelectionMode="None">

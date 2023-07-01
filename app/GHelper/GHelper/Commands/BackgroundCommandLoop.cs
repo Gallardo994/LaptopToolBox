@@ -6,7 +6,7 @@ using Serilog;
 
 namespace GHelper.Commands
 {
-    public class BackgroundCommandLoop<T> where T : ICommand
+    public abstract class BackgroundCommandLoop<T> where T : ICommand
     {
         private readonly ConcurrentQueue<T> _commands;
         private readonly CancellationTokenSource _cancellationTokenSource;

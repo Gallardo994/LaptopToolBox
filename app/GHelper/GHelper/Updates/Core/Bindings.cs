@@ -8,5 +8,6 @@ public class Bindings : NinjectModule
     {
         Bind<IUpdatesUrlProvider>().To<UpdatesUrlProvider>().InSingletonScope();
         Bind<IUpdatesChecker>().To<UpdatesChecker>().InSingletonScope();
+        Bind<IUpdatesProvider>().To<UpdatesProvider>().InSingletonScope();
     }
 }

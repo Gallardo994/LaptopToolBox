@@ -21,6 +21,7 @@ public partial class Config : ObservableObject, IConfig
     [ObservableProperty] [JsonProperty("auto_overdrive_enabled")] private bool _autoOverdriveEnabled = false;
     [ObservableProperty] [JsonProperty("custom_performance_modes")] private ObservableCollection<CustomPerformanceMode> _customPerformanceModes = new();
     [ObservableProperty] [JsonProperty("dont_check_app_updates_automatically")] private bool _dontCheckAppUpdatesAutomatically = false;
+    [ObservableProperty] [JsonProperty("dont_check_driver_updates_automatically")] private bool _dontCheckDriverUpdatesAutomatically = false;
 
     public Config(IConfigSaveCommandLoop saveCommandLoop)
     {

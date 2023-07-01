@@ -19,4 +19,5 @@ public interface IConfig : IObservableObject
     public bool AutoOverdriveEnabled { get; set; }
     public ObservableCollection<CustomPerformanceMode> CustomPerformanceModes { get; set; }
     public bool DontCheckAppUpdatesAutomatically { get; set; }
+    public bool DontCheckDriverUpdatesAutomatically { get; set; }
 }

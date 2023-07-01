@@ -1,34 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using GHelper.Updates.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GHelper.Injection;
+using GHelper.Updates.Core;
+using Ninject;
 
 namespace GHelper.ViewModels;
 
-public partial class UpdatesViewModel : ObservableObject
+public class UpdatesViewModel : ObservableObject
 {
-    [ObservableProperty] private int _pendingUpdates;
-    [ObservableProperty] private ObservableCollection<IUpdate> _updates = null!;
-    [ObservableProperty] private bool _isUpdating;
+    public readonly IUpdatesProvider UpdatesProvider = Services.ResolutionRoot.Get<IUpdatesProvider>();
 
-    public UpdatesViewModel()
+    public void CheckForUpdates()
     {
-        PendingUpdates = 0;
-        Updates = new ObservableCollection<IUpdate>();
-    }
-    
-    public void SetUpdates(List<IUpdate> updates)
-    {
-        Updates.Clear();
-        
-        foreach (var update in updates)
-        {
-            if (update.IsNewerThanCurrent)
-            {
-                PendingUpdates++;
-            }
-            
-            Updates.Add(update);
-        }
+        UpdatesProvider.CheckForUpdates();
     }
 }

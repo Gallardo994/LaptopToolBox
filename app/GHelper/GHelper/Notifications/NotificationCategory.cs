@@ -23,4 +23,6 @@ public enum NotificationCategory
     
     AppUpdateStartedDownloading,
     AppUpdateAvailable,
+    
+    DriverUpdatesAvailable,
 }
