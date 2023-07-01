@@ -83,7 +83,7 @@ public class UpdatesChecker : IUpdatesChecker
                     Name = file.Title,
                     Version = file.Version,
                     DownloadUrl = file.DownloadUrl.Global,
-                    IsNewerThanCurrent = true,
+                    IsNewerThanCurrent = newer,
                 };
                 
                 if (_ignoredUpdatesProvider.IsIgnored(biosUpdate))
