@@ -38,6 +38,8 @@ Current functionality:
 - Sensors information
 - Power draw information
 - RAM usage information
+- Driver & BIOS updates notifications
+- Notification badges
 
 ## Tested on
 - G733PY
@@ -46,8 +48,6 @@ Current functionality:
 ## TODO
 - Detect CPU models and undervolt support
 - Implement undervolt for Intel CPUs
-- Implement Driver & BIOS updates notifications
-- Implement custom profiles
 - Implement hints for UI elements
 - Implement tutorials for UI elements
 - Implement hardware information
