@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using GHelper.DeviceControls.HardwareMonitoring.Data;
-using GHelper.Helpers;
+﻿using System.Linq;
 using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring.Constructors;

@@ -23,6 +23,8 @@ namespace GHelper.Pages
             InitializeComponent();
         
             DataContext = ViewModel;
+            
+            ViewModel.CheckForUpdates();
         }
         
         private void Button_OnClicked(object sender, RoutedEventArgs routedEventArgs)

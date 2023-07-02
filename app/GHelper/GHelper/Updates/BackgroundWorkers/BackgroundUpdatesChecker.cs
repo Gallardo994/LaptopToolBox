@@ -26,7 +26,6 @@ public class BackgroundUpdatesChecker : IBackgroundUpdatesChecker
     {
         if (!_config.DontCheckDriverUpdatesAutomatically)
         {
-            Log.Information("Not checking for driver & bios updates automatically");
             _updatesProvider.CheckForUpdates();
         }
         

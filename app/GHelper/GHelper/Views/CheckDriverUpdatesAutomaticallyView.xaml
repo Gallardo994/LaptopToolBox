@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Grid
+    x:Class="GHelper.Views.CheckDriverUpdatesAutomaticallyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:GHelper.Converters"
+    mc:Ignorable="d"
+    CornerRadius="2"
+    Padding="6"
+    BorderThickness="1"
+    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+    Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+    <Grid.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="64"></RowDefinition>
+    </Grid.RowDefinitions>
+        
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+        
+    <StackPanel Grid.Column="0"
+                Orientation="Horizontal">
+        
+        <FontIcon Glyph="&#xEE47;"
+                  Margin="12 0 12 0"></FontIcon>
+        
+        <StackPanel Margin="8 0 0 0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Check Driver and BIOS updates automatically"
+                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Text="Check for updates when GHelper starts and periodically while it's running."
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+        </StackPanel>
+    </StackPanel>
+        
+    <ToggleSwitch Grid.Column="1" 
+                  HorizontalAlignment="Right" 
+                  OnContent="Enabled"
+                  OffContent="Disabled"
+                  IsOn="{x:Bind Path=ViewModel.Config.DontCheckDriverUpdatesAutomatically, Mode=TwoWay, Converter={StaticResource InverseBoolConverter}}"></ToggleSwitch>
+</Grid>

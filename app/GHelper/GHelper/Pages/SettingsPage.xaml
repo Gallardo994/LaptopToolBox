@@ -10,8 +10,15 @@
     mc:Ignorable="d">
 
     <StackPanel>
+        <TextBlock Text="General" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
         <views:AutoStartView />
         <views:StartMinimizedView></views:StartMinimizedView>
+        
+        <TextBlock Text="Updates" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
+        <views:CheckAppUpdatesAutomaticallyView />
+        <views:CheckDriverUpdatesAutomaticallyView />
+        
+        <TextBlock Text="Diagnostics" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
         <Button Content="Quit" Click="QuitButton_OnClick"></Button>
     </StackPanel>
 </Page>
