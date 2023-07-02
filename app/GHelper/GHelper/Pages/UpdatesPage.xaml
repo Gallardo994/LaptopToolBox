@@ -101,8 +101,7 @@
                                         Orientation="Horizontal">
                                         <FontIcon
                                             Glyph="&#xE73E;"
-                                            Visibility="{x:Bind IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                            Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
+                                            Visibility="{x:Bind IsNewerThanCurrent, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
                                         <FontIcon
                                             Glyph="&#xE7BA;"
                                             Visibility="{x:Bind IsNewerThanCurrent, Converter={StaticResource BoolToVisibilityConverter}}"
