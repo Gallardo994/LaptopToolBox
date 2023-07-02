@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.System;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -26,16 +25,11 @@ public class UpdatesViewModel : ObservableObject
 
     private async Task<string> DownloadFile(Uri uri)
     {
-        using var httpClient = _httpClientFactory.Get();
-        
-        var request = new HttpRequestMessage(HttpMethod.Get, uri);
-        var response = await httpClient.SendAsync(request);
-    
         var tempFilePath = string.Concat(Path.GetTempFileName(), uri.AbsolutePath.AsSpan(uri.AbsolutePath.LastIndexOf('.')));
         
-        await using var tempFileStream = File.OpenWrite(tempFilePath);
-        await response.Content.CopyToAsync(tempFileStream);
-        
+        using var httpClient = _httpClientFactory.Get();
+        await httpClient.DownloadFileAsync(uri, tempFilePath);
+
         return tempFilePath;
     }
     

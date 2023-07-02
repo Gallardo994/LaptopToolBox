@@ -20,8 +20,7 @@ public class HttpClientFactory : IHttpClientFactory
     public IHttpClient Get()
     {
         return _httpClientPool.TryPop(out var httpClient) ? httpClient : 
-            new PooledHttpClient(this)
-                .WithUserAgent(new ProductInfoHeaderValue("GHelper", _appVersionProvider.GetCurrentVersion().ToString()));
+            new PooledHttpClient(this, new ProductInfoHeaderValue("GHelper", _appVersionProvider.GetCurrentVersion().ToString()));
     }
 
     void IHttpClientFactory.Return(IHttpClient httpClient)

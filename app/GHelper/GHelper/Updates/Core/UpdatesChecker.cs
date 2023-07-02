@@ -174,8 +174,8 @@ public class UpdatesChecker : IUpdatesChecker
 
     private async Task<T?> PerformRequest<T>(string url) where T : class
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, url);
-
+        var uri = new Uri(url);
+        
         var attempt = 0;
             
         while (attempt < 3)
@@ -183,13 +183,7 @@ public class UpdatesChecker : IUpdatesChecker
             try
             {
                 using var httpClient = _httpClientFactory.Get();
-                
-                var response = await httpClient.SendAsync(request);
-                var stream = await response.Content.ReadAsStringAsync();
-
-                var data = JsonConvert.DeserializeObject<T>(stream);
-                    
-                return data;
+                return await httpClient.ReadAsJsonAsync<T>(HttpMethod.Get, uri);
             }
             catch (Exception e)
             {

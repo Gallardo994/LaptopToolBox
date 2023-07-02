@@ -1,7 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.IO;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using GHelper.Web.Models;
+using Newtonsoft.Json;
 
 namespace GHelper.Web;
 
@@ -11,25 +15,24 @@ public class PooledHttpClient : IHttpClient
     
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public PooledHttpClient(IHttpClientFactory httpClientFactory)
+    public PooledHttpClient(IHttpClientFactory httpClientFactory, ProductInfoHeaderValue userAgent)
     {
         _httpClientFactory = httpClientFactory;
 
-        _httpClient = new HttpClient();
+        _httpClient = new HttpClient
+        {
+            DefaultRequestHeaders =
+            {
+                UserAgent =
+                {
+                    userAgent,
+                },
+            }
+        };
     }
-    
-    public IHttpClient WithUserAgent(ProductInfoHeaderValue userAgent)
-    {
-        _httpClient.DefaultRequestHeaders.UserAgent.Clear();
-        _httpClient.DefaultRequestHeaders.UserAgent.Add(userAgent);
-        
-        return this;
-    }
-    
+
     public IHttpClient WithHeader(string name, string value)
     {
-        _httpClient.DefaultRequestHeaders.Add(name, value);
-        
         return this;
     }
     
@@ -43,15 +46,82 @@ public class PooledHttpClient : IHttpClient
         return _httpClient.SendAsync(request, cancellationToken);
     }
     
-    private void Reset()
+    public async Task<HttpDownloadMessage> DownloadFileAsync(Uri uri, string filePath, IProgress<double> progress = null, CancellationToken cancellationToken = default)
     {
-        _httpClient.DefaultRequestHeaders.Clear();
+        var message = new HttpDownloadMessage
+        {
+            Uri = uri,
+            SavePath = filePath,
+            Status = HttpDownloadMessage.HttpDownloadMessageStatus.Unknown,
+        };
+
+        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+        using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        using var content = response.Content;
+        
+        var totalBytes = content.Headers.ContentLength;
+        var canReportProgress = totalBytes.HasValue && progress != null;
+        
+        message.TotalSize = totalBytes ?? 0;
+        
+        const int bufferSize = 8 * 1024;
+
+        try
+        {
+            await using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize, true);
+            await using var stream = await content.ReadAsStreamAsync(cancellationToken);
+
+            var buffer = new byte[bufferSize];
+            var isMoreToRead = true;
+            
+            message.Status = HttpDownloadMessage.HttpDownloadMessageStatus.Downloading;
+
+            do
+            {
+                var read = await stream.ReadAsync(buffer, cancellationToken);
+
+                if (read == 0)
+                {
+                    isMoreToRead = false;
+                }
+                else
+                {
+                    await fileStream.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+
+                    message.BytesReceived += read;
+
+                    if (canReportProgress)
+                    {
+                        progress.Report(message.PercentComplete);
+                    }
+                }
+            } while (isMoreToRead);
+            
+            message.Status = HttpDownloadMessage.HttpDownloadMessageStatus.Completed;
+        }
+        catch (OperationCanceledException)
+        {
+            message.Status = HttpDownloadMessage.HttpDownloadMessageStatus.Cancelled;
+        }
+        catch (Exception)
+        {
+            message.Status = HttpDownloadMessage.HttpDownloadMessageStatus.Failed;
+            throw;
+        }
+
+        return message;
+    }
+    
+    public async Task<T> ReadAsJsonAsync<T>(HttpMethod httpMethod, Uri uri)
+    {
+        var request = new HttpRequestMessage(httpMethod, uri);
+        var response = await _httpClient.SendAsync(request);
+        
+        return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
     }
 
     public void Dispose()
     {
-        Reset();
-        
         _httpClientFactory.Return(this);
     }
 }

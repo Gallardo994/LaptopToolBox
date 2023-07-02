@@ -48,7 +48,8 @@ namespace GHelper.Views
 
             if (uri.AbsolutePath.EndsWith(".exe", StringComparison.InvariantCultureIgnoreCase))
             {
-                contentDialog.SecondaryButtonText = "Open";
+                contentDialog.PrimaryButtonText = "Open in Browser";
+                contentDialog.SecondaryButtonText = "Download & Run";
             }
 
             var result = await contentDialog.ShowAsync();

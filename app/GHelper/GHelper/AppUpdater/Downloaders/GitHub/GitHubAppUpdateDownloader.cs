@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using GHelper.AppUpdater.Downloaders.GitHub.Models;
 using GHelper.AppVersion;
 using GHelper.Web;
+using GHelper.Web.Models;
 using Newtonsoft.Json;
 using Semver;
 using Serilog;
@@ -21,7 +22,7 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
     private readonly IHttpClientFactory _httpClientFactory;
     
     private readonly string _repoSlug;
-    private readonly string _releasesApi;
+    private readonly Uri _releasesApi;
 
     public GitHubAppUpdateDownloader(IAppVersionProvider appVersionProvider, IHttpClientFactory httpClientFactory)
     {
@@ -29,7 +30,7 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
         _httpClientFactory = httpClientFactory;
         
         _repoSlug = "gallardo994/g-helper";
-        _releasesApi = $"https://api.github.com/repos/{_repoSlug}/releases";
+        _releasesApi = new Uri($"https://api.github.com/repos/{_repoSlug}/releases");
     }
 
     private bool TryGetVersionFromString(string version, out SemVersion semVersion)
@@ -52,14 +53,7 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
         try
         {
             using var httpClient = _httpClientFactory.Get();
-            
-            var request = new HttpRequestMessage(HttpMethod.Get, _releasesApi);
-            var response = await httpClient.SendAsync(request);
-            var releasesStr = await response.Content.ReadAsStringAsync();
-            
-            var releases = JsonConvert.DeserializeObject<List<Release>>(releasesStr);
-        
-            return releases;
+            return await httpClient.ReadAsJsonAsync<List<Release>>(HttpMethod.Get, _releasesApi);
         }
         catch (Exception e)
         {
@@ -116,16 +110,12 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
 
         try
         {
-            using var httpClient = _httpClientFactory.Get();
+            var tempPath = Path.GetTempFileName();
             
-            var request = new HttpRequestMessage(HttpMethod.Get, zipAsset.DownloadUrl);
-            var response = await httpClient.SendAsync(request, cancellationToken);
-    
-            var tempZipPath = Path.GetTempFileName();
-            await using var tempZipStream = File.OpenWrite(tempZipPath);
-            await response.Content.CopyToAsync(tempZipStream, cancellationToken);
-        
-            return tempZipPath;
+            using var httpClient = _httpClientFactory.Get();
+            var result = await httpClient.DownloadFileAsync(new Uri(zipAsset.DownloadUrl), Path.GetTempFileName(), null, cancellationToken);
+
+            return result.Status == HttpDownloadMessage.HttpDownloadMessageStatus.Completed ? tempPath : string.Empty;
         } 
         catch (OperationCanceledException)
         {
