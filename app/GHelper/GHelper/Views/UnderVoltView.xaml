@@ -41,7 +41,7 @@
         </StackPanel>
         
         <InfoBar Grid.Row="1"
-                 IsOpen="{Binding IsAvailable, Converter={StaticResource InverseBoolConverter}}"
+                 IsOpen="{x:Bind ViewModel.IsAvailable, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}"
                  Severity="Error"
                  IsClosable="False"
                  Title="Voltage Control Unavailable"
