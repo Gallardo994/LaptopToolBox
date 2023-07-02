@@ -20,7 +20,7 @@ public partial class GpuFanViewModel : ObservableObject
     public GpuFanViewModel()
     {
         _timer = new SafeTimer(1000);
-        _timer.SafeElapsed += UpdateFanSpeeds;
+        _timer.Elapsed += UpdateFanSpeeds;
         _timer.Start();
     }
     

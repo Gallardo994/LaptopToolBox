@@ -63,7 +63,7 @@ public class ToastController : IToastController
         KillTimers();
             
         _timer = new SafeTimer(interval);
-        _timer.SafeElapsed += (sender, args) => { FadeOut(); };
+        _timer.Elapsed += (sender, args) => { FadeOut(); };
         _timer.Start();
     }
 
@@ -72,7 +72,7 @@ public class ToastController : IToastController
         KillTimers();
             
         _timer = new SafeTimer(FadeOutInterval);
-        _timer.SafeElapsed += (sender, args) =>
+        _timer.Elapsed += (sender, args) =>
         {
             if (_toastWindow.Alpha <= MinAlpha)
             {

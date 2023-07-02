@@ -37,7 +37,7 @@ public class IpcBackgroundSubscriber : IIpcBackgroundSubscriber
         _callbacks = new Dictionary<long, Action<int, IIpcMessage>>();
         
         _timer = new SafeTimer(10);
-        _timer.SafeElapsed += OnTimerElapsed;
+        _timer.Elapsed += OnTimerElapsed;
         
         _deserializer = new BinaryDeserializer(_buffer);
         

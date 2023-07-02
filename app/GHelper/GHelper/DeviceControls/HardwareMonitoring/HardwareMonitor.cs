@@ -62,7 +62,7 @@ public class HardwareMonitor : IHardwareMonitor
         });
 
         _timer = new SafeTimer(1000);
-        _timer.SafeElapsed += RequestUpdateHardware;
+        _timer.Elapsed += RequestUpdateHardware;
         _timer.Start();
     }
     

@@ -30,7 +30,7 @@ public partial class DesktopWallpaperProvider : ObservableObject, IWallpaperProv
         UpdateImageSource();
         
         _timer = new SafeTimer(TimerInterval);
-        _timer.SafeElapsed += (sender, args) =>
+        _timer.Elapsed += (sender, args) =>
         {
             _staCommandLoop.Enqueue(() =>
             {

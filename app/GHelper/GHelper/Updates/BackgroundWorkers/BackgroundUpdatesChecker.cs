@@ -31,7 +31,7 @@ public class BackgroundUpdatesChecker : IBackgroundUpdatesChecker
         }
         
         _timer = new SafeTimer(TimeSpan.FromMinutes(40));
-        _timer.SafeElapsed += OnTimerElapsed;
+        _timer.Elapsed += OnTimerElapsed;
         _timer.Start();
     }
     

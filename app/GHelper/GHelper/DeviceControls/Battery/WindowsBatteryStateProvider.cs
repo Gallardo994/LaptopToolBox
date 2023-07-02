@@ -24,7 +24,7 @@ public class WindowsBatteryStateProvider : IBatteryStateProvider
         _staCommandLoop = staCommandLoop;
         
         _timer = new SafeTimer(500);
-        _timer.SafeElapsed += TimerOnElapsed;
+        _timer.Elapsed += TimerOnElapsed;
         _timer.Start();
     }
     

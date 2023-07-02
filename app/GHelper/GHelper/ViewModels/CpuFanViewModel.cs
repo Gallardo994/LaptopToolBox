@@ -20,7 +20,7 @@ public partial class CpuFanViewModel : ObservableObject
     public CpuFanViewModel()
     {
         _timer = new SafeTimer(1000);
-        _timer.SafeElapsed += UpdateFanSpeeds;
+        _timer.Elapsed += UpdateFanSpeeds;
         _timer.Start();
     }
     

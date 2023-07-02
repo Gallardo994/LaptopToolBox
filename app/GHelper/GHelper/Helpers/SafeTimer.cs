@@ -7,7 +7,7 @@ namespace GHelper.Helpers;
 public class SafeTimer : IDisposable
 {
     private readonly Timer _timer;
-    public event ElapsedEventHandler SafeElapsed;
+    public event ElapsedEventHandler Elapsed;
 
     public SafeTimer(double interval)
     {
@@ -21,7 +21,7 @@ public class SafeTimer : IDisposable
     {
         try
         {
-            SafeElapsed?.Invoke(sender, e);
+            Elapsed?.Invoke(sender, e);
         }
         catch (Exception exception)
         {
@@ -44,6 +44,6 @@ public class SafeTimer : IDisposable
     {
         _timer?.Dispose();
         
-        SafeElapsed = null;
+        Elapsed = null;
     }
 }
