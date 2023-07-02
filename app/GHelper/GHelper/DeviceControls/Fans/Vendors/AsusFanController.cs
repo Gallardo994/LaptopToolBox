@@ -42,7 +42,7 @@ public partial class AsusFanController : ObservableObject, IFanController
         
         for (var index = 0U; index < IntegratedCurvesCount; index++)
         {
-            var result = _acpi.DeviceGetWithBuffer(deviceId, index);
+            var result = _acpi.DeviceGetBuffer(deviceId, index);
             var deserializer = new BinaryDeserializer(result);
 
             var response = deserializer.ReadUint();
@@ -104,11 +104,11 @@ public partial class AsusFanController : ObservableObject, IFanController
         }
 
         var byteArray = fanCurve.ToByteArray();
-        var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CURVE, byteArray);
+        var success = _acpi.TryDeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CURVE, byteArray, out var result);
 
         PrintFanCurve("AFTER_SET_CPU", byteArray, FanCurvePointCount * 2);
         
-        return result == 1 ? FanCurveResult.OK : FanCurveResult.BiosRejected;
+        return success && result == 1 ? FanCurveResult.OK : FanCurveResult.BiosRejected;
     }
 
     public FanCurveResult SetGpuFanCurve(FanCurve fanCurve)
@@ -121,11 +121,11 @@ public partial class AsusFanController : ObservableObject, IFanController
         }
         
         var byteArray = fanCurve.ToByteArray();
-        var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CURVE, byteArray);
+        var success = _acpi.TryDeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CURVE, byteArray, out var result);
         
         PrintFanCurve("AFTER_SET_GPU", byteArray, FanCurvePointCount * 2);
         
-        return result == 1 ? FanCurveResult.OK : FanCurveResult.BiosRejected;
+        return success && result == 1 ? FanCurveResult.OK : FanCurveResult.BiosRejected;
     }
     
     public FanCurveResult ValidateFanCurve(FanCurve fanCurve)

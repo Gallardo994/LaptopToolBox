@@ -20,15 +20,6 @@ public class AsusAcpi : IAcpi
         Initialize();
     }
 
-    public void Initialize()
-    {
-        var serializer = new BinarySerializer();
-        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_INIT);
-        
-        CallDeviceIoControl(serializer);
-    }
-    
-    public uint DeviceSet(uint deviceId, uint status) => new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status)).ReadUint();
     public bool TryDeviceSet(uint deviceId, uint status, out uint result)
     {
         var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status));
@@ -44,33 +35,23 @@ public class AsusAcpi : IAcpi
             return false;
         }
     }
-    public uint DeviceSet(uint deviceId, byte[] buffer) => new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer)).ReadUint();
     
-    public byte[] DeviceSetWithBuffer(uint deviceId, uint status)
+    public bool TryDeviceSet(uint deviceId, byte[] buffer, out uint result)
     {
-        var serializer = new BinarySerializer();
-        
-        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
-        serializer.WriteSizeOf<uint>(count: 2);
-        serializer.WriteUint(deviceId);
-        serializer.WriteUint(status);
+        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer));
 
-        return CallDeviceIoControl(serializer);
+        try
+        {
+            result = deserializer.ReadUint();
+            return true;
+        }
+        catch (InvalidOperationException)
+        {
+            result = 0;
+            return false;
+        }
     }
     
-    public byte[] DeviceSetWithBuffer(uint deviceId, byte[] buffer)
-    {
-        var serializer = new BinarySerializer();
-        
-        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
-        serializer.WriteSizeOf<uint>(extraBytes: buffer.Length);
-        serializer.WriteUint(deviceId);
-        serializer.WriteBytes(buffer);
-
-        return CallDeviceIoControl(serializer);
-    }
-    
-    public uint DeviceGet(uint deviceId) => new BinaryDeserializer(DeviceGetWithBuffer(deviceId)).ReadUint();
     public bool TryDeviceGet(uint deviceId, out uint status)
     {
         var deserializer = new BinaryDeserializer(DeviceGetWithBuffer(deviceId));
@@ -87,18 +68,7 @@ public class AsusAcpi : IAcpi
         }
     }
     
-    public byte[] DeviceGetWithBuffer(uint deviceId)
-    {
-        var serializer = new BinarySerializer();
-        
-        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DSTS);
-        serializer.WriteSizeOf<uint>();
-        serializer.WriteUint(deviceId);
-
-        return CallDeviceIoControl(serializer);
-    }
-    
-    public byte[] DeviceGetWithBuffer(uint deviceId, uint status)
+    public byte[] DeviceGetBuffer(uint deviceId, uint status)
     {
         var serializer = new BinarySerializer();
         
@@ -106,6 +76,49 @@ public class AsusAcpi : IAcpi
         serializer.WriteSizeOf<uint>(count: 2);
         serializer.WriteUint(deviceId);
         serializer.WriteUint(status);
+
+        return CallDeviceIoControl(serializer);
+    }
+    
+    private void Initialize()
+    {
+        var serializer = new BinarySerializer();
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_INIT);
+        
+        CallDeviceIoControl(serializer);
+    }
+    
+    private byte[] DeviceSetWithBuffer(uint deviceId, uint status)
+    {
+        var serializer = new BinarySerializer();
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
+        serializer.WriteSizeOf<uint>(count: 2);
+        serializer.WriteUint(deviceId);
+        serializer.WriteUint(status);
+
+        return CallDeviceIoControl(serializer);
+    }
+
+    private byte[] DeviceSetWithBuffer(uint deviceId, byte[] buffer)
+    {
+        var serializer = new BinarySerializer();
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DEVS);
+        serializer.WriteSizeOf<uint>(extraBytes: buffer.Length);
+        serializer.WriteUint(deviceId);
+        serializer.WriteBytes(buffer);
+
+        return CallDeviceIoControl(serializer);
+    }
+
+    private byte[] DeviceGetWithBuffer(uint deviceId)
+    {
+        var serializer = new BinarySerializer();
+        
+        serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_DSTS);
+        serializer.WriteSizeOf<uint>();
+        serializer.WriteUint(deviceId);
 
         return CallDeviceIoControl(serializer);
     }
