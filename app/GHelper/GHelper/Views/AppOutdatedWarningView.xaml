@@ -20,6 +20,6 @@
     <InfoBar IsOpen="{x:Bind ViewModel.UpdatesProvider.IsUpdateInstallAvailable, Mode=OneWay}"
              Severity="Warning"
              IsClosable="True"
-             Title="Your GHelper version is outdated"
-             Message="Check About tab to install the new version"/>
+             Title="Your GHelper version is outdated."
+             Message="Check About tab to install the new version."/>
 </Grid>

@@ -25,6 +25,6 @@
     <InfoBar IsOpen="{x:Bind ViewModel.UpdatesProvider.PendingUpdatesCount, Converter={StaticResource GreaterThanZeroToBoolConverter}, Mode=OneWay}"
              Severity="Warning"
              IsClosable="True"
-             Title="Your device is outdated"
-             Message="Check Updates tab to install Driver and BIOS updates" />
+             Title="Your device is outdated."
+             Message="Check Updates tab to install Driver and BIOS updates." />
 </Grid>
