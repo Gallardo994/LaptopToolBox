@@ -101,9 +101,7 @@ namespace GHelper.AppWindows
 
         private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            var pageItem = args.SelectedItem as FlyoutPageItem;
-
-            if (pageItem == null)
+            if (args.SelectedItem is not FlyoutPageItem pageItem)
             {
                 throw new InvalidOperationException("The selected item is not a FlyoutPageItem");
             }
