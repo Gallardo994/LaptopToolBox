@@ -28,7 +28,12 @@ namespace GHelper
             
             UnhandledException += (sender, args) =>
             {
-                Log.Error(args.Exception, "Unhandled exception");
+                Log.Error(args.Exception, "Unhandled exception in App");
+            };
+            
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                Log.Error((Exception) args.ExceptionObject, "Unhandled exception in AppDomain");
             };
             
             var kernel = new StandardKernel();
