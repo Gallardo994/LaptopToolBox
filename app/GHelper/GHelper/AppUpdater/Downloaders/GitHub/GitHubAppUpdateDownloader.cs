@@ -113,7 +113,7 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
             var tempPath = Path.GetTempFileName();
             
             using var httpClient = _httpClientFactory.Get();
-            var result = await httpClient.DownloadFileAsync(new Uri(zipAsset.DownloadUrl), Path.GetTempFileName(), null, cancellationToken);
+            var result = await httpClient.DownloadFileAsync(new Uri(zipAsset.DownloadUrl), tempPath, null, cancellationToken);
 
             return result.Status == HttpDownloadMessage.HttpDownloadMessageStatus.Completed ? tempPath : string.Empty;
         } 
