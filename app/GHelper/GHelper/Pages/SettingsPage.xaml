@@ -20,6 +20,13 @@
         <views:CheckDriverUpdatesAutomaticallyView />
         
         <TextBlock Text="Diagnostics" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
-        <Button Content="Quit" Click="QuitButton_OnClick"></Button>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Open Logs Folder" 
+                    Click="OpenLogsFolderButton_OnClick"
+                    Margin="0 0 12 0"></Button>
+            <Button Content="Quit" 
+                    Click="QuitButton_OnClick" 
+                    Margin="0 0 12 0"></Button>
+        </StackPanel>
     </StackPanel>
 </Page>
