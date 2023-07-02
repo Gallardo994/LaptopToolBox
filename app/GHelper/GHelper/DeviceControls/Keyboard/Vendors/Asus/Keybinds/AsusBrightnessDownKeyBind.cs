@@ -16,6 +16,6 @@ public class AsusBrightnessDownKeyBind : IVendorKeyBind
     
     public void Execute()
     {
-        _acpi.DeviceSet(0x00100021, (uint) AsusWmi.ASUS_WMI_BRN_DOWN);
+        _acpi.TryDeviceSet(0x00100021, (uint) AsusWmi.ASUS_WMI_BRN_DOWN, out _);
     }
 }

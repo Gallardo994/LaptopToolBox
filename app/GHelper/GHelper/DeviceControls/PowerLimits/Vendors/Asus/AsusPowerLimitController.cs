@@ -72,7 +72,7 @@ public class AsusPowerLimitController : IPowerLimitController
             return false;
         }
         
-        return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPL_PL1, (uint)sustainedPowerLimit) > 0;
+        return _acpi.TryDeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPL_PL1, (uint)sustainedPowerLimit, out var result) && result > 0;
     }
 
     public bool SetCpuSppt(int shortTermPowerLimit)
@@ -87,7 +87,7 @@ public class AsusPowerLimitController : IPowerLimitController
             return false;
         }
         
-        return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPPT_PL2, (uint)shortTermPowerLimit) > 0;
+        return _acpi.TryDeviceSet((uint)AsusWmi.ASUS_WMI_CPU_SPPT_PL2, (uint)shortTermPowerLimit, out var result) && result > 0;
     }
 
     public bool SetCpuFppt(int fastLimit)
@@ -102,7 +102,7 @@ public class AsusPowerLimitController : IPowerLimitController
             return false;
         }
         
-        return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_CPU_FPPT, (uint)fastLimit) > 0;
+        return _acpi.TryDeviceSet((uint)AsusWmi.ASUS_WMI_CPU_FPPT, (uint)fastLimit, out var result) && result > 0;
     }
 
     // GPU Control
@@ -118,7 +118,7 @@ public class AsusPowerLimitController : IPowerLimitController
             return false;
         }
         
-        return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_NVIDIA_GPU_BOOST, (uint)powerBoost) > 0;
+        return _acpi.TryDeviceSet((uint)AsusWmi.ASUS_WMI_NVIDIA_GPU_BOOST, (uint)powerBoost, out var result) && result > 0;
     }
 
     public bool SetGpuTempTarget(int tempTarget)
@@ -133,6 +133,6 @@ public class AsusPowerLimitController : IPowerLimitController
             return false;
         }
         
-        return _acpi.DeviceSet((uint)AsusWmi.ASUS_WMI_NVIDIA_GPU_TEMP_TARGET, (uint)tempTarget) > 0;
+        return _acpi.TryDeviceSet((uint)AsusWmi.ASUS_WMI_NVIDIA_GPU_TEMP_TARGET, (uint)tempTarget, out var result) && result > 0;
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using GHelper.DeviceControls.Acpi;
 using GHelper.DeviceControls.Acpi.Vendors.Asus;
+using Serilog;
 
 namespace GHelper.DeviceControls.Keyboard.Vendors.Asus.Keybinds;
 
@@ -17,6 +18,9 @@ public class AsusBrightnessUpKeyBind : IVendorKeyBind
     
     public void Execute()
     {
-        _acpi.DeviceSet(0x00100021, (uint) AsusWmi.ASUS_WMI_BRN_UP);
+        if (!_acpi.TryDeviceSet(0x00100021, (uint)AsusWmi.ASUS_WMI_BRN_UP, out _))
+        {
+            Log.Error("Failed to set brightness up");
+        }
     }
 }

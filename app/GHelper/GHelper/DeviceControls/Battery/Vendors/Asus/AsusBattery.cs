@@ -7,6 +7,7 @@ using GHelper.DeviceControls.Acpi.Vendors.Asus;
 using GHelper.DeviceControls.Wmi;
 using GHelper.Notifications;
 using Ninject;
+using Serilog;
 
 namespace GHelper.DeviceControls.Battery.Vendors.Asus;
 
@@ -98,7 +99,10 @@ public partial class AsusBattery : ObservableObject, IBattery
         {
             throw new ArgumentOutOfRangeException(nameof(value), value, $"Value must be between {MinRange} and {MaxRange}");
         }
-        
-        _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_RSOC, (uint) value);
+
+        if (!_acpi.TryDeviceSet((uint)AsusWmi.ASUS_WMI_DEVID_RSOC, (uint)value, out _))
+        {
+            Log.Error("Failed to set battery limit");
+        }
     }
 }

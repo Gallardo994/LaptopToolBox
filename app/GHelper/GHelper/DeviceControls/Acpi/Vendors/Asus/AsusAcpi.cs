@@ -29,6 +29,21 @@ public class AsusAcpi : IAcpi
     }
     
     public uint DeviceSet(uint deviceId, uint status) => new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status)).ReadUint();
+    public bool TryDeviceSet(uint deviceId, uint status, out uint result)
+    {
+        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status));
+
+        try
+        {
+            result = deserializer.ReadUint();
+            return true;
+        }
+        catch (InvalidOperationException)
+        {
+            result = 0;
+            return false;
+        }
+    }
     public uint DeviceSet(uint deviceId, byte[] buffer) => new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer)).ReadUint();
     
     public byte[] DeviceSetWithBuffer(uint deviceId, uint status)

@@ -44,9 +44,9 @@ public class AsusPerformanceModeControl : IPerformanceModeControl
     {
         TryResetCustomParameters(GetCurrentMode());
         
-        var result = _acpi.DeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY, (uint) performanceMode.Type);
+        var success = _acpi.TryDeviceSet((uint) AsusWmi.ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY, (uint) performanceMode.Type, out var result);
         
-        Log.Debug("Set performance mode result: {Result}", result);
+        Log.Debug("Set performance mode result: {Success} {Result}", success, result);
         
         _config.PerformanceModeCurrent = performanceMode.Id;
         TrySetCustomParameters(performanceMode);
