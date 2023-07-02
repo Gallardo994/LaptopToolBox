@@ -4,6 +4,7 @@ using System.Timers;
 using GHelper.Commands;
 using GHelper.DeviceControls.HardwareMonitoring.Constructors;
 using GHelper.DeviceControls.HardwareMonitoring.PostProcessors;
+using GHelper.Helpers;
 using LibreHardwareMonitor.Hardware;
 
 namespace GHelper.DeviceControls.HardwareMonitoring;
@@ -14,7 +15,7 @@ public class HardwareMonitor : IHardwareMonitor
     private readonly ISTACommandLoop _staCommandLoop;
     
     private Computer _computer;
-    private Timer _timer;
+    private SafeTimer _timer;
     
     private readonly Dictionary<HardwareType, IConstructor> _constructors = new()
     {
@@ -60,8 +61,8 @@ public class HardwareMonitor : IHardwareMonitor
             _computer.Open();
         });
 
-        _timer = new Timer(1000);
-        _timer.Elapsed += RequestUpdateHardware;
+        _timer = new SafeTimer(1000);
+        _timer.SafeElapsed += RequestUpdateHardware;
         _timer.Start();
     }
     

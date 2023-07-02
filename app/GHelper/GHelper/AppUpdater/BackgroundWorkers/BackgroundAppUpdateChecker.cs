@@ -2,6 +2,7 @@
 using System.Timers;
 using GHelper.Commands;
 using GHelper.Configs;
+using GHelper.Helpers;
 using Serilog;
 
 namespace GHelper.AppUpdater.BackgroundWorkers;
@@ -12,7 +13,7 @@ public class BackgroundAppUpdateChecker : IBackgroundAppUpdateChecker
     private readonly ISTACommandLoop _staCommandLoop;
     private readonly IConfig _config;
 
-    private Timer _timer;
+    private SafeTimer _timer;
     
     public BackgroundAppUpdateChecker(IAppUpdateProvider appUpdateProvider, ISTACommandLoop staCommandLoop, IConfig config)
     {
@@ -28,8 +29,8 @@ public class BackgroundAppUpdateChecker : IBackgroundAppUpdateChecker
             _appUpdateProvider.CheckForUpdate();
         }
         
-        _timer = new Timer(TimeSpan.FromMinutes(30));
-        _timer.Elapsed += OnTimerElapsed;
+        _timer = new SafeTimer(TimeSpan.FromMinutes(30));
+        _timer.SafeElapsed += OnTimerElapsed;
         _timer.Start();
     }
     

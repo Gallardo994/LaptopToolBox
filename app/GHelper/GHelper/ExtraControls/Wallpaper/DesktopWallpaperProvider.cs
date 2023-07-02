@@ -3,6 +3,7 @@ using System.IO;
 using System.Timers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Commands;
+using GHelper.Helpers;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Win32;
 using Serilog;
@@ -17,7 +18,7 @@ public partial class DesktopWallpaperProvider : ObservableObject, IWallpaperProv
     private readonly ISTACommandLoop _staCommandLoop;
     
     private const int TimerInterval = 5000;
-    private readonly Timer _timer;
+    private readonly SafeTimer _timer;
     
     private long _imageSizeBytes;
     
@@ -28,8 +29,8 @@ public partial class DesktopWallpaperProvider : ObservableObject, IWallpaperProv
         ImagePath = GetImagePath();
         UpdateImageSource();
         
-        _timer = new Timer(TimerInterval);
-        _timer.Elapsed += (sender, args) =>
+        _timer = new SafeTimer(TimerInterval);
+        _timer.SafeElapsed += (sender, args) =>
         {
             _staCommandLoop.Enqueue(() =>
             {

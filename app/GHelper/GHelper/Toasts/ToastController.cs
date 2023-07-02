@@ -1,5 +1,4 @@
-﻿using System.Timers;
-using Windows.Graphics;
+﻿using Windows.Graphics;
 using GHelper.AppWindows;
 using GHelper.Helpers;
 using GHelper.Helpers.Native;
@@ -13,7 +12,7 @@ public class ToastController : IToastController
 {
     private readonly ToastWindow _toastWindow;
     
-    private Timer _timer;
+    private SafeTimer _timer;
     private DisplayArea DisplayArea => WindowHelper.GetDisplayArea(_toastWindow);
 
     private const int FadeOutStartInterval = 2000;
@@ -63,8 +62,8 @@ public class ToastController : IToastController
     {
         KillTimers();
             
-        _timer = new Timer(interval);
-        _timer.Elapsed += (sender, args) => { FadeOut(); };
+        _timer = new SafeTimer(interval);
+        _timer.SafeElapsed += (sender, args) => { FadeOut(); };
         _timer.Start();
     }
 
@@ -72,8 +71,8 @@ public class ToastController : IToastController
     {
         KillTimers();
             
-        _timer = new Timer(FadeOutInterval);
-        _timer.Elapsed += (sender, args) =>
+        _timer = new SafeTimer(FadeOutInterval);
+        _timer.SafeElapsed += (sender, args) =>
         {
             if (_toastWindow.Alpha <= MinAlpha)
             {

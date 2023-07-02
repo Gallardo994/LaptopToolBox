@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using GHelper.Commands;
+using GHelper.Helpers;
 using Ninject;
 
 namespace GHelper.DeviceControls.Battery;
@@ -14,7 +15,7 @@ public class WindowsBatteryStateProvider : IBatteryStateProvider
     private readonly ISTACommandLoop _staCommandLoop;
     
     private PowerState _powerState;
-    private readonly Timer _timer;
+    private readonly SafeTimer _timer;
 
     [Inject]
     public WindowsBatteryStateProvider(IBattery battery, ISTACommandLoop staCommandLoop)
@@ -22,8 +23,8 @@ public class WindowsBatteryStateProvider : IBatteryStateProvider
         _battery = battery;
         _staCommandLoop = staCommandLoop;
         
-        _timer = new Timer(500);
-        _timer.Elapsed += TimerOnElapsed;
+        _timer = new SafeTimer(500);
+        _timer.SafeElapsed += TimerOnElapsed;
         _timer.Start();
     }
     

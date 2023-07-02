@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Commands;
 using GHelper.DeviceControls.Fans;
+using GHelper.Helpers;
 using GHelper.Injection;
 using Ninject;
 
@@ -14,12 +15,12 @@ public partial class CpuFanViewModel : ObservableObject
 
     [ObservableProperty] private int _fanRpm;
 
-    private readonly Timer _timer;
+    private readonly SafeTimer _timer;
     
     public CpuFanViewModel()
     {
-        _timer = new Timer(1000);
-        _timer.Elapsed += UpdateFanSpeeds;
+        _timer = new SafeTimer(1000);
+        _timer.SafeElapsed += UpdateFanSpeeds;
         _timer.Start();
     }
     

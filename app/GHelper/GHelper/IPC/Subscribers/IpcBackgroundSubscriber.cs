@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Timers;
 using Cloudtoid.Interprocess;
 using GHelper.Commands;
+using GHelper.Helpers;
 using GHelper.Serialization;
 using Ninject;
 using Serilog;
@@ -17,7 +18,7 @@ public class IpcBackgroundSubscriber : IIpcBackgroundSubscriber
     
     private readonly Dictionary<long, Action<int, IIpcMessage>> _callbacks;
     
-    private readonly Timer _timer;
+    private readonly SafeTimer _timer;
 
     private readonly byte[] _buffer = new byte[1024];
     private readonly BinaryDeserializer _deserializer;
@@ -35,8 +36,8 @@ public class IpcBackgroundSubscriber : IIpcBackgroundSubscriber
         
         _callbacks = new Dictionary<long, Action<int, IIpcMessage>>();
         
-        _timer = new Timer(10);
-        _timer.Elapsed += OnTimerElapsed;
+        _timer = new SafeTimer(10);
+        _timer.SafeElapsed += OnTimerElapsed;
         
         _deserializer = new BinaryDeserializer(_buffer);
         
