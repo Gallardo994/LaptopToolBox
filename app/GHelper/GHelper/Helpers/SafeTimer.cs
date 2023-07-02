@@ -27,6 +27,7 @@ public class SafeTimer : Timer
         catch (Exception exception)
         {
             Log.Error(exception, "Exception occurred in SafeTimer");
+            throw;
         }
     }
 }
