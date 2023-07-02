@@ -13,6 +13,8 @@ public class AsusAcpi : IAcpi
 
     public bool IsAvailable => _acpiHandleProvider.TryGet(out _);
     
+    const int DefaultBufferSize = 32;
+    
     public AsusAcpi()
     {
         _acpiHandleProvider = new AsusAcpiHandleProvider();
@@ -22,7 +24,7 @@ public class AsusAcpi : IAcpi
 
     public bool TryDeviceSet(uint deviceId, uint status, out uint result)
     {
-        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status));
+        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, status, sizeof(uint)));
 
         try
         {
@@ -38,7 +40,7 @@ public class AsusAcpi : IAcpi
     
     public bool TryDeviceSet(uint deviceId, byte[] buffer, out uint result)
     {
-        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer));
+        var deserializer = new BinaryDeserializer(DeviceSetWithBuffer(deviceId, buffer, sizeof(uint)));
 
         try
         {
@@ -54,7 +56,7 @@ public class AsusAcpi : IAcpi
     
     public bool TryDeviceGet(uint deviceId, out uint status)
     {
-        var deserializer = new BinaryDeserializer(DeviceGetWithBuffer(deviceId));
+        var deserializer = new BinaryDeserializer(DeviceGetWithBuffer(deviceId, sizeof(uint)));
 
         try
         {
@@ -77,7 +79,7 @@ public class AsusAcpi : IAcpi
         serializer.WriteUint(deviceId);
         serializer.WriteUint(status);
 
-        return CallDeviceIoControl(serializer);
+        return CallDeviceIoControl(serializer, DefaultBufferSize);
     }
     
     private void Initialize()
@@ -85,10 +87,10 @@ public class AsusAcpi : IAcpi
         var serializer = new BinarySerializer();
         serializer.WriteUint((uint) AsusWmi.ASUS_WMI_METHODID_INIT);
         
-        CallDeviceIoControl(serializer);
+        CallDeviceIoControl(serializer, sizeof(uint));
     }
     
-    private byte[] DeviceSetWithBuffer(uint deviceId, uint status)
+    private byte[] DeviceSetWithBuffer(uint deviceId, uint status, int bufferSize)
     {
         var serializer = new BinarySerializer();
         
@@ -97,10 +99,10 @@ public class AsusAcpi : IAcpi
         serializer.WriteUint(deviceId);
         serializer.WriteUint(status);
 
-        return CallDeviceIoControl(serializer);
+        return CallDeviceIoControl(serializer, bufferSize);
     }
 
-    private byte[] DeviceSetWithBuffer(uint deviceId, byte[] buffer)
+    private byte[] DeviceSetWithBuffer(uint deviceId, byte[] buffer, int bufferSize)
     {
         var serializer = new BinarySerializer();
         
@@ -109,10 +111,10 @@ public class AsusAcpi : IAcpi
         serializer.WriteUint(deviceId);
         serializer.WriteBytes(buffer);
 
-        return CallDeviceIoControl(serializer);
+        return CallDeviceIoControl(serializer, bufferSize);
     }
 
-    private byte[] DeviceGetWithBuffer(uint deviceId)
+    private byte[] DeviceGetWithBuffer(uint deviceId, int bufferSize)
     {
         var serializer = new BinarySerializer();
         
@@ -120,10 +122,10 @@ public class AsusAcpi : IAcpi
         serializer.WriteSizeOf<uint>();
         serializer.WriteUint(deviceId);
 
-        return CallDeviceIoControl(serializer);
+        return CallDeviceIoControl(serializer, bufferSize);
     }
 
-    private byte[] CallDeviceIoControl(BinarySerializer serializer)
+    private byte[] CallDeviceIoControl(BinarySerializer serializer, int bufferSize)
     {
         if (!_acpiHandleProvider.TryGet(out var handle))
         {
@@ -134,15 +136,14 @@ public class AsusAcpi : IAcpi
         var inBuffer = Marshal.AllocHGlobal(serializer.Position);
         Marshal.Copy(serializer.Buffer, 0, inBuffer, serializer.Position);
         
-        const int outLimit = 64;
-        var outBuffer = Marshal.AllocHGlobal(outLimit);
+        var outBuffer = Marshal.AllocHGlobal(bufferSize);
         
         Kernel32.DeviceIoControl(handle, 
             _acpiIoControlCode.Numeric, 
             inBuffer, 
             (uint)serializer.Position, 
             outBuffer,
-            outLimit,
+            (uint) bufferSize,
             out var lpBytesReturned,
             IntPtr.Zero);
         
