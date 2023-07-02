@@ -150,7 +150,7 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
             return null;
         }
 
-        var latestTrackRelease = await GetLatestRelease(currentVersion.IsPrerelease ? ReleaseTrack.PreRelease : ReleaseTrack.Stable);
+        var latestTrackRelease = await GetLatestRelease(_appVersionProvider.GetCurrentReleaseTrack());
         if (latestTrackRelease == null)
         {
             Log.Error("Could not find latest release");
