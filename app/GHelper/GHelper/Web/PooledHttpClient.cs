@@ -64,12 +64,11 @@ public class PooledHttpClient : IHttpClient
         
         message.TotalSize = totalBytes ?? 0;
         
-        const int bufferSize = 8 * 1024;
-        var buffer = new byte[bufferSize];
+        var buffer = new byte[8 * 1024];
 
         try
         {
-            await using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize, true);
+            await using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length, true);
             await using var stream = await content.ReadAsStreamAsync(cancellationToken);
 
             var isMoreToRead = true;
