@@ -12,8 +12,8 @@ public class AsusAcpi : IAcpi
     private readonly IoControlCode _acpiIoControlCode = new((uint) FileDeviceType.FILE_DEVICE_UNKNOWN, 0x903, IoControlCode.Method.Buffered, IoControlCode.Access.Any);
 
     public bool IsAvailable => _acpiHandleProvider.TryGet(out _);
-    
-    const int DefaultBufferSize = 32;
+
+    private const int DefaultBufferSize = 32;
     
     public AsusAcpi()
     {
