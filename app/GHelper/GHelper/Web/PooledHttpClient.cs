@@ -31,11 +31,6 @@ public class PooledHttpClient : IHttpClient
         };
     }
 
-    public IHttpClient WithHeader(string name, string value)
-    {
-        return this;
-    }
-    
     public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
     {
         return _httpClient.SendAsync(request);
