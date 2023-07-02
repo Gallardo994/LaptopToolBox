@@ -35,9 +35,9 @@
         <StackPanel Margin="8 0 0 0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center">
-            <TextBlock Text="Check Driver and BIOS updates automatically"
+            <TextBlock Text="Automatically check for Driver and BIOS updates"
                        Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="Check for updates when GHelper starts and periodically while it's running."
+            <TextBlock Text="Check for Driver and BIOS updates when GHelper starts and periodically while it's running."
                        Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>
     </StackPanel>

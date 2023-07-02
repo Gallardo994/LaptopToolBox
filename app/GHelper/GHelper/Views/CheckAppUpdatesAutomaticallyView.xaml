@@ -37,7 +37,7 @@
                     VerticalAlignment="Center">
             <TextBlock Text="Automatically check for GHelper updates"
                        Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="Check for updates when GHelper starts and periodically while it's running"
+            <TextBlock Text="Check for GHelper updates when GHelper starts and periodically while it's running"
                        Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>
     </StackPanel>
