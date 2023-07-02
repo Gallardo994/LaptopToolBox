@@ -84,14 +84,14 @@ public partial class AsusFanController : ObservableObject, IFanController
 
     public int GetCpuFanRpm()
     {
-        var result = _acpi.DeviceGet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CTRL);
-        return (int) (result & (uint) AsusWmi.ASUS_WMI_DSTS_FAN_CTRL_MASK) * 100;
+        var success = _acpi.TryDeviceGet((uint) AsusWmi.ASUS_WMI_DEVID_CPU_FAN_CTRL, out var result);
+        return success ? (int) (result & (uint) AsusWmi.ASUS_WMI_DSTS_FAN_CTRL_MASK) * 100 : 0;
     }
 
     public int GetGpuFanRpm()
     {
-        var result = _acpi.DeviceGet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CTRL);
-        return (int) (result - (uint) AsusWmi.ASUS_WMI_DSTS_FAN_CTRL_MASK) * 100;
+        var success = _acpi.TryDeviceGet((uint) AsusWmi.ASUS_WMI_DEVID_GPU_FAN_CTRL, out var result);
+        return success ? (int) (result - (uint) AsusWmi.ASUS_WMI_DSTS_FAN_CTRL_MASK) * 100 : 0;
     }
 
     public FanCurveResult SetCpuFanCurve(FanCurve fanCurve)
