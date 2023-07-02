@@ -11,7 +11,12 @@
 
     <StackPanel>
         <views:DeviceInformationView />
-        <TextBlock Text="General" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
+        <Border Margin="0 12 0 0"></Border>
+        <views:AppOutdatedWarningView Margin="-1 0 0 -1" />
+        <views:DeviceOutdatedWarningView Margin="-1 0 0 -1" />
+        <Border Margin="0 0 0 12"></Border>
+
+        <TextBlock Text="General" Margin="1 0 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
         <views:BatteryLimitView />
         <views:AutoOverdriveView />
         
