@@ -25,7 +25,6 @@ public class BackgroundAppUpdateChecker : IBackgroundAppUpdateChecker
     {
         if (!_config.DontCheckAppUpdatesAutomatically)
         {
-            Log.Information("Not checking for app updates automatically");
             _appUpdateProvider.CheckForUpdate();
         }
         
