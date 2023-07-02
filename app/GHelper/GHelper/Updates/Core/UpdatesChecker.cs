@@ -6,6 +6,7 @@ using GHelper.ModelInfo;
 using GHelper.Updates.IgnoredUpdates;
 using GHelper.Updates.LocalDriversVersion;
 using GHelper.Updates.Models;
+using GHelper.Web;
 using Newtonsoft.Json;
 using Ninject;
 using Serilog;
@@ -18,21 +19,20 @@ public class UpdatesChecker : IUpdatesChecker
     private readonly IModelInfoProvider _modelInfoProvider;
     private readonly ILocalDriversVersionProvider _localDriversVersionProvider;
     private readonly IIgnoredUpdatesProvider _ignoredUpdatesProvider;
-    private readonly HttpClient _httpClient;
-    
+    private readonly IHttpClientFactory _httpClientFactory;
 
     [Inject]
     public UpdatesChecker(IUpdatesUrlProvider updatesUrlProvider,
         IModelInfoProvider modelInfoProvider,
         ILocalDriversVersionProvider localDriversVersionProvider,
         IIgnoredUpdatesProvider ignoredUpdatesProvider,
-        HttpClient httpClient)
+        IHttpClientFactory httpClientFactory)
     {
         _updatesUrlProvider = updatesUrlProvider;
         _modelInfoProvider = modelInfoProvider;
         _localDriversVersionProvider = localDriversVersionProvider;
         _ignoredUpdatesProvider = ignoredUpdatesProvider;
-        _httpClient = httpClient;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<List<IUpdate>> CheckForUpdates()
@@ -182,7 +182,9 @@ public class UpdatesChecker : IUpdatesChecker
         {
             try
             {
-                var response = await _httpClient.SendAsync(request);
+                using var httpClient = _httpClientFactory.Get();
+                
+                var response = await httpClient.SendAsync(request);
                 var stream = await response.Content.ReadAsStringAsync();
 
                 var data = JsonConvert.DeserializeObject<T>(stream);

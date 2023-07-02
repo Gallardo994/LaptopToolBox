@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GHelper.AppUpdater.Downloaders.GitHub.Models;
 using GHelper.AppVersion;
+using GHelper.Web;
 using Newtonsoft.Json;
 using Semver;
 using Serilog;
@@ -17,24 +18,18 @@ namespace GHelper.AppUpdater.Downloaders.GitHub;
 public class GitHubAppUpdateDownloader : IAppUpdateDownloader
 {
     private readonly IAppVersionProvider _appVersionProvider;
+    private readonly IHttpClientFactory _httpClientFactory;
     
     private readonly string _repoSlug;
     private readonly string _releasesApi;
-    private readonly HttpClient _httpClient;
 
-    public GitHubAppUpdateDownloader(IAppVersionProvider appVersionProvider)
+    public GitHubAppUpdateDownloader(IAppVersionProvider appVersionProvider, IHttpClientFactory httpClientFactory)
     {
         _appVersionProvider = appVersionProvider;
+        _httpClientFactory = httpClientFactory;
         
         _repoSlug = "gallardo994/g-helper";
         _releasesApi = $"https://api.github.com/repos/{_repoSlug}/releases";
-        _httpClient = new HttpClient
-        {
-            DefaultRequestHeaders =
-            {
-                UserAgent = { new ProductInfoHeaderValue("GHelper", _appVersionProvider.GetCurrentVersion().ToString()) }
-            }
-        };
     }
 
     private bool TryGetVersionFromString(string version, out SemVersion semVersion)
@@ -56,8 +51,10 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
     {
         try
         {
+            using var httpClient = _httpClientFactory.Get();
+            
             var request = new HttpRequestMessage(HttpMethod.Get, _releasesApi);
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             var releasesStr = await response.Content.ReadAsStringAsync();
             
             var releases = JsonConvert.DeserializeObject<List<Release>>(releasesStr);
@@ -119,8 +116,10 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
 
         try
         {
+            using var httpClient = _httpClientFactory.Get();
+            
             var request = new HttpRequestMessage(HttpMethod.Get, zipAsset.DownloadUrl);
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            var response = await httpClient.SendAsync(request, cancellationToken);
     
             var tempZipPath = Path.GetTempFileName();
             await using var tempZipStream = File.OpenWrite(tempZipPath);
