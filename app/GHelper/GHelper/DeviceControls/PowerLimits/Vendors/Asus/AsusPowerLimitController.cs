@@ -40,8 +40,8 @@ public class AsusPowerLimitController : IPowerLimitController
         
         foreach (var id in callsToTest)
         {
-            var result = _acpi.DeviceGet((uint) id);
-            if (result > 0)
+            var success = _acpi.TryDeviceGet((uint) id, out var result);
+            if (success && result > 0)
             {
                 _supportedWmiCalls.Add(id);
             }
