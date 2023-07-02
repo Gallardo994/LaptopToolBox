@@ -2,6 +2,7 @@
 using GHelper.AppWindows;
 using Microsoft.UI.Dispatching;
 using Ninject;
+using Serilog;
 
 namespace GHelper.Commands;
 
@@ -17,13 +18,26 @@ public class STACommandLoop : ISTACommandLoop
     
     public void Enqueue(ISTACommand command)
     {
+        void ActionWrapper()
+        {
+            try
+            {
+                command.Execute();
+            } 
+            catch (Exception e)
+            {
+                Log.Error(e, "Exception occurred in STACommandLoop");
+                throw;
+            }
+        }
+        
         if (_dispatcherQueue.HasThreadAccess)
         {
-            command.Execute();
+            ActionWrapper();
             return;
         }
         
-        _dispatcherQueue.TryEnqueue(command.Execute);
+        _dispatcherQueue.TryEnqueue(ActionWrapper);
     }
     
     public void Enqueue(Action action)
