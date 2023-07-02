@@ -44,8 +44,9 @@
         
     <ToggleSwitch Grid.Column="1" 
                   HorizontalAlignment="Right" 
-                  OnContent="Enabled"
-                  OffContent="Disabled"
+                  MinWidth="0"
+                  OnContent=""
+                  OffContent=""
                   Toggled="ToggleSwitch_OnToggled"
                   IsOn="{x:Bind Path=ViewModel.IsAutoStartEnabled, Mode=OneWay}"></ToggleSwitch>
 </Grid>

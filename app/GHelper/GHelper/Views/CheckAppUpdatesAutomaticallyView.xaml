@@ -44,7 +44,8 @@
         
     <ToggleSwitch Grid.Column="1" 
                   HorizontalAlignment="Right" 
-                  OnContent="Enabled"
-                  OffContent="Disabled"
+                  MinWidth="0"
+                  OnContent=""
+                  OffContent=""
                   IsOn="{x:Bind Path=ViewModel.Config.DontCheckAppUpdatesAutomatically, Mode=TwoWay, Converter={StaticResource InverseBoolConverter}}"></ToggleSwitch>
 </Grid>
