@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Windows.System;
 using GHelper.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -34,7 +35,12 @@ namespace GHelper.Pages
             
             ApplicationHelper.Exit();
         }
-        
+
+        private async void ReportIssue_OnClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gallardo994/g-helper/issues/new/choose"));
+        }
+
         private void OpenLogsFolderButton_OnClick(object sender, RoutedEventArgs e)
         {
             Process.Start("explorer.exe", ApplicationHelper.AppDataFolder);
