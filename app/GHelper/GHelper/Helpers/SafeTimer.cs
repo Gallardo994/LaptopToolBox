@@ -4,19 +4,18 @@ using Serilog;
 
 namespace GHelper.Helpers;
 
-public class SafeTimer : Timer
+public class SafeTimer : IDisposable
 {
+    private readonly Timer _timer;
     public event ElapsedEventHandler SafeElapsed;
-    
-    public SafeTimer(double interval) : base(interval)
+
+    public SafeTimer(double interval)
     {
-        Elapsed += OnElapsed;
+        _timer = new Timer(interval);
+        _timer.Elapsed += OnElapsed;
     }
     
-    public SafeTimer(TimeSpan interval) : base(interval.TotalMilliseconds)
-    {
-        Elapsed += OnElapsed;
-    }
+    public SafeTimer(TimeSpan interval) : this(interval.TotalMilliseconds) { }
     
     private void OnElapsed(object sender, ElapsedEventArgs e)
     {
@@ -29,5 +28,22 @@ public class SafeTimer : Timer
             Log.Error(exception, "Exception occurred in SafeTimer");
             throw;
         }
+    }
+    
+    public void Start()
+    {
+        _timer.Start();
+    }
+    
+    public void Stop()
+    {
+        _timer.Stop();
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+        
+        SafeElapsed = null;
     }
 }
