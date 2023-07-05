@@ -20,4 +20,5 @@ public interface IConfig : IObservableObject
     public ObservableCollection<CustomPerformanceMode> CustomPerformanceModes { get; set; }
     public bool DontCheckAppUpdatesAutomatically { get; set; }
     public bool DontCheckDriverUpdatesAutomatically { get; set; }
+    public bool AutoEcoEnabled { get; set; }
 }

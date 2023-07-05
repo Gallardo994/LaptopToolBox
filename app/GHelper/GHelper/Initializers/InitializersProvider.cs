@@ -16,6 +16,7 @@ public class InitializersProvider : IInitializersProvider
         PerformanceModeInitializer performanceModeInitializer,
         KeyboardBacklightInitializer keyboardBacklightInitializer,
         AutoOverdriveInitializer autoOverdriveInitializer,
+        AutoEcoInitializer autoEcoInitializer,
         HardwareMonitorInitializer hardwareMonitorInitializer,
         BackgroundAppUpdateInitializer backgroundAppUpdateInitializer,
         BackgroundUpdatesInitializer backgroundUpdatesInitializer,
@@ -31,6 +32,7 @@ public class InitializersProvider : IInitializersProvider
         _initializers.Add(performanceModeInitializer);
         _initializers.Add(keyboardBacklightInitializer);
         _initializers.Add(autoOverdriveInitializer);
+        _initializers.Add(autoEcoInitializer);
         _initializers.Add(hardwareMonitorInitializer);
         _initializers.Add(backgroundAppUpdateInitializer);
         _initializers.Add(backgroundUpdatesInitializer);

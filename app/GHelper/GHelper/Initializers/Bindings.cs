@@ -13,6 +13,7 @@ public class Bindings : NinjectModule
         Bind<PerformanceModeInitializer>().ToSelf().InSingletonScope();
         Bind<KeyboardBacklightInitializer>().ToSelf().InSingletonScope();
         Bind<AutoOverdriveInitializer>().ToSelf().InSingletonScope();
+        Bind<AutoEcoInitializer>().ToSelf().InSingletonScope();
         Bind<HardwareMonitorInitializer>().ToSelf().InSingletonScope();
         Bind<BackgroundAppUpdateInitializer>().ToSelf().InSingletonScope();
         Bind<BackgroundUpdatesInitializer>().ToSelf().InSingletonScope();
