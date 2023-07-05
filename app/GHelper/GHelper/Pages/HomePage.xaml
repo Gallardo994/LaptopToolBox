@@ -19,6 +19,7 @@
         <TextBlock Text="General" Margin="1 0 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
         <views:BatteryLimitView />
         <views:AutoOverdriveView />
+        <views:AutoEcoView />
         
         <TextBlock Text="System Monitoring" Margin="1 24 0 8" Style="{StaticResource BodyStrongTextBlockStyle}" />
         <views:RamUsageView />
