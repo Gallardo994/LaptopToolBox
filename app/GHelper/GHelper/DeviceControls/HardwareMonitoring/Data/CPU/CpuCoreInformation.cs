@@ -5,14 +5,12 @@ namespace GHelper.DeviceControls.HardwareMonitoring.Data.CPU;
 public partial class CpuCoreInformation : ObservableObject, ICpuCoreInformation
 {
     [ObservableProperty] private string _name;
-    [ObservableProperty] private int _coreIndex;
     [ObservableProperty] private int _coreNumber;
     [ObservableProperty] private int _totalLoad;
 
     public void Clear()
     {
         Name = string.Empty;
-        CoreIndex = 0;
         CoreNumber = 0;
         TotalLoad = 0;
     }

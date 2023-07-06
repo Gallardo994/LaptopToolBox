@@ -19,7 +19,6 @@ public class CpuConstructor : IConstructor
         
         var coresLoad = hardware.Sensors
             .Where(sensor => sensor.SensorType == SensorType.Load && sensor.Name.Contains("Core"))
-            .OrderBy(sensor => int.Parse(sensor.Name.AsSpan()[(sensor.Name.IndexOf('#') + 1)..]))
             .ToList();
 
         ObservableCollectionHelpers.AdaptToSize(report.CpuInformation.CoresLoad, coresLoad.Count, () => new CpuCoreInformation());
@@ -29,7 +28,6 @@ public class CpuConstructor : IConstructor
             var coreSensor = coresLoad[i];
             
             report.CpuInformation.CoresLoad[i].Name = coreSensor.Name;
-            report.CpuInformation.CoresLoad[i].CoreIndex = i;
             report.CpuInformation.CoresLoad[i].CoreNumber = i + 1;
             report.CpuInformation.CoresLoad[i].TotalLoad = (int) Math.Round(coreSensor.Value ?? 0);
         }
