@@ -2,6 +2,7 @@
 using System.Timers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GHelper.Commands;
+using GHelper.Helpers;
 using GHelper.Injection;
 using GHelper.VendorServices;
 using Ninject;
@@ -16,7 +17,7 @@ public partial class VendorServicesViewModel : ObservableObject, IDisposable
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HeaderTextWithCount))] private int _countRunning;
     public string HeaderTextWithCount => $"Vendor Services (Active: {CountRunning})";
 
-    private Timer _timer = new(500);
+    private SafeTimer _timer = new(500);
     
     public VendorServicesViewModel()
     {
