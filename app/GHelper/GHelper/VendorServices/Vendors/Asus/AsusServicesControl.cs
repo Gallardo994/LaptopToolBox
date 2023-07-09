@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.ServiceProcess;
 
 namespace GHelper.VendorServices.Vendors.Asus;
 
@@ -31,10 +32,17 @@ public class AsusServicesControl : IVendorServicesControl
         
         foreach (var service in _services)
         {
-            using var serviceController = new ServiceController(service);
-            if (serviceController.Status == ServiceControllerStatus.Running)
+            try
             {
-                count++;
+                using var serviceController = new ServiceController(service);
+                if (serviceController.Status == ServiceControllerStatus.Running)
+                {
+                    count++;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // Service doesn't exist
             }
         }
 

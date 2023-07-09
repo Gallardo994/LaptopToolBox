@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.ServiceProcess;
 using GHelper.Helpers;
 
 namespace GHelper.VendorServices.Vendors.Asus;
@@ -16,16 +17,23 @@ public class AsusServicesEnableCommand : IAsusServiceCommand
     {
         foreach (var service in _services)
         {
-            using var serviceController = new ServiceController(service);
-            
-            serviceController.SetServiceAutoStartMode(ServiceAutoStartMode.Automatic);
-            
-            if (serviceController.Status != ServiceControllerStatus.Stopped)
+            try
             {
-                continue;
-            }
+                using var serviceController = new ServiceController(service);
             
-            serviceController.Start();
+                serviceController.SetServiceAutoStartMode(ServiceAutoStartMode.Automatic);
+            
+                if (serviceController.Status != ServiceControllerStatus.Stopped)
+                {
+                    continue;
+                }
+            
+                serviceController.Start();
+            }
+            catch (InvalidOperationException)
+            {
+                // Service doesn't exist
+            }
         }
     }
 }
