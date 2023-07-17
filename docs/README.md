@@ -1,20 +1,24 @@
-# G-Helper Fork
+# Laptop ToolBox
 
-![main](https://github.com/gallardo994/g-helper/blob/main/docs/screenshot2.png?raw=true)
+![main](https://github.com/gallardo994/LaptopToolBox/blob/main/docs/screenshot2.png?raw=true)
 
 ## What is this?
 
-A complete rewrite of original G-Helper with main goals:
+An application to control laptop configurations, overclock, undervolt, and etc.
+
+Main goals:
 - WinUI3, following Microsoft's styleguides
 - Smooth and responsive animated interface
 - Zero interface hickups, proper thread scheduling
 - Resizable window
 - Readable code, with MVVM and following SRP
-- Modular functionality, with further ability to port to any other laptop brand
+- Modular functionality, with further ability to port to any laptop brand
 
 Current functionality:
+
+Asus:
 - Performance Modes switching + hotkey support (M4)
-- Re-open GHelper with a hotkey (M5) + reopen existing instance if already running when opening same .exe file
+- Re-open Laptop ToolBox with a hotkey (M5) + reopen existing instance if already running when opening same .exe file
 - Always Awake mode (FN+C to toggle)
 - Night Light switch (FN+V to toggle)
 - Auto Overdrive mode (switches display HZ based on battery state)
@@ -42,6 +46,8 @@ Current functionality:
 - Notification badges
 
 ## Tested on
+
+Asus:
 - G733PY
 - G513RW
 
@@ -58,16 +64,24 @@ Current functionality:
 
 The code is currently "in progress", meaning that most parts still require rework and lots of features are non-functional.
 
-## How can I help?
+## How can you help?
 - Improve UI
 - Implement new features
 - Localize
 - Test on your device and report the results
 - Anything you want to improve the project!
 
-## Why?
+## Disclaimer
 
-The original upstream refuses to accept any PRs without giving any explanations.
-This fork aims to improve the original project both in terms of code and features.
+USE AT YOUR OWN RISK. I AM NOT RESPONSIBLE FOR ANYTHING THAT MIGHT HAPPEN 
+TO YOUR DEVICE IN ANY MANNER.
 
-Any PRs and improvements are welcome.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Disclaimers "ROG", "TUF", and "Armoury Crate" are trademarked by and belong to AsusTek Computer, Inc. I make no claims to these or any assets belonging to AsusTek Computer and use them purely for informational purposes only.
