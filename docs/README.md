@@ -85,3 +85,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 "ROG", "TUF", and "Armoury Crate" are trademarked by and belong to AsusTek Computer, Inc. I make no claims to these or any assets belonging to AsusTek Computer and use them purely for informational purposes only.
+
+"AMD" and "Ryzen" are trademarked by and belong to Advanced Micro Devices, Inc. I make no claims to these or any assets belonging to Advanced Micro Devices and use them purely for informational purposes only.
+
+"NVIDIA", "GeForce", "RTX" and "GTX" are trademarked by and belong to NVIDIA Corporation. I make no claims to these or any assets belonging to NVIDIA Corporation and use them purely for informational purposes only.
