@@ -29,7 +29,7 @@ public class GitHubAppUpdateDownloader : IAppUpdateDownloader
         _appVersionProvider = appVersionProvider;
         _httpClientFactory = httpClientFactory;
         
-        _repoSlug = "gallardo994/g-helper";
+        _repoSlug = "gallardo994/LaptopToolBox";
         _releasesApi = new Uri($"https://api.github.com/repos/{_repoSlug}/releases");
     }
 
