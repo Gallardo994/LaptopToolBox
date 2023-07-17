@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LaptopToolBox (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "LaptopToolBox (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Grid
+    x:Class="LaptopToolBox.Views.DeviceOutdatedWarningView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:LaptopToolBox.ViewModels"
+    xmlns:converters="using:LaptopToolBox.Converters"
+    mc:Ignorable="d">
+    
+    <Grid.DataContext>
+        <viewModels:DeviceOutdatedWarningViewModel />
+    </Grid.DataContext>
+    
+    <Grid.Resources>
+        <converters:GreaterThanZeroToBoolConverter x:Key="GreaterThanZeroToBoolConverter" />
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+        
+    <InfoBar IsOpen="{x:Bind ViewModel.UpdatesProvider.PendingUpdatesCount, Converter={StaticResource GreaterThanZeroToBoolConverter}, Mode=OneWay}"
+             Severity="Warning"
+             IsClosable="True"
+             Title="Your device is outdated."
+             Message="Check Updates tab to install Driver and BIOS updates." />
+</Grid>

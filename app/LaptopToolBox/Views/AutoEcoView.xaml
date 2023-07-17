@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Grid
+    x:Class="LaptopToolBox.Views.AutoEcoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    CornerRadius="2"
+    Padding="6"
+    BorderThickness="1"
+    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+    Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="64"></RowDefinition>
+    </Grid.RowDefinitions>
+        
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+        
+    <StackPanel Grid.Column="0"
+                Orientation="Horizontal">
+        
+        <FontIcon Glyph="&#xE7FA;"
+                  Margin="12 0 12 0"></FontIcon>
+        
+        <StackPanel Margin="8 0 0 0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Auto ECO"
+                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Text="Disable discrete GPU when running on battery, re-enable when plugged in."
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+        </StackPanel>
+    </StackPanel>
+        
+    <ToggleSwitch Grid.Column="1" 
+                  HorizontalAlignment="Right" 
+                  MinWidth="0"
+                  OnContent=""
+                  OffContent=""
+                  IsOn="{x:Bind Path=ViewModel.Config.AutoEcoEnabled, Mode=TwoWay}"></ToggleSwitch>
+</Grid>
