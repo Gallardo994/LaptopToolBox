@@ -21,7 +21,7 @@ public class AsusServicesEnableCommand : IAsusServiceCommand
             {
                 using var serviceController = new ServiceController(service);
             
-                serviceController.SetServiceAutoStartMode(ServiceAutoStartMode.Automatic);
+                serviceController.SetStartMode(ServiceStartMode.Automatic);
             
                 if (serviceController.Status != ServiceControllerStatus.Stopped)
                 {

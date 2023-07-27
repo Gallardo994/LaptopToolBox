@@ -26,7 +26,7 @@ public class AsusServicesDisableCommand : IAsusServiceCommand
                 }
             
                 serviceController.Stop();
-                serviceController.SetServiceAutoStartMode(ServiceAutoStartMode.Disabled);
+                serviceController.SetStartMode(ServiceStartMode.Disabled);
             }
             catch (InvalidOperationException)
             {
