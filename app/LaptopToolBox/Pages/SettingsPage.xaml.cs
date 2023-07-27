@@ -38,7 +38,7 @@ namespace LaptopToolBox.Pages
 
         private async void ReportIssue_OnClick(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gallardo994/g-helper/issues/new/choose"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gallardo994/LaptopToolBox/issues/new/choose"));
         }
 
         private void OpenLogsFolderButton_OnClick(object sender, RoutedEventArgs e)
