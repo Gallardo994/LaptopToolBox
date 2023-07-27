@@ -7,7 +7,7 @@ public static class ServiceControllerExtensions
 {
     public static void SetServiceAutoStartMode(this ServiceController serviceController, ServiceAutoStartMode mode)
     {
-        using var session = CimSession.Create("localhost");
+        using var session = CimSession.Create(null);
         
         var instances = session.QueryInstances("root\\cimv2", "WQL", 
             $"SELECT * FROM Win32_Service WHERE Name = '{serviceController.ServiceName}'");
