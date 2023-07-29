@@ -62,7 +62,7 @@ public partial class UpdatesProvider : ObservableObject, IUpdatesProvider
                 }
 
                 Updates.Clear();
-                foreach (var update in updatesTask.Result)
+                foreach (var update in updatesTask.Result.OrderByDescending(update => update.IsNewerThanCurrent))
                 {
                     Updates.Add(update);
                 }
