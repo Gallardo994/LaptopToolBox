@@ -5,7 +5,7 @@ namespace LaptopToolBox.AppVersion;
 
 public class AppVersionProvider : IAppVersionProvider
 {
-    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(2, 0, 0, "beta");
+    private static readonly SemVersion CurrentVersion = SemVersion.ParsedFrom(2, 1, 0, "beta");
     
     public SemVersion GetCurrentVersion()
     {
